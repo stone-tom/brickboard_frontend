@@ -1,20 +1,36 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ViewWrapper } from '../../../../global.styles';
-import { useNavigationStore } from '../../../../stores';
-import Navigation from '../Navigation/Navigation';
+import Head from 'next/head';
 
-const Layout = observer(({
-  children,
-}) => {
+interface LayoutProps{
+  title:string;
+  children: ReactNode;
+}
 
-  const navigationStore = useNavigationStore();
+  const Layout = ({title, children}:LayoutProps)=>{
   return (
-    <ViewWrapper>
-      <Navigation navigation={navigationStore.navigation} />
-      {children}
-    </ViewWrapper>
+    <>
+      <Head>
+        <title>{title}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        {/* <Navigation /> */}
+        <ViewWrapper>
+           {children}
+        </ViewWrapper>
+      </main>
+
+      <footer>
+        this is footer
+      
+      </footer>
+  
+    
+
+    </>
   )
-});
+};
 
 export default Layout;

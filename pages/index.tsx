@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 // import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 import { ViewWrapper } from '../global.styles';
+import { signIn, signOut, useSession } from 'next-auth/client';
 // import Navigation from '../elements/core/container/Navigation/Navigation';
 
 // export const getStaticProps: GetStaticProps=async (context)=>{
@@ -16,7 +17,9 @@ import { ViewWrapper } from '../global.styles';
 //   }
 // }
 
+
 function Home() {
+  const [ session, loading ] = useSession();
   return (
     <>
       <Head>
