@@ -31,6 +31,16 @@ function Home() {
         {/* <Navigation /> */}
         <ViewWrapper>
         this is main
+        {!session && <>
+          <button onClick={signIn}>Anmelden</button>
+        </>}
+        {session && <>
+        {console.log(session)}
+        {console.log(session.user)}
+          <h1>{session.user.email}</h1>
+          <button onClick={signOut}>Abmelden</button>
+        </>}
+        
         </ViewWrapper>
       </main>
 
