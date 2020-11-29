@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import { ContentContainer } from "../../../global.styles";
 import { Params } from "next/dist/next-server/server/router";
-import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -38,7 +37,6 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 };
 
 function neuesThema({ slug }) {
-  const [session, loading] = useSession();
   const router = useRouter();
 
   const [title, setTitle] = useState("");
@@ -52,8 +50,6 @@ function neuesThema({ slug }) {
         content,
       },
     };
-
-    console.log(session);
 
     const result = await fetch(
       `https://brickboard.herokuapp.com/1/topics/`,
@@ -82,16 +78,6 @@ function neuesThema({ slug }) {
 
   };
 
-  if (loading) return null;
-
-  if (!loading && !session) {
-    return (
-      <ContentContainer>
-        <h2>Du musst eingeloggt sein um diese Seite zu sehen..</h2>
-        <Link href="/">Zur Startseite</Link>
-      </ContentContainer>
-    );
-  }
 
   return (
     <ContentContainer>

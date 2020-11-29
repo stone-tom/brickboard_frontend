@@ -4,7 +4,6 @@ import TopicItem from "../../elements/core/components/TopicItem/TopicItem";
 import { Params } from "next/dist/next-server/server/router";
 import { ContentContainer } from "../../global.styles";
 import useSWR from "swr";
-import {useSession} from "next-auth/client";
 import Link from "next/link";
 
 //Welche Pfade prerendered werden können
@@ -49,17 +48,15 @@ const fetcher = url => fetch(url).then(r => r.json())
 
 function Subforum({ topicsData, slug }) {
 
-  const [session,loading]=useSession();
   let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
   const topicList=topicsData.attributes.topic_views;
 
   return (
     <>
     <ContentContainer>
-      {session && <>
+      
         <Link href={`./${slug}/neuesThema`}>Neues Thema erstellen</Link>
-      </>
-      }
+      
 
       {topicList.map(topic=>{
         return(

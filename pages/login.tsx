@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Layout from '../elements/core/container/Layout/Layout';
-import { signIn, signOut, useSession } from 'next-auth/client';
-
 
 const tryLogin=async(email,password)=>{
   console.log("GETS TRIGGERED");
@@ -37,7 +35,6 @@ const tryLogin=async(email,password)=>{
 
 function Login() {
 
-    const [ session, loading ] = useSession();
     const [email,SetEmail]=useState("");
     const [password,setPassword]=useState("");
 

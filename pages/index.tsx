@@ -2,10 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 // import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 import { ViewWrapper } from '../global.styles';
-import { signIn, signOut, useSession } from 'next-auth/client';
-import jwt from "next-auth/jwt";
 import useSwr from "swr";
 import Link from 'next/link';
+import { useAuthDispatch, useAuthState } from '../context/auth';
 // import Navigation from '../elements/core/container/Navigation/Navigation';
 
 // export const getStaticProps: GetStaticProps=async (context)=>{
@@ -21,17 +20,15 @@ import Link from 'next/link';
 // }
 
 
-  
-const fetcher = (url) => fetch(url).then((res) => res.json())
-
 function Home() {
-  const { data, error } = useSwr('/api/topics', fetcher);
+  const {isAuthenticated,user}=useAuthState();
 
-  const [ session, loading ] = useSession();
+  const {login, logout}=useAuthDispatch();
+
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>Brickboard 2.0</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -39,16 +36,13 @@ function Home() {
         {/* <Navigation /> */}
         <ViewWrapper>
         this is main
-        {!session && <>
-          <button onClick={signIn}>Anmelden</button>
-        </>}
-        {session && <>
-        { console.log(session)}
-        {/*console.log(session.user)} */}
-          <h1>{session.user.name}</h1>
-          <button onClick={signOut}>Abmelden</button>
-          
-        </>}
+ 
+        {isAuthenticated ? <>
+        <h1>Hallo {user.name}</h1>
+        <button onClick={()=>logout()}>Abmelden</button></>
+         : <button onClick={()=>login(
+          "admin@brickboard.com",
+          "123456")}>Anmelden</button>}      
         <Link href="/forum">Zum Forum</Link>
 
         </ViewWrapper>
