@@ -3,6 +3,7 @@ import  Cookies  from 'cookies';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
+let authCookie="";
 
 const options = {
 
@@ -26,28 +27,35 @@ const options = {
                     }
                 }; 
                 // let publicJWT="";
+                
             
                 const result = await fetch(
                     "https://brickboard.herokuapp.com/login",
                     {
                       method: "POST",
+                      credentials: 'include',
                       headers: {
                         "Content-Type": "application/json",
                       },
                       body: JSON.stringify(data),
                     }
                   ).then((response) => {
-                    // console.log("THE RESPONSE")
+                    console.log("THE RESPONSE")
                     // console.log(response);
+                    console.log(response.headers);
                     // console.log("THE JWT")
                     // console.log("WE GOT OUR ORIGINAL JWT");
                     // console.log(response.headers.get("authorization"));
+                    authCookie=(response.headers.get('set-cookie'));
                     // publicJWT=response.headers.get("authorization");
                     // console.log("------------------------------------");
                     return response.json() ;
                   });
-                 console.log("THE RESULT")
-                  console.log(result);
+                 console.log("THE COOKIE")
+                 let indexOfValue=authCookie.indexOf("=");
+                 authCookie=authCookie.substring(indexOfValue+1);
+                  console.log(authCookie);
+                
     //               console.log("THE DATA:");
     //               console.log(result.data);'
                 
@@ -96,6 +104,18 @@ const options = {
         // verifyRequest: '/auth/verify-request', // (used for check email message)
         // newUser: null // If set, new users will be directed here on first sign in
       },
+      cookies:{
+        sessionToken: {
+          name: `_brickboard`,
+          options: {
+            httpOnly: true,
+            path: '/',
+            secure: true,
+            value: authCookie
+          }
+         
+        },
+      }
   }
 
 export default (req, res) => NextAuth(req, res, options)
