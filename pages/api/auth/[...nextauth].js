@@ -1,5 +1,8 @@
+import { faCookie } from '@fortawesome/free-solid-svg-icons';
+import  Cookies  from 'cookies';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+
 
 const options = {
 
@@ -22,8 +25,10 @@ const options = {
                         password: credentials.password
                     }
                 }; 
+                let publicJWT="";
+            
                 const result = await fetch(
-                    "http://brickboard.herokuapp.com/login",
+                    "https://brickboard.herokuapp.com/login",
                     {
                       method: "POST",
                       headers: {
@@ -32,23 +37,24 @@ const options = {
                       body: JSON.stringify(data),
                     }
                   ).then((response) => {
-                    console.log("THE RESPONSE")
-                    console.log(response);
-                    return response.json();
+                    // console.log("THE RESPONSE")
+                    // console.log(response);
+                    // console.log("THE JWT")
+                    // console.log("WE GOT OUR ORIGINAL JWT");
+                    // console.log(response.headers.get("authorization"));
+                    publicJWT=response.headers.get("authorization");
+                    // console.log("------------------------------------");
+                    return response.json() ;
                   });
-    //              console.log("THE RESULT")
-    //               console.log(result);
+                //  console.log("THE RESULT")
+                //   console.log(result);
     //               console.log("THE DATA:");
     //               console.log(result.data);'
                 
-                const {id}=result.data;
-                const{email,admin,display_name}=result.data.attributes;;
-              const user = {email: email, name: display_name };
-              user.id=id;
-              Object.assign(user,{admin: admin});
-
-              console.log("IS THE USER MODIEFIED?");
-              console.log(user);
+            const {id}=result.data;
+            const{email,admin,display_name}=result.data.attributes;
+              const user = {email: email, name: display_name, jwt: publicJWT };
+              // console.log("PUBLIC JWT",publicJWT);
               
               if (user) {
                 // Any user object returned here will be saved in the JSON Web Token
@@ -66,21 +72,26 @@ const options = {
             //  "token" is being send below to "session" callback...
             //  ...so we set "user" param of "token" to object from "authorize"...
             //  ...and return it...
-            console.log("THE TOKEN");
-            console.log(token);
+            // console.log("THE TOKEN");
+            // console.log(token);
             if(user){
-                token={...token,admin: user.admin,id: user.id};
+                token={...token,admin: user.admin,id: user.id, jwt: user.jwt};
             }
             return Promise.resolve(token)   // ...here
         },
         session: async (session, user, sessionToken) => {
             //  "session" is current session object
             //  below we set "user" param of "session" to value received from "jwt" callback
-            console.log("THE SESSION CALLBACK");
-            console.log(user);
+            // console.log("THE SESSION CALLBACK");
+            // console.log(user);
             session.user = user;
             return Promise.resolve(session)
         }
+    },
+    secret: process.env.JWT_SECRET,
+    jwt :{
+        // : true
+        raw: true
     },
     pages: {
         // signIn: '/login',

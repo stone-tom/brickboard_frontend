@@ -3,6 +3,7 @@ import { TopicItem, TopicHeading, TopicIcon, TopicInfo, TopicInfoDetails, TopicA
 import { FontAwesomeIcon }  from "@fortawesome/react-fontawesome";
 import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation} from '@fortawesome/free-solid-svg-icons';
 import {format} from 'date-fns';
+import formatISO from 'date-fns/formatISO';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
 
