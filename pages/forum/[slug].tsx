@@ -5,6 +5,7 @@ import { Params } from "next/dist/next-server/server/router";
 import { ContentContainer } from "../../global.styles";
 import useSWR from "swr";
 import Link from "next/link";
+import { useAuthState } from "../../context/auth";
 
 //Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths=async ()=>{
@@ -47,7 +48,7 @@ const fetcher = url => fetch(url).then(r => r.json())
 
 
 function Subforum({ topicsData, slug }) {
-
+  const {isAuthenticated,user}=useAuthState();
   let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
   const topicList=topicsData.attributes.topic_views;
 
@@ -55,9 +56,12 @@ function Subforum({ topicsData, slug }) {
     <>
     <ContentContainer>
       
+      {isAuthenticated ? 
         <Link href={`./${slug}/neuesThema`}>Neues Thema erstellen</Link>
+      :
+      ""
+      } 
       
-
       {topicList.map(topic=>{
         return(
           <TopicItem

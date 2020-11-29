@@ -20,7 +20,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     revalidate: 1,
   };
 };
-const fetcher = url => fetch(url).then(r => r.json())
+const fetcher = url => fetch(url,{credentials:'include'}).then(r => r.json())
 
 
 function Forum({ messageboardData }) {

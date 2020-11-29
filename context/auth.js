@@ -23,7 +23,10 @@ function reducer(state, {payload, type}){
             isAuthenticated: true
         }
         case "LOGOUT":
-        return initialState;
+        return {
+            isAuthenticated: false,
+            user: null,
+        };
         default:
         throw new Error("Unhandled action type " + type);
     }
@@ -78,7 +81,7 @@ function AuthProvider({children}){
               name: result.data.attributes.display_name,
               email: result.data.attributes.email,
               admin: result.data.attributes.admin,
-              
+
           }
         dispatch({type: "LOGIN_SUCCESS",payload: {user}});
     }
@@ -97,7 +100,7 @@ function AuthProvider({children}){
           console.log("THE LOGOUT RESPONSE");
           console.log(result);
           if(result.ok){
-        dispatch({type: "LOGOUT"});
+             dispatch({type: "LOGOUT"});
           } 
     };
 
