@@ -36,7 +36,8 @@ function Home() {
         {/* <Navigation /> */}
         <ViewWrapper>
         this is main
- 
+
+    
         {isAuthenticated ? <>
         <h1>Hallo {user.name}</h1>
         <button onClick={()=>logout()}>Abmelden</button></>
@@ -54,6 +55,6 @@ function Home() {
       </footer>
     </>
   )
-}
+};
 
 export default Home;

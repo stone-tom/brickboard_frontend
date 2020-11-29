@@ -1,7 +1,12 @@
-import React,{createContext, useContext, useReducer} from "react";
+import React,{createContext, useContext, useEffect, useReducer} from "react";
+import createPersistedState from "use-persisted-state";
+
 
 const AuthDispatchContext=createContext();
 const AuthStateContext=createContext();
+
+const usePersistedAuthState = createPersistedState('brickboard-user');
+
 
 const initialState={
     isAuthenticated: false,
@@ -25,11 +30,15 @@ function reducer(state, {payload, type}){
 }
 
 function AuthProvider({children}){
+    const [brickboardUser, saveBrickboardUser]=usePersistedAuthState(JSON.stringify(initialState));
+    const[state, dispatch]=useReducer(reducer, JSON.parse(brickboardUser));
 
-    const[state, dispatch]=useReducer(reducer, initialState);
+    useEffect(()=>{
+        saveBrickboardUser(JSON.stringify(state));
+    },[state,saveBrickboardUser]);
 
     const  login=async(email, password)=>{
-        let user={name: 'TEST'};
+        
 
         let data={
             user:{
@@ -65,6 +74,12 @@ function AuthProvider({children}){
           });
           console.log("THE RESULT:");
           console.log(result);
+          let user={
+              name: result.data.attributes.display_name,
+              email: result.data.attributes.email,
+              admin: result.data.attributes.admin,
+              
+          }
         dispatch({type: "LOGIN_SUCCESS",payload: {user}});
     }
     const logout=async()=>{

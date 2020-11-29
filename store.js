@@ -1,26 +1,48 @@
-import {action} from 'mobx';
-import { useObservable, useStaticRendering } from 'mobx-react-lite';
-import { createContext, useCallback } from 'react';
+import { action, observable, computed, runInAction, makeObservable } from 'mobx';
+import { enableStaticRendering } from 'mobx-react-lite';
 
-const isServer = typeof window === 'undefined';
+enableStaticRendering(typeof window === 'undefined')
 
-useStaticRendering(isServer);
+export class Store {
+  lastUpdate = 0
+  light = false
+  isAuthenticated= false
+  user= {name: "EMPTY",email: "NOMAIL"}
 
-let StoreContext=createContext();
-let store;
+  constructor() {
+    makeObservable(this, {
+      lastUpdate: observable,
+      light: observable,
+      user: observable,
+      isAuthenticated: observable,
+      hydrate: action,
+    })
+  }
 
-function initializeData(initialData=store || {}){
-    const {lastUpdate=Date.now(),toggler}=initialData
-    return{
-        lastUpdate,
-        toggler: Boolean(toggler),
-    }
+//   start = () => {
+//     this.timer = setInterval(() => {
+//       runInAction(() => {
+//         this.lastUpdate = Date.now()
+//         this.light = true
+//       })
+//     }, 1000)
+//   }
+
+//   get timeString() {
+//     const pad = (n) => (n < 10 ? `0${n}` : n)
+//     const format = (t) =>
+//       `${pad(t.getUTCHours())}:${pad(t.getUTCMinutes())}:${pad(
+//         t.getUTCSeconds()
+//       )}`
+//     return format(new Date(this.lastUpdate))
+//   }
+
+//   stop = () => clearInterval(this.timer)
+
+  hydrate = (data) => {
+    if (!data) return
+
+    this.user = data.user !== null ? data.user : {name: "EMPTY",email: "NOMAIL"}
+    this.isAuthenticated = !!data.isAuthenticated
+  }
 }
-
-function InjectStoreContext({children,initialData}){
-    store=useObservable(initializeData(initialData));
-
-    return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
-}
-
-export {InjectStoreContext, StoreContext, initializeData, store}

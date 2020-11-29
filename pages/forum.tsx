@@ -5,6 +5,7 @@ import { ContentContainer } from "../global.styles";
 import ForumHeading from "../elements/core/components/ForumHeading/ForumHeading";
 import Fetcher from "../lib/data-client";
 import useSWR from "swr";
+import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
@@ -41,6 +42,7 @@ function Forum({ messageboardData }) {
   return (
     <>
       <ContentContainer>
+        <Link href="/">Zur Startseite</Link>
         <ForumHeading title="Ankündigungen" />
         <ForumItem
           id={1}

@@ -9,12 +9,14 @@ function MyApp({ Component, pageProps }) {
   const currentTheme = "main";
 
   return (
+
     <AuthProvider >
       <ThemeProvider theme={theme[currentTheme]}>
         <GlobalStyle />
         <Component {...pageProps} />
       </ThemeProvider>
       </AuthProvider>
+
   );
 }
 
