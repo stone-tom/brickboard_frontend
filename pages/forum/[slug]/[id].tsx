@@ -12,6 +12,18 @@ interface StaticParams{
 }
 //Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths=async ()=>{
+
+  const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
+  const messageboardData = await res.json();
+  const messageboards=messageboardData.data[0].attributes.messageboards;
+
+  const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
+
+  let paths=messageboards.map(board=>{
+    return board.messageboard.slug
+  });
+
+
     return {
         paths: [
             { params: { slug: 'brickfilme-im-allgemeinen', id: "1"} },

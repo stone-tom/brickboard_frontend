@@ -50,7 +50,7 @@ const fetcher = url => fetch(url).then(r => r.json())
 function Subforum({ topicsData, slug }) {
 
   const [session,loading]=useSession();
-  let {data,error}=useSWR(`https://${process.env.BACKEND_URL}/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
+  let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
   const topicList=topicsData.attributes.topic_views;
 
   return (
@@ -64,6 +64,8 @@ function Subforum({ topicsData, slug }) {
       {topicList.map(topic=>{
         return(
           <TopicItem
+          id={topic.topic.id}
+          slug={slug}
           key={topic.topic.id}
           type={0}
           title={topic.topic.title}
@@ -77,7 +79,9 @@ function Subforum({ topicsData, slug }) {
         );
       })}
       <TopicItem
+        id={1}
         type={0}
+        slug="brickfilme-im-allgemeinen"
         title="Brickboard for president, community event"
         author="Knauser"
         views={420}
@@ -87,6 +91,8 @@ function Subforum({ topicsData, slug }) {
         updated
       />
        <TopicItem
+        id={1}  
+        slug="brickfilme-im-allgemeinen"
         type={2}
         title="Das neue Brickboard ist da!"
         author="Andreas Bitzan"
@@ -96,6 +102,8 @@ function Subforum({ topicsData, slug }) {
         changed={new Date(2020,10,26,8,14)}
       />
        <TopicItem
+        id={1}  
+        slug="brickfilme-im-allgemeinen"
         type={1}
         title="Wer macht alles bei meinem Wettberwerb mit"
         author="Legostudio01"

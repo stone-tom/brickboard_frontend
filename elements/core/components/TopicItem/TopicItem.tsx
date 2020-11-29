@@ -26,6 +26,8 @@ enum IconType {
   }
 
 interface TopicItemProps {
+  id: number;
+  slug: string;
   type: IconType;
   title: string;
   author?: string;
@@ -38,6 +40,8 @@ interface TopicItemProps {
 }
 
 const TopicItemComponent = ({
+  id,
+  slug,
   type,
   title,
   author="Not defined",
@@ -51,7 +55,7 @@ const TopicItemComponent = ({
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
     <TopicInfo>
       <div>
-        <TopicHeading updated={updated}><Link href="/forum/brickfilme-im-allgemeinen/1">{title}</Link></TopicHeading>
+        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{title}</Link></TopicHeading>
         <p>
           von: {author}, <span>{format(created,"dd.mm.yyyy, HH:mm ")}</span>
         </p>

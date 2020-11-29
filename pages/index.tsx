@@ -5,6 +5,7 @@ import { ViewWrapper } from '../global.styles';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import jwt from "next-auth/jwt";
 import useSwr from "swr";
+import Link from 'next/link';
 // import Navigation from '../elements/core/container/Navigation/Navigation';
 
 // export const getStaticProps: GetStaticProps=async (context)=>{
@@ -42,13 +43,13 @@ function Home() {
           <button onClick={signIn}>Anmelden</button>
         </>}
         {session && <>
-        {/* {console.log(session)}
-        {console.log(session.user)} */}
-          <h1>{session.user.jwt}</h1>
+        { console.log(session)}
+        {/*console.log(session.user)} */}
+          <h1>{session.user.name}</h1>
           <button onClick={signOut}>Abmelden</button>
           
         </>}
-        <button>Testfetch</button>
+        <Link href="/forum">Zum Forum</Link>
 
         </ViewWrapper>
       </main>

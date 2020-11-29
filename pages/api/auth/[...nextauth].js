@@ -25,7 +25,7 @@ const options = {
                         password: credentials.password
                     }
                 }; 
-                let publicJWT="";
+                // let publicJWT="";
             
                 const result = await fetch(
                     "https://brickboard.herokuapp.com/login",
@@ -42,18 +42,18 @@ const options = {
                     // console.log("THE JWT")
                     // console.log("WE GOT OUR ORIGINAL JWT");
                     // console.log(response.headers.get("authorization"));
-                    publicJWT=response.headers.get("authorization");
+                    // publicJWT=response.headers.get("authorization");
                     // console.log("------------------------------------");
                     return response.json() ;
                   });
-                //  console.log("THE RESULT")
-                //   console.log(result);
+                 console.log("THE RESULT")
+                  console.log(result);
     //               console.log("THE DATA:");
     //               console.log(result.data);'
                 
             const {id}=result.data;
             const{email,admin,display_name}=result.data.attributes;
-              const user = {email: email, name: display_name, jwt: publicJWT };
+              const user = {email: email, name: display_name };
               // console.log("PUBLIC JWT",publicJWT);
               
               if (user) {
@@ -67,18 +67,18 @@ const options = {
           //add more Providers here
     ],
     callbacks: {
-        jwt: async (token, user, account, profile, isNewUser) => {
-            //  "user" parameter is the object received from "authorize"
-            //  "token" is being send below to "session" callback...
-            //  ...so we set "user" param of "token" to object from "authorize"...
-            //  ...and return it...
-            // console.log("THE TOKEN");
-            // console.log(token);
-            if(user){
-                token={...token,admin: user.admin,id: user.id, jwt: user.jwt};
-            }
-            return Promise.resolve(token)   // ...here
-        },
+        // jwt: async (token, user, account, profile, isNewUser) => {
+        //     //  "user" parameter is the object received from "authorize"
+        //     //  "token" is being send below to "session" callback...
+        //     //  ...so we set "user" param of "token" to object from "authorize"...
+        //     //  ...and return it...
+        //     // console.log("THE TOKEN");
+        //     // console.log(token);
+        //     if(user){
+        //         token={...token,admin: user.admin,id: user.id};
+        //     }
+        //     return Promise.resolve(token)   // ...here
+        // },
         session: async (session, user, sessionToken) => {
             //  "session" is current session object
             //  below we set "user" param of "session" to value received from "jwt" callback
@@ -89,10 +89,6 @@ const options = {
         }
     },
     secret: process.env.JWT_SECRET,
-    jwt :{
-        // : true
-        raw: true
-    },
     pages: {
         // signIn: '/login',
         // signOut: '/logout',

@@ -53,10 +53,13 @@ function neuesThema({ slug }) {
       },
     };
 
+    console.log(session);
+
     const result = await fetch(
-      `https://brickboard.herokuapp.com/${slug}/topics/`,
+      `https://brickboard.herokuapp.com/1/topics/`,
       {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -94,7 +97,8 @@ function neuesThema({ slug }) {
     <ContentContainer>
       <h1>Ein neues Thema erstellen:</h1>
       <p>{message}</p>
-    
+
+      
         <label htmlFor="name">Titel</label>
         <input
           type="text"
