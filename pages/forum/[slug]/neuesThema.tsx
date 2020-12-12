@@ -4,6 +4,9 @@ import { ContentContainer } from "../../../global.styles";
 import { Params } from "next/dist/next-server/server/router";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuthState } from "../../../context/auth";
+import Layout from "../../../elements/core/container/Layout/Layout";
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
@@ -42,6 +45,8 @@ function neuesThema({ slug }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [message,setMessage]=useState("");
+  const {isAuthenticated,user}=useAuthState();
+
 
   const sendTopic = async (title, content) => {
     let data = {
@@ -78,8 +83,19 @@ function neuesThema({ slug }) {
 
   };
 
+  if(!isAuthenticated){
+    return(
+      <>
+        <h1>Tut uns leid</h1>
+        <p>Du darfst diesen Inhalt leider nur sehen wenn du angemeldet bist</p>
+        <Link href="/login">Login</Link> <Link href="/">Startseite</Link>
+      </>
+    );
+
+  }
 
   return (
+    <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
     <ContentContainer>
       <h1>Ein neues Thema erstellen:</h1>
       <p>{message}</p>
@@ -101,6 +117,7 @@ function neuesThema({ slug }) {
         </button>
      
     </ContentContainer>
+    </Layout>
   );
 }
 

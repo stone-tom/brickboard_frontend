@@ -6,6 +6,7 @@ import ForumHeading from "../elements/core/components/ForumHeading/ForumHeading"
 import Fetcher from "../lib/data-client";
 import useSWR from "swr";
 import Link from "next/link";
+import Layout from "../elements/core/container/Layout/Layout";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
@@ -40,7 +41,8 @@ function Forum({ messageboardData }) {
     );
   }
   return (
-    <>
+    <Layout title="Forum - Brickboard 2.0" >
+      
       <ContentContainer>
         <Link href="/">Zur Startseite</Link>
         <ForumHeading title="Ankündigungen" />
@@ -68,7 +70,7 @@ function Forum({ messageboardData }) {
           );
         })}
       </ContentContainer>
-    </>
+      </Layout>
   );
 }
 

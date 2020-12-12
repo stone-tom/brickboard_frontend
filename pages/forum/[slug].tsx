@@ -6,6 +6,7 @@ import { ContentContainer } from "../../global.styles";
 import useSWR from "swr";
 import Link from "next/link";
 import { useAuthState } from "../../context/auth";
+import Layout from "../../elements/core/container/Layout/Layout";
 
 //Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths=async ()=>{
@@ -53,7 +54,7 @@ function Subforum({ topicsData, slug }) {
   const topicList=topicsData.attributes.topic_views;
 
   return (
-    <>
+    <Layout title={`${slug} - Brickboard 2.0`}>
     <ContentContainer>
       
       {isAuthenticated ? 
@@ -115,7 +116,7 @@ function Subforum({ topicsData, slug }) {
         updated
       />
     </ContentContainer>
-    </>
+    </Layout>
   );
 }
 

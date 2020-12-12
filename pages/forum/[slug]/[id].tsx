@@ -3,6 +3,7 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import { Params } from "next/dist/next-server/server/router";
 import { ContentContainer } from "../../../global.styles";
 import  Post  from "../../../elements/core/components/Post/Post";
+import Layout from "../../../elements/core/container/Layout/Layout";
 
 interface StaticParams{
     params:{ 
@@ -46,7 +47,7 @@ export const getStaticProps: GetStaticProps = async ({params}:Params) => {
 
 function Subforum({ users }) {
   return (
-    <>
+    <Layout  title={`- Brickboard 2.0`}>
     <ContentContainer>
       <h1>Brickboard for president, community event</h1>
       <Post title="Brickboard for president, community event" content='
@@ -76,7 +77,7 @@ function Subforum({ users }) {
       created={new Date(2020, 10, 14, 16, 5)}
       ></Post>
     </ContentContainer>
-    </>
+    </Layout>
   );
   }
 

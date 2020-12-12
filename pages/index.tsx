@@ -5,6 +5,8 @@ import { ViewWrapper } from '../global.styles';
 import useSwr from "swr";
 import Link from 'next/link';
 import { useAuthDispatch, useAuthState } from '../context/auth';
+import MenuBar from '../elements/core/container/Menubar/Menubar';
+import Layout from '../elements/core/container/Layout/Layout';
 // import Navigation from '../elements/core/container/Navigation/Navigation';
 
 // export const getStaticProps: GetStaticProps=async (context)=>{
@@ -27,32 +29,15 @@ function Home() {
 
   return (
     <>
-      <Head>
-        <title>Brickboard 2.0</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        {/* <Navigation /> */}
-        <ViewWrapper>
-        this is main
-
-    
-        {isAuthenticated ? <>
+    <Layout title="Brickboard 2.0">
+    {isAuthenticated ? <>
         <h1>Hallo {user.name}</h1>
         <button onClick={()=>logout()}>Abmelden</button></>
          : <button onClick={()=>login(
           "admin@brickboard.com",
           "123456")}>Anmelden</button>}      
         <Link href="/forum">Zum Forum</Link>
-
-        </ViewWrapper>
-      </main>
-
-      <footer>
-        this is footer
-      
-      </footer>
+    </Layout>
     </>
   )
 };

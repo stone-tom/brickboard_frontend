@@ -1,6 +1,10 @@
 import React, { ReactNode } from 'react';
 import { ViewWrapper } from '../../../../global.styles';
 import Head from 'next/head';
+import Menubar from "../Menubar/Menubar";
+import { useAuthState } from "../../../../context/auth";
+import Footer from '../Footer/Footer';
+
 
 interface LayoutProps{
   title:string;
@@ -8,6 +12,8 @@ interface LayoutProps{
 }
 
   const Layout = ({title, children}:LayoutProps)=>{
+    const {isAuthenticated,user}=useAuthState();
+
   return (
     <>
       <Head>
@@ -16,16 +22,13 @@ interface LayoutProps{
       </Head>
 
       <main>
-        {/* <Navigation /> */}
+        <Menubar user={user}/>
         <ViewWrapper>
            {children}
         </ViewWrapper>
       </main>
 
-      <footer>
-        this is footer
-      
-      </footer>
+      <Footer />
   
     
 
