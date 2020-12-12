@@ -7,6 +7,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import { useAuthState } from "../../context/auth";
 import Layout from "../../elements/core/container/Layout/Layout";
+import Breadcrumbsbar from "../../elements/core/components/Breadcrumbs/Breadcrumbs";
 
 //Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths=async ()=>{
@@ -29,8 +30,8 @@ export const getStaticPaths: GetStaticPaths=async ()=>{
 };
 
 export const getStaticProps: GetStaticProps = async ({params}:Params) => {
-  console.log("THE PARAMS:");
-  console.log(params)
+  // console.log("THE PARAMS:");
+  // console.log(params)
   const res = await fetch(`https://${process.env.BACKEND_URL}/${params.slug}/topics`);
   let topicsData = await res.json();
   topicsData = topicsData.data;
@@ -56,7 +57,7 @@ function Subforum({ topicsData, slug }) {
   return (
     <Layout title={`${slug} - Brickboard 2.0`}>
     <ContentContainer>
-      
+    <Breadcrumbsbar slug={slug} />
       {isAuthenticated ? 
         <Link href={`./${slug}/neuesThema`}>Neues Thema erstellen</Link>
       :

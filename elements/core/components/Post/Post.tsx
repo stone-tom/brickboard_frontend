@@ -13,7 +13,6 @@ import Link from "next/link";
 import { Post, PostContent, PostDetails } from "./Post.styles";
 import  ProfileAside  from "../ProfileAside/ProfileAside";
 import  { useObserver } from 'mobx-react-lite';
-import {StoreContext} from "../../../../store";
 
 function whichIcon(type: IconType): IconProp {
   switch (type) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 // import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
-import { ViewWrapper } from '../global.styles';
+import { ContentContainer, ViewWrapper } from '../global.styles';
 import useSwr from "swr";
 import Link from 'next/link';
 import { useAuthDispatch, useAuthState } from '../context/auth';
@@ -28,8 +28,10 @@ function Home() {
   const {login, logout}=useAuthDispatch();
 
   return (
-    <>
+    
     <Layout title="Brickboard 2.0">
+      <ContentContainer>
+      <h1>Be carefull, this is a construction site</h1>
     {isAuthenticated ? <>
         <h1>Hallo {user.name}</h1>
         <button onClick={()=>logout()}>Abmelden</button></>
@@ -37,8 +39,9 @@ function Home() {
           "admin@brickboard.com",
           "123456")}>Anmelden</button>}      
         <Link href="/forum">Zum Forum</Link>
+        </ContentContainer>
     </Layout>
-    </>
+    
   )
 };
 

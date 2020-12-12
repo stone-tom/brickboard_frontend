@@ -10,8 +10,8 @@ import {
 import { format } from "date-fns";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
-import Image from "next/image";
 import { ImageWrapper, ProfileAside, ProfileAsideHeading, ProfileCondensedInfo } from "./ProfileAside.style";
+import Image from "next/image";
 
 interface ProfileAsideProps {
   author?: string;
@@ -39,7 +39,7 @@ const ProfileAsideComponent = ({
         maxWidth: "200px",
       }}
     >
-        <Image quality={100} src={authorProfilePic} layout="fill" objectfit="cover"  />
+        <Image quality={100} src={authorProfilePic} alt="Profilbild" layout="fill"  />
     </div>
     </ProfileCondensedInfo>
 

@@ -44,7 +44,6 @@ function Forum({ messageboardData }) {
     <Layout title="Forum - Brickboard 2.0" >
       
       <ContentContainer>
-        <Link href="/">Zur Startseite</Link>
         <ForumHeading title="Ankündigungen" />
         <ForumItem
           id={1}

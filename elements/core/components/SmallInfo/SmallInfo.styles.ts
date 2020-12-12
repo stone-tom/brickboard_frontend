@@ -5,4 +5,7 @@ export const SmallInfo=styled.div`
     p{
         margin-left: 0.5rem;
     }
+    span{
+        max-width: 20px;
+    }
 `;
