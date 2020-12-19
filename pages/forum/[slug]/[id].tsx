@@ -56,7 +56,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const topicData = await res.json();
 
     const topic=topicData.data.attributes;
-
+    // console.log("SERVERSIDE TOPIC");
+    // console.log
     return{
       props:{
         topic,
@@ -70,16 +71,17 @@ function Subforum({ topic, slug }) {
   const {isAuthenticated,user}=useAuthState();
 
   return (
-    <Layout  title={`${topic.topic.topic.title} - Brickboard 2.0`}>
+    <Layout  title={`${topic.topic.data.attributes.title} - Brickboard 2.0`}>
       {console.log(topic)}
       <ContentContainer>
-      <Breadcrumbsbar slug={slug} id={topic.topic.topic.id} topic={topic.topic.topic.title} />
+      <Breadcrumbsbar slug={slug} id={topic.topic.data.attributes.id} topic={topic.topic.data.attributes.title} />
 
-      <h1>{topic.topic.topic.title}</h1>
-      {isAuthenticated ? <Link href={`/forum/${slug}/${topic.topic.topic.id}/antworten`}>Antworten</Link> : ""}
-      {topic.post_views.map(postWrapper=>{
+      <h1>{topic.topic.data.attributes.title}</h1>
+      {isAuthenticated ? <Link href={`/forum/${slug}/${topic.topic.data.attributes.id}/antworten`}>Antworten</Link> : ""}
+      {topic.post_views.data.map(postWrapper=>{
         return(
-        <Post title={`Antwort:${topic.topic.topic.title}`} content={postWrapper.post.content} type={1}  author="Knauser"
+        <Post title={`Antwort:${topic.topic.data.attributes.title}`} content={postWrapper.attributes.post.data.attributes.content}
+         type={1}  author={topic.topic.included[1].attributes.display_name}
         created={new Date(2020, 10, 14, 16, 5)} />
         );
       })}

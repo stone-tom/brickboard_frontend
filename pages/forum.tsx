@@ -30,7 +30,7 @@ function Forum({ messageboardData }) {
   // data=JSON.stringify(data);
   // console.log(data.data[0].attributes.messageboards);
   // const messageboards=data.data[0].attributes;
-  const messageboards= data.data[0].attributes.messageboards;
+  const messageboards= data.data[0].attributes.messageboards.data;
 
 
   if(messageboardData.length==0){
@@ -65,7 +65,7 @@ function Forum({ messageboardData }) {
         <ForumHeading title="Das Board" />
         {messageboards.map(board=>{
           return(
-            <ForumItem id={board.messageboard.id} key={board.messageboard.id} title={board.messageboard.name} description={board.messageboard.description} topics={board.messageboard.topics_count} lastTopic={new Date(2020, 10, 14, 16, 5)} lastAuthor={"Was tuama da"} slug={board.messageboard.slug}/>
+            <ForumItem id={board.attributes.messageboard.data.attributes.id} key={board.attributes.messageboard.data.attributes.id} title={board.attributes.messageboard.data.attributes.name} description={board.attributes.messageboard.data.attributes.description} topics={board.attributes.messageboard.data.attributes.topics_count} lastTopic={new Date(2020, 10, 14, 16, 5)} lastAuthor={"Was tuama da"} slug={board.attributes.messageboard.data.attributes.slug}/>
           );
         })}
       </ContentContainer>

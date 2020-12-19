@@ -14,15 +14,12 @@ export const getStaticPaths: GetStaticPaths=async ()=>{
 
   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
   const messageboardData = await res.json();
-  // console.log("THE SLUG PAGE GETS");
-  // console.log(messageboardData.data[0].attributes.messageboards);
-  const messageboards=messageboardData.data[0].attributes.messageboards;
-  // console.log(messageboards);
+  const messageboards=messageboardData.data[0].attributes.messageboards.data;
     return {
 
         paths: messageboards.map(board=>({
           params:{ 
-            slug: board.messageboard.slug
+            slug: board.attributes.messageboard.data.attributes.slug
           }
         })),
         fallback: false, 
@@ -30,13 +27,11 @@ export const getStaticPaths: GetStaticPaths=async ()=>{
 };
 
 export const getStaticProps: GetStaticProps = async ({params}:Params) => {
-  // console.log("THE PARAMS:");
-  // console.log(params)
+
   const res = await fetch(`https://${process.env.BACKEND_URL}/${params.slug}/topics`);
   let topicsData = await res.json();
-  topicsData = topicsData.data;
   // console.log("THE TOPICS");
-  // console.log(topics);
+  // console.log(topicsData);
   return {
     props: {
       topicsData,
@@ -52,7 +47,7 @@ const fetcher = url => fetch(url).then(r => r.json())
 function Subforum({ topicsData, slug }) {
   const {isAuthenticated,user}=useAuthState();
   let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
-  const topicList=topicsData.attributes.topic_views;
+  const topicList=topicsData.data;
 
   return (
     <Layout title={`${slug} - Brickboard 2.0`}>
@@ -67,15 +62,15 @@ function Subforum({ topicsData, slug }) {
       {topicList.map(topic=>{
         return(
           <TopicItem
-          id={topic.topic.id}
+          id={topic.attributes.id}
           slug={slug}
-          key={topic.topic.id}
+          key={topic.attributes.id}
           type={0}
-          title={topic.topic.title}
-          author={`User mit id: ${topic.topic.user_id}`}
+          title={topic.attributes.title}
+          author={`User mit id: ${topic.relationships.user.data.id}`}
           views={420}
-          comments={topic.topic.posts_count}
-          created={new Date(topic.topic.created_at)}
+          comments={topic.attributes.posts_count}
+          created={new Date(topic.attributes.created_at)}
           changed={new Date(2020,10,26,8,14)}
           updated
         />
