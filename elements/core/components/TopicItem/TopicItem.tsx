@@ -3,6 +3,7 @@ import { TopicItem, TopicHeading, TopicIcon, TopicInfo, TopicInfoDetails, TopicA
 import { FontAwesomeIcon }  from "@fortawesome/react-fontawesome";
 import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation} from '@fortawesome/free-solid-svg-icons';
 import {format} from 'date-fns';
+import formatISO from 'date-fns/formatISO';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
 
@@ -25,6 +26,8 @@ enum IconType {
   }
 
 interface TopicItemProps {
+  id: number;
+  slug: string;
   type: IconType;
   title: string;
   author?: string;
@@ -37,6 +40,8 @@ interface TopicItemProps {
 }
 
 const TopicItemComponent = ({
+  id,
+  slug,
   type,
   title,
   author="Not defined",
@@ -50,7 +55,7 @@ const TopicItemComponent = ({
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
     <TopicInfo>
       <div>
-        <TopicHeading updated={updated}><Link href="/forum/brickfilme-im-allgemeinen/1">{title}</Link></TopicHeading>
+        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{title}</Link></TopicHeading>
         <p>
           von: {author}, <span>{format(created,"dd.mm.yyyy, HH:mm ")}</span>
         </p>

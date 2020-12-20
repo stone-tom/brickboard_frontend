@@ -3,25 +3,50 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import ForumItem from "../elements/core/components/ForumItem/ForumItem";
 import { ContentContainer } from "../global.styles";
 import ForumHeading from "../elements/core/components/ForumHeading/ForumHeading";
+import Fetcher from "../lib/data-client";
+import useSWR from "swr";
+import Link from "next/link";
+import Layout from "../elements/core/container/Layout/Layout";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const userData = await res.json();
-  const users = userData;
+  const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
+  const messageboardData = await res.json();
+  // console.log("THIS IS MY RESPONSE");
+  // console.log(messageboards.data[0].attributes);
+  // const messageboardData = messageboards.data.[0].attributes.messageboards;
   return {
     props: {
-      users,
+      messageboardData,
     },
     revalidate: 1,
   };
 };
+const fetcher = url => fetch(url,{credentials:'include'}).then(r => r.json())
 
-function Forum({ users }) {
+
+function Forum({ messageboardData }) {
+
+  let {data,error}=useSWR("https://brickboard.herokuapp.com/messageboards",fetcher,{initialData: messageboardData, revalidateOnMount: true});
+  // data=JSON.stringify(data);
+  // console.log(data.data[0].attributes.messageboards);
+  // const messageboards=data.data[0].attributes;
+  const messageboards= data.data[0].attributes.messageboards.data;
+
+
+  if(messageboardData.length==0){
+    return(
+      <ContentContainer>
+        Es gibt noch keine Beiträge!
+      </ContentContainer>
+    );
+  }
   return (
-    <>
+    <Layout title="Forum - Brickboard 2.0" >
+      
       <ContentContainer>
         <ForumHeading title="Ankündigungen" />
         <ForumItem
+          id={1}
           title="Neuigkeiten"
           description="Neuigkeiten und Ankündigungen um das Brickboard."
           lastTopic={new Date(2020, 10, 14, 16, 5)}
@@ -29,6 +54,7 @@ function Forum({ users }) {
           slug="brickfilme-im-allgemeinen"
         />
         <ForumItem
+        id={1}
           title="Steinerei und Wettbewerbe"
           description="Informationen, Ankündigungen und Diskussionen rund um die Steinerei und andere Wettbewerbe!"
           topics={1337}
@@ -37,40 +63,13 @@ function Forum({ users }) {
           slug="brickfilme-im-allgemeinen"
         />
         <ForumHeading title="Das Board" />
-        <ForumItem
-          title="Brickfilme im Allgemeinen"
-          description="Alles rund ums Brickfilmen, die Werkzeuge und Techniken, bahnbrechende Einfälle und sogar Projektvorstellungen finden hier ihren Platz. "
-          topics={1337}
-          lastTopic={new Date(2020, 10, 14, 16, 5)}
-          lastAuthor="Andreas"
-          slug="brickfilme-im-allgemeinen"
-        />
-        <ForumItem
-          title="Filmvorstellungen"
-          description="Hier geht es zur Übersicht der Brickfilme aus der Community. Ob fertiges Projekt, Tutorial oder Teaser, hier ist alles willkommen!"
-          topics={5}
-          lastTopic={new Date(2020, 10, 14, 16, 5)}
-          lastAuthor="Andreas"
-          slug="brickfilme-im-allgemeinen"
-        />
-        <ForumItem
-          title="Gemeinschaftsprojekte"
-          description="Mach mit und beteilige dich an den Gemeinschaftsprojekten auf brickboard.de!"
-          topics={42}
-          lastTopic={new Date(2020, 10, 14, 16, 5)}
-          lastAuthor="Andreas"
-          slug="brickfilme-im-allgemeinen"
-        />
-        <ForumItem
-          title="Sonstiges"
-          description="Themen die nicht direkt mit Brickfilmen zu tun haben, oder die keinen Platz in den anderen Kanälen gefunden haben."
-          topics={42}
-          lastTopic={new Date(2020, 10, 14, 16, 5)}
-          lastAuthor="Andreas"
-          slug="brickfilme-im-allgemeinen"
-        />
+        {messageboards.map(board=>{
+          return(
+            <ForumItem id={board.attributes.messageboard.data.attributes.id} key={board.attributes.messageboard.data.attributes.id} title={board.attributes.messageboard.data.attributes.name} description={board.attributes.messageboard.data.attributes.description} topics={board.attributes.messageboard.data.attributes.topics_count} lastTopic={new Date(2020, 10, 14, 16, 5)} lastAuthor={"Was tuama da"} slug={board.attributes.messageboard.data.attributes.slug}/>
+          );
+        })}
       </ContentContainer>
-    </>
+      </Layout>
   );
 }
 

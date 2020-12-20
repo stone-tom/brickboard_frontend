@@ -17,6 +17,7 @@ import Image from "next/image";
 import  SmallInfo  from "../SmallInfo/SmallInfo";
 
 interface ForumItemProps {
+  id: number;
   title: string;
   description?: string;
   lastTopic?: Date;
@@ -26,6 +27,7 @@ interface ForumItemProps {
 }
 
 const PostItemComponent = ({
+  id,
   title,
   description,
   topics = 1,

@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
     ul{
         padding: 0;
         margin: 0;
+        list-style-type: none;
     }
     h1,h2,h3,h4,p{
         margin: 0;

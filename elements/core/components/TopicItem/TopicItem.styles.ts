@@ -53,10 +53,16 @@ display: flex;
 
         p{
             margin: 0 1rem;
+
         }
         svg{
             margin-right: 10px;
         }
+        span{
+            max-width: 30px;
+            display: inline-block;
+        }
+      
 `;
 
 export const TopicActivity=styled.div`
