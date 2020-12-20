@@ -16,7 +16,6 @@ const initialState={
 function reducer(state, {payload, type}){
     switch(type){
         case "LOGIN_SUCCESS":
-
         return {
             ...state,
             ...payload,
@@ -41,8 +40,7 @@ function AuthProvider({children}){
     },[state,saveBrickboardUser]);
 
     const  login=async(email, password)=>{
-        
-
+    
         let data={
             user:{
                 email,
@@ -50,6 +48,7 @@ function AuthProvider({children}){
             }
         }; 
 
+     
         const result = await fetch(
             "https://brickboard.herokuapp.com/login",
             {
@@ -61,17 +60,9 @@ function AuthProvider({children}){
               body: JSON.stringify(data),
             }
           ).then((response) => {
-            // console.log("THE RESPONSE")
-            // console.log(response);
-            // console.log(response.headers);
-            // console.log("THE JWT")
-            // console.log("WE GOT OUR ORIGINAL JWT");
-            // console.log(response.headers.get("authorization"));
-            // authCookie=(response.headers.get('set-cookie'));
-            // publicJWT=response.headers.get("authorization");
-            // console.log("------------------------------------");
+           
             if(!response.ok){
-                throw new Error(json?.message);
+                throw new Error("Falsche Email oder Passwort!");
             }
             return response.json() ;
           });
@@ -84,6 +75,7 @@ function AuthProvider({children}){
 
           }
         dispatch({type: "LOGIN_SUCCESS",payload: {user}});
+       
     }
     const logout=async()=>{
 
