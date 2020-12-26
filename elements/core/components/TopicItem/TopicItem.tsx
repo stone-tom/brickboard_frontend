@@ -55,7 +55,7 @@ const TopicItemComponent = ({
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
     <TopicInfo>
       <div>
-        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{title}</Link></TopicHeading>
+        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{`${title}`}</Link></TopicHeading>
         <p>
           von: {author}, <span>{format(created,"dd.mm.yyyy, HH:mm ")}</span>
         </p>

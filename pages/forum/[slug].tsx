@@ -15,6 +15,7 @@ export const getStaticPaths: GetStaticPaths=async ()=>{
   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
   const messageboardData = await res.json();
   const messageboards=messageboardData.data[0].attributes.messageboards.data;
+  
     return {
 
         paths: messageboards.map(board=>({
@@ -58,19 +59,19 @@ function Subforum({ topicsData, slug }) {
       :
       ""
       } 
-      
+      {console.log(topicList)}
       {topicList.map(topic=>{
         return(
           <TopicItem
-          id={topic.attributes.id}
+          id={topic.attributes.topic.data.attributes.id}
           slug={slug}
-          key={topic.attributes.id}
+          key={topic.attributes.topic.data.attributes.id}
           type={0}
-          title={topic.attributes.title}
-          author={`User mit id: ${topic.relationships.user.data.id}`}
+          title={topic.attributes.topic.data.attributes.title}
+          author={`Von: ${topic.attributes.topic.included[1].attributes.display_name}`}
           views={420}
-          comments={topic.attributes.posts_count}
-          created={new Date(topic.attributes.created_at)}
+          comments={topic.attributes.topic.data.attributes.posts_count}
+          created={new Date(2020,10,26,8,14)}
           changed={new Date(2020,10,26,8,14)}
           updated
         />

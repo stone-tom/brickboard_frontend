@@ -2,7 +2,8 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthDispatch } from '../../../../context/auth';
-import {LoginButton, SignInForm, SignInInput} from './SignInForm.styles';
+import FormInput from '../../components/FormInput/FormInput';
+import {ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel} from './SignInForm.styles';
 
 
 // cool hovers: https://codepen.io/Takumari85/pen/RaYwpJ
@@ -34,10 +35,9 @@ const SignIn=()=>{
     return(
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
     <h2>Betrete das Brickboard</h2>
-    <p>{errors.email && <span>{errors.email.message}</span>}</p>
+    <SignInLabel>E-Mail Adresse</SignInLabel>
+    {errors.email && <ErrorHint><span>{errors.email.message}</span></ErrorHint>}
     <SignInInput
-      onFocus={()=>toggleFocus()}
-      className={focused? 'has-content':''}
       type="email"
       name="email"
       ref={register({
@@ -48,12 +48,8 @@ const SignIn=()=>{
         },
       })}
     />
-     <label>First Name</label>
-            <span className="focus-border">
-            	<i></i>
-            </span>
-    <p>{errors.password && <span>{errors.password.message}</span>}</p>
- 
+    <SignInLabel>Passwort</SignInLabel>
+    {errors.password && <ErrorHint><span>{errors.password.message}</span></ErrorHint>}
     <SignInInput
       type="password"
       name="password"
