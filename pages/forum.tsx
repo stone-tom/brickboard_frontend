@@ -31,8 +31,7 @@ function Forum({ messageboardData }) {
   // console.log(data.data[0].attributes.messageboards);
   // const messageboards=data.data[0].attributes;
   const messageboards= data.data[0].attributes.messageboards.data;
-
-
+  const messageboadGroupViews=data.data;
   if(messageboardData.length==0){
     return(
       <ContentContainer>
@@ -44,6 +43,13 @@ function Forum({ messageboardData }) {
     <Layout title="Forum - Brickboard 2.0" >
       
       <ContentContainer>
+        <h2>New Forum Structure</h2>
+        {messageboadGroupViews.map(group=>{
+          return(
+            <>
+            </>
+          );
+        })}
         <ForumHeading title="Ankündigungen" />
         <ForumItem
           id={1}

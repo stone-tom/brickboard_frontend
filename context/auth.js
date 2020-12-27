@@ -55,13 +55,15 @@ function AuthProvider({ children }) {
       },
       body: JSON.stringify(data),
     }).then((response) => {
+        console.log("LOGIN HEADERS");
+        console.group(response);
       if (!response.ok) {
         throw new Error("Falsche Email oder Passwort!");
       }
       return response.json();
     });
-    console.log("THE RESULT:");
-    console.log(result);
+    // console.log("THE RESULT:");
+    // console.log(result);
     let user = {
       name: result.data.attributes.display_name,
       email: result.data.attributes.email,
@@ -78,8 +80,6 @@ function AuthProvider({ children }) {
         "Content-Type": "application/json",
       },
     });
-    console.log("THE LOGOUT RESPONSE");
-    console.log(result);
     if (result.ok) {
       dispatch({ type: "LOGOUT" });
     }
@@ -102,6 +102,8 @@ function AuthProvider({ children }) {
       },
       body: JSON.stringify(data),
     }).then((response) => {
+        console.log("REGISTER HEADERS");
+        console.group(response);
       if (!response.ok) {
         // throw new Error("Registrierung momentan nicht möglich!");
       }
@@ -110,6 +112,32 @@ function AuthProvider({ children }) {
     if(result.errors){
         if(result.errors.email){
             throw new Error("Es gibt bereits ein Konto mit dieser E-Mail.");
+        }
+    }
+  };
+
+  const confirmAccount = async (code) => {
+
+    const result = await fetch(`https://brickboard.herokuapp.com/confirmation?confirmation_token=${code}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((response) => {
+        // console.log("CONFIRMATION HEADERS");
+        // console.group(response);
+      if (!response.ok) {
+        // throw new Error("Registrierung momentan nicht möglich!");
+      }
+      return response.json();
+    });
+    if(result.errors){
+        if(result.errors.email){
+            throw new Error("Das Konto wurde bereits bestätigt, du kannst dich jetzt anmelden.");
+        }
+        if(result.errors.confirmation_token){
+            throw new Error("Der Code ist nicht mehr gültig, bitte kontaktiere den Administrator");
         }
     }else{
         let user = {
@@ -123,7 +151,7 @@ function AuthProvider({ children }) {
   };
 
   return (
-    <AuthDispatchContext.Provider value={{ login, logout, signup }}>
+    <AuthDispatchContext.Provider value={{ login, logout, signup, confirmAccount}}>
       <AuthStateContext.Provider value={state}>
         {children}
       </AuthStateContext.Provider>

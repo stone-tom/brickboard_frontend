@@ -29,8 +29,7 @@ const SignUp=()=>{
 
       try {
         await signup(email,displayName,password, passwordRepeat);
-  
-        // router.push("/");
+        router.push("/konto-bestaetigen/hinweis");
       } catch ({message}) {
         setError("request", {
           type: "manual",

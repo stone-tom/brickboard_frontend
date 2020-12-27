@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import SubMenu from "../SubMenu/SubMenu";
 import {MenuImageWrapper,NavigationList,MenuWrapper,NavigationWrapper,NavigationItem, MenuBackground} from "./Menubar.styles";
 
 const menubar=({user})=>{
@@ -15,7 +16,8 @@ const menubar=({user})=>{
             </Link>
             <NavigationList>
                 <NavigationItem><Link href="/forum">Forum</Link></NavigationItem>
-                    <NavigationItem>{user ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}</NavigationItem>
+                <NavigationItem>{user ? <SubMenu /> : <Link href="/login">Login</Link>}</NavigationItem>
+                {!user && <Link href="/registrieren">Registrieren</Link>}
             </NavigationList>
         </MenuWrapper>
         </MenuBackground>

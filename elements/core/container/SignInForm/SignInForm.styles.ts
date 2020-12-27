@@ -26,6 +26,7 @@ export const LoginButton=styled.input`
     display: block;
     width: 100%;
     padding: 1rem;
+    cursor: pointer;
 `;
 export const SignInLabel=styled.label`
     display: block;

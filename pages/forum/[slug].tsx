@@ -68,11 +68,11 @@ function Subforum({ topicsData, slug }) {
           key={topic.attributes.topic.data.attributes.id}
           type={0}
           title={topic.attributes.topic.data.attributes.title}
-          author={`Von: ${topic.attributes.topic.included[1].attributes.display_name}`}
+          author={`${topic.attributes.topic.included[1].attributes.display_name}`}
           views={420}
           comments={topic.attributes.topic.data.attributes.posts_count}
-          created={new Date(2020,10,26,8,14)}
-          changed={new Date(2020,10,26,8,14)}
+          created={topic.attributes.topic.data.attributes.created_at}
+          changed={topic.attributes.topic.data.attributes.last_post_at}
           updated
         />
         );

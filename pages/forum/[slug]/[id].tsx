@@ -83,7 +83,7 @@ function Subforum({ topic, slug }) {
         return(
         <Post title={`Antwort:${topic.topic.data.attributes.topic.data.attributes.title}`} content={postWrapper.attributes.post.data.attributes.content}
          type={1}  author={topic.topic.data.attributes.topic.included[1].attributes.display_name} key={postWrapper.attributes.post.data.id}
-        created={new Date(2020, 10, 14, 16, 5)} />
+        created={postWrapper.attributes.post.data.attributes.created_at} />
         );
       })}
   

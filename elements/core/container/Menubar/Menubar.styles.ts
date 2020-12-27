@@ -30,5 +30,8 @@ export const NavigationList=styled.ul`
     display: flex;
 `;
 export const NavigationItem=styled.li`
+    display: flex;
+    align-items: center;
     margin: 0 1rem;
+    position: relative;
 `;

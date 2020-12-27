@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../elements/core/container/Layout/Layout";
 import { ContentContainer } from "../global.styles";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import { useAuthDispatch } from "../context/auth";
 import SignUpForm from '../elements/core/container/SignUpForm/SignUpForm';
 
 
