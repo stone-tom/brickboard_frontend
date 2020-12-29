@@ -44,12 +44,6 @@ function Forum({ messageboardData }) {
       
       <ContentContainer>
         <h2>New Forum Structure</h2>
-        {messageboadGroupViews.map(group=>{
-          return(
-            <>
-            </>
-          );
-        })}
         <ForumHeading title="Ankündigungen" />
         <ForumItem
           id={1}

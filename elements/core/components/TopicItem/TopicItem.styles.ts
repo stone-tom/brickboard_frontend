@@ -30,7 +30,9 @@ export const TopicHeading=styled.h3<{
     }
 `;
 
-export const TopicIcon=styled.div`
+export const TopicIcon=styled.div<{
+    updated?: boolean
+}>`
         display:flex;
       width: 5%;
       align-items: center;
