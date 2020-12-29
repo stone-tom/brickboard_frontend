@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useAuthState } from "../../context/auth";
 import Layout from "../../elements/core/container/Layout/Layout";
 import Breadcrumbsbar from "../../elements/core/components/Breadcrumbs/Breadcrumbs";
+import ForumHeading from "../../elements/core/components/ForumHeading/ForumHeading";
 
 //Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths=async ()=>{
@@ -31,12 +32,17 @@ export const getStaticProps: GetStaticProps = async ({params}:Params) => {
 
   const res = await fetch(`https://${process.env.BACKEND_URL}/${params.slug}/topics`);
   let topicsData = await res.json();
+  let messageboardName=params.slug;
+  if(topicsData!==undefined && topicsData !==null && topicsData.data !==undefined){
+    messageboardName=topicsData.data[0].attributes.topic.included[0].attributes.name;
+  }
   // console.log("THE TOPICS");
-  // console.log(topicsData);
+  // console.log(topicsData.data[0].attributes.topic.included[0].attributes.name);
   return {
     props: {
       topicsData,
-      slug: params.slug
+      slug: params.slug,
+      messageboardName
     },
     revalidate: 1,
   };
@@ -45,13 +51,13 @@ export const getStaticProps: GetStaticProps = async ({params}:Params) => {
 const fetcher = url => fetch(url).then(r => r.json())
 
 
-function Subforum({ topicsData, slug }) {
+function Subforum({ topicsData, slug, messageboardName }) {
   const {isAuthenticated,user}=useAuthState();
   let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
-  const topicList=topicsData.data;
+  const topicList=data.data;
 
   return (
-    <Layout title={`${slug} - Brickboard 2.0`}>
+    <Layout title={`${messageboardName} - Brickboard 2.0`}>
     <ContentContainer>
     <Breadcrumbsbar slug={slug} />
       {isAuthenticated ? 
@@ -59,7 +65,7 @@ function Subforum({ topicsData, slug }) {
       :
       ""
       } 
-      {console.log(topicList)}
+      <ForumHeading title={`${messageboardName}`} />
       {topicList.map(topic=>{
         return(
           <TopicItem
