@@ -13,12 +13,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const messageboardData = await res.json();
   // console.log("THE SLUG PAGE GETS");
   // console.log(messageboardData.data[0].attributes.messageboards);
-  const messageboards = messageboardData.data[0].attributes.messageboards;
-  // console.log(messageboards);
+  const messageboards = messageboardData.data[0].attributes.messageboards.data;
+  // console.log(messageboards[0].attributes.messageboard);
   return {
     paths: messageboards.map((board) => ({
       params: {
-        slug: board.messageboard.slug,
+        slug: board.attributes.messageboard.data.attributes.slug,
       },
     })),
     fallback: true,

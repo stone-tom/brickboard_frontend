@@ -62,7 +62,7 @@ const PostComponent = ({
 
   <Post>
     <PostDetails>
-    <p>{format(created,"dd.mm.yyyy, HH:mm ")}</p>
+    <p>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</p>
     <PostContent>{content}</PostContent>
     </PostDetails>
 

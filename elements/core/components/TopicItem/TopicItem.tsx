@@ -31,6 +31,7 @@ interface TopicItemProps {
   type: IconType;
   title: string;
   author?: string;
+  lastAuthor?: string;
   created?: Date;
   changed?: Date;
   views?: number | 0;
@@ -45,6 +46,7 @@ const TopicItemComponent = ({
   type,
   title,
   author="Not defined",
+  lastAuthor,
   created,
   changed,
   views,
@@ -55,9 +57,9 @@ const TopicItemComponent = ({
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
     <TopicInfo>
       <div>
-        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{title}</Link></TopicHeading>
+        <TopicHeading updated={updated}><Link href={`/forum/${slug}/${id}`}>{`${title}`}</Link></TopicHeading>
         <p>
-          von: {author}, <span>{format(created,"dd.mm.yyyy, HH:mm ")}</span>
+          von: {author}, <span>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</span>
         </p>
       </div>
       <TopicInfoDetails>
@@ -65,7 +67,7 @@ const TopicItemComponent = ({
         <p><span aria-label="Antworten" data-balloon-pos="down"><FontAwesomeIcon icon={faCommentAlt} /></span>{comments}</p>
       </TopicInfoDetails>
     </TopicInfo>
-    <TopicActivity>Letzte Antwort: <br/> {format(changed,"dd.mm.yyyy, HH:mm ")}</TopicActivity>
+    <TopicActivity>Letzte Antwort: <br/>von TODO <br/> {format(new Date(changed),"dd.MM.yyyy, HH:mm ")}</TopicActivity>
   </TopicItem>
 );
 
