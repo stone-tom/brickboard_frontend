@@ -48,7 +48,7 @@ const fetcher = url => fetch(url).then(r => r.json())
 function Subforum({ topicsData, slug }) {
   const {isAuthenticated,user}=useAuthState();
   let {data,error}=useSWR(`https://brickboard.herokuapp.com/${slug}/topics`,fetcher,{initialData: topicsData, revalidateOnMount: true});
-  const topicList=topicsData.data;
+  const topicList=data.data;
 
   return (
     <Layout title={`${slug} - Brickboard 2.0`}>
@@ -59,7 +59,6 @@ function Subforum({ topicsData, slug }) {
       :
       ""
       } 
-      {console.log(topicList)}
       {topicList.map(topic=>{
         return(
           <TopicItem
