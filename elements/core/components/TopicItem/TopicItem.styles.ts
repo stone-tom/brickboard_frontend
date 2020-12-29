@@ -30,7 +30,9 @@ export const TopicHeading=styled.h3<{
     }
 `;
 
-export const TopicIcon=styled.div`
+export const TopicIcon=styled.div<{
+    updated?: boolean
+}>`
         display:flex;
       width: 5%;
       align-items: center;
@@ -53,10 +55,16 @@ display: flex;
 
         p{
             margin: 0 1rem;
+
         }
         svg{
             margin-right: 10px;
         }
+        span{
+            max-width: 30px;
+            display: inline-block;
+        }
+      
 `;
 
 export const TopicActivity=styled.div`

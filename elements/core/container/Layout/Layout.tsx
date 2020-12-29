@@ -1,20 +1,39 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ViewWrapper } from '../../../../global.styles';
-import { useNavigationStore } from '../../../../stores';
-import Navigation from '../Navigation/Navigation';
+import Head from 'next/head';
+import Menubar from "../Menubar/Menubar";
+import { useAuthState } from "../../../../context/auth";
+import Footer from '../Footer/Footer';
 
-const Layout = observer(({
-  children,
-}) => {
 
-  const navigationStore = useNavigationStore();
+interface LayoutProps{
+  title:string;
+  children: ReactNode;
+}
+
+  const Layout = ({title, children}:LayoutProps)=>{
+    const {isAuthenticated,user}=useAuthState();
+
   return (
-    <ViewWrapper>
-      <Navigation navigation={navigationStore.navigation} />
-      {children}
-    </ViewWrapper>
+    <>
+      <Head>
+        <title>{title}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <Menubar user={user}/>
+        <ViewWrapper>
+           {children}
+        </ViewWrapper>
+      </main>
+
+      <Footer />
+  
+    
+
+    </>
   )
-});
+};
 
 export default Layout;
