@@ -29,12 +29,9 @@ function Home() {
     <Layout title="Brickboard 2.0">
       <ContentContainer>
       <h1>Be carefull, this is a construction site</h1>
-    {isAuthenticated ? <>
+    {isAuthenticated ? 
         <h1>Hallo {user.name}</h1>
-        <button onClick={()=>logout()}>Logout</button></>
-         : <button onClick={()=>login(
-          "admin@brickboard.com",
-          "123456")}>Schnell Anmelden</button>}      
+      : "" }      
         <Link href="/forum">Zum Forum</Link>
         </ContentContainer>
     </Layout>
