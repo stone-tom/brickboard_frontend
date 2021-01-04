@@ -7,9 +7,11 @@ interface ForumHeadingProps {
   }
 
 const  ForumHeadingComponent=({title}:ForumHeadingProps)=>(
+    <>
     <ForumHeading>
         {title}
     </ForumHeading>
+    </>
 );
 
 export default ForumHeadingComponent;

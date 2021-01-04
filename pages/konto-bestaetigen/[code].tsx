@@ -21,9 +21,9 @@ export const CodeConfirmation = (props) => {
 
   const tryConfirmation =async (code) => {
     try {
-      await confirmAccount(code);
+      let user= await confirmAccount(code);
       setRedirect(true);
-      setHint("Dein Konto wurde erfolgreich aktiviert!");
+      setHint(`Willkommen ${user.name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
     } catch (error) {
       setHint(error.message);
     }
@@ -39,6 +39,7 @@ export const CodeConfirmation = (props) => {
         <h1>Kontoaktivierung</h1>
         <p>{hint}</p>
         {redirect && <Link href="/">Zur Startseite</Link>}
+        {redirect && <Link href="/login">Zum Login</Link>}
       </ContentContainer>
     </Layout>
   );

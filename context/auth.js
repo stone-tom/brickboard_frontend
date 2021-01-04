@@ -146,7 +146,7 @@ function AuthProvider({ children }) {
             admin: result.data.attributes.admin,
             avatar: result.data.attributes.avatar,
           };
-          dispatch({ type: "LOGIN_SUCCESS", payload: { user } });
+        return user;
     }
   };
 

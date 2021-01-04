@@ -31,10 +31,10 @@ function Home() {
       <h1>Be carefull, this is a construction site</h1>
     {isAuthenticated ? <>
         <h1>Hallo {user.name}</h1>
-        <button onClick={()=>logout()}>Schnell Anmeldung</button></>
+        <button onClick={()=>logout()}>Abmelden</button></>
          : <button onClick={()=>login(
           "admin@brickboard.com",
-          "123456")}>Anmelden</button>}      
+          "123456")}>Schnellanmeldung</button>}      
         <Link href="/forum">Zum Forum</Link>
         </ContentContainer>
     </Layout>

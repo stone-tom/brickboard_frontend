@@ -10,7 +10,7 @@ import {
 import { format } from "date-fns";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
-import { Post, PostContent, PostDetails } from "./Post.styles";
+import { Post, PostContent, PostDate, PostDetails, PostHeading } from "./Post.styles";
 import  ProfileAside  from "../ProfileAside/ProfileAside";
 import  { useObserver } from 'mobx-react-lite';
 
@@ -33,7 +33,7 @@ enum IconType {
 
 interface PostProps {
   type: IconType;
-  title: string;
+  title?: string;
   content: string;
   author?: string;
   authorRegistered?: Date;
@@ -62,10 +62,10 @@ const PostComponent = ({
 
   <Post>
     <PostDetails>
-    <p>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</p>
+    <PostHeading>{title}</PostHeading>
+    <PostDate>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</PostDate>
     <PostContent>{content}</PostContent>
     </PostDetails>
-
     <ProfileAside author={author} ></ProfileAside>
   </Post>
 );

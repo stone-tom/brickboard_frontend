@@ -40,6 +40,7 @@ export const ViewWrapper = styled.div<{
     align-items: center;
   `}
   padding: 30px;
+  min-height: 500px;
 `;
 
 export const ContentContainer=styled.div`

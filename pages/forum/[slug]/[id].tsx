@@ -7,6 +7,7 @@ import Layout from "../../../elements/core/container/Layout/Layout";
 import Breadcrumbsbar from "../../../elements/core/components/Breadcrumbs/Breadcrumbs";
 import { useAuthState } from "../../../context/auth";
 import Link from "next/link";
+import BBButton from "../../../elements/core/components/BBButton/BBButton";
 
 interface StaticParams{
     params:{ 
@@ -72,21 +73,27 @@ function Subforum({ topic, slug }) {
 
   return (
     <Layout  title={`${topic.topic.data.attributes.topic.data.attributes.title} - Brickboard 2.0`}>
-        {console.log("THE SINGLE TOPIC")}
-      {console.log(topic)}
       <ContentContainer>
       <Breadcrumbsbar slug={slug} id={topic.topic.data.attributes.topic.data.attributes.id} topic={topic.topic.data.attributes.topic.data.attributes.title} />
 
       <h1>{topic.topic.data.attributes.topic.data.attributes.title}</h1>
-      {isAuthenticated ? <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.attributes.id}/antworten`}>Antworten</Link> : ""}
-      {topic.post_views.data.map(postWrapper=>{
+      {topic.post_views.data.map((postWrapper,index)=>{
+        if(index==0){
+          return(
+            <Post content={postWrapper.attributes.post.data.attributes.content}
+            type={1}  author={topic.topic.data.attributes.topic.included[1].attributes.display_name} key={postWrapper.attributes.post.data.id}
+           created={postWrapper.attributes.post.data.attributes.created_at} />
+          );
+        }else{
         return(
-        <Post title={`Antwort:${topic.topic.data.attributes.topic.data.attributes.title}`} content={postWrapper.attributes.post.data.attributes.content}
+        <Post title={`Re: ${topic.topic.data.attributes.topic.data.attributes.title}`} content={postWrapper.attributes.post.data.attributes.content}
          type={1}  author={topic.topic.data.attributes.topic.included[1].attributes.display_name} key={postWrapper.attributes.post.data.id}
         created={postWrapper.attributes.post.data.attributes.created_at} />
         );
+        }
       })}
-  
+        {isAuthenticated&& <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.attributes.id}/antworten`} passHref><BBButton alignRight add>Antworten</BBButton></Link>}
+
     </ContentContainer>
     </Layout>
   );

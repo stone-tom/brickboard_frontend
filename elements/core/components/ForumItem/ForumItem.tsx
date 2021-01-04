@@ -14,14 +14,15 @@ import {
 import { format } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
-import  SmallInfo  from "../SmallInfo/SmallInfo";
+import SmallInfo from "../SmallInfo/SmallInfo";
 
 interface ForumItemProps {
   id: number;
   title: string;
   description?: string;
-  lastTopic?: Date;
-  lastAuthor: string;
+  lastTopicDate?: Date;
+  lastTopicTitle?: string;
+  lastAuthor?: string;
   topics?: number | 0;
   slug: string;
 }
@@ -31,37 +32,42 @@ const PostItemComponent = ({
   title,
   description,
   topics = 1,
-  lastTopic,
+  lastTopicDate,
+  lastTopicTitle,
   lastAuthor,
-  slug="brickfilme-im-allgemeinen",
+  slug = "brickfilme-im-allgemeinen",
 }: ForumItemProps) => (
-  <ForumItem>
-    <ForumItemImageContainer>
-      {" "}
-      <Image
-        src="/redbrick.jpg"
-        width="200"
-        height="200"
-        alt="Red Brick"
-      ></Image>
-    </ForumItemImageContainer>
+  <>
+    <ForumItem>
+      <ForumItemImageContainer>
+        {" "}
+        <Image
+          src="/redbrick.jpg"
+          width="200"
+          height="200"
+          alt="Red Brick"
+        ></Image>
+      </ForumItemImageContainer>
 
-    <ForumItemContent>
-      <div>
-        <ForumHeading><Link href={`/forum/${slug}`}>{title}</Link></ForumHeading> 
-        <p>{description}</p>
-      </div>
-      <ForumItemDetails>
-        <SmallInfo title={"Beiträge"} value={topics} icon={faClipboardList} />
-    
-      </ForumItemDetails>
-    </ForumItemContent>
+      <ForumItemContent>
+        <div>
+          <ForumHeading>
+            <Link href={`/forum/${slug}`}>{title}</Link>
+          </ForumHeading>
+          <p>{description}</p>
+        </div>
+        <ForumItemDetails>
+          <SmallInfo title={"Beiträge"} value={topics} icon={faClipboardList} />
+        </ForumItemDetails>
+      </ForumItemContent>
 
-    <ForumInfo>
-      <p>{lastAuthor}</p>
-      <p>{format(lastTopic, "dd.mm.yyyy, HH:mm ")}</p>
-    </ForumInfo>
-  </ForumItem>
+      <ForumInfo>
+        {lastTopicTitle && <p>{lastTopicTitle}</p>}
+        {lastAuthor && <p>von: {lastAuthor}</p>}
+        {lastTopicDate && <p>{format(lastTopicDate, "dd.MM.yyyy, HH:mm ")}</p>}
+      </ForumInfo>
+    </ForumItem>
+  </>
 );
 
 export default PostItemComponent;

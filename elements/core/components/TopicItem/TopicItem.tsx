@@ -1,7 +1,7 @@
 import React from "react";
 import { TopicItem, TopicHeading, TopicIcon, TopicInfo, TopicInfoDetails, TopicActivity} from "./TopicItem.styles";
 import { FontAwesomeIcon }  from "@fortawesome/react-fontawesome";
-import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation, faMapPin} from '@fortawesome/free-solid-svg-icons';
 import {format} from 'date-fns';
 import formatISO from 'date-fns/formatISO';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -37,7 +37,7 @@ interface TopicItemProps {
   views?: number | 0;
   comments?: number | 0;
   updated?: boolean;
-
+  sticky?:boolean;
 }
 
 const TopicItemComponent = ({
@@ -52,6 +52,7 @@ const TopicItemComponent = ({
   views,
   comments,
   updated,
+  sticky,
 }: TopicItemProps) => (
   <TopicItem updated={updated}>
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
@@ -63,11 +64,12 @@ const TopicItemComponent = ({
         </p>
       </div>
       <TopicInfoDetails>
+        {sticky && <p><span aria-label="Gepinnt" data-balloon-pos="down"><FontAwesomeIcon icon={faMapPin}/></span></p>}
         <p><span aria-label="Aufrufe" data-balloon-pos="down"><FontAwesomeIcon icon={faEye}/></span>{views}</p>
         <p><span aria-label="Antworten" data-balloon-pos="down"><FontAwesomeIcon icon={faCommentAlt} /></span>{comments}</p>
       </TopicInfoDetails>
     </TopicInfo>
-    <TopicActivity>Letzte Antwort: <br/>von TODO <br/> {format(new Date(changed),"dd.MM.yyyy, HH:mm ")}</TopicActivity>
+    <TopicActivity>Letzte Antwort: {lastAuthor && <p>von {lastAuthor}</p>} <p>{format(new Date(changed),"dd.MM.yyyy, HH:mm ")}</p></TopicActivity>
   </TopicItem>
 );
 

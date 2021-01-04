@@ -9,20 +9,19 @@ import Layout from "../../../elements/core/container/Layout/Layout";
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
+  const res = await fetch(`https://${process.env.BACKEND_URL}/messageboard-groups`);
   const messageboardData = await res.json();
-  // console.log("THE SLUG PAGE GETS");
-  // console.log(messageboardData.data[0].attributes.messageboards);
-  const messageboards = messageboardData.data[0].attributes.messageboards.data;
-  // console.log(messageboards[0].attributes.messageboard);
-  return {
-    paths: messageboards.map((board) => ({
-      params: {
-        slug: board.attributes.messageboard.data.attributes.slug,
-      },
-    })),
-    fallback: true,
-  };
+  const messageboars=messageboardData.included;
+  
+    return {
+
+        paths: messageboars.map(board=>({
+          params:{ 
+            slug: board.attributes.slug
+          }
+        })),
+        fallback: false, 
+      };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
@@ -57,7 +56,7 @@ function neuesThema({ slug }) {
     };
 
     const result = await fetch(
-      `https://brickboard.herokuapp.com/1/topics/`,
+      `https://brickboard.herokuapp.com/${slug}/topics/`,
       {
         method: "POST",
         credentials: 'include',

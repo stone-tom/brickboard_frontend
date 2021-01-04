@@ -38,6 +38,9 @@ export const TopicIcon=styled.div<{
       align-items: center;
       justify-content: center;
       color: ${(props)=>props.updated ? props.theme.brickred : props.theme.darkgray};
+      svg{
+          max-height: 50px;
+      }
 `;
 
 export const TopicInfo=styled.div`

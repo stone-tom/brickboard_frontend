@@ -17,7 +17,7 @@ function Login() {
     return(
         <Layout title="Logout">
         <ContentContainer>
-            <h1>Du wurdest erfolgreich ausgeloggt!</h1>
+            <h1>Du wurdest erfolgreich abgemeldet!</h1>
             <Link href="/">Zur Startseite</Link><br/>
             <Link href="/login">Wieder einloggen</Link>
         </ContentContainer>
