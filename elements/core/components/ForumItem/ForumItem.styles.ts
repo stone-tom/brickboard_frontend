@@ -1,3 +1,4 @@
+import { symlink } from 'fs';
 import styled from 'styled-components';
 
 export const ForumItem=styled.div`
@@ -24,15 +25,10 @@ export const ForumItemImageContainer=styled.div`
     justify-content: center;
     flex-direction: column;
 `;
-export const ForumItemDetails=styled.div`
-    display: inline-flex;
-    min-width: 100px;
-    margin-left: 1rem;
-`;
 
 export const ForumItemContent=styled.div`
-    width: 70%;
-    padding: 1rem;
+    width: 45%;
+    padding:  0.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -49,13 +45,34 @@ export const ForumHeading=styled.h3`
     }
 `;
 
-export const ForumInfo=styled.div`
-    width: 20%;
+export const ForumInfoWrapper=styled.div`
+    width:45%;
     display: flex;
-    padding: 1rem;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    border-left: ${props=>props.theme.gray} 2px solid;
+
+`;
+export const ForumItemDetails=styled.div`
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: ${props=>props.theme.gray} 2px solid;
+    padding-bottom:  0.5rem;
+    
+`;
+export const ForumInfo=styled.div`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content:center;
-    padding-left: 0.5rem;
-      border-left: lightgray 1px solid;
+    padding-top:  0.5rem;
+    p{
+        margin-top: 5px;
+    }
+`;
+export const LastPostHeading=styled.p`
+    color: ${props=>props.theme.grayfont};
+    font-weight: 400;
 `;

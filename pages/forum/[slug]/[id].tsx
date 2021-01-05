@@ -1,7 +1,7 @@
 import React from "react";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import { Params } from "next/dist/next-server/server/router";
-import { ContentContainer } from "../../../global.styles";
+import { ContentContainer, Hint } from "../../../global.styles";
 import  Post  from "../../../elements/core/components/Post/Post";
 import Layout from "../../../elements/core/container/Layout/Layout";
 import Breadcrumbsbar from "../../../elements/core/components/Breadcrumbs/Breadcrumbs";
@@ -70,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 function Subforum({ topic, slug }) {
   const {isAuthenticated,user}=useAuthState();
+  const isLocked=topic.topic.data.attributes.topic.data.attributes.locked;
 
   return (
     <Layout  title={`${topic.topic.data.attributes.topic.data.attributes.title} - Brickboard 2.0`}>
@@ -77,6 +78,7 @@ function Subforum({ topic, slug }) {
       <Breadcrumbsbar slug={slug} id={topic.topic.data.attributes.topic.data.attributes.id} topic={topic.topic.data.attributes.topic.data.attributes.title} />
 
       <h1>{topic.topic.data.attributes.topic.data.attributes.title}</h1>
+      {isLocked && <Hint>Dieses Thema wurde von einem der Admins gesperrt. Du kannst keine Antwort posten.</Hint>}
       {topic.post_views.data.map((postWrapper,index)=>{
         if(index==0){
           return(
@@ -92,7 +94,7 @@ function Subforum({ topic, slug }) {
         );
         }
       })}
-        {isAuthenticated&& <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.attributes.id}/antworten`} passHref><BBButton alignRight add>Antworten</BBButton></Link>}
+        {isAuthenticated && !isLocked && <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.attributes.id}/antworten`} passHref><BBButton alignRight add>Antworten</BBButton></Link>}
 
     </ContentContainer>
     </Layout>

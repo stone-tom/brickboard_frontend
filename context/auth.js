@@ -58,6 +58,9 @@ function AuthProvider({ children }) {
         console.log("LOGIN HEADERS");
         console.group(response);
       if (!response.ok) {
+        if(response.status==403){
+          throw new Error("Dein Account ist (noch) nicht aktiviert! Bitte aktiviere ihn durch den Aktivierungslink in deiner E-Mail!");
+        }
         throw new Error("Falsche Email oder Passwort!");
       }
       return response.json();

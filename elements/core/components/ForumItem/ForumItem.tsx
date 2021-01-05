@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
+import { faClipboardList, faUserClock } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ForumItem,
@@ -9,6 +9,8 @@ import {
   ForumInfo,
   ForumItemImageContainer,
   ForumItemContent,
+  ForumInfoWrapper,
+  LastPostHeading,
 } from "./ForumItem.styles";
 
 import { format } from "date-fns";
@@ -56,16 +58,18 @@ const PostItemComponent = ({
           </ForumHeading>
           <p>{description}</p>
         </div>
-        <ForumItemDetails>
-          <SmallInfo title={"Beiträge"} value={topics} icon={faClipboardList} />
-        </ForumItemDetails>
       </ForumItemContent>
 
-      <ForumInfo>
+      <ForumInfoWrapper>
+        <ForumItemDetails><SmallInfo title={"Beiträge"} value={topics} icon={faClipboardList} />
+        {lastTopicDate && <SmallInfo title={"Letzte Aktivität"} value={format(lastTopicDate, "dd.MM.yyyy, HH:mm ")} icon={faUserClock} />}
+        </ForumItemDetails>
+        <ForumInfo>
+        <LastPostHeading>Letzter Post</LastPostHeading>
         {lastTopicTitle && <p>{lastTopicTitle}</p>}
         {lastAuthor && <p>von: {lastAuthor}</p>}
-        {lastTopicDate && <p>{format(lastTopicDate, "dd.MM.yyyy, HH:mm ")}</p>}
       </ForumInfo>
+      </ForumInfoWrapper>
     </ForumItem>
   </>
 );

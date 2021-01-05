@@ -64,7 +64,7 @@ const PostComponent = ({
     <PostDetails>
     <PostHeading>{title}</PostHeading>
     <PostDate>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</PostDate>
-    <PostContent>{content}</PostContent>
+    <PostContent dangerouslySetInnerHTML={{__html: content}}></PostContent>
     </PostDetails>
     <ProfileAside author={author} ></ProfileAside>
   </Post>

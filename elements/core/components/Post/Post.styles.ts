@@ -20,7 +20,7 @@ export const PostDate=styled.p`
         height: 5px;
         border-radius: 2px;
         display: block;
-        background-color: ${(props)=>props.theme.darkgray};
+        background-color: ${(props)=>props.theme.grayfont};
     }
 `;
 

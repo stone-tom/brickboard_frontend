@@ -6,7 +6,7 @@ import {SmallInfo} from "./SmallInfo.styles";
 
 interface SmallInfoProps {
   title: string;
-  value: number;
+  value: any;
   icon?: IconProp;
   direction?: string;
 }

@@ -49,3 +49,9 @@ margin: 0 auto;
 padding-left: 15px;
 padding-right: 15px;
 `;
+
+export const Hint = styled.p`
+    background-color: ${props=>props.theme.warning};
+    width: 100%;
+    padding: 0.5rem;
+`;

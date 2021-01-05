@@ -133,6 +133,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
           created={new Date(2020, 10, 14, 16, 5)}
           changed={new Date(2020, 10, 26, 8, 14)}
           updated
+          locked
         />
         <TopicItem
           id={1}
@@ -144,6 +145,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
           comments={69}
           created={new Date(2020, 10, 14, 16, 5)}
           changed={new Date(2020, 10, 26, 8, 14)}
+          locked
         />
         <TopicItem
           id={1}
@@ -156,18 +158,19 @@ function Subforum({ topicsData, slug, messageboardName }) {
           created={new Date(2020, 10, 14, 16, 5)}
           changed={new Date(2020, 10, 26, 8, 14)}
           updated
+          locked
         />
 
-        {pageIndex > 1 && topicList.length >= 20 && <button onClick={() => setPageIndex(pageIndex - 1)}>
+        {pageIndex > 1 && <button onClick={() => setPageIndex(pageIndex - 1)}>
           Vorige Seite
         </button>}
         {topicList.length >= 20 && <button onClick={() => setPageIndex(pageIndex + 1)}>
           Nächste Seite
         </button>}
         {isAuthenticated && (
-          <BBButton alignRight add>
-            <Link href={`./${slug}/neuesThema`}>Neues Thema erstellen</Link>
-          </BBButton>
+       
+            <Link href={`./${slug}/neuesThema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
+          
         )}
       </ContentContainer>
     </Layout>

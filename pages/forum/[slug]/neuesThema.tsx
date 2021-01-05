@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuthState } from "../../../context/auth";
 import Layout from "../../../elements/core/container/Layout/Layout";
+import CustomEditor from "../../../elements/core/container/Editor/Editor";
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -96,24 +97,8 @@ function neuesThema({ slug }) {
   return (
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
     <ContentContainer>
-      <h1>Ein neues Thema erstellen:</h1>
-      <p>{message}</p>
-
-      
-        <label htmlFor="name">Titel</label>
-        <input
-          type="text"
-          onChange={(e) => setTitle(e.target.value)}
-          name="title"
-        />
-        <label htmlFor="content">Der Beitrag</label>
-        <textarea
-          onChange={(e) => setContent(e.target.value)}
-          name="content"
-        ></textarea>
-        <button onClick={() => sendTopic(title, content)}>
-          Absenden
-        </button>
+     
+        <CustomEditor redirect={slug} />
      
     </ContentContainer>
     </Layout>

@@ -73,7 +73,7 @@ const SignUp=()=>{
       })}
     />
 
-    <SignInLabel>Passwort</SignInLabel>
+    <SignInLabel>Passwort (mind. 8 Zeichen)</SignInLabel>
     {errors.password && <ErrorHint><span>{errors.password.message}</span></ErrorHint>}
     <SignInInput
       type="password"

@@ -1,7 +1,7 @@
 import React from "react";
 import { TopicItem, TopicHeading, TopicIcon, TopicInfo, TopicInfoDetails, TopicActivity} from "./TopicItem.styles";
 import { FontAwesomeIcon }  from "@fortawesome/react-fontawesome";
-import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation, faMapPin} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faCommentAlt, faAlignJustify, faQuestion, faExclamation, faMapPin, faLock} from '@fortawesome/free-solid-svg-icons';
 import {format} from 'date-fns';
 import formatISO from 'date-fns/formatISO';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -38,6 +38,7 @@ interface TopicItemProps {
   comments?: number | 0;
   updated?: boolean;
   sticky?:boolean;
+  locked?:boolean;
 }
 
 const TopicItemComponent = ({
@@ -53,6 +54,7 @@ const TopicItemComponent = ({
   comments,
   updated,
   sticky,
+  locked,
 }: TopicItemProps) => (
   <TopicItem updated={updated}>
     <TopicIcon><FontAwesomeIcon icon={whichIcon(type)} /></TopicIcon>
@@ -64,6 +66,7 @@ const TopicItemComponent = ({
         </p>
       </div>
       <TopicInfoDetails>
+        {locked && <p><span aria-label="Gesperrt" data-balloon-pos="down"><FontAwesomeIcon icon={faLock}/></span></p>}
         {sticky && <p><span aria-label="Gepinnt" data-balloon-pos="down"><FontAwesomeIcon icon={faMapPin}/></span></p>}
         <p><span aria-label="Aufrufe" data-balloon-pos="down"><FontAwesomeIcon icon={faEye}/></span>{views}</p>
         <p><span aria-label="Antworten" data-balloon-pos="down"><FontAwesomeIcon icon={faCommentAlt} /></span>{comments}</p>
