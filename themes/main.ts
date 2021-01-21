@@ -7,5 +7,4 @@ export default {
   white: '#ffffff',
   black: 'black',
   warning: '#fff3cd',
-
 }

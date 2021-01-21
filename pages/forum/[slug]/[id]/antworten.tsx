@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "../../../../elements/core/container/Layout/Layout";
 import { useAuthState } from "../../../../context/auth";
-import { ContentContainer } from "../../../../global.styles";
+import { ContentContainer } from "../../../../styles/global.styles";
 
 
 // export const getStaticPaths: GetStaticPaths = async () => {

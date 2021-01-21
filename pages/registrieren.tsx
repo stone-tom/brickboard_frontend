@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../elements/core/container/Layout/Layout";
-import { ContentContainer } from "../global.styles";
+import { ContentContainer } from "../styles/global.styles";
 import SignUpForm from '../elements/core/container/SignUpForm/SignUpForm';
 
 

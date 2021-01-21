@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../elements/core/container/Layout/Layout";
-import { ContentContainer } from "../../global.styles";
+import { ContentContainer } from "../../styles/global.styles";
 import { useRouter } from "next/router";
 import { useAuthDispatch } from "../../context/auth";
 

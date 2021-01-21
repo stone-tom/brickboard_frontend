@@ -1,7 +1,7 @@
 import React from "react";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import { Params } from "next/dist/next-server/server/router";
-import { ContentContainer, Hint } from "../../../global.styles";
+import { ContentContainer, Hint } from "../../../styles/global.styles";
 import  Post  from "../../../elements/core/components/Post/Post";
 import Layout from "../../../elements/core/container/Layout/Layout";
 import Breadcrumbsbar from "../../../elements/core/components/Breadcrumbs/Breadcrumbs";

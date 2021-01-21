@@ -27,7 +27,7 @@ const ProfileAsideComponent = ({
   authorRegistered,
   authorBadge,
   postsCount=1,
-  authorProfilePic="/501.jpg",
+  authorProfilePic="/assets/images/501.jpg",
   authorCity="Legoland",
 }: ProfileAsideProps) => (
   <ProfileAside>

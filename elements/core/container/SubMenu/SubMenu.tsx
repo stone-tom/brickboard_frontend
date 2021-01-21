@@ -17,7 +17,7 @@ const SubMenu=()=>{
     return(
         <SubMenuWrapper onClick={()=>toggleMenu()}>
             {user.name}
-            <SubMenuImageWrapper><Image width="40" height="40" src={user.avatar? user.avatar: "/501.jpg"}/></SubMenuImageWrapper>
+            <SubMenuImageWrapper><Image width="40" height="40" src={user.avatar? user.avatar: "/assets/images/501.jpg"}/></SubMenuImageWrapper>
             <SubMenuContainer>
                 {showMenu && <SubMenuList>
                 <SubMenuListItem><Link href="/">Mein Profil</Link></SubMenuListItem>

@@ -44,7 +44,7 @@ const PostItemComponent = ({
       <ForumItemImageContainer>
         {" "}
         <Image
-          src="/redbrick.jpg"
+          src="/assets/images/redbrick.jpg"
           width="200"
           height="200"
           alt="Red Brick"

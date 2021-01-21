@@ -11,7 +11,7 @@ const menubar=({user})=>{
         <MenuWrapper>
             <Link href="/">
             <MenuImageWrapper>
-                <Image src="/bb_black_font.png" alt="Brickboard Logo" layout='fill' priority />
+                <Image src="/assets/images/bb_black_font.png" alt="Brickboard Logo" layout='fill' priority />
             </MenuImageWrapper>
             </Link>
             <NavigationList>

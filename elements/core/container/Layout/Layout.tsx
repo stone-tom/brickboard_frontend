@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
-import { ViewWrapper } from '../../../../global.styles';
 import Head from 'next/head';
 import Menubar from "../Menubar/Menubar";
 import { useAuthState } from "../../../../context/auth";
 import Footer from '../Footer/Footer';
+import { ViewWrapper } from '../../../../styles/global.styles';
 
 
 interface LayoutProps{

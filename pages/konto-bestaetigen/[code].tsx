@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Layout from "../../elements/core/container/Layout/Layout";
-import { ContentContainer } from "../../global.styles";
+import { ContentContainer } from "../../styles/global.styles";
 import { useAuthDispatch } from "../../context/auth";
 import Link from "next/link";
 

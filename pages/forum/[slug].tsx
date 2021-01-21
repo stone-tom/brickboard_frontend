@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import TopicItem from "../../elements/core/components/TopicItem/TopicItem";
 import { Params } from "next/dist/next-server/server/router";
-import { ContentContainer } from "../../global.styles";
+import { ContentContainer } from "../../styles/global.styles";
 import useSWR from "swr";
 import Link from "next/link";
 import { useAuthState } from "../../context/auth";

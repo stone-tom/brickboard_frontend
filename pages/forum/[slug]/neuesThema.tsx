@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
-import { ContentContainer } from "../../../global.styles";
+import { ContentContainer } from "../../../styles/global.styles";
 import { Params } from "next/dist/next-server/server/router";
 import { useRouter } from "next/router";
 import Link from "next/link";

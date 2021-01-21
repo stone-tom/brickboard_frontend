@@ -30,28 +30,3 @@ const GlobalStyles = createGlobalStyle`
 
 export default GlobalStyles;
 
-export const ViewWrapper = styled.div<{
-  center?: boolean
-}>`
-
-  ${(props) => props.center && css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `}
-  padding: 30px;
-  min-height: 500px;
-`;
-
-export const ContentContainer=styled.div`
-max-width: 1170px;
-margin: 0 auto;
-padding-left: 15px;
-padding-right: 15px;
-`;
-
-export const Hint = styled.p`
-    background-color: ${props=>props.theme.warning};
-    width: 100%;
-    padding: 0.5rem;
-`;
