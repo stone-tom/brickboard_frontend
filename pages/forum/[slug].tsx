@@ -102,16 +102,16 @@ function Subforum({ topicsData, slug, messageboardName }) {
         {topicList.map((topic) => {
           return (
             <TopicItem
-              id={topic.attributes.topic.data.attributes.id}
+              id={topic.attributes.topic.data.id}
               slug={slug}
-              key={topic.attributes.topic.data.attributes.id}
+              key={topic.attributes.topic.data.id}
               type={0}
               title={topic.attributes.topic.data.attributes.title}
               author={getUserName(
-                topic.attributes.topic.data.attributes.user_id
+                topic.attributes.topic.data.relationships.user.data.id
               )}
               lastAuthor={getUserName(
-                topic.attributes.topic.data.attributes.last_user_id
+                topic.attributes.topic.data.relationships.last_user.data.id
               )}
               views={420}
               sticky={topic.attributes.topic.data.attributes.sticky}

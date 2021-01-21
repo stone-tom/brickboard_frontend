@@ -94,7 +94,7 @@ function Subforum({ topic, slug }) {
         );
         }
       })}
-        {isAuthenticated && !isLocked && <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.attributes.id}/antworten`} passHref><BBButton alignRight add>Antworten</BBButton></Link>}
+        {isAuthenticated && !isLocked && <Link href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.id}/antworten`} passHref><BBButton alignRight add>Antworten</BBButton></Link>}
 
     </ContentContainer>
     </Layout>

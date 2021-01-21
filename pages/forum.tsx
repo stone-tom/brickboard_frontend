@@ -3,31 +3,28 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import ForumItem from "../elements/core/components/ForumItem/ForumItem";
 import { ContentContainer } from "../global.styles";
 import ForumHeading from "../elements/core/components/ForumHeading/ForumHeading";
-import Fetcher from "../lib/data-client";
+import Fetcher, { getMessageboardGroups } from "../lib/data-client";
 import useSWR from "swr";
 import Link from "next/link";
 import Layout from "../elements/core/container/Layout/Layout";
-import { groupEnd } from "console";
+
+const getTopics=async(boards)=>{
+  const promises = boards.map(async (mb)=>{
+    return{
+      topic: await (await fetch(`https://brickboard.herokuapp.com/${mb.attributes.slug}/topics/${mb.relationships.last_topic.data.id}`)).json(),
+    }
+  });
+  return Promise.all(promises);
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch(
-    `https://${process.env.BACKEND_URL}/messageboard-groups`
-  );
 
-  const getTopics=async(boards)=>{
-    const promises = boards.map(async (mb)=>{
-      return{
-        topic: await (await fetch(`https://${process.env.BACKEND_URL}/${mb.attributes.slug}/topics/${mb.attributes.last_topic_id}`)).json(),
-      }
-    });
-    return Promise.all(promises);
-  }
-  const messageboardData = await res.json();
+  
+  const messageboardData = await getMessageboardGroups();
+  // console.log(messageboardData);
   let topics= await getTopics(messageboardData.included);
 
-  // console.log("THIS IS MY RESPONSE");
-  // console.log(messageboards.data[0].attributes);
-  // const messageboardData = messageboards.data.[0].attributes.messageboards;
+  // console.log(topics);
   return {
     props: {
       messageboardData,
@@ -36,19 +33,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
     revalidate: 1,
   };
 };
-const fetcher = (url) =>
-  fetch(url, { credentials: "include" }).then((r) => r.json());
+
+//TODO: FETCH TOPICS WITH SWR AT PAGE LOAD
 
 function Forum({ messageboardData, topics }) {
   let { data, error } = useSWR(
     "https://brickboard.herokuapp.com/messageboard-groups",
-    fetcher,
+    getMessageboardGroups,
     { initialData: messageboardData, revalidateOnMount: true }
   );
   
     const getTopic=(id: number)=>{
- 
-    return topics.find((topic)=> id==topic.topic.data.attributes.topic.data.attributes.topic.data.attributes.id)
+    return topics.find((topic)=> id==topic.topic.data.attributes.topic.data.attributes.topic.data.id)
   }
 
   const messageboards = data.included;
@@ -73,7 +69,7 @@ function Forum({ messageboardData, topics }) {
                 group.relationships.messageboards.data.map((mb) => {
                   let board = findMessageBoard(mb.id);
                   if (board != undefined) {
-                    let lastTopic=getTopic(board.attributes.last_topic_id);
+                    let lastTopic=getTopic(board.relationships.last_topic.data.id);
                     return (
                       <ForumItem
                         id={board.attributes.id}
