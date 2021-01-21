@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const RightButtonWrapper = styled.div`
   display: flex;

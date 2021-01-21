@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
-import Layout from "../../elements/core/container/Layout/Layout";
-import { ContentContainer } from "../../styles/global.styles";
-import { useAuthDispatch } from "../../context/auth";
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import Layout from '../../elements/core/container/Layout/Layout';
+import { ContentContainer } from '../../styles/global.styles';
+import { useAuthDispatch } from '../../context/auth';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let code = context.params.code;
+  const { code } = context.params;
   return {
     props: {
       code,
@@ -15,13 +15,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export const CodeConfirmation = (props) => {
-  const [hint, setHint] = useState("");
+  const [hint, setHint] = useState('');
   const [redirect, setRedirect] = useState(false);
   const { confirmAccount } = useAuthDispatch();
 
-  const tryConfirmation =async (code) => {
+  const tryConfirmation = async (code) => {
     try {
-      let user= await confirmAccount(code);
+      const user = await confirmAccount(code);
       setRedirect(true);
       setHint(`Willkommen ${user.name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
     } catch (error) {
@@ -31,7 +31,7 @@ export const CodeConfirmation = (props) => {
 
   useEffect(() => {
     tryConfirmation(props.code);
-  },[]);
+  }, []);
 
   return (
     <Layout title="Konto bestätigen">

@@ -1,35 +1,26 @@
-import React, { useEffect, useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import { format } from 'date-fns';
 import {
-  faEye,
-  faCommentAlt,
-  faAlignJustify,
-  faQuestion,
-  faExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Link from "next/link";
-import { Post, PostContent, PostDate, PostDetails, PostHeading } from "./Post.styles";
-import  ProfileAside  from "../ProfileAside/ProfileAside";
-import  { useObserver } from 'mobx-react-lite';
-
-function whichIcon(type: IconType): IconProp {
-  switch (type) {
-    case IconType.Standard:
-      return faAlignJustify;
-    case IconType.Question:
-      return faQuestion;
-    case IconType.Announcement:
-      return faExclamation;
-  }
-}
+  Post, PostContent, PostDate, PostDetails, PostHeading,
+} from './Post.styles';
+import ProfileAside from '../ProfileAside/ProfileAside';
 
 enum IconType {
   Standard,
   Question,
   Announcement,
 }
+
+// function whichIcon(type: IconType): IconProp {
+//   switch (type) {
+//     case IconType.Standard:
+//       return faAlignJustify;
+//     case IconType.Question:
+//       return faQuestion;
+//     case IconType.Announcement:
+//       return faExclamation;
+//   }
+// }
 
 interface PostProps {
   type: IconType;
@@ -47,26 +38,19 @@ interface PostProps {
 }
 
 const PostComponent = ({
-  type,
   title,
   content,
-  author = "Not defined",
-  authorRegistered,
-  authorBadge,
+  author = 'Not defined',
   created,
-  changed,
-  views,
-  comments,
-  updated,
 }: PostProps) => (
 
   <Post>
     <PostDetails>
-    <PostHeading>{title}</PostHeading>
-    <PostDate>{format(new Date(created),"dd.MM.yyyy, HH:mm ")}</PostDate>
-    <PostContent dangerouslySetInnerHTML={{__html: content}}></PostContent>
+      <PostHeading>{title}</PostHeading>
+      <PostDate>{format(new Date(created), 'dd.MM.yyyy, HH:mm ')}</PostDate>
+      <PostContent dangerouslySetInnerHTML={{ __html: content }} />
     </PostDetails>
-    <ProfileAside author={author} ></ProfileAside>
+    <ProfileAside author={author} />
   </Post>
 );
 

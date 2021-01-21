@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle, css } from "styled-components";
-import "balloon-css";
+import styled, { createGlobalStyle, css } from 'styled-components';
+import 'balloon-css';
 
 const GlobalStyles = createGlobalStyle`
 

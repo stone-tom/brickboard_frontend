@@ -1,22 +1,8 @@
-import React from "react";
-// import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
-import useSwr from "swr";
-import Link from "next/link";
-import { useAuthDispatch, useAuthState } from "../context/auth";
-import Layout from "../elements/core/container/Layout/Layout";
-import { ContentContainer } from "../styles/global.styles";
-
-// export const getStaticProps: GetStaticProps=async (context)=>{
-//   const res=await fetch("https://iou-andreas.herokuapp.com/api/v1/users.json");
-//   const userData= await res.json();
-//   const users=userData.data;
-//   return {
-//     props:{
-//       users,
-//     },
-//     revalidate: 1
-//   }
-// }
+import React from 'react';
+import Link from 'next/link';
+import { useAuthDispatch, useAuthState } from '../context/auth';
+import Layout from '../elements/core/container/Layout/Layout';
+import { ContentContainer } from '../styles/global.styles';
 
 function Home() {
   const { isAuthenticated, user } = useAuthState();
@@ -29,11 +15,14 @@ function Home() {
         <h1>Be carefull, this is a construction site</h1>
         {isAuthenticated ? (
           <>
-            <h1>Hallo {user.name}</h1>
-            <button onClick={() => logout()}>Abmelden</button>
+            <h1>
+              Hallo
+              {user.name}
+            </h1>
+            <button type="button" onClick={() => logout()}>Abmelden</button>
           </>
         ) : (
-          <button onClick={() => login("admin@brickboard.com", "123456")}>
+          <button type="button" onClick={() => login('admin@brickboard.com', '123456')}>
             Schnellanmeldung
           </button>
         )}

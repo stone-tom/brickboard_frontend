@@ -1,17 +1,6 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faCommentAlt,
-  faAlignJustify,
-  faQuestion,
-  faExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Link from "next/link";
-import { ImageWrapper, ProfileAside, ProfileAsideHeading, ProfileCondensedInfo } from "./ProfileAside.style";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import { ProfileAside, ProfileAsideHeading, ProfileCondensedInfo } from './ProfileAside.style';
 
 interface ProfileAsideProps {
   author?: string;
@@ -23,31 +12,35 @@ interface ProfileAsideProps {
 }
 
 const ProfileAsideComponent = ({
-  author = "Not defined",
-  authorRegistered,
-  authorBadge,
-  postsCount=1,
-  authorProfilePic="/assets/images/501.jpg",
-  authorCity="Legoland",
+  author = 'Not defined',
+  postsCount = 1,
+  authorProfilePic = '/assets/images/501.jpg',
+  authorCity = 'Legoland',
 }: ProfileAsideProps) => (
   <ProfileAside>
-    <ProfileCondensedInfo>    
-    <div
-      style={{
-        position: "relative",
-        maxHeight: "200px",
-        maxWidth: "200px",
-      }}
-    >
-        <Image quality={100} src={authorProfilePic} alt="Profilbild" layout="fill"  />
-    </div>
+    <ProfileCondensedInfo>
+      <div
+        style={{
+          position: 'relative',
+          maxHeight: '200px',
+          maxWidth: '200px',
+        }}
+      >
+        <Image quality={100} src={authorProfilePic} alt="Profilbild" layout="fill" />
+      </div>
     </ProfileCondensedInfo>
 
-      <ProfileAsideHeading>{author}</ProfileAsideHeading>
-      <div>
-            <p>Beiträge: {postsCount}</p>
-            <p>Aus: {authorCity}</p>
-        </div>
+    <ProfileAsideHeading>{author}</ProfileAsideHeading>
+    <div>
+      <p>
+        Beiträge:
+        {postsCount}
+      </p>
+      <p>
+        Aus:
+        {authorCity}
+      </p>
+    </div>
   </ProfileAside>
 );
 

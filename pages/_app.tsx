@@ -1,20 +1,20 @@
 import React from 'react';
-import { ThemeProvider } from "styled-components";
-import theme from "./../themes";
-import GlobalStyle from "../styles/global.styles";
-import {AuthProvider} from "../context/auth";
+import { ThemeProvider } from 'styled-components';
+import theme from '../themes';
+import GlobalStyle from '../styles/global.styles';
+import { AuthProvider } from '../context/auth';
 
 function MyApp({ Component, pageProps }) {
-  const currentTheme = "main";
+  const currentTheme = 'main';
 
   return (
 
-    <AuthProvider >
+    <AuthProvider>
       <ThemeProvider theme={theme[currentTheme]}>
         <GlobalStyle />
         <Component {...pageProps} />
       </ThemeProvider>
-      </AuthProvider>
+    </AuthProvider>
 
   );
 }

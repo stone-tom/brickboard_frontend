@@ -1,7 +1,6 @@
-import useSWR from "swr";
-import { get, post } from "./methods";
+import { get } from './methods';
 
-export const backendURL = "https://brickboard.herokuapp.com";
+export const backendURL = 'https://brickboard.herokuapp.com';
 
 export const getMessageboardGroups = async () => {
   const fetchURL = `${backendURL}/messageboard-groups`;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SmallInfo=styled.div`
+export const SmallInfo = styled.div`
     display: inline-flex;
     align-items: center;
     p{
@@ -8,6 +8,6 @@ export const SmallInfo=styled.div`
     }
     span{
         max-width: 20px;
-        color: ${props=>props.theme.darkgray}
+        color: ${(props) => props.theme.darkgray}
     }
 `;

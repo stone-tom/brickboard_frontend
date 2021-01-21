@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const InputLabel = styled.label`
   display: block;
@@ -21,7 +21,7 @@ export const StyledInput = styled.input`
       left: 0;
       width: 0;
       height: 2px;
-      background-color: ${(props)=>props.theme.black};
+      background-color: ${(props) => props.theme.black};
       transition: 0.3s;
     }
     &::after {
@@ -38,7 +38,7 @@ export const StyledInput = styled.input`
       left: 0;
       width: 2px;
       height: 0;
-      background-color: ${(props)=>props.theme.black};
+      background-color: ${(props) => props.theme.black};
       transition: 0.4s;
     }
     & i::after {
@@ -77,7 +77,7 @@ export const StyledInput = styled.input`
       top: -18px;
       left: 0;
       font-size: 12px;
-      color: ${(props)=>props.theme.black};
+      color: ${(props) => props.theme.black};
       transition: 0.3s;
     }
   }
@@ -86,7 +86,6 @@ export const StyledInput = styled.input`
 export const InputWrapper = styled.div`
   
 `;
-
 
 export const InputEffectWrapper = styled.div`
   position: relative;
@@ -109,7 +108,7 @@ export const InputEffectWrapper = styled.div`
         top: -18px;
         left: 0;
         font-size: 12px;
-        color: ${(props)=>props.theme.brickred};
+        color: ${(props) => props.theme.brickred};
         transition: 0.3s;
       }
     }
