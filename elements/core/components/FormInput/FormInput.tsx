@@ -15,7 +15,7 @@ const FormInput = ({
 }:FormInputProps) => {
   const [focused, setFocused] = useState(false);
   const toggleFocus = (content) => {
-    if (content == '' || content == undefined) {
+    if (content === '' || content === undefined) {
       setFocused(false);
     } else {
       setFocused(true);

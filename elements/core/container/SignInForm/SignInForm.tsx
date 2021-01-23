@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthDispatch } from '../../../../context/auth';
-import FormInput from '../../components/FormInput/FormInput';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
 } from './SignInForm.styles';
@@ -18,10 +17,7 @@ const SignIn = () => {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
   const { login } = useAuthDispatch();
-  const [hint, setHint] = useState();
   const router = useRouter();
-  const [focused, setFocused] = useState(false);
-  const toggleFocus = () => setFocused(!focused);
 
   const onSubmit = async ({ email, password }) => {
     try {

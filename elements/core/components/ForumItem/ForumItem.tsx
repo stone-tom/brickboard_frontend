@@ -67,7 +67,7 @@ const PostItemComponent = ({
           {lastAuthor && (
           <p>
             von:
-            {lastAuthor}
+            {` ${lastAuthor}`}
           </p>
           )}
         </ForumInfo>

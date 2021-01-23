@@ -81,8 +81,8 @@ const TopicItemComponent = ({
         </TopicHeading>
         <p>
           von:
-          {author}
-          ,
+          {` ${author}`}
+          ,&nbsp;
           <span>{format(new Date(created), 'dd.MM.yyyy, HH:mm')}</span>
         </p>
       </div>

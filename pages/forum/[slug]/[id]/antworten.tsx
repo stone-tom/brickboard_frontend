@@ -40,14 +40,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
 
-  const res = await fetch(`https://${process.env.BACKEND_URL}/${slug}/topics/${id}`);
-  const topicData = await res.json();
-
-  const topic = topicData.data.attributes;
-
   return {
     props: {
-      topic,
       slug,
       id,
     },
@@ -110,11 +104,13 @@ function Respond({ slug, id }) {
         <h1>Eine Antwort erstellen:</h1>
         <p>{message}</p>
 
-        <label htmlFor="content">Deine Antwort:</label>
-        <textarea
-          onChange={(e) => setContent(e.target.value)}
-          name="content"
-        />
+        <label htmlFor="content">
+          Deine Antwort:&nbsp;
+          <textarea
+            onChange={(e) => setContent(e.target.value)}
+            name="content"
+          />
+        </label>
         <button type="button" onClick={() => sendAnswer(content)}>
           Absenden
         </button>

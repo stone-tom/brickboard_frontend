@@ -7,6 +7,7 @@ import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import { useAuthState } from '../../../context/auth';
 import BBButton from '../../../elements/core/components/BBButton/BBButton';
+import { filterPosts, filterTopics } from '../../../util/filter';
 
 // interface StaticParams{
 //     params:{
@@ -55,71 +56,70 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const topicData = await res.json();
 
-  const topic = topicData.data.attributes;
   // console.log("SERVERSIDE TOPIC");
   // console.log
   return {
     props: {
-      topic,
+      topicData,
       slug,
     },
   };
 };
 
-function Subforum({ topic, slug }) {
+function Subforum({ topicData, slug }) {
   const { isAuthenticated } = useAuthState();
-  const isLocked = topic.topic.data.attributes.topic.data.attributes.locked;
+
+  const topic = filterTopics(topicData)[0];
+  const posts = filterPosts(topicData);
+  // const userList = filterUsers(topicData);
+  const isLocked = topic.attributes.locked;
+
+  // const getUser = (id: number) => userList.find((user) => id === user.id);
 
   return (
     <Layout
-      title={`${topic.topic.data.attributes.topic.data.attributes.title} - Brickboard 2.0`}
+      title={`${topic.attributes.title} - Brickboard 2.0`}
     >
       <ContentContainer>
         <Breadcrumbsbar
           slug={slug}
-          id={topic.topic.data.attributes.topic.data.attributes.id}
-          topic={topic.topic.data.attributes.topic.data.attributes.title}
+          id={topic.id}
+          topic={topic.attributes.title}
         />
 
-        <h1>{topic.topic.data.attributes.topic.data.attributes.title}</h1>
+        <h1>{topic.attributes.title}</h1>
         {isLocked && (
           <Hint>
             Dieses Thema wurde von einem der Admins gesperrt. Du kannst keine
             Antwort posten.
           </Hint>
         )}
-        {topic.post_views.data.map((postWrapper, index) => {
+        {posts.map((postWrapper, index) => {
           if (index === 0) {
             return (
               <Post
-                content={postWrapper.attributes.post.data.attributes.content}
+                content={postWrapper.attributes.content}
                 type={1}
-                author={
-                  topic.topic.data.attributes.topic.included[1].attributes
-                    .display_name
-                }
-                key={postWrapper.attributes.post.data.id}
-                created={postWrapper.attributes.post.data.attributes.created_at}
+                author="To be implemented"
+                key={postWrapper.id}
+                created={postWrapper.attributes.created_at}
               />
             );
           }
           return (
             <Post
-              title={`Re: ${topic.topic.data.attributes.topic.data.attributes.title}`}
-              content={postWrapper.attributes.post.data.attributes.content}
+              title={`Re: ${topic.attributes.title}`}
+              content={postWrapper.attributes.content}
               type={1}
-              author={
-                topic.topic.data.attributes.topic.included[1].attributes
-                  .display_name
-              }
-              key={postWrapper.attributes.post.data.id}
-              created={postWrapper.attributes.post.data.attributes.created_at}
+              author="To be implemented"
+              key={postWrapper.id}
+              created={postWrapper.attributes.created_at}
             />
           );
         })}
         {isAuthenticated && !isLocked && (
           <Link
-            href={`/forum/${slug}/${topic.topic.data.attributes.topic.data.id}/antworten`}
+            href={`/forum/${slug}/${topic.id}/antworten`}
             passHref
           >
             <BBButton alignRight add>

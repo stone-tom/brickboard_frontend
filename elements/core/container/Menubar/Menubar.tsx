@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import SubMenu from '../SubMenu/SubMenu';
 import {
-  MenuImageWrapper, NavigationList, MenuWrapper, NavigationWrapper, NavigationItem, MenuBackground,
+  MenuImageWrapper, NavigationList, MenuWrapper, NavigationItem, MenuBackground,
 } from './Menubar.styles';
 
 const menubar = ({ user }) => (

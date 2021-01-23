@@ -10,17 +10,17 @@ import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/core/components/ForumHeading/ForumHeading';
 import BBButton from '../../elements/core/components/BBButton/BBButton';
+import { getMessageboardGroups } from '../../util/fetcher';
+import { filterMessageboards, filterTopics, filterUsers } from '../../util/filter';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(
-    `https://${process.env.BACKEND_URL}/messageboard-groups`,
-  );
-  const messageboardData = await res.json();
-  const messageboars = messageboardData.included;
+  const { content } = await getMessageboardGroups();
+
+  const messageboards = filterMessageboards(content);
 
   return {
-    paths: messageboars.map((board) => ({
+    paths: messageboards.map((board) => ({
       params: {
         slug: board.attributes.slug,
       },
@@ -34,14 +34,14 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
     `https://${process.env.BACKEND_URL}/${params.slug}/topics/page-1`,
   );
   const topicsData = await res.json();
-  let messageboardName = params.slug;
-  if (
-    topicsData !== undefined
-    && topicsData !== null
-    && topicsData.data !== undefined
-  ) {
-    messageboardName = topicsData.data[0].attributes.topic.included[0].attributes.name;
-  }
+  const messageboardName = params.slug;
+  // if (
+  //   topicsData !== undefined
+  //   && topicsData !== null
+  //   && topicsData.data !== undefined
+  // ) {
+  //   messageboardName = topicsData.data[0].attributes.topic.included[0].attributes.name;
+  // }
   // console.log("THE TOPICS");
   // console.log(topicsData.data[0].attributes.topic.included[0].attributes.name);
   return {
@@ -66,29 +66,36 @@ function Subforum({ topicsData, slug, messageboardName }) {
     fetcher,
     { initialData: topicsData, revalidateOnMount: true },
   );
-  const topicList = data.data;
+  const topicList = filterTopics(data);
 
-  const createUserlist = () => {
-    const userMap = new Map();
-    topicList.forEach((topic) => {
-      topic.attributes.topic.included.forEach((includedElement) => {
-        if (includedElement.type === 'user') {
-          if (!userMap.has(includedElement.id)) {
-            userMap.set(includedElement.id, includedElement.attributes);
-          }
-        }
-      });
-    });
-    return userMap;
-  };
-  const userList = createUserlist();
+  // const createUserlist = () => {
+  //   const userMap = new Map();
+  //   topicList.forEach((topic) => {
+  //     topic.attributes.topic.included.forEach((includedElement) => {
+  //       if (includedElement.type === 'user') {
+  //         if (!userMap.has(includedElement.id)) {
+  //           userMap.set(includedElement.id, includedElement.attributes);
+  //         }
+  //       }
+  //     });
+  //   });
+  //   return userMap;
+  // };
+  const userList = filterUsers(data);
 
+  // const getUserName = (id) => {
+  //   const foundUser = userList.get(`${id}`);
+  //   if (foundUser === undefined) {
+  //     return 'Not Loaded properly';
+  //   }
+  //   return foundUser.display_name;
+  // };
   const getUserName = (id) => {
-    const foundUser = userList.get(`${id}`);
+    const foundUser = userList.find((user) => id === user.id);
     if (foundUser === undefined) {
       return 'Not Loaded properly';
     }
-    return foundUser.display_name;
+    return foundUser.attributes.display_name;
   };
 
   return (
@@ -100,22 +107,22 @@ function Subforum({ topicsData, slug, messageboardName }) {
 
         {topicList.map((topic) => (
           <TopicItem
-            id={topic.attributes.topic.data.id}
+            id={topic.id}
             slug={slug}
-            key={topic.attributes.topic.data.id}
+            key={topic.attributes.slug}
             type={0}
-            title={topic.attributes.topic.data.attributes.title}
+            title={topic.attributes.title}
             author={getUserName(
-              topic.attributes.topic.data.relationships.user.data.id,
+              topic.relationships.user.data.id,
             )}
             lastAuthor={getUserName(
-              topic.attributes.topic.data.relationships.last_user.data.id,
+              topic.relationships.last_user.data.id,
             )}
             views={420}
-            sticky={topic.attributes.topic.data.attributes.sticky}
-            comments={topic.attributes.topic.data.attributes.posts_count - 1}
-            created={topic.attributes.topic.data.attributes.created_at}
-            changed={topic.attributes.topic.data.attributes.last_post_at}
+            sticky={topic.attributes.sticky}
+            comments={topic.attributes.posts_count - 1}
+            created={topic.attributes.created_at}
+            changed={topic.attributes.last_post_at}
             updated
           />
         ))}
@@ -170,7 +177,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
         )}
         {isAuthenticated && (
 
-        <Link href={`./${slug}/neuesThema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
+        <Link href={`./${slug}/neues-thema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
 
         )}
       </ContentContainer>
