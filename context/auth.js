@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import createPersistedState from "use-persisted-state";
+import createPersistedState from 'use-persisted-state';
+import { backendURL } from "../util/fetcher";
 
 const AuthDispatchContext = createContext();
 const AuthStateContext = createContext();
 
-const usePersistedAuthState = createPersistedState("brickboard-user");
+const usePersistedAuthState = createPersistedState('brickboard-user');
 
 const initialState = {
   isAuthenticated: false,
@@ -13,25 +14,25 @@ const initialState = {
 
 function reducer(state, { payload, type }) {
   switch (type) {
-    case "LOGIN_SUCCESS":
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
       };
-    case "LOGOUT":
+    case 'LOGOUT':
       return {
         isAuthenticated: false,
         user: null,
       };
     default:
-      throw new Error("Unhandled action type " + type);
+      throw new Error(`Unhandled action type ${type}`);
   }
 }
 
 function AuthProvider({ children }) {
   const [brickboardUser, saveBrickboardUser] = usePersistedAuthState(
-    JSON.stringify(initialState)
+    JSON.stringify(initialState),
   );
   const [state, dispatch] = useReducer(reducer, JSON.parse(brickboardUser));
 
@@ -40,14 +41,14 @@ function AuthProvider({ children }) {
   }, [state, saveBrickboardUser]);
 
   const login = async (email, password) => {
-    let data = {
+    const data = {
       user: {
         email,
         password,
       },
     };
 
-    const result = await fetch("https://brickboard.herokuapp.com/login", {
+    const result = await fetch(`${backendURL}/login`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -55,11 +56,13 @@ function AuthProvider({ children }) {
       },
       body: JSON.stringify(data),
     }).then((response) => {
-        console.log("LOGIN HEADERS");
-        console.group(response);
+      console.log("LOGIN HEADERS");
+      console.group(response);
       if (!response.ok) {
-        if(response.status==403){
-          throw new Error("Dein Account ist (noch) nicht aktiviert! Bitte aktiviere ihn durch den Aktivierungslink in deiner E-Mail!");
+        if (response.status == 403) {
+          throw new Error(
+            "Dein Account ist (noch) nicht aktiviert! Bitte aktiviere ihn durch den Aktivierungslink in deiner E-Mail!"
+          );
         }
         throw new Error("Falsche Email oder Passwort!");
       }
@@ -76,7 +79,7 @@ function AuthProvider({ children }) {
     dispatch({ type: "LOGIN_SUCCESS", payload: { user } });
   };
   const logout = async () => {
-    const result = await fetch("https://brickboard.herokuapp.com/logout", {
+    const result = await fetch(`${backendURL}/logout`, {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -97,7 +100,7 @@ function AuthProvider({ children }) {
       },
     };
 
-    const result = await fetch("https://brickboard.herokuapp.com/signup", {
+    const result = await fetch(`${backendURL}/signup`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -105,56 +108,64 @@ function AuthProvider({ children }) {
       },
       body: JSON.stringify(data),
     }).then((response) => {
-        console.log("REGISTER HEADERS");
-        console.group(response);
+      console.log("REGISTER HEADERS");
+      console.group(response);
       if (!response.ok) {
         // throw new Error("Registrierung momentan nicht möglich!");
       }
       return response.json();
     });
-    if(result.errors){
-        if(result.errors.email){
-            throw new Error("Es gibt bereits ein Konto mit dieser E-Mail.");
-        }
+    if (result.errors) {
+      if (result.errors.email) {
+        throw new Error("Es gibt bereits ein Konto mit dieser E-Mail.");
+      }
     }
   };
 
   const confirmAccount = async (code) => {
-
-    const result = await fetch(`https://brickboard.herokuapp.com/confirmation?confirmation_token=${code}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+    const result = await fetch(
+      `${backendURL}/confirmation?confirmation_token=${code}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    }).then((response) => {
-        // console.log("CONFIRMATION HEADERS");
-        // console.group(response);
+    ).then((response) => {
+      // console.log("CONFIRMATION HEADERS");
+      // console.group(response);
       if (!response.ok) {
         // throw new Error("Registrierung momentan nicht möglich!");
       }
       return response.json();
     });
-    if(result.errors){
-        if(result.errors.email){
-            throw new Error("Das Konto wurde bereits bestätigt, du kannst dich jetzt anmelden.");
-        }
-        if(result.errors.confirmation_token){
-            throw new Error("Der Code ist nicht mehr gültig, bitte kontaktiere den Administrator");
-        }
-    }else{
-        let user = {
-            name: result.data.attributes.display_name,
-            email: result.data.attributes.email,
-            admin: result.data.attributes.admin,
-            avatar: result.data.attributes.avatar,
-          };
-        return user;
+    if (result.errors) {
+      if (result.errors.email) {
+        throw new Error(
+          "Das Konto wurde bereits bestätigt, du kannst dich jetzt anmelden."
+        );
+      }
+      if (result.errors.confirmation_token) {
+        throw new Error(
+          "Der Code ist nicht mehr gültig, bitte kontaktiere den Administrator"
+        );
+      }
+    } else {
+      let user = {
+        name: result.data.attributes.display_name,
+        email: result.data.attributes.email,
+        admin: result.data.attributes.admin,
+        avatar: result.data.attributes.avatar,
+      };
+      return user;
     }
   };
 
   return (
-    <AuthDispatchContext.Provider value={{ login, logout, signup, confirmAccount}}>
+    <AuthDispatchContext.Provider
+      value={{ login, logout, signup, confirmAccount }}
+    >
       <AuthStateContext.Provider value={state}>
         {children}
       </AuthStateContext.Provider>

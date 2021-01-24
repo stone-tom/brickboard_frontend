@@ -24,10 +24,10 @@ const SignIn = () => {
       await login(email, password);
 
       router.push('/');
-    } catch ({ message }) {
+    } catch (e) {
       setError('email', {
         type: 'manual',
-        message,
+        message: e.message,
       });
     }
   };

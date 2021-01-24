@@ -10,8 +10,9 @@ import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/core/components/ForumHeading/ForumHeading';
 import BBButton from '../../elements/core/components/BBButton/BBButton';
-import { getMessageboardGroups } from '../../util/fetcher';
+import { backendURL, getMessageboardGroups, getTopicViews } from '../../util/fetcher';
 import { filterMessageboards, filterTopics, filterUsers } from '../../util/filter';
+import { get } from '../../util/methods';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -30,31 +31,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
-  const res = await fetch(
-    `https://${process.env.BACKEND_URL}/${params.slug}/topics/page-1`,
-  );
-  const topicsData = await res.json();
+  const { content, fetchURL } = await getTopicViews(params.slug);
+
+  const topicsData = content;
   const messageboardName = params.slug;
-  // if (
-  //   topicsData !== undefined
-  //   && topicsData !== null
-  //   && topicsData.data !== undefined
-  // ) {
-  //   messageboardName = topicsData.data[0].attributes.topic.included[0].attributes.name;
-  // }
-  // console.log("THE TOPICS");
-  // console.log(topicsData.data[0].attributes.topic.included[0].attributes.name);
   return {
     props: {
       topicsData,
       slug: params.slug,
       messageboardName,
+      fetchURL,
     },
     revalidate: 1,
   };
 };
-
-const fetcher = (url) => fetch(url).then((r) => r.json());
 
 function Subforum({ topicsData, slug, messageboardName }) {
   const [pageIndex, setPageIndex] = useState(1);
@@ -62,8 +52,8 @@ function Subforum({ topicsData, slug, messageboardName }) {
   const {
     data,
   } = useSWR(
-    `https://brickboard.herokuapp.com/${slug}/topics/page-${pageIndex}`,
-    fetcher,
+    `${backendURL}/${slug}/topics/page-${pageIndex}`,
+    get,
     { initialData: topicsData, revalidateOnMount: true },
   );
   const topicList = filterTopics(data);

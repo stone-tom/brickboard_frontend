@@ -8,6 +8,7 @@ import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadc
 import { useAuthState } from '../../../context/auth';
 import BBButton from '../../../elements/core/components/BBButton/BBButton';
 import { filterPosts, filterTopics } from '../../../util/filter';
+import { getTopic } from '../../../util/fetcher';
 
 // interface StaticParams{
 //     params:{
@@ -51,10 +52,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
 
-  const res = await fetch(
-    `https://${process.env.BACKEND_URL}/${slug}/topics/${id}`,
-  );
-  const topicData = await res.json();
+  const { content } = await getTopic(slug.toString(), id);
+  const topicData = content;
 
   // console.log("SERVERSIDE TOPIC");
   // console.log
