@@ -1,19 +1,17 @@
 import React, { ReactNode } from 'react';
-import { ViewWrapper } from '../../../../global.styles';
 import Head from 'next/head';
-import Menubar from "../Menubar/Menubar";
-import { useAuthState } from "../../../../context/auth";
+import Menubar from '../Menubar/Menubar';
+import { useAuthState } from '../../../../context/auth';
 import Footer from '../Footer/Footer';
+import { ViewWrapper } from '../../../../styles/global.styles';
 
-
-interface LayoutProps{
-  title:string;
+interface LayoutProps {
+  title: string;
   children: ReactNode;
 }
 
-  const Layout = ({title, children}:LayoutProps)=>{
-    const {isAuthenticated,user}=useAuthState();
-
+const Layout = ({ title, children }: LayoutProps) => {
+  const { user } = useAuthState();
   return (
     <>
       <Head>
@@ -22,18 +20,16 @@ interface LayoutProps{
       </Head>
 
       <main>
-        <Menubar user={user}/>
+        <Menubar user={user} />
         <ViewWrapper>
-           {children}
+          {children}
         </ViewWrapper>
       </main>
 
       <Footer />
-  
-    
 
     </>
-  )
+  );
 };
 
 export default Layout;

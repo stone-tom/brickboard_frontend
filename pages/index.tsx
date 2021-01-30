@@ -1,45 +1,36 @@
 import React from 'react';
-// import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
-import { ContentContainer, ViewWrapper } from '../global.styles';
-import useSwr from "swr";
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuthDispatch, useAuthState } from '../context/auth';
 import Layout from '../elements/core/container/Layout/Layout';
-
-// export const getStaticProps: GetStaticProps=async (context)=>{
-//   const res=await fetch("https://iou-andreas.herokuapp.com/api/v1/users.json");
-//   const userData= await res.json();
-//   const users=userData.data;
-//   return {
-//     props:{
-//       users,
-//     },
-//     revalidate: 1
-//   }
-// }
-
+import { ContentContainer } from '../styles/global.styles';
 
 function Home() {
-  const {isAuthenticated,user}=useAuthState();
+  const { isAuthenticated, user } = useAuthState();
+  const { performLogin, performLogout } = useAuthDispatch();
+  const router = useRouter();
 
-  const {login, logout}=useAuthDispatch();
+  console.log(router.pathname);
 
   return (
-    
-    <Layout title="Brickboard 2.0">
-      <ContentContainer>
-      <h1>Be carefull, this is a construction site</h1>
-    {isAuthenticated ? <>
-        <h1>Hallo {user.name}</h1>
-        <button onClick={()=>logout()}>Logout</button></>
-         : <button onClick={()=>login(
-          "admin@brickboard.com",
-          "123456")}>Schnell Anmelden</button>}      
-        <Link href="/forum">Zum Forum</Link>
+    <>
+      <Layout title="Brickboard 2.0">
+        <ContentContainer>
+          <h1>Be carefull, this is a construction site</h1>
+          {isAuthenticated && (
+            <>
+              <h1>
+                Hallo
+                {user.name}
+              </h1>
+              <button type="button" onClick={() => performLogout()}>Abmelden</button>
+            </>
+          )}
+          <Link href="/forum">Zum Forum</Link>
         </ContentContainer>
-    </Layout>
-    
-  )
-};
+      </Layout>
+    </>
+  );
+}
 
 export default Home;

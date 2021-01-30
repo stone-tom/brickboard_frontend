@@ -1,6 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-
-export const BreadcrumbsWrapper=styled.ul`
+export const BreadcrumbsWrapper = styled.ul`
     display: flex;
 `;
