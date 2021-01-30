@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ContentContainer } from '../styles/global.styles';
-import SignInForm from '../elements/core/container/SignInForm/SignInForm';
+import SignInForm from '../elements/authentication/container/SignInForm/SignInForm';
 
 function Login() {
   return (

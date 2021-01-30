@@ -18,7 +18,7 @@ const SignUp = () => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
-  const { signup } = useAuthDispatch();
+  const { performSignup } = useAuthDispatch();
   const router = useRouter();
 
   const onSubmit = async ({
@@ -33,7 +33,7 @@ const SignUp = () => {
     }
 
     try {
-      await signup(email, displayName, password, passwordRepeat);
+      await performSignup(email, displayName, password, passwordRepeat);
       router.push('/konto-bestaetigen/hinweis');
     } catch ({ message }) {
       setError('request', {
@@ -102,7 +102,8 @@ const SignUp = () => {
       />
 
       <SignInLabel>Ich akzeptiere die AGB (Link einfügen)</SignInLabel>
-      {errors.termsAndConditions && <ErrorHint><span>{errors.termsAndConditions.message}</span></ErrorHint>}
+      {errors.termsAndConditions
+      && <ErrorHint><span>{errors.termsAndConditions.message}</span></ErrorHint>}
       <SignInInput
         type="checkbox"
         name="termsAndConditions"

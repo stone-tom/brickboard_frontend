@@ -5,10 +5,10 @@ import { ContentContainer } from '../styles/global.styles';
 import { useAuthDispatch } from '../context/auth';
 
 function Logout() {
-  const { logout } = useAuthDispatch();
+  const { performLogout } = useAuthDispatch();
 
   useEffect(() => {
-    logout();
+    performLogout();
   }, []);
 
   return (

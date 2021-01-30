@@ -14,7 +14,7 @@ import {
   ForumInfoWrapper,
   LastPostHeading,
 } from './ForumItem.styles';
-import SmallInfo from '../SmallInfo/SmallInfo';
+import SmallInfo from '../../../core/components/SmallInfo/SmallInfo';
 
 interface ForumItemProps {
   title: string;

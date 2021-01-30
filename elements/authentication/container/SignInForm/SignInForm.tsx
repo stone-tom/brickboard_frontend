@@ -16,12 +16,12 @@ const SignIn = () => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
-  const { login } = useAuthDispatch();
+  const { performLogin } = useAuthDispatch();
   const router = useRouter();
 
   const onSubmit = async ({ email, password }) => {
     try {
-      await login(email, password);
+      await performLogin(email, password);
 
       router.push('/');
     } catch (e) {

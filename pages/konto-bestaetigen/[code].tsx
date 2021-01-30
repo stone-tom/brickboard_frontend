@@ -17,11 +17,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const CodeConfirmation = (props) => {
   const [hint, setHint] = useState('');
   const [redirect, setRedirect] = useState(false);
-  const { confirmAccount } = useAuthDispatch();
+  const { performAccountConfirmation } = useAuthDispatch();
 
   const tryConfirmation = async (code) => {
     try {
-      const user = await confirmAccount(code);
+      const user = await performAccountConfirmation(code);
       setRedirect(true);
       setHint(`Willkommen ${user.name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
     } catch (error) {

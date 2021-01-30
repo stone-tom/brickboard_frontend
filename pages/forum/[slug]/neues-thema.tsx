@@ -6,13 +6,13 @@ import { ContentContainer } from '../../../styles/global.styles';
 import { useAuthState } from '../../../context/auth';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import CustomEditor from '../../../elements/core/container/Editor/Editor';
-import { filterMessageboards } from '../../../util/filter';
-import { getMessageboardGroups } from '../../../util/fetcher';
+import filterContent from '../../../util/filter';
+import { getMessageBoardGroups } from '../../../util/api';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { content } = await getMessageboardGroups();
+  const { content } = await getMessageBoardGroups();
 
-  const messageboards = filterMessageboards(content);
+  const messageboards = filterContent(content, 'messageboard');
 
   return {
     paths: messageboards.map((board) => ({

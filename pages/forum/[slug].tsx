@@ -4,21 +4,21 @@ import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { ContentContainer } from '../../styles/global.styles';
-import TopicItem from '../../elements/core/components/TopicItem/TopicItem';
+import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
 import { useAuthState } from '../../context/auth';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import ForumHeading from '../../elements/core/components/ForumHeading/ForumHeading';
+import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
 import BBButton from '../../elements/core/components/BBButton/BBButton';
-import { backendURL, getMessageboardGroups, getTopicViews } from '../../util/fetcher';
-import { filterMessageboards, filterTopics, filterUsers } from '../../util/filter';
+import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api';
+import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { content } = await getMessageboardGroups();
+  const { content } = await getMessageBoardGroups();
 
-  const messageboards = filterMessageboards(content);
+  const messageboards = filterContent(content, 'messageboard');
 
   return {
     paths: messageboards.map((board) => ({
@@ -56,7 +56,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
     get,
     { initialData: topicsData, revalidateOnMount: true },
   );
-  const topicList = filterTopics(data);
+  const topicList = filterContent(data, 'topic');
 
   // const createUserlist = () => {
   //   const userMap = new Map();
@@ -71,7 +71,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
   //   });
   //   return userMap;
   // };
-  const userList = filterUsers(data);
+  const userList = filterContent(data, 'user');
 
   // const getUserName = (id) => {
   //   const foundUser = userList.get(`${id}`);

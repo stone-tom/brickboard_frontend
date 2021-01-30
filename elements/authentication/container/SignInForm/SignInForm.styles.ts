@@ -26,6 +26,8 @@ export const LoginButton = styled.input`
     width: 100%;
     padding: 1rem;
     cursor: pointer;
+    background-color: ${(props) => props.theme.brickred}; 
+    color: ${(props) => props.theme.white}; 
 `;
 export const SignInLabel = styled.label`
     display: block;
