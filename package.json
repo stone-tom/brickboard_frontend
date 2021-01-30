@@ -20,11 +20,8 @@
     "@types/styled-components": "^5.1.4",
     "babel-plugin-styled-components": "^1.11.1",
     "balloon-css": "^1.2.0",
-    "cookies": "^0.8.0",
     "file-loader": "^6.2.0",
-    "mobx": "^6.0.3",
-    "mobx-react-lite": "^3.1.5",
-    "next": "^10.0.4",
+    "next": "^10.0.6",
     "next-images": "^1.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -32,7 +29,7 @@
     "styled-components": "^5.2.0",
     "suneditor-react": "^2.14.10",
     "svg-react-loader": "^0.4.6",
-    "swr": "^0.3.11",
+    "swr": "^0.4.1",
     "use-persisted-state": "^0.3.3"
   },
   "devDependencies": {
