@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import { TitleInput } from './Editor.styles';
@@ -9,7 +9,6 @@ interface EditorProps{
 }
 
 const CustomEditor = ({ redirect }:EditorProps) => {
-  const editorRef = useRef();
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -62,7 +61,6 @@ const CustomEditor = ({ redirect }:EditorProps) => {
       <TitleInput placeholder="Wow, mein neues Thema!" name="title" onChange={(e) => changeTitle(e.target.value)} />
       <h2> Verfasse deinen Beitrag </h2>
       <SunEditor
-        ref={editorRef}
         onChange={handleChange}
         lang="de"
         name="editor"

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthDispatch } from '../../../../context/auth';
+import { MessageType } from '../../../../models/IMessage';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
 } from './SignInForm.styles';
@@ -16,13 +17,16 @@ const SignIn = () => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
-  const { performLogin } = useAuthDispatch();
+  const { performLogin, setMessage } = useAuthDispatch();
   const router = useRouter();
 
   const onSubmit = async ({ email, password }) => {
     try {
       await performLogin(email, password);
-
+      setMessage({
+        content: 'TEST',
+        type: MessageType.error,
+      });
       router.push('/');
     } catch (e) {
       setError('email', {

@@ -5,6 +5,7 @@ import React, {
   useReducer,
 } from 'react';
 import createPersistedState from 'use-persisted-state';
+import IMessage from '../models/IMessage';
 import {
   confirmAccount,
   login,
@@ -12,17 +13,28 @@ import {
   register,
 } from '../util/api';
 
-const AuthDispatchContext = createContext({});
-const AuthStateContext = createContext({});
+
+interface IState {
+  user: any,
+  isAuthenticated: boolean,
+  message: IMessage | null,
+}
+
+const AuthDispatchContext = createContext({} as any);
+const AuthStateContext = createContext({} as any);
+
 
 const usePersistedAuthState = createPersistedState('brickboard-user');
 
-const initialState = {
+const initialState: IState = {
   isAuthenticated: false,
   user: null,
+  message: null,
 };
 
+
 function reducer(state, { payload, type }) {
+  console.log('STATE', state);
   switch (type) {
     case 'LOGIN_SUCCESS':
       return {
@@ -34,6 +46,16 @@ function reducer(state, { payload, type }) {
       return {
         isAuthenticated: false,
         user: null,
+      };
+    case 'SET_MESSAGE':
+      return {
+        ...state,
+        message: payload,
+      };
+    case 'REMOVE_MESSAGE':
+      return {
+        ...state,
+        message: null,
       };
     default:
       throw new Error(`Unhandled action type ${type}`);
@@ -95,6 +117,17 @@ function AuthProvider({ children }) {
     return user;
   };
 
+  const setMessage = (message: IMessage) => {
+    dispatch({ type: 'SET_MESSAGE', payload: message });
+    setTimeout(() => {
+      dispatch({ type: 'REMOVE_MESSAGE', payload: null });
+    }, 3000);
+  };
+
+  const removeMessage = () => {
+    dispatch({ type: 'REMOVE_MESSAGE', payload: null });
+  };
+
   return (
     <AuthDispatchContext.Provider
       value={{
@@ -102,6 +135,8 @@ function AuthProvider({ children }) {
         performLogout,
         performSignup,
         performAccountConfirmation,
+        setMessage,
+        removeMessage,
       }}
     >
       <AuthStateContext.Provider value={state}>
@@ -127,7 +162,7 @@ function useAuthState() {
 
   if (context === undefined) {
     throw new Error(
-      'suseAuthDispatch is not working, use it within an AuthProvider',
+      'useAuthDispatch is not working, use it within an AuthProvider',
     );
   }
   return context;

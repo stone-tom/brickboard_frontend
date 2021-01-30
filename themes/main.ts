@@ -7,4 +7,9 @@ export default {
   white: '#ffffff',
   black: 'black',
   warning: '#fff3cd',
+  message: [ // is array so a typescript enum can be used to determine the color
+    '#FC3838', // error
+    '#4BBA31', // success
+    '#F2CB07', // warning
+  ],
 };

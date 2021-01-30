@@ -5,14 +5,13 @@ import { useAuthState } from '../../../../context/auth';
 import Footer from '../Footer/Footer';
 import { ViewWrapper } from '../../../../styles/global.styles';
 
-interface LayoutProps{
-  title:string;
+interface LayoutProps {
+  title: string;
   children: ReactNode;
 }
 
-const Layout = ({ title, children }:LayoutProps) => {
+const Layout = ({ title, children }: LayoutProps) => {
   const { user } = useAuthState();
-
   return (
     <>
       <Head>

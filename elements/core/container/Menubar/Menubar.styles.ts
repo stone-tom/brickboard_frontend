@@ -18,8 +18,8 @@ export const MenuWrapper = styled.div`
 `;
 
 export const MenuImageWrapper = styled.div`
-    width: 240px;
-    height: 100px;
+    width: 190px;
+    height: 80px;
     position: relative;
     cursor: pointer;
 `;
