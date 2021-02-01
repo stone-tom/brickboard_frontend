@@ -11,6 +11,7 @@ import { MessageType } from '../../../../models/IMessage';
 import  Icon  from '../../../core/components/Icon/Icon';
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../../core/components/Button/Button.styles';
+import Hint from '../../../core/components/Hint/Hint';
 
 enum IconType {
   Standard,
@@ -84,8 +85,8 @@ const PostComponent = ({
               {user.name === author && (
               <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                 {!isEditing
-                  ? <Icon hint="Bearbeiten" icon={faEdit} />
-                  : <Icon hint="Abbrechen" icon={faTimes} /> }
+                  ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
+                  : <Hint direction="down" hint="Abbrechen"><Icon icon={faTimes} /></Hint> }
               </Button>
               )}
             </>
