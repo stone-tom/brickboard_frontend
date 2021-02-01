@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
@@ -9,7 +10,6 @@ import Editor from '../../../elements/core/container/Editor/Editor';
 import filterContent from '../../../util/filter';
 import { createTopic, getMessageBoardGroups } from '../../../util/api';
 import { MessageType } from '../../../models/IMessage';
-import { useRouter } from 'next/router';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();

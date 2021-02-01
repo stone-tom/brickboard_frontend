@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
-import Post from '../../../elements/forum/components/Post/Post';
+import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import { useAuthDispatch, useAuthState } from '../../../context/auth';
-import BBButton from '../../../elements/core/components/BBButton/BBButton';
 import filterContent from '../../../util/filter';
 import { answerTopic, getTopic } from '../../../util/api';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 import Button from '../../../elements/core/components/Button/Button';
 import { MessageType } from '../../../models/IMessage';
+import filter from '../../../util/filter';
 
 // interface StaticParams{
 //     params:{
@@ -73,7 +73,8 @@ function Subforum({ topicData, slug, id }) {
 
   const topic = filterContent(topicData, 'topic')[0];
   const [posts, addPost] = useState(filterContent(topicData, 'post'));
-  // const userList = filterUsers(topicData);
+  const userList = filter(topicData, 'user');
+  const getUser = (userId: number) => userList.find((user) => userId === user.id);
   const isLocked = topic.attributes.locked;
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
@@ -113,9 +114,12 @@ function Subforum({ topicData, slug, id }) {
           if (index === 0) {
             return (
               <Post
-                content={postWrapper.attributes.content}
+                postId={postWrapper.id}
+                topicId={id}
+                slug={slug}
+                postContent={postWrapper.attributes.content}
                 type={1}
-                author="To be implemented"
+                author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
                 key={postWrapper.id}
                 created={postWrapper.attributes.created_at}
               />
@@ -123,10 +127,13 @@ function Subforum({ topicData, slug, id }) {
           }
           return (
             <Post
+              postId={postWrapper.id}
+              topicId={id}
+              slug={slug}
               title={`Re: ${topic.attributes.title}`}
-              content={postWrapper.attributes.content}
+              postContent={postWrapper.attributes.content}
               type={1}
-              author="To be implemented"
+              author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
               key={postWrapper.id}
               created={postWrapper.attributes.created_at}
             />

@@ -4,11 +4,12 @@ import 'suneditor/dist/css/suneditor.min.css';
 import { FlexRight } from '../../../../styles/global.styles';
 import getRandomInt from '../../../../util/randomizer';
 import Button from '../../components/Button/Button';
-import { CharacterCount, EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
+import { EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
 
 interface EditorProps{
     onEditorSubmit: (content: any) => void;
     answer?: boolean;
+    initialContent?: string;
 }
 
 const titlePlaceholders = [
@@ -22,9 +23,11 @@ const postPlaceholders = [
   'Boah, was wollt ich eigentlich schreiben?',
 ];
 
-const CustomEditor = ({ onEditorSubmit, answer = false }:EditorProps) => {
+const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorProps) => {
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
+
+  console.log("INITIAL CONTENT",initialContent);
 
   const handleChange = (content) => {
     setEditorContent(content);
@@ -52,6 +55,7 @@ const CustomEditor = ({ onEditorSubmit, answer = false }:EditorProps) => {
         <SunEditor
           onChange={handleChange}
           lang="de"
+          setContents={initialContent}
           name="editor"
           placeholder={`${getPostPlaceholder()}`}
           setOptions={{
@@ -64,6 +68,7 @@ const CustomEditor = ({ onEditorSubmit, answer = false }:EditorProps) => {
             ],
             imageFileInput: false,
             minHeight: '300px',
+            charCounter: true,
           }}
         />
       </EditorWrapper>
