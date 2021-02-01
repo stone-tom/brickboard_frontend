@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import { ViewWrapper, Hint } from '../../../styles/global.styles';
-import Post from '../../../elements/forum/components/Post/Post';
+import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
+import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { useStoreState } from '../../../context/custom_store';
-import BBButton from '../../../elements/core/components/BBButton/BBButton';
-import filterContent from '../../../util/filter';
-import { getTopic } from '../../../util/api';
+import { answerTopic, getTopic } from '../../../util/api';
+import Editor from '../../../elements/core/container/Editor/Editor';
+import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
+import Button from '../../../elements/core/components/Button/Button';
+import { MessageType } from '../../../models/IMessage';
+import filter from '../../../util/filter';
+import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 
 // interface StaticParams{
 //     params:{
@@ -51,30 +53,43 @@ import { getTopic } from '../../../util/api';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
-
   const { content } = await getTopic(slug.toString(), id);
   const topicData = content;
 
-  // console.log("SERVERSIDE TOPIC");
-  // console.log
   return {
     props: {
       topicData,
       slug,
+      id,
     },
   };
 };
 
-function Subforum({ topicData, slug }) {
+function Subforum({ topicData, slug, id }) {
   const { isAuthenticated } = useStoreState();
+  const { setMessage } = useStoreDispatch();
 
-  const topic = filterContent(topicData, 'topic')[0];
-  const posts = filterContent(topicData, 'post');
-  // const userList = filterUsers(topicData);
+  const topic = filter(topicData, 'topic')[0];
+  const [posts, addPost] = useState(filter(topicData, 'post'));
+  const userList = filter(topicData, 'user');
+  const getUser = (userId: number) => userList.find((user) => userId === user.id);
   const isLocked = topic.attributes.locked;
+  const [editorActive, setEditorActive] = useState(false);
+  const toggleEditor = () => setEditorActive(!editorActive);
 
-  // const getUser = (id: number) => userList.find((user) => id === user.id);
-
+  const submitTopic = async (editorContent) => {
+    const { content, error } = await answerTopic(slug, id, editorContent);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      addPost([...posts, content.data]);
+      toggleEditor();
+    }
+  };
   return (
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}
@@ -97,9 +112,12 @@ function Subforum({ topicData, slug }) {
           if (index === 0) {
             return (
               <Post
-                content={postWrapper.attributes.content}
+                postId={postWrapper.id}
+                topicId={id}
+                slug={slug}
+                postContent={postWrapper.attributes.content}
                 type={1}
-                author="To be implemented"
+                author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
                 key={postWrapper.id}
                 created={postWrapper.attributes.created_at}
               />
@@ -107,24 +125,29 @@ function Subforum({ topicData, slug }) {
           }
           return (
             <Post
+              postId={postWrapper.id}
+              topicId={id}
+              slug={slug}
               title={`Re: ${topic.attributes.title}`}
-              content={postWrapper.attributes.content}
+              postContent={postWrapper.attributes.content}
               type={1}
-              author="To be implemented"
+              author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
               key={postWrapper.id}
               created={postWrapper.attributes.created_at}
             />
           );
         })}
         {isAuthenticated && !isLocked && (
-          <Link
-            href={`/forum/${slug}/${topic.id}/antworten`}
-            passHref
-          >
-            <BBButton alignRight add>
-              Antworten
-            </BBButton>
-          </Link>
+          <EditorContainer>
+            <FlexRight>
+              <Button type="button" onClick={() => toggleEditor()}>
+                {editorActive ? 'Abbrechen' : 'Antworten'}
+              </Button>
+            </FlexRight>
+            {editorActive && (
+              <Editor answer onEditorSubmit={({ editorContent }) => submitTopic(editorContent)} />
+            )}
+          </EditorContainer>
         )}
       </ViewWrapper>
     </Layout>

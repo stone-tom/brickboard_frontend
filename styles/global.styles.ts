@@ -126,3 +126,8 @@ export const Hint = styled.p`
       width: 100%;
       padding: 0.5rem;
   `;
+
+export const FlexRight = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;

@@ -42,3 +42,21 @@ export const deleteMethod = async (
     ...options,
   });
 };
+
+export const patch = async (
+  url: string,
+  data: { [key: string]: any },
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    ...options,
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};

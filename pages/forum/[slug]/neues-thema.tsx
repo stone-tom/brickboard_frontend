@@ -1,13 +1,15 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
 import { ViewWrapper } from '../../../styles/global.styles';
-import { useStoreState } from '../../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import Layout from '../../../elements/core/container/Layout/Layout';
-import CustomEditor from '../../../elements/core/container/Editor/Editor';
+import Editor from '../../../elements/core/container/Editor/Editor';
 import filterContent from '../../../util/filter';
-import { getMessageBoardGroups } from '../../../util/api';
+import { createTopic, getMessageBoardGroups } from '../../../util/api';
+import { MessageType } from '../../../models/IMessage';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -32,6 +34,21 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => ({
 });
 function NeuesThema({ slug }) {
   const { isAuthenticated } = useStoreState();
+  const { setMessage } = useStoreDispatch();
+  const router = useRouter();
+
+  const submitTopic = async (title, editorContent) => {
+    const { content, error } = await createTopic(slug, title, editorContent);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      router.push(`../${slug}`);
+    }
+  };
 
   if (!isAuthenticated) {
     return (
@@ -47,7 +64,7 @@ function NeuesThema({ slug }) {
   return (
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
       <ViewWrapper>
-        <CustomEditor redirect={slug} />
+        <Editor onEditorSubmit={({ title, editorContent }) => submitTopic(title, editorContent)} />
       </ViewWrapper>
     </Layout>
   );

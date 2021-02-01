@@ -29,7 +29,7 @@ export const Button = styled.button<{
   `}
 
   ${(props) => props.reset && css`
-    color: ${props.theme.brickred}; 
+    color: ${props.theme.darkgray}; 
     background: none;
     padding: 0;
     margin: 0;
