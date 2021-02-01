@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint ./ --ext .ts,.tsx && stylelint './**/*.ts'",
     "lint:fix": "eslint ./ --ext .ts,.tsx --fix",
+    "lint:css":"stylelint './src/**/*.ts'",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -26,6 +27,7 @@
     "babel-plugin-styled-components": "^1.11.1",
     "balloon-css": "^1.2.0",
     "file-loader": "^6.2.0",
+    "lodash": "^4.17.20",
     "next": "^10.0.6",
     "next-images": "^1.6.2",
     "react": "^17.0.1",

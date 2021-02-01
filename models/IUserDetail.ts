@@ -1,0 +1,17 @@
+export default interface IUserDetail {
+  profile_banner: string,
+  profile_description: string,
+  occupation: string,
+  date_of_registration: string,
+  location: string,
+  email: string,
+  camera: string,
+  cutting_program: string,
+  sound: string,
+  lighting: string,
+  website_url: string,
+  youtube_url: string,
+  facebook_url: string,
+  twitter_url: string,
+  interests: string[],
+}

@@ -2,7 +2,8 @@ import styled, { createGlobalStyle, css } from 'styled-components';
 import 'balloon-css';
 
 const GlobalStyles = createGlobalStyle`
-
+    
+    font-size: 16px;
     @font-face {
         font-family: 'Nunito';
         font-style: 'normal';

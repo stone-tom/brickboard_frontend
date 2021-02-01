@@ -15,4 +15,13 @@ export default {
   ],
   max_container_width: '1170px',
   nav_height: '80px',
+  userTypes: {
+    admin: 'cyan',
+    user: 'purple',
+  },
+  userStatus: {
+    pending: 'orange',
+    approved: 'green',
+    locked: 'red',
+  }
 };
