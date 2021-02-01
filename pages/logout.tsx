@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../styles/global.styles';
-import { useAuthDispatch } from '../context/auth';
+import { useStoreDispatch } from '../context/custom_store';
 
 function Logout() {
-  const { performLogout } = useAuthDispatch();
+  const { performLogout } = useStoreDispatch();
 
   useEffect(() => {
     performLogout();

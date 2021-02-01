@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { useAuthDispatch, useAuthState } from '../context/auth';
+import { useStoreDispatch, useStoreState } from '../context/custom_store';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../styles/global.styles';
 
 function Home() {
-  const { isAuthenticated, user } = useAuthState();
-  const { performLogout } = useAuthDispatch();
+  const { isAuthenticated, user } = useStoreState();
+  const { performLogout } = useStoreDispatch();
 
   return (
     <>

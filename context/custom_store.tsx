@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  ReactNode,
   useContext,
   useEffect,
   useReducer,
@@ -19,10 +20,10 @@ interface IState {
   message: IMessage | null,
 }
 
-const AuthDispatchContext = createContext(({} as any));
-const AuthStateContext = createContext(({} as any));
+const StoreDispatchContext = createContext(({} as any));
+const StoreStateContext = createContext(({} as any));
 
-const usePersistedAuthState = createPersistedState('brickboard-user');
+const usePersistedStoreState = createPersistedState('brickboard-user');
 
 const initialState: IState = {
   isAuthenticated: false,
@@ -58,8 +59,8 @@ function reducer(state, { payload, type }) {
   }
 }
 
-function AuthProvider({ children }) {
-  const [brickboardUser, saveBrickboardUser] = usePersistedAuthState(
+function StoreProvider({ children }) {
+  const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
     JSON.stringify(initialState),
   );
   const [state, dispatch] = useReducer(reducer, JSON.parse(brickboardUser));
@@ -125,7 +126,7 @@ function AuthProvider({ children }) {
   };
 
   return (
-    <AuthDispatchContext.Provider
+    <StoreDispatchContext.Provider
       value={{
         performLogin,
         performLogout,
@@ -135,33 +136,33 @@ function AuthProvider({ children }) {
         removeMessage,
       }}
     >
-      <AuthStateContext.Provider value={state}>
+      <StoreStateContext.Provider value={state}>
         {children}
-      </AuthStateContext.Provider>
-    </AuthDispatchContext.Provider>
+      </StoreStateContext.Provider>
+    </StoreDispatchContext.Provider>
   );
 }
 
-function useAuthDispatch() {
-  const context = useContext(AuthDispatchContext);
+function useStoreDispatch() {
+  const context = useContext(StoreDispatchContext);
 
   if (context === undefined) {
     throw new Error(
-      'useAuthDispatch is not working, use it within an AuthProvider',
+      'useStoreDispatch is not working, use it within an StoreProvider',
     );
   }
   return context;
 }
 
-function useAuthState() {
-  const context = useContext(AuthStateContext);
+function useStoreState() {
+  const context = useContext(StoreStateContext);
 
   if (context === undefined) {
     throw new Error(
-      'useAuthDispatch is not working, use it within an AuthProvider',
+      'useStoreDispatch is not working, use it within an StoreProvider',
     );
   }
   return context;
 }
 
-export { AuthProvider, useAuthDispatch, useAuthState };
+export { StoreProvider, useStoreDispatch, useStoreState };

@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle, css } from 'styled-components';
-// import 'balloon-css';
+import 'balloon-css';
 
 const GlobalStyles = createGlobalStyle`
 
@@ -104,9 +104,9 @@ const GlobalStyles = createGlobalStyle`
 
 export default GlobalStyles;
 
-export const ViewWrapper = styled.div<{
-    center?: boolean
-  }>`
+export const ViewWrapper = styled.div <{
+  center?: boolean,
+}> `
   
     ${(props) => props.center && css`
       display: flex;
@@ -114,11 +114,10 @@ export const ViewWrapper = styled.div<{
       align-items: center;
     `}
 
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     padding 15px;
     max-width: ${(props) => props.theme.max_container_width};
     margin: 0 auto;
-    min-height: 500px;
 `;
 
 export const Hint = styled.p`

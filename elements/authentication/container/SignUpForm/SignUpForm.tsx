@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuthDispatch } from '../../../../context/auth';
+import { useStoreDispatch } from '../../../../context/custom_store';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
@@ -18,7 +18,7 @@ const SignUp = () => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
-  const { performSignup } = useAuthDispatch();
+  const { performSignup } = useStoreDispatch();
   const router = useRouter();
 
   const onSubmit = async ({

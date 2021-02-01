@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import Link from 'next/link';
 import { ViewWrapper } from '../../styles/global.styles';
 import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
-import { useAuthState } from '../../context/auth';
+import { useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 
 function Subforum({ topicsData, slug, messageboardName }) {
   const [pageIndex, setPageIndex] = useState(1);
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated } = useStoreState();
   const {
     data,
   } = useSWR(

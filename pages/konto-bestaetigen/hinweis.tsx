@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../../styles/global.styles';
-import { useAuthDispatch } from '../../context/auth';
+import { useStoreDispatch } from '../../context/custom_store';
 
 function ConfirmationHint() {
-  const { isAuthenticated } = useAuthDispatch();
+  const { isAuthenticated } = useStoreDispatch();
   const router = useRouter();
   if (isAuthenticated) {
     router.push('/');

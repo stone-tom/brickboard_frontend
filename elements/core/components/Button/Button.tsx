@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 import Icon from '../Icon/Icon';
 import { Button } from './Button.styles';
 
-interface ButtonProps extends ButtonHTMLAttributes < HTMLButtonElement > {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean,
   gray?: boolean,
   small?: boolean,
@@ -25,7 +25,7 @@ const ButtonComponent = ({
     {...rest}
   >
     {icon && (
-      <Icon icon={icon}/>
+      <Icon icon={icon} />
     )}
     { children}
   </Button>

@@ -5,7 +5,7 @@ import { ViewWrapper, Hint } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/components/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { useAuthState } from '../../../context/auth';
+import { useStoreState } from '../../../context/custom_store';
 import BBButton from '../../../elements/core/components/BBButton/BBButton';
 import filterContent from '../../../util/filter';
 import { getTopic } from '../../../util/api';
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function Subforum({ topicData, slug }) {
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated } = useStoreState();
 
   const topic = filterContent(topicData, 'topic')[0];
   const posts = filterContent(topicData, 'post');
