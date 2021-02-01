@@ -114,11 +114,10 @@ export const ViewWrapper = styled.div<{
       align-items: center;
     `}
 
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     padding 15px;
     max-width: ${(props) => props.theme.max_container_width};
     margin: 0 auto;
-    min-height: 500px;
 `;
 
 export const Hint = styled.p`
@@ -126,3 +125,8 @@ export const Hint = styled.p`
       width: 100%;
       padding: 0.5rem;
   `;
+
+export const FlexRight = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;

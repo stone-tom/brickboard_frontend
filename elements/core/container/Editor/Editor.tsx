@@ -1,16 +1,14 @@
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { useAuthDispatch } from '../../../../context/auth';
-import { MessageType } from '../../../../models/IMessage';
-import { answerTopic, createTopic } from '../../../../util/api';
+import { FlexRight } from '../../../../styles/global.styles';
 import getRandomInt from '../../../../util/randomizer';
-import { EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
+import Button from '../../components/Button/Button';
+import { CharacterCount, EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
 
 interface EditorProps{
-    redirect: string;
-    id?: number;
+    onEditorSubmit: (content: any) => void;
+    answer?: boolean;
 }
 
 const titlePlaceholders = [
@@ -24,11 +22,9 @@ const postPlaceholders = [
   'Boah, was wollt ich eigentlich schreiben?',
 ];
 
-const CustomEditor = ({ redirect, id }:EditorProps) => {
+const CustomEditor = ({ onEditorSubmit, answer = false }:EditorProps) => {
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
-  const router = useRouter();
-  const { setMessage } = useAuthDispatch();
 
   const handleChange = (content) => {
     setEditorContent(content);
@@ -39,54 +35,25 @@ const CustomEditor = ({ redirect, id }:EditorProps) => {
 
   const getTitlePlaceholder = () => titlePlaceholders[getRandomInt(titlePlaceholders.length)];
   const getPostPlaceholder = () => postPlaceholders[getRandomInt(postPlaceholders.length)];
-
-  const outPut = () => {
-    console.log(editorContent);
-  };
   const submitTopic = async () => {
-    const data = {
-      topic: {
-        title,
-        content: editorContent,
-      },
-    };
-
-    let retrievedContent = null;
-    let retrievedError = null;
-    if (id) {
-      const { content, error } = await answerTopic(redirect, id, data);
-      retrievedContent = content;
-      retrievedError = error;
-    } else {
-      const { content, error } = await createTopic(redirect, data);
-      retrievedContent = content;
-      retrievedError = error;
-    }
-
-    if (retrievedError) {
-      setMessage({
-        content: `Fehler beim absenden: ${retrievedError.message}`,
-        type: MessageType.error,
-      });
-    }
-
-    if (retrievedContent !== null) {
-      router.push(`../${redirect}`);
-    }
+    onEditorSubmit({ title, editorContent });
   };
 
   return (
     <EditorContainer>
-      <h2>Der Titel</h2>
-      <TitleInput placeholder={`${getTitlePlaceholder()}`} name="title" onChange={(e) => changeTitle(e.target.value)} />
-      <h2> Verfasse deinen Beitrag </h2>
+      {!answer && (
+        <>
+          <h2>Der Titel</h2>
+          <TitleInput placeholder={`${getTitlePlaceholder()}`} name="title" onChange={(e) => changeTitle(e.target.value)} />
+        </>
+      )}
+      {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2> }
       <EditorWrapper>
         <SunEditor
           onChange={handleChange}
           lang="de"
           name="editor"
           placeholder={`${getPostPlaceholder()}`}
-          autoFocus
           setOptions={{
             buttonList: [
               ['undo', 'redo'],
@@ -100,8 +67,10 @@ const CustomEditor = ({ redirect, id }:EditorProps) => {
           }}
         />
       </EditorWrapper>
-      <button type="button" onClick={() => outPut()}>Log Input</button>
-      <button type="button" onClick={() => submitTopic()}>Absenden</button>
+      <FlexRight>
+        <Button type="button" onClick={() => submitTopic()}>Absenden</Button>
+      </FlexRight>
+
     </EditorContainer>
   );
 };

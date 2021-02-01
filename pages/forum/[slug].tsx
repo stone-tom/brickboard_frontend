@@ -166,7 +166,6 @@ function Subforum({ topicsData, slug, messageboardName }) {
         </button>
         )}
         {isAuthenticated && (
-
         <Link href={`./${slug}/neues-thema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
 
         )}

@@ -14,3 +14,7 @@ export const TitleInput = styled.input`
 export const EditorWrapper = styled.div`
     margin-bottom: 2rem;
 `;
+
+export const CharacterCount = styled.p`
+    color: ${(props) => props.theme.grayfont}
+`;
