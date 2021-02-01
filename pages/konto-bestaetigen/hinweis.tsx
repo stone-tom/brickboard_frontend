@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../elements/core/container/Layout/Layout';
-import { ContentContainer } from '../../styles/global.styles';
+import { ViewWrapper } from '../../styles/global.styles';
 import { useAuthDispatch } from '../../context/auth';
 
 function ConfirmationHint() {
@@ -12,7 +12,7 @@ function ConfirmationHint() {
   }
   return (
     <Layout title="Bitte bestätige deine Email - Brickboard 2.0">
-      <ContentContainer>
+      <ViewWrapper>
         <h1>Bitte bestätige dein Konto</h1>
         <p>
           Du solltest eine E-Mail erhalten haben. Bevor du dich das erste Mal
@@ -24,7 +24,7 @@ function ConfirmationHint() {
           längerer Zeit keine Mail erhalten, wende dich bitte an den
           Administrator.
         </p>
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

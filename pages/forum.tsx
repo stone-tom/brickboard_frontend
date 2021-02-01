@@ -2,7 +2,7 @@ import React from 'react';
 import { GetStaticProps } from 'next';
 import useSWR from 'swr';
 import ForumItem from '../elements/forum/components/ForumItem/ForumItem';
-import { ContentContainer } from '../styles/global.styles';
+import { ViewWrapper } from '../styles/global.styles';
 import ForumHeading from '../elements/forum/components/ForumHeading/ForumHeading';
 import Layout from '../elements/core/container/Layout/Layout';
 import { getMessageBoardGroups } from '../util/api';
@@ -44,11 +44,10 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
 
   const messageboadGroups = data.data;
   if (messageboadGroups.length === 0) {
-    return <ContentContainer>Es gibt noch keine Beiträge!</ContentContainer>;
+    return <ViewWrapper>Es gibt noch keine Beiträge!</ViewWrapper>;
   }
   return (
     <Layout title="Forum - Brickboard 2.0">
-      <ContentContainer>
         {messageboadGroups.map((group) => (
           <div key={group.attributes.name}>
             <ForumHeading title={group.attributes.name} />
@@ -85,7 +84,6 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
               })}
           </div>
         ))}
-      </ContentContainer>
     </Layout>
   );
 };

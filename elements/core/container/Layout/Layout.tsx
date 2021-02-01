@@ -25,9 +25,7 @@ const Layout = ({ title, children }: LayoutProps) => {
           {children}
         </ViewWrapper>
       </main>
-
       <Footer />
-
     </>
   );
 };

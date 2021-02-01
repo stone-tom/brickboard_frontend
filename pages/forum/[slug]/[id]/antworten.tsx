@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Layout from '../../../../elements/core/container/Layout/Layout';
 import { useAuthState } from '../../../../context/auth';
-import { ContentContainer } from '../../../../styles/global.styles';
+import { ViewWrapper } from '../../../../styles/global.styles';
 
 // export const getStaticPaths: GetStaticPaths = async () => {
 //   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
@@ -100,7 +100,7 @@ function Respond({ slug, id }) {
 
   return (
     <Layout title="Antwort erstellen - Brickboard 2.0">
-      <ContentContainer>
+      <ViewWrapper>
         <h1>Eine Antwort erstellen:</h1>
         <p>{message}</p>
 
@@ -115,7 +115,7 @@ function Respond({ slug, id }) {
           Absenden
         </button>
 
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

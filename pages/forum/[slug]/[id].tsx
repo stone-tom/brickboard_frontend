@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { ContentContainer, Hint } from '../../../styles/global.styles';
+import { ViewWrapper, Hint } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/components/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
@@ -83,7 +83,7 @@ function Subforum({ topicData, slug, id }) {
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}
     >
-      <ContentContainer>
+      <ViewWrapper>
         <Breadcrumbsbar
           slug={slug}
           id={topic.id}
@@ -130,7 +130,7 @@ function Subforum({ topicData, slug, id }) {
             )}
           </EditorContainer>
         )}
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

@@ -1,21 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useAuthDispatch, useAuthState } from '../context/auth';
 import Layout from '../elements/core/container/Layout/Layout';
-import { ContentContainer } from '../styles/global.styles';
+import { ViewWrapper } from '../styles/global.styles';
 
 function Home() {
   const { isAuthenticated, user } = useAuthState();
-  const { performLogin, performLogout } = useAuthDispatch();
-  const router = useRouter();
-
-  console.log(router.pathname);
+  const { performLogout } = useAuthDispatch();
 
   return (
     <>
       <Layout title="Brickboard 2.0">
-        <ContentContainer>
+        <ViewWrapper>
           <h1>Be carefull, this is a construction site</h1>
           {isAuthenticated && (
             <>
@@ -27,7 +23,7 @@ function Home() {
             </>
           )}
           <Link href="/forum">Zum Forum</Link>
-        </ContentContainer>
+        </ViewWrapper>
       </Layout>
     </>
   );
