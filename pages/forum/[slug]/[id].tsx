@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { ContentContainer, Hint } from '../../../styles/global.styles';
@@ -9,6 +9,8 @@ import { useAuthState } from '../../../context/auth';
 import BBButton from '../../../elements/core/components/BBButton/BBButton';
 import filterContent from '../../../util/filter';
 import { getTopic } from '../../../util/api';
+import Editor from '../../../elements/core/container/Editor/Editor';
+import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 
 // interface StaticParams{
 //     params:{
@@ -51,7 +53,6 @@ import { getTopic } from '../../../util/api';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
-
   const { content } = await getTopic(slug.toString(), id);
   const topicData = content;
 
@@ -61,17 +62,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       topicData,
       slug,
+      id,
     },
   };
 };
 
-function Subforum({ topicData, slug }) {
+function Subforum({ topicData, slug, id }) {
   const { isAuthenticated } = useAuthState();
 
   const topic = filterContent(topicData, 'topic')[0];
   const posts = filterContent(topicData, 'post');
   // const userList = filterUsers(topicData);
   const isLocked = topic.attributes.locked;
+  const [editorActive, setEditorActive] = useState(false);
+  const toggleEditor = () => setEditorActive(!editorActive);
 
   // const getUser = (id: number) => userList.find((user) => id === user.id);
 
@@ -117,14 +121,14 @@ function Subforum({ topicData, slug }) {
           );
         })}
         {isAuthenticated && !isLocked && (
-          <Link
-            href={`/forum/${slug}/${topic.id}/antworten`}
-            passHref
-          >
-            <BBButton alignRight add>
-              Antworten
-            </BBButton>
-          </Link>
+          <EditorContainer>
+            <button type="button" onClick={() => toggleEditor()}>
+              {editorActive ? 'Abbrechen' : 'Antworten'}
+            </button>
+            {editorActive && (
+              <Editor redirect={`${slug}`} redirectId={id} />
+            )}
+          </EditorContainer>
         )}
       </ContentContainer>
     </Layout>
