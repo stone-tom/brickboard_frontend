@@ -5,6 +5,8 @@ import login from './authentication/login';
 import logout from './authentication/logout';
 import register from './authentication/register';
 import confirmAccount from './authentication/confirm-account';
+import answerTopic from './topic/answer-topic';
+import createTopic from './topic/create-topic';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -16,4 +18,6 @@ export {
   logout,
   register,
   confirmAccount,
+  answerTopic,
+  createTopic,
 };

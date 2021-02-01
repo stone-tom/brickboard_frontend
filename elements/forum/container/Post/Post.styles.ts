@@ -7,6 +7,10 @@ export const Post = styled.section`
     margin: 1rem 0;
 `;
 
+export const PostHeader = styled.header`
+    display: flex;
+    justify-content: space-between;
+`;
 export const PostHeading = styled.h2`
 
 `;
@@ -32,4 +36,8 @@ export const PostDetails = styled.div`
 
 export const PostContent = styled.div`
     padding: 1rem;
+`;
+
+export const PostSettings = styled.ul`
+    display: flex;
 `;

@@ -1,18 +1,31 @@
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { TitleInput } from './Editor.styles';
+import { FlexRight } from '../../../../styles/global.styles';
+import getRandomInt from '../../../../util/randomizer';
+import Button from '../../components/Button/Button';
+import { EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
 
 interface EditorProps{
-    redirect: string;
+    onEditorSubmit: (content: any) => void;
+    answer?: boolean;
+    initialContent?: string;
 }
 
-const CustomEditor = ({ redirect }:EditorProps) => {
+const titlePlaceholders = [
+  'Wow, mein neues Thema!',
+  'Hallo Brickfilmwelt!',
+  'Wie macht man eigentlich einen Brickfilm?!',
+];
+const postPlaceholders = [
+  'Ich will euch was beichten...',
+  'Ich darf stolz verkünden, dass...',
+  'Boah, was wollt ich eigentlich schreiben?',
+];
+
+const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorProps) => {
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const router = useRouter();
 
   const handleChange = (content) => {
     setEditorContent(content);
@@ -21,65 +34,46 @@ const CustomEditor = ({ redirect }:EditorProps) => {
     setTitle(text);
   };
 
-  const outPut = () => {
-    console.log(editorContent);
-  };
+  const getTitlePlaceholder = () => titlePlaceholders[getRandomInt(titlePlaceholders.length)];
+  const getPostPlaceholder = () => postPlaceholders[getRandomInt(postPlaceholders.length)];
   const submitTopic = async () => {
-    const data = {
-      topic: {
-        title,
-        content: editorContent,
-      },
-    };
-    const result = await fetch(
-      `https://brickboard.herokuapp.com/${redirect}/topics/`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      },
-    ).then((response) => {
-      if (!response.ok) {
-        return null;
-      }
-      return response.json();
-    });
-
-    if (result === null) {
-      setMessage('Das hat leider nicht funktioniert');
-    } else {
-      router.push(`../${redirect}`);
-    }
+    onEditorSubmit({ title, editorContent });
   };
 
   return (
-    <div>
-      <h2>Der Titel</h2>
-      <TitleInput placeholder="Wow, mein neues Thema!" name="title" onChange={(e) => changeTitle(e.target.value)} />
-      <h2> Verfasse deinen Beitrag </h2>
-      <SunEditor
-        onChange={handleChange}
-        lang="de"
-        name="editor"
-        placeholder="Ich will euch was sagen..."
-        autoFocus
-        setOptions={{
-          buttonList: [
-            ['undo', 'redo'],
-            ['bold', 'underline', 'italic', 'strike', 'fontColor'],
-            ['outdent', 'indent'],
-            ['link', 'image', 'video'],
-          ],
-          imageFileInput: false,
-        }}
-      />
-      {message && <p>{message}</p>}
-      <button type="button" onClick={() => outPut()}>Log Input</button>
-      <button type="button" onClick={() => submitTopic()}>Absenden</button>
-    </div>
+    <EditorContainer>
+      {!answer && (
+        <>
+          <h2>Der Titel</h2>
+          <TitleInput placeholder={`${getTitlePlaceholder()}`} name="title" onChange={(e) => changeTitle(e.target.value)} />
+        </>
+      )}
+      {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2> }
+      <EditorWrapper>
+        <SunEditor
+          onChange={handleChange}
+          lang="de"
+          setContents={initialContent}
+          name="editor"
+          placeholder={`${getPostPlaceholder()}`}
+          setOptions={{
+            buttonList: [
+              ['undo', 'redo'],
+              ['bold', 'underline', 'italic', 'strike'],
+              ['fontColor', 'hiliteColor'],
+              ['outdent', 'indent', 'align', 'list'],
+              ['link', 'image', 'video'],
+            ],
+            imageFileInput: false,
+            minHeight: '300px',
+          }}
+        />
+      </EditorWrapper>
+      <FlexRight>
+        <Button type="button" onClick={() => submitTopic()}>Absenden</Button>
+      </FlexRight>
+
+    </EditorContainer>
   );
 };
 
