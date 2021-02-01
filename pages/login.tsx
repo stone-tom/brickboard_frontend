@@ -1,14 +1,14 @@
 import React from 'react';
 import Layout from '../elements/core/container/Layout/Layout';
-import { ContentContainer } from '../styles/global.styles';
+import { ViewWrapper } from '../styles/global.styles';
 import SignInForm from '../elements/authentication/container/SignInForm/SignInForm';
 
 function Login() {
   return (
     <Layout title="Login">
-      <ContentContainer>
+      <ViewWrapper>
         <SignInForm />
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

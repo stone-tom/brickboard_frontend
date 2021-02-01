@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import Link from 'next/link';
-import { ContentContainer } from '../../styles/global.styles';
+import { ViewWrapper } from '../../styles/global.styles';
 import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
 import { useAuthState } from '../../context/auth';
 import Layout from '../../elements/core/container/Layout/Layout';
@@ -90,7 +90,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
 
   return (
     <Layout title={`${messageboardName} - Brickboard 2.0`}>
-      <ContentContainer>
+      <ViewWrapper>
         <Breadcrumbsbar slug={slug} />
 
         <ForumHeading title={`${messageboardName}`} />
@@ -170,7 +170,7 @@ function Subforum({ topicsData, slug, messageboardName }) {
         <Link href={`./${slug}/neues-thema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
 
         )}
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
-import { ContentContainer } from '../../../styles/global.styles';
+import { ViewWrapper } from '../../../styles/global.styles';
 import { useAuthState } from '../../../context/auth';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import CustomEditor from '../../../elements/core/container/Editor/Editor';
@@ -46,9 +46,9 @@ function NeuesThema({ slug }) {
 
   return (
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
-      <ContentContainer>
+      <ViewWrapper>
         <CustomEditor redirect={slug} />
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

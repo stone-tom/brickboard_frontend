@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import Layout from '../../elements/core/container/Layout/Layout';
-import { ContentContainer } from '../../styles/global.styles';
+import { ViewWrapper } from '../../styles/global.styles';
 import { useAuthDispatch } from '../../context/auth';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -35,12 +35,12 @@ export const CodeConfirmation = (props) => {
 
   return (
     <Layout title="Konto bestätigen">
-      <ContentContainer>
+      <ViewWrapper>
         <h1>Kontoaktivierung</h1>
         <p>{hint}</p>
         {redirect && <Link href="/">Zur Startseite</Link>}
         {redirect && <Link href="/login">Zum Login</Link>}
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 };

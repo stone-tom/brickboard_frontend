@@ -1,5 +1,6 @@
 export default {
   brickred: '#CB0000',
+  brickredDark: '#AD0606',
   darkgray: '#333333',
   lightgray: '#f7f7f7',
   gray: '#e7e7e7',
@@ -12,4 +13,6 @@ export default {
     '#4BBA31', // success
     '#F2CB07', // warning
   ],
+  max_container_width: '1170px',
+  nav_height: '80px',
 };
