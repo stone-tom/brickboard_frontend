@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuthDispatch } from '../../../../context/auth';
+import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
@@ -10,14 +10,14 @@ import {
 // cool hovers: https://codepen.io/Takumari85/pen/RaYwpJ
 
 interface LoginInputs {
-    email: string;
-    password: string;
-  }
+  email: string;
+  password: string;
+}
 const SignIn = () => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
-  const { performLogin, setMessage } = useAuthDispatch();
+  const { performLogin, setMessage } = useStoreDispatch();
   const router = useRouter();
 
   const onSubmit = async ({ email, password }) => {

@@ -4,12 +4,23 @@ import { Icon } from './Icon.styled';
 
 interface IconInterface {
   icon: IconProp,
+  hint?: string,
 }
 
 const IconComponent = (({
   icon,
-}: IconInterface) => (
-  <Icon icon={icon} />
-));
+  hint,
+}: IconInterface) => {
+  if (hint) {
+    return (
+      <span aria-label={hint} data-balloon-pos="down">
+        <Icon icon={icon} />
+      </span>
+    );
+  }
+  return (
+    <Icon icon={icon} />
+  );
+});
 
 export default IconComponent;

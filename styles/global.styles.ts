@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle, css } from 'styled-components';
-// import 'balloon-css';
+import 'balloon-css';
 
 const GlobalStyles = createGlobalStyle`
 
@@ -104,9 +104,9 @@ const GlobalStyles = createGlobalStyle`
 
 export default GlobalStyles;
 
-export const ViewWrapper = styled.div<{
-    center?: boolean
-  }>`
+export const ViewWrapper = styled.div <{
+  center?: boolean,
+}> `
   
     ${(props) => props.center && css`
       display: flex;

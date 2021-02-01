@@ -1,6 +1,6 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { useAuthDispatch, useAuthState } from '../../../../context/auth';
+import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import IMessage, { MessageType } from '../../../../models/IMessage';
 import Icon from '../Icon/Icon';
 import {
@@ -12,8 +12,8 @@ import {
 const MessageComponent = () => {
   const [messageCache, setMessageCache] = useState<IMessage | null>(null);
   const [active, setActive] = useState<boolean>(false);
-  const { message } = useAuthState();
-  const { removeMessage } = useAuthDispatch();
+  const { message } = useStoreState();
+  const { removeMessage } = useStoreDispatch();
   const timeout = 400;
 
   useEffect(() => {

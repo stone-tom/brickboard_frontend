@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
 import Menubar from '../Menubar/Menubar';
-import { useAuthState } from '../../../../context/auth';
+import { useStoreState } from '../../../../context/custom_store';
 import Footer from '../Footer/Footer';
 import { ViewWrapper } from '../../../../styles/global.styles';
 
@@ -11,7 +11,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ title, children }: LayoutProps) => {
-  const { user } = useAuthState();
+  const { user } = useStoreState();
   return (
     <>
       <Head>

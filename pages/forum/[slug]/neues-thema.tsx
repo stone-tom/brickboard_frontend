@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
 import { ViewWrapper } from '../../../styles/global.styles';
-import { useAuthDispatch, useAuthState } from '../../../context/auth';
+import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import filterContent from '../../../util/filter';
@@ -33,8 +33,8 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => ({
   revalidate: 1,
 });
 function NeuesThema({ slug }) {
-  const { isAuthenticated } = useAuthState();
-  const { setMessage } = useAuthDispatch();
+  const { isAuthenticated } = useStoreState();
+  const { setMessage } = useStoreDispatch();
   const router = useRouter();
 
   const submitTopic = async (title, editorContent) => {

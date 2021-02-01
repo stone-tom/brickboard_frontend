@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import Layout from '../../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../../styles/global.styles';
-import { useAuthDispatch } from '../../context/auth';
+import { useStoreDispatch } from '../../context/custom_store';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { code } = context.params;
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const CodeConfirmation = (props) => {
   const [hint, setHint] = useState('');
   const [redirect, setRedirect] = useState(false);
-  const { performAccountConfirmation } = useAuthDispatch();
+  const { performAccountConfirmation } = useStoreDispatch();
 
   const tryConfirmation = async (code) => {
     try {

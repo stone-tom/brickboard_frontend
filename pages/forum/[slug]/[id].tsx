@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { useAuthDispatch, useAuthState } from '../../../context/auth';
-import filterContent from '../../../util/filter';
 import { answerTopic, getTopic } from '../../../util/api';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 import Button from '../../../elements/core/components/Button/Button';
 import { MessageType } from '../../../models/IMessage';
 import filter from '../../../util/filter';
+import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 
 // interface StaticParams{
 //     params:{
@@ -68,11 +66,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function Subforum({ topicData, slug, id }) {
-  const { isAuthenticated } = useAuthState();
-  const { setMessage } = useAuthDispatch();
+  const { isAuthenticated } = useStoreState();
+  const { setMessage } = useStoreDispatch();
 
-  const topic = filterContent(topicData, 'topic')[0];
-  const [posts, addPost] = useState(filterContent(topicData, 'post'));
+  const topic = filter(topicData, 'topic')[0];
+  const [posts, addPost] = useState(filter(topicData, 'post'));
   const userList = filter(topicData, 'user');
   const getUser = (userId: number) => userList.find((user) => userId === user.id);
   const isLocked = topic.attributes.locked;

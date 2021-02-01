@@ -27,8 +27,6 @@ const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorP
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
 
-  console.log("INITIAL CONTENT",initialContent);
-
   const handleChange = (content) => {
     setEditorContent(content);
   };
@@ -68,7 +66,6 @@ const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorP
             ],
             imageFileInput: false,
             minHeight: '300px',
-            charCounter: true,
           }}
         />
       </EditorWrapper>

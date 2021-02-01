@@ -48,10 +48,10 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
   }
   return (
     <Layout title="Forum - Brickboard 2.0">
-        {messageboadGroups.map((group) => (
-          <div key={group.attributes.name}>
-            <ForumHeading title={group.attributes.name} />
-            {group.relationships
+      {messageboadGroups.map((group) => (
+        <div key={group.attributes.name}>
+          <ForumHeading title={group.attributes.name} />
+          {group.relationships
               && group.relationships.messageboards.data.map((mb) => {
                 const board = findMessageBoard(mb.id);
                 if (board !== undefined) {
@@ -82,8 +82,8 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
                 }
                 return <div>Board wurde nicht gefunden</div>;
               })}
-          </div>
-        ))}
+        </div>
+      ))}
     </Layout>
   );
 };

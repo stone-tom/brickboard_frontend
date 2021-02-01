@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Layout from '../../../../elements/core/container/Layout/Layout';
-import { useAuthState } from '../../../../context/auth';
+import { useStoreState } from '../../../../context/custom_store';
 import { ViewWrapper } from '../../../../styles/global.styles';
 
 // export const getStaticPaths: GetStaticPaths = async () => {
@@ -53,7 +53,7 @@ function Respond({ slug, id }) {
 
   const [content, setContent] = useState('');
   const [message, setMessage] = useState('');
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated } = useStoreState();
 
   const sendAnswer = async (contentdata) => {
     const data = {
