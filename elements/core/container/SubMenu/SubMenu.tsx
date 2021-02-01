@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { useAuthState } from '../../../../context/auth';
+import { useStoreState } from '../../../../context/custom_store';
 import {
   SubMenuContainer, SubMenuImageWrapper, SubMenuList, SubMenuListItem, SubMenuWrapper,
 } from './SubMenu.styles';
 
 const SubMenu = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const { user } = useAuthState();
+  const { user } = useStoreState();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -21,6 +21,7 @@ const SubMenu = () => {
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>
+            <SubMenuListItem><Link href="/user-moderation">User Moderation</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Mein Profil</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Film vorstellen</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/logout">Logout</Link></SubMenuListItem>

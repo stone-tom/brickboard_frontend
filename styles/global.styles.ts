@@ -104,25 +104,21 @@ const GlobalStyles = createGlobalStyle`
 
 export default GlobalStyles;
 
-export const ViewWrapper = styled.div<{
-    center?: boolean
-  }>`
+export const ViewWrapper = styled.div <{
+  center?: boolean,
+}> `
   
     ${(props) => props.center && css`
       display: flex;
       justify-content: center;
       align-items: center;
     `}
-    padding: 30px;
-    min-height: 500px;
-  `;
 
-export const ContentContainer = styled.div`
-    max-width: 1170px;
+    min-height: calc(100vh - 80px);
+    padding 15px;
+    max-width: ${(props) => props.theme.max_container_width};
     margin: 0 auto;
-    padding-left: 15px;
-    padding-right: 15px;
-  `;
+`;
 
 export const Hint = styled.p`
       background-color: ${(props) => props.theme.warning};

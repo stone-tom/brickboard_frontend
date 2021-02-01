@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components';
 import { MessageType } from '../../../../models/IMessage';
 
-export const Message = styled.div<{
+export const Message = styled.div < {
   timeout: string,
-  type: MessageType
-  active: boolean
-}>`
+  type: MessageType,
+  active: boolean,
+} > `
   position: fixed;
   transform: translateY(-500px);
   opacity: 0;

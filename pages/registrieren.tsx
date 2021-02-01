@@ -1,14 +1,14 @@
 import React from 'react';
 import Layout from '../elements/core/container/Layout/Layout';
-import { ContentContainer } from '../styles/global.styles';
+import { ViewWrapper } from '../styles/global.styles';
 import SignUpForm from '../elements/authentication/container/SignUpForm/SignUpForm';
 
 function Register() {
   return (
     <Layout title="Ein neues Konto anlegen - Brickboard 2.0">
-      <ContentContainer>
+      <ViewWrapper>
         <SignUpForm />
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

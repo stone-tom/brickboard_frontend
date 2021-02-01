@@ -1,11 +1,11 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { ContentContainer, Hint } from '../../../styles/global.styles';
+import { ViewWrapper, Hint } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/components/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { useAuthState } from '../../../context/auth';
+import { useStoreState } from '../../../context/custom_store';
 import BBButton from '../../../elements/core/components/BBButton/BBButton';
 import filterContent from '../../../util/filter';
 import { getTopic } from '../../../util/api';
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function Subforum({ topicData, slug }) {
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated } = useStoreState();
 
   const topic = filterContent(topicData, 'topic')[0];
   const posts = filterContent(topicData, 'post');
@@ -79,7 +79,7 @@ function Subforum({ topicData, slug }) {
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}
     >
-      <ContentContainer>
+      <ViewWrapper>
         <Breadcrumbsbar
           slug={slug}
           id={topic.id}
@@ -126,7 +126,7 @@ function Subforum({ topicData, slug }) {
             </BBButton>
           </Link>
         )}
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }

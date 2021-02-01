@@ -1,35 +1,44 @@
-import React, { useState } from 'react';
+import React, {
+  InputHTMLAttributes,
+  ReactNode,
+} from 'react';
 import {
-  InputBorder, InputEffectWrapper, InputLabel, InputWrapper, StyledInput,
+  FormInput,
+  InputLabel,
 } from './FormInput.styles';
 
-interface FormInputProps{
-    label: string;
-    type: string;
-    name: string;
-    ref: any;
+export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  error?: boolean,
+  chlidren?: ReactNode,
+  noLabel?: boolean,
+  onChange?: (event: string) => void,
 }
 
-const FormInput = ({
-  label, type, name, ref,
-}:FormInputProps) => {
-  const [focused, setFocused] = useState(false);
-  const toggleFocus = (content) => {
-    if (content === '' || content === undefined) {
-      setFocused(false);
-    } else {
-      setFocused(true);
-    }
-  };
-  return (
-    <InputEffectWrapper>
-      <InputWrapper className={focused ? 'has-content' : ''}>
-        <StyledInput autoComplete="new-password" onChange={(e) => toggleFocus(e.target.value)} type={type} name={name} ref={ref} placeholder="" />
-        <InputLabel>{label}</InputLabel>
-        <InputBorder><i /></InputBorder>
-      </InputWrapper>
-    </InputEffectWrapper>
-  );
-};
+const FormInputComponent = ({
+  children,
+  name,
+  type = 'text',
+  required = false,
+  error = false,
+  value,
+  noLabel,
+  onChange,
+  ...rest
+}: TextInputProps) => (
+  <InputLabel htmlFor={name}>
+    {children ? `${children}:` : null }
+    {required ? ' *' : null}
+    <FormInput
+      error={error}
+      type={type}
+      id={name}
+      name={name}
+      required={required}
+      value={value}
+      onChange={(e) => onChange && onChange(e.target.value)}
+      {...rest}
+    />
+  </InputLabel>
+);
 
-export default FormInput;
+export default FormInputComponent;

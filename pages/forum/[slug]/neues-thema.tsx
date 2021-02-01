@@ -2,8 +2,8 @@ import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
-import { ContentContainer } from '../../../styles/global.styles';
-import { useAuthState } from '../../../context/auth';
+import { ViewWrapper } from '../../../styles/global.styles';
+import { useStoreState } from '../../../context/custom_store';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import CustomEditor from '../../../elements/core/container/Editor/Editor';
 import filterContent from '../../../util/filter';
@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => ({
   revalidate: 1,
 });
 function NeuesThema({ slug }) {
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated } = useStoreState();
 
   if (!isAuthenticated) {
     return (
@@ -46,9 +46,9 @@ function NeuesThema({ slug }) {
 
   return (
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
-      <ContentContainer>
+      <ViewWrapper>
         <CustomEditor redirect={slug} />
-      </ContentContainer>
+      </ViewWrapper>
     </Layout>
   );
 }
