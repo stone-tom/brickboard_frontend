@@ -1,7 +1,7 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
-import IModerationUser from '../../../../models/IModerationUser';
+import IModerationUser from '../../../../models/IUser';
 import { getStatus } from '../../../../pages/moderation/user-moderation';
 import PostListComponent from '../../container/PostList/PostList';
 import {

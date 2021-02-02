@@ -1,15 +1,24 @@
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import useSWR from 'swr';
+import { useStoreDispatch } from '../../context/custom_store';
+import Accordion from '../../elements/core/components/Accordion/Accordion';
+import Loader from '../../elements/core/components/Loader/Loader';
 import Layout from '../../elements/core/container/Layout/Layout';
-import Spoiler from '../../elements/moderation/components/Spoiler/Spoiler';
-import IModerationUser from '../../models/IModerationUser';
+import AccordionUserHeader from '../../elements/moderation/components/AccordionUserHeader/AccordionUserHeader';
+import PostListComponent from '../../elements/moderation/container/PostList/PostList';
+import { MessageType } from '../../models/IMessage';
+import IUser from '../../models/IUser';
+import { Wrapper } from '../../styles/global.styles';
 import { backendURL } from '../../util/api';
+import updateModerationUser from '../../util/api/moderation/update-moderation-user';
 import { get } from '../../util/methods';
 
 const PostModeration = () => {
-  const { data } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
+  const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
+  const { setMessage } = useStoreDispatch();
 
-  const getModerationState = (user: IModerationUser) => {
+  const getModerationState = (user: IUser) => {
     if (!user.relationships.thredded_user_detail.data) return 'pending_moderation';
     if (data && data.data) {
       for (const item of data.included) {
@@ -22,19 +31,58 @@ const PostModeration = () => {
     return 'pending_moderation';
   };
 
+  const onUpdateStatus = async (user: IUser, modStatus: string) => {
+    try {
+      await updateModerationUser(parseInt(user.id, 10), modStatus);
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === user.relationships.thredded_user_detail.data.id) {
+            return {
+              ...item,
+              attributes: {
+                moderation_state: modStatus,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
+      setMessage({
+        content: 'Moderation Status erfolgreich geändert',
+        type: MessageType.success,
+      });
+    } catch (e) {
+      setMessage({
+        content: 'Es ist ein Fehler aufgetreten',
+        type: MessageType.error,
+      });
+    }
+  };
+
   return (
     <Layout title="Pending Posts">
       <h2>User Moderation</h2>
       <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
-      {data && data.data && data.data.map((user: IModerationUser) => (
-        <Spoiler
-          key={user.id}
-          user={user}
-          status={
-            getModerationState(user)
-          }
-        />
-      ))}
+      <Wrapper>
+        <Loader isLoading={!data}>
+          {data && data.data && data.data.map((currentUser: IUser) => (
+            <Accordion
+              toggleIcon={faCaretDown}
+              header={(
+                <AccordionUserHeader
+                  onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
+                  user={currentUser}
+                  status={getModerationState(currentUser)}
+                />
+              )}
+            >
+              <PostListComponent user={currentUser} />
+            </Accordion>
+          ))}
+        </Loader>
+      </Wrapper>
     </Layout>
   );
 };

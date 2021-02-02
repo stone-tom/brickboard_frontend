@@ -22,6 +22,6 @@ export default {
   userStatus: {
     pending_moderation: 'orange',
     approved: 'green',
-    locked: 'red',
+    blocked: 'red',
   },
 };

@@ -154,3 +154,7 @@ export const FlexRight = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+export const Wrapper = styled.div`
+  margin: 20px 0;
+`;
