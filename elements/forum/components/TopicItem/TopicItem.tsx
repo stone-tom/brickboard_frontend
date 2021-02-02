@@ -67,6 +67,7 @@ interface TopicItemProps {
   author: any;
   lastCommentor: any;
   markUnread?: boolean;
+  isAuthenticated?: boolean;
 }
 
 const TopicItemComponent = ({
@@ -75,9 +76,10 @@ const TopicItemComponent = ({
   author,
   lastCommentor,
   markUnread,
+  isAuthenticated,
 }: TopicItemProps) => (
   <TopicItem>
-    {markUnread ? (
+    {markUnread && isAuthenticated ? (
       <>
         <TopicUnreadMarker unread />
         <TopicIcon>
@@ -111,11 +113,11 @@ const TopicItemComponent = ({
       </div>
       <TopicInfoDetails>
         {topic.attributes.locked && (
-          <p>
+          <TopicInfoDetailsItem>
             <Hint hint="Gesperrt">
               <Icon icon={faLock} />
             </Hint>
-          </p>
+          </TopicInfoDetailsItem>
         )}
         {topic.attributes.sticky && (
           <TopicInfoDetailsItem>

@@ -88,12 +88,21 @@ function Subforum({
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
           }
           let unread = false;
-
           if ((readstate === null && isAuthenticated)
             || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-
+          if (!isAuthenticated) {
+            return (
+              <TopicItem
+                key={topic.attributes.slug}
+                slug={slug}
+                topic={topic}
+                author={author}
+                lastCommentor={lastCommentor}
+              />
+            );
+          }
           return (
             <TopicItem
               key={topic.attributes.slug}
@@ -102,6 +111,7 @@ function Subforum({
               author={author}
               lastCommentor={lastCommentor}
               markUnread={unread}
+              isAuthenticated
             />
           );
         })}

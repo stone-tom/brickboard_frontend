@@ -9,6 +9,7 @@ import answerTopic from './topic/answer-topic';
 import createTopic from './topic/create-topic';
 import markTopicAsRead from './topic/mark-topic-as-read';
 import incrementViewCount from './topic/increment-view-count';
+import followTopic from './topic/follow-topic';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -24,4 +25,5 @@ export {
   createTopic,
   markTopicAsRead,
   incrementViewCount,
+  followTopic,
 };

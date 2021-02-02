@@ -16,6 +16,12 @@ import Button from '../../../elements/core/components/Button/Button';
 import { MessageType } from '../../../models/IMessage';
 import filter from '../../../util/filter';
 import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
+import findObject from '../../../util/finder';
+import useSWR from 'swr';
+import { get } from '../../../util/methods';
+import Icon from '../../../elements/core/components/Icon/Icon';
+import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
+import HintComponent from '../../../elements/core/components/Hint/Hint';
 
 // interface StaticParams{
 //     params:{
@@ -58,11 +64,12 @@ import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
-  const { content } = await getTopic(slug.toString(), id);
+  const { content, fetchURL } = await getTopic(slug.toString(), id);
   const topicData = content;
 
   return {
     props: {
+      fetchURL,
       topicData,
       slug,
       id,
@@ -71,23 +78,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 interface SubforumProps {
+  fetchURL: string,
   topicData: any,
   slug: string,
   id: number,
 }
 
 function Subforum({
+  fetchURL,
   topicData,
   slug,
   id,
 }: SubforumProps) {
+  const {data} = useSWR(fetchURL,get,{revalidateOnMount:true, initialData: topicData})
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
 
-  const topic = filter(topicData, 'topic')[0];
-  const [posts, addPost] = useState(filter(topicData, 'post'));
-  const userList = filter(topicData, 'user');
-  const getUser = (userId: number) => userList.find((user) => userId === user.id);
+  const topic = filter(data, 'topic')[0];
+  const topicViews = filter(data, 'topic_view');
+  const topicView = findObject(topicViews, data.data.relationships.topic.data.id);
+  const [posts, addPost] = useState(filter(data, 'post'));
+  const userList = filter(data, 'user');
+  const getUser = (userId: number) => {
+    let foundUser = userList.find((user) => userId === user.id);
+    if (foundUser === undefined) {
+      return {
+
+        attributes: { display_name: "Fix Bug with new User" }
+
+      }
+    }
+    return foundUser;
+  };
   const isLocked = topic.attributes.locked;
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
@@ -127,6 +149,13 @@ function Subforum({
         />
 
         <h1>{topic.attributes.title}</h1>
+        {console.log("THE TOPIC VIEW", topicView)}
+        {isAuthenticated && (
+          <>
+            {topicView.relationships.follow
+            ? <HintComponent hint="E-Mails deaktiveren"><Button reset><Icon icon={faBellSlash} /></Button></HintComponent> 
+            : <HintComponent hint="E-Mails aktivieren"><Button reset><Icon icon={faBell} /></Button></HintComponent>}
+          </>)}
         {isLocked && (
           <Hint>
             Dieses Thema wurde von einem der Admins gesperrt. Du kannst keine
