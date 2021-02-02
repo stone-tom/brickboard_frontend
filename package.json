@@ -30,7 +30,7 @@
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
-    "@wojtekmaj/enzyme-adapter-rea  ct-17": "^0.4.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "babel-plugin-styled-components": "^1.11.1",
     "balloon-css": "^1.2.0",
     "eslint-plugin-react": "^7.22.0",
