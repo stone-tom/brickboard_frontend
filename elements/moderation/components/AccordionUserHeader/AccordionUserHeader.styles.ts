@@ -32,5 +32,4 @@ export const DeclineButton = styled(Button)`
 
 export const AcceptButton = styled(Button)`
   color: green;
-  margin-right: 25px;
 `;

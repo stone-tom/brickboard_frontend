@@ -1,14 +1,19 @@
-import { faFileAlt, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import React, { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
+import useSWR from 'swr';
 import { Button } from '../../elements/core/components/Button/Button.styles';
 import { Icon } from '../../elements/core/components/Icon/Icon.styled';
 import Indicator from '../../elements/core/components/Indicator/Indicator';
+import Loader from '../../elements/core/components/Loader/Loader';
 import Table, { Row } from '../../elements/core/components/Table/Table';
 import Layout from '../../elements/core/container/Layout/Layout';
 import IUser from '../../models/IUser';
+import { Wrapper } from '../../styles/global.styles';
+import { backendURL } from '../../util/api';
+import { get } from '../../util/methods';
+import { getModerationState } from './post-moderation';
 
 export const getStatus = (status: string | null) => {
   switch (status) {
@@ -21,83 +26,53 @@ export const getStatus = (status: string | null) => {
   }
 };
 
-// const mockValues: IUser[] = [
-//   {
-//     id: 1,
-//     admin: true,
-//     display_name: 'Administrator1',
-//     created_at: '2020-11-29T16:22:44.422+01:00',
-//     updated_at: '2020-11-29T16:22:44.422+01:00',
-//     avatar: 'asdfasdf',
-//     pending_moderation: 'pending',
-//   },
-//   {
-//     id: 2,
-//     admin: true,
-//     display_name: 'Administrator1',
-//     created_at: '2020-11-29T16:22:44.422+01:00',
-//     updated_at: '2020-11-29T16:22:44.422+01:00',
-//     avatar: 'asdfasdf',
-//     pending_moderation: 'locked',
-//   },
-//   {
-//     id: 3,
-//     admin: false,
-//     display_name: 'User',
-//     created_at: '2020-11-29T16:22:44.422+01:00',
-//     updated_at: '2020-11-29T16:22:44.422+01:00',
-//     avatar: 'asdfasdf',
-//     pending_moderation: 'approved',
-//   },
-// ];
-
 const UserModeration = () => {
-  // const theme = useContext(ThemeContext);
+  const { data } = useSWR(`${backendURL}/users`, get);
+  const theme = useContext(ThemeContext);
 
-  // const headerItems = [
-  //   'Benutzertyp:',
-  //   'Status:',
-  //   'Name:',
-  //   'Erstellt am:',
-  //   '',
-  // ];
+  const headerItems = [
+    'Benutzertyp:',
+    'Status:',
+    'Name:',
+    'Erstellt am:',
+    '',
+  ];
 
-  // const userDataReducer: (user: IUser) =>
-  //   Row[] = (user: IUser) => ([
-  //     [<Indicator text={user.admin ? 'Admin' : 'User'} color={theme.userTypes[user.admin ? 'admin' : 'user']} />, ''],
-  //     [<Indicator
-  //       text={getStatus(user.pending_moderation)}
-  //       color={theme.userStatus[user.pending_moderation]}
-  //     />, ''],
-  //     user.display_name,
-  //     format(new Date(user.created_at), 'dd.mm.yyyy'),
-  //     [(
-  //       <Button
-  //         reset
-  //       >
-  //         <Icon icon={user.pending_moderation === 'locked' ? faLockOpen : faLock} />
-  //       </Button>
-  //     ), ''],
-  //     [(
-  //       <Link href={`/moderation/posts/${user.id}`}>
-  //         <Icon icon={faFileAlt} />
-  //       </Link>
-  //     ), ''],
-  //   ]);
+  const userDataReducer: (user: IUser) =>
+    Row[] = (user: IUser) => ([
+      [<Indicator text={user.attributes.admin ? 'Admin' : 'User'} color={theme.userTypes[user.attributes.admin ? 'admin' : 'user']} />, ''],
+      [<Indicator
+        text={getStatus(getModerationState(data, user))}
+        color={theme.userStatus[getModerationState(data, user)]}
+      />, ''],
+      user.attributes.display_name,
+      format(new Date(user.attributes.created_at), 'dd.mm.yyyy'),
+      [(
+        <Button
+          reset
+        >
+          <Icon icon={getModerationState(data, user) === 'blocked' ? faLockOpen : faLock} />
+        </Button>
+      ), ''],
+    ]);
 
-  // const values = useMemo(() => {
-  //   if (!mockValues) return null;
-  //   return mockValues.map((value) => userDataReducer(value));
-  // }, [mockValues]);
+  const values = useMemo(() => {
+    if (!data || !data.data) return null;
+    return data.data.map((value) => userDataReducer(value));
+  }, [data]);
 
   return (
     <Layout title="User Moderation">
       <h1>User Moderation</h1>
-      {/* <Table
-        headerItems={headerItems}
-        values={values}
-        empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}
-      /> */}
+      <Wrapper>
+        <Loader isLoading={!data}>
+          <Table
+            headerItems={headerItems}
+            values={values}
+            empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}
+          />
+        </Loader>
+      </Wrapper>
     </Layout>
   );
 };

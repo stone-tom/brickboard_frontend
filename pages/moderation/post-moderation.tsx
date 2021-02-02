@@ -14,22 +14,22 @@ import { backendURL } from '../../util/api';
 import updateModerationUser from '../../util/api/moderation/update-moderation-user';
 import { get } from '../../util/methods';
 
+export const getModerationState = (data: any, user: IUser) => {
+  if (!user.relationships.thredded_user_detail.data) return 'pending_moderation';
+  if (data && data.data) {
+    for (const item of data.included) {
+      if (item.id === user.relationships.thredded_user_detail.data.id) {
+        return item.attributes.moderation_state;
+      }
+    }
+    return 'pending_moderation';
+  }
+  return 'pending_moderation';
+};
+
 const PostModeration = () => {
   const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
   const { setMessage } = useStoreDispatch();
-
-  const getModerationState = (user: IUser) => {
-    if (!user.relationships.thredded_user_detail.data) return 'pending_moderation';
-    if (data && data.data) {
-      for (const item of data.included) {
-        if (item.id === user.relationships.thredded_user_detail.data.id) {
-          return item.attributes.moderation_state;
-        }
-      }
-      return 'pending_moderation';
-    }
-    return 'pending_moderation';
-  };
 
   const onUpdateStatus = async (user: IUser, modStatus: string) => {
     try {
@@ -74,7 +74,7 @@ const PostModeration = () => {
                 <AccordionUserHeader
                   onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
                   user={currentUser}
-                  status={getModerationState(currentUser)}
+                  status={getModerationState(data, currentUser)}
                 />
               )}
             >

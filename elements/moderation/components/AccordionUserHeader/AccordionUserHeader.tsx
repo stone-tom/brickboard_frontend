@@ -1,11 +1,8 @@
-import { faCaretDown, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import { useStoreDispatch } from '../../../../context/custom_store';
-import { MessageType } from '../../../../models/IMessage';
 import IUser from '../../../../models/IUser';
 import { getStatus } from '../../../../pages/moderation/user-moderation';
-import updateModerationUser from '../../../../util/api/moderation/update-moderation-user';
 import {
   Header,
   Name,
@@ -39,9 +36,8 @@ const AccordionUserHeader = ({
           color={theme.userStatus[status]}
         />
       </DataWrapper>
-      <ButtonWrapper>
+      {status === 'blocked' && (
         <AcceptButton
-          disabled={status === 'approved'}
           small
           reset
           icon={faCheck}
@@ -49,15 +45,17 @@ const AccordionUserHeader = ({
         >
           bestätigen
         </AcceptButton>
+      )}
+      {status === 'approved' && (
         <DeclineButton
-          disabled={status === 'blocked'}
+          small
           reset
           icon={faTimes}
           onClick={() => onUpdateStatus(user, 'blocked')}
         >
           sperren
         </DeclineButton>
-      </ButtonWrapper>
+      )}
     </Header>
   );
 };
