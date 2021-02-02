@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "experimentalDecorators": true,
     "target": "es5",
     "lib": [

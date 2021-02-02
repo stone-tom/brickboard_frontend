@@ -48,17 +48,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function Respond({ slug, id }) {
+interface RespondProps {
+  slug,
+  id,
+}
+
+function Respond({
+  slug,
+  id,
+}: RespondProps) {
   const router = useRouter();
 
   const [content, setContent] = useState('');
   const [message, setMessage] = useState('');
   const { isAuthenticated } = useStoreState();
 
-  const sendAnswer = async (contentdata) => {
+  const sendAnswer = async (contentData: string) => {
     const data = {
       post: {
-        content: contentdata,
+        content: contentData,
       },
     };
 

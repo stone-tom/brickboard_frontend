@@ -50,11 +50,22 @@ const UserModeration = () => {
     '',
   ];
 
+  const getStatus = (status: string) => {
+    switch (status) {
+      case 'locked':
+        return 'gesperrt';
+      case 'pending':
+        return 'pending';
+      default:
+        return 'bestätigt';
+    }
+  };
+
   const userDataReducer: (user: IUser) =>
     Row[] = (user: IUser) => ([
       [<Indicator text={user.admin ? 'Admin' : 'User'} color={theme.userTypes[user.admin ? 'admin' : 'user']} />, ''],
       [<Indicator
-        text={user.pending_moderation === 'locked' ? 'gesperrt' : user.pending_moderation === 'pending' ? 'pending' : 'bestätigt'}
+        text={getStatus(user.pending_moderation)}
         color={theme.userStatus[user.pending_moderation]}
       />, ''],
       user.display_name,
@@ -71,7 +82,7 @@ const UserModeration = () => {
   const values = useMemo(() => {
     if (!mockValues) return null;
     return mockValues.map((value) => userDataReducer(value));
-  }, [mockValues])
+  }, [mockValues]);
 
   return (
     <Layout title="User Moderation">
@@ -81,8 +92,9 @@ const UserModeration = () => {
         values={values}
         empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}
       />
+      <Button />
     </Layout>
-  )
+  );
 };
 
 export default UserModeration;

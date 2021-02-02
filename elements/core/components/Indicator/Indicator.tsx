@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wrapper, Dot } from './Indicator.styles';
 
-interface RoleProps {
+interface IndicatorProps {
   text: string,
   color: string,
 }
@@ -9,7 +9,7 @@ interface RoleProps {
 const Indicator = ({
   color,
   text,
-}: RoleProps) => (
+}: IndicatorProps) => (
   <Wrapper>
     <Dot color={color} />
     {text}

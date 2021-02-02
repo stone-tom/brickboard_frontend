@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Overlay } from './Overlay.styles';
 
-const OverlayComponent = ({ children }) => (
+const OverlayComponent = ({
+  children,
+}: { children: ReactNode }) => (
   <Overlay>
     {children}
   </Overlay>

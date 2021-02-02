@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
+import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import {
   Post, PostContent, PostDate, PostDetails, PostHeader, PostHeading, PostSettings,
 } from './Post.styles';
@@ -8,16 +9,15 @@ import { useStoreDispatch, useStoreState } from '../../../../context/custom_stor
 import Editor from '../../../core/container/Editor/Editor';
 import updatePost from '../../../../util/api/post/update-post';
 import { MessageType } from '../../../../models/IMessage';
-import  Icon  from '../../../core/components/Icon/Icon';
-import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Icon from '../../../core/components/Icon/Icon';
 import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
 
-enum IconType {
-  Standard,
-  Question,
-  Announcement,
-}
+// enum IconType {
+//   Standard,
+//   Question,
+//   Announcement,
+// }
 
 // function whichIcon(type: IconType): IconProp {
 //   switch (type) {
@@ -31,21 +31,21 @@ enum IconType {
 // }
 
 interface PostProps {
-  type: IconType;
+  // type: number;
   postId: number;
   title?: string;
   postContent: string;
   author?: string;
-  authorRegistered?: Date;
-  authorProfilePic?: string;
-  authorBadge?: string;
+  // authorRegistered?: Date;
+  // authorProfilePic?: string;
+  // authorBadge?: string;
   created?: Date;
-  changed?: Date;
-  views?: number;
+  // changed?: Date;
+  // views?: number;
   topicId: number;
   slug: string,
-  comments?: number;
-  updated?: boolean;
+  // comments?: number;
+  // updated?: boolean;
 }
 
 const PostComponent = ({
@@ -81,21 +81,27 @@ const PostComponent = ({
           <PostHeading>{title}</PostHeading>
           <PostSettings>
             {user && (
-            <>
-              {user.name === author && (
-              <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
-                {!isEditing
-                  ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
-                  : <Hint direction="down" hint="Abbrechen"><Icon icon={faTimes} /></Hint> }
-              </Button>
-              )}
-            </>
+              <>
+                {user.name === author && (
+                  <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
+                    {!isEditing
+                      ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
+                      : <Hint direction="down" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
+                  </Button>
+                )}
+              </>
             )}
           </PostSettings>
         </PostHeader>
         <PostDate>{format(new Date(created), 'dd.MM.yyyy, HH:mm ')}</PostDate>
         {isEditing
-          ? <Editor onEditorSubmit={({editorContent}) => submitPost(editorContent)} answer initialContent={postText} /> 
+          ? (
+            <Editor
+              onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
+              answer
+              initialContent={postText}
+            />
+          )
           : <PostContent dangerouslySetInnerHTML={{ __html: postText }} />}
       </PostDetails>
       <ProfileAside author={author} />

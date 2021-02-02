@@ -32,12 +32,19 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => ({
   },
   revalidate: 1,
 });
-function NeuesThema({ slug }) {
+
+interface NeuesThemaProps {
+  slug: string
+}
+
+function NeuesThema({
+  slug,
+}: NeuesThemaProps) {
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
   const router = useRouter();
 
-  const submitTopic = async (title, editorContent) => {
+  const submitTopic = async (title: string, editorContent: any) => {
     const { content, error } = await createTopic(slug, title, editorContent);
     if (error) {
       setMessage({

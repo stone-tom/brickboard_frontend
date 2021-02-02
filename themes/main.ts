@@ -23,5 +23,5 @@ export default {
     pending: 'orange',
     approved: 'green',
     locked: 'red',
-  }
+  },
 };

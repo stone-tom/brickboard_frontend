@@ -65,7 +65,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function Subforum({ topicData, slug, id }) {
+interface SubforumProps {
+  topicData: any,
+  slug: string,
+  id: number,
+}
+
+function Subforum({
+  topicData,
+  slug,
+  id,
+}: SubforumProps) {
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
 
@@ -116,7 +126,7 @@ function Subforum({ topicData, slug, id }) {
                 topicId={id}
                 slug={slug}
                 postContent={postWrapper.attributes.content}
-                type={1}
+                // type={1}
                 author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
                 key={postWrapper.id}
                 created={postWrapper.attributes.created_at}
@@ -130,7 +140,7 @@ function Subforum({ topicData, slug, id }) {
               slug={slug}
               title={`Re: ${topic.attributes.title}`}
               postContent={postWrapper.attributes.content}
-              type={1}
+              // type={1}
               author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
               key={postWrapper.id}
               created={postWrapper.attributes.created_at}

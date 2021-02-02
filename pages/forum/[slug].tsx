@@ -9,7 +9,6 @@ import { useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
-import BBButton from '../../elements/core/components/BBButton/BBButton';
 import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api';
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
@@ -46,7 +45,17 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   };
 };
 
-function Subforum({ topicsData, slug, messageboardName }) {
+interface SubforumProps {
+  topicsData: any,
+  slug: string,
+  messageboardName: string,
+}
+
+function Subforum({
+  topicsData,
+  slug,
+  messageboardName,
+}: SubforumProps) {
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated } = useStoreState();
   const {
@@ -156,17 +165,17 @@ function Subforum({ topicsData, slug, messageboardName }) {
         />
 
         {pageIndex > 1 && (
-        <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
-          Vorige Seite
-        </button>
+          <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+            Vorige Seite
+          </button>
         )}
         {topicList.length >= 20 && (
-        <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
-          Nächste Seite
-        </button>
+          <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+            Nächste Seite
+          </button>
         )}
         {isAuthenticated && (
-        <Link href={`./${slug}/neues-thema`} passHref><BBButton alignRight add>Neues Thema erstellen</BBButton></Link>
+          <Link href={`./${slug}/neues-thema`} passHref>Neues Thema erstellen</Link>
 
         )}
       </ViewWrapper>

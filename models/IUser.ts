@@ -1,5 +1,3 @@
-import IUserDetail from './IUserDetail';
-
 export default interface IUser {
   id: number,
   admin: boolean,
@@ -8,4 +6,4 @@ export default interface IUser {
   updated_at: string,
   avatar: string,
   pending_moderation: 'locked' | 'pending' | 'approved',
-};
+}

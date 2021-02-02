@@ -59,7 +59,9 @@ function reducer(state, { payload, type }) {
   }
 }
 
-function StoreProvider({ children }) {
+function StoreProvider({
+  children,
+}: { children: ReactNode }) {
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
     JSON.stringify(initialState),
   );

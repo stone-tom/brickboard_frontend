@@ -22,6 +22,7 @@ const SubMenu = () => {
         {showMenu && (
           <SubMenuList>
             <SubMenuListItem><Link href="/user-moderation">User Moderation</Link></SubMenuListItem>
+            <SubMenuListItem><Link href="/moderation/posts">Pending Posts</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Mein Profil</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Film vorstellen</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/logout">Logout</Link></SubMenuListItem>

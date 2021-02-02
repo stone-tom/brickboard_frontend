@@ -14,14 +14,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export const CodeConfirmation = (props) => {
+interface CodeConfirmationProps {
+  code: string,
+}
+
+export const CodeConfirmation = ({
+  code,
+}: CodeConfirmationProps) => {
   const [hint, setHint] = useState('');
   const [redirect, setRedirect] = useState(false);
   const { performAccountConfirmation } = useStoreDispatch();
 
-  const tryConfirmation = async (code) => {
+  const tryConfirmation = async (confirmationCode: string) => {
     try {
-      const user = await performAccountConfirmation(code);
+      const user = await performAccountConfirmation(confirmationCode);
       setRedirect(true);
       setHint(`Willkommen ${user.name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
     } catch (error) {
@@ -30,7 +36,7 @@ export const CodeConfirmation = (props) => {
   };
 
   useEffect(() => {
-    tryConfirmation(props.code);
+    tryConfirmation(code);
   }, []);
 
   return (
