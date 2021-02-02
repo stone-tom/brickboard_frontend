@@ -80,25 +80,25 @@ function Subforum({
         {topicViews.map((topicView) => {
           const topic = findObject(topicList, topicView.relationships.topic.data.id);
           const author = findObject(userList, topic.relationships.user.data.id);
-          const lastCommentor = findObject(userList, topic.relationships.last_user.data.id)
+          const lastCommentor = findObject(userList, topic.relationships.last_user.data.id);
           let readstate = null;
 
-          
           if (topicView.relationships.read_state !== undefined) {
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
           }
           let unread = false;
-          if ((readstate === null && isAuthenticated) || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
+          if ((readstate === null && isAuthenticated)
+          || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-          if(topic.attributes.title=="Ein Test"){
-            console.log("TOPIC",topic.attributes.title);
-            console.log("TOPICVIEW",topicView)
-            console.log("READSTATE", readstate);
-            console.log("UNREAD?", unread);
-            console.log("IS AUTHENTICATED?", isAuthenticated);
+          if (topic.attributes.title === 'Ein Test') {
+            console.log('TOPIC', topic.attributes.title);
+            console.log('TOPICVIEW', topicView);
+            console.log('READSTATE', readstate);
+            console.log('UNREAD?', unread);
+            console.log('IS AUTHENTICATED?', isAuthenticated);
           }
-       
+
           // console.log("READSTATE",readstate);
           // console.log(isAuthenticated);
           return (

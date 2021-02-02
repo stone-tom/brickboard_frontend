@@ -81,12 +81,12 @@ const TopicItemComponent = ({
   markUnread,
 }: TopicItemProps) => (
   <TopicItem>
-    {topic.attributes.title == "Ein Test" && (
+    {topic.attributes.title === 'Ein Test' && (
       <>
-        {console.log("COMPONENT: Topic", topic)}
-        {console.log("COMPONENT: READSTATE", readstate)}
-        {console.log("COMPONENT: UNREAD?", markUnread)}
-        {console.log("COMPONENT: IS AUTHENTICATED?", isAuthenticated)}
+        {console.log('COMPONENT: Topic', topic)}
+        {console.log('COMPONENT: READSTATE', readstate)}
+        {console.log('COMPONENT: UNREAD?', markUnread)}
+        {console.log('COMPONENT: IS AUTHENTICATED?', isAuthenticated)}
       </>
     )}
     {markUnread ? (
@@ -138,7 +138,7 @@ const TopicItemComponent = ({
         )}
         <TopicInfoDetailsItem>
           <Hint hint="Aufrufe">
-            <TextIcon text="420" >
+            <TextIcon text="420">
               <Icon icon={faEye} />
             </TextIcon>
           </Hint>

@@ -29,8 +29,6 @@ export const TopicHeading = styled.h3<{
   }
 `;
 
-
-
 export const TopicIcon = styled.div<{
   updated?: boolean,
 }>`
