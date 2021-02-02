@@ -60,7 +60,6 @@ function Subforum({
 }: SubforumProps) {
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated } = useStoreState();
-  // if isAuthenticated => useSWR
   const {
     data,
   } = useSWR(
@@ -95,12 +94,6 @@ function Subforum({
             unread = true;
           }
 
-          console.log('TOPIC', topic.attributes.title);
-          console.log('READSTATE', readstate);
-          console.log('UNREAD?', unread);
-
-          // console.log("READSTATE",readstate);
-          // console.log(isAuthenticated);
           return (
             <TopicItem
               key={topic.attributes.slug}
@@ -108,9 +101,7 @@ function Subforum({
               topic={topic}
               author={author}
               lastCommentor={lastCommentor}
-              readstate={readstate}
               markUnread={unread}
-              isAuthenticated={isAuthenticated}
             />
           );
         })}

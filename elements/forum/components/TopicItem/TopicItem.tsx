@@ -64,10 +64,8 @@ function whichIcon(type: IconType): IconProp {
 interface TopicItemProps {
   slug: string;
   topic: any;
-  readstate?: any;
   author: any;
   lastCommentor: any;
-  isAuthenticated?: boolean;
   markUnread?: boolean;
 }
 
@@ -76,19 +74,9 @@ const TopicItemComponent = ({
   topic,
   author,
   lastCommentor,
-  readstate,
-  isAuthenticated,
   markUnread,
 }: TopicItemProps) => (
   <TopicItem>
-    {topic.attributes.title === 'Ein Test' && (
-      <>
-        {console.log('COMPONENT: Topic', topic)}
-        {console.log('COMPONENT: READSTATE', readstate)}
-        {console.log('COMPONENT: UNREAD?', markUnread)}
-        {console.log('COMPONENT: IS AUTHENTICATED?', isAuthenticated)}
-      </>
-    )}
     {markUnread ? (
       <>
         <TopicUnreadMarker unread />

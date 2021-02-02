@@ -12,7 +12,7 @@ export const get = async (url: string, options?: any) => {
 
 export const post = async (
   url: string,
-  data: { [key: string]: any },
+  data?: { [key: string]: any },
   options?: any,
 ) => {
   const res = await fetch(url, {
