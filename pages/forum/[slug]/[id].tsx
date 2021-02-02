@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
@@ -100,6 +100,7 @@ function Subforum({
       toggleEditor();
     }
   };
+
   return (
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}

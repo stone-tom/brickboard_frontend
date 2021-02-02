@@ -20,9 +20,11 @@ import {
   TopicInfoDetails,
   TopicActivity,
   TopicUnreadMarker,
+  TopicInfoDetailsItem,
 } from './TopicItem.styles';
 import Hint from '../../../core/components/Hint/Hint';
 import Icon from '../../../core/components/Icon/Icon';
+import TextIcon from '../TextIcon/TextIcon';
 
 enum IconType {
   Standard,
@@ -65,6 +67,8 @@ interface TopicItemProps {
   readstate?: any;
   author: any;
   lastCommentor: any;
+  isAuthenticated?: boolean;
+  markUnread?: boolean;
 }
 
 const TopicItemComponent = ({
@@ -73,18 +77,38 @@ const TopicItemComponent = ({
   author,
   lastCommentor,
   readstate,
+  isAuthenticated,
+  markUnread,
 }: TopicItemProps) => (
   <TopicItem>
-    {readstate && (
+    {topic.attributes.title == "Ein Test" && (
       <>
-        {readstate.attributes.unread_posts_count > 0 && (
-          <TopicUnreadMarker />
-        )}
+        {console.log("COMPONENT: Topic", topic)}
+        {console.log("COMPONENT: READSTATE", readstate)}
+        {console.log("COMPONENT: UNREAD?", markUnread)}
+        {console.log("COMPONENT: IS AUTHENTICATED?", isAuthenticated)}
       </>
     )}
-    <TopicIcon>
-      <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
-    </TopicIcon>
+    {markUnread ? (
+      <>
+        <TopicUnreadMarker unread />
+        <TopicIcon>
+          <Hint hint="Ungelesene Beiträge">
+            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+          </Hint>
+        </TopicIcon>
+      </>
+    ) : (
+      <>
+        <TopicUnreadMarker />
+        <TopicIcon>
+          <Hint hint="Keine ungelesenen Beiträge">
+            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+          </Hint>
+        </TopicIcon>
+      </>
+    )}
+
     <TopicInfo>
       <div>
         <TopicHeading>
@@ -106,24 +130,26 @@ const TopicItemComponent = ({
           </p>
         )}
         {topic.attributes.sticky && (
-          <p>
+          <TopicInfoDetailsItem>
             <Hint hint="Gepinnt">
               <Icon icon={faMapPin} />
             </Hint>
-          </p>
+          </TopicInfoDetailsItem>
         )}
-        <p>
+        <TopicInfoDetailsItem>
           <Hint hint="Aufrufe">
-            <Icon icon={faEye} />
+            <TextIcon text="420" >
+              <Icon icon={faEye} />
+            </TextIcon>
           </Hint>
-          420
-        </p>
-        <p>
+        </TopicInfoDetailsItem>
+        <TopicInfoDetailsItem>
           <Hint hint="Antworten">
-            <FontAwesomeIcon icon={faCommentAlt} />
+            <TextIcon text={`${topic.attributes.posts_count - 1}`}>
+              <Icon icon={faCommentAlt} />
+            </TextIcon>
           </Hint>
-          {topic.attributes.posts_count - 1}
-        </p>
+        </TopicInfoDetailsItem>
       </TopicInfoDetails>
     </TopicInfo>
     <TopicActivity>

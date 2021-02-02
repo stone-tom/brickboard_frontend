@@ -13,7 +13,6 @@ import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
-import { read } from 'fs';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -83,10 +82,25 @@ function Subforum({
           const author = findObject(userList, topic.relationships.user.data.id);
           const lastCommentor = findObject(userList, topic.relationships.last_user.data.id)
           let readstate = null;
+
+          
           if (topicView.relationships.read_state !== undefined) {
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
-            console.log("READSTATE",readstate);
           }
+          let unread = false;
+          if ((readstate === null && isAuthenticated) || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
+            unread = true;
+          }
+          if(topic.attributes.title=="Ein Test"){
+            console.log("TOPIC",topic.attributes.title);
+            console.log("TOPICVIEW",topicView)
+            console.log("READSTATE", readstate);
+            console.log("UNREAD?", unread);
+            console.log("IS AUTHENTICATED?", isAuthenticated);
+          }
+       
+          // console.log("READSTATE",readstate);
+          // console.log(isAuthenticated);
           return (
             <TopicItem
               key={topic.attributes.slug}
@@ -95,6 +109,8 @@ function Subforum({
               author={author}
               lastCommentor={lastCommentor}
               readstate={readstate}
+              markUnread={unread}
+              isAuthenticated={isAuthenticated}
             />
           );
         })}

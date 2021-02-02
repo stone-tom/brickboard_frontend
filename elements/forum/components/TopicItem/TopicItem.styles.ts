@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TopicItem = styled.div<{
-  updated: boolean
+  updated?: boolean
 }>`
   min-height: 50px;
   display: flex;
@@ -10,7 +10,6 @@ export const TopicItem = styled.div<{
   color: ${(props) => props.theme.darkgray};
   border: lightgray 1px solid;
   border-radius: 2px;
-  padding: .2rem;
   margin: .5rem 0;
   box-shadow: 0px 10px 10px ${(props) => props.theme.lightgray};
 
@@ -22,7 +21,7 @@ export const TopicItem = styled.div<{
 `;
 
 export const TopicHeading = styled.h3<{
-  updated: boolean
+  updated?: boolean
 }>`
 
   &:hover {
@@ -38,6 +37,7 @@ export const TopicIcon = styled.div<{
   display: flex;
   width: 5%;
   align-items: center;
+  padding: .2rem;
   justify-content: center;
   color: ${(props) => (props.updated ? props.theme.brickred : props.theme.darkgray)};
 
@@ -45,9 +45,13 @@ export const TopicIcon = styled.div<{
     max-height: 50px;
   }
 `;
-export const TopicUnreadMarker = styled.div`
-    width: 2%;
-    background-color: ${(props)=>props.theme.brickred};
+export const TopicUnreadMarker = styled.div<{
+  unread?: boolean,
+}>`
+    width: 5px;
+    border-top-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: ${(props) => (props.unread ? props.theme.brickred : props.theme.gray)};
 `;
 
 export const TopicInfo = styled.div`
@@ -55,6 +59,7 @@ export const TopicInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: .2rem;
   padding-left: .5rem;
   border-left: lightgray 1px solid;
 `;
@@ -62,23 +67,20 @@ export const TopicInfo = styled.div`
 export const TopicInfoDetails = styled.div`
   display: flex;
   align-items: center;
-
-  p {
-    margin: 0 1rem;
-  }
-
+`;
+export const TopicInfoDetailsItem = styled.div`
   svg {
     margin-right: 10px;
-  }
-
+  } 
   span {
-    max-width: 30px;
     display: inline-block;
-  }   
+  }  
+  margin: 0 1rem;
 `;
 
 export const TopicActivity = styled.div`
-  width: 25%;
+  width: 20%;
+  padding: .2rem;
   padding-left: .5rem;
   border-left: lightgray 1px solid;
 `;
