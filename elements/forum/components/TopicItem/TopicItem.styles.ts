@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const TopicItem = styled.div<{
-    updated: boolean
-}>`
+export const TopicItem = styled.div`
 
     min-height: 50px;
     display: flex;
@@ -21,18 +19,18 @@ export const TopicItem = styled.div<{
     }
 `;
 
-export const TopicHeading = styled.h3<{
-    updated: boolean
-}>`
+export const TopicHeading = styled.h3`
     &:hover{
         color: ${(props) => props.theme.brickred};
     }
 `;
 
+
+
 export const TopicIcon = styled.div<{
     updated?: boolean,
 }>`
-        display:flex;
+      display:flex;
       width: 5%;
       align-items: center;
       justify-content: center;
@@ -40,6 +38,10 @@ export const TopicIcon = styled.div<{
       svg{
           max-height: 50px;
       }
+`;
+export const TopicUnreadMarker = styled.div`
+    width: 2%;
+    background-color: ${(props)=>props.theme.brickred};
 `;
 
 export const TopicInfo = styled.div`
@@ -70,7 +72,7 @@ display: flex;
 `;
 
 export const TopicActivity = styled.div`
-  width: 25%;
+  width: 23%;
       padding-left: 0.5rem;
       border-left: lightgray 1px solid;
 `;

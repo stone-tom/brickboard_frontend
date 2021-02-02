@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { HintSpan } from './Hint.styled';
 
 interface IconInterface {
-  children: ReactNode,
+  children?: ReactNode,
   hint: string,
   direction?: 'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-roght' | 'down-left' | 'down-right',
 }
