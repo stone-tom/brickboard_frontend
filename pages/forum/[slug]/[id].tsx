@@ -65,7 +65,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function Subforum({ topicData, slug, id }) {
+interface SubforumProps {
+  topicData: any,
+  slug: string,
+  id: string,
+}
+
+function Subforum({
+  topicData,
+  slug,
+  id,
+}: SubforumProps) {
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
 

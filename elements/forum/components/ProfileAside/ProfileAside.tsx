@@ -4,10 +4,10 @@ import { ProfileAside, ProfileAsideHeading, ProfileCondensedInfo } from './Profi
 
 interface ProfileAsideProps {
   author?: string;
-  authorRegistered?: Date;
+  // authorRegistered?: Date;
   authorProfilePic?: string;
   postsCount?: number;
-  authorBadge?: string;
+  // authorBadge?: string;
   authorCity?: string;
 }
 

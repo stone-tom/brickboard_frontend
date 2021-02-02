@@ -33,4 +33,3 @@ export const InputLabel = styled.label`
   padding: 10px 0px;
   font-weight: bold;
 `;
-

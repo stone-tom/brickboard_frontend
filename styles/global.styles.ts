@@ -107,7 +107,7 @@ export default GlobalStyles;
 
 export const ViewWrapper = styled.div <{
   center?: boolean,
-}> `
+}>`
   
     ${(props) => props.center && css`
       display: flex;

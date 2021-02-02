@@ -1,5 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { isArray } from 'lodash';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import {
   TableWrapper,
   Table,
@@ -10,7 +11,6 @@ import {
   TableSortButton,
   TableSortButtonArrow,
 } from './Table.styles';
-import { faArrowDown, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 export type Row = (number | undefined | string | null | [ReactNode | JSX.Element, string]);
 
