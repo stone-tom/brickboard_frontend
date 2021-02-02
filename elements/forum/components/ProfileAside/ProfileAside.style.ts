@@ -14,7 +14,5 @@ export const ProfileAsideHeading = styled.h3`
 `;
 export const ProfileCondensedInfo = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
   height: 200px
 `;
