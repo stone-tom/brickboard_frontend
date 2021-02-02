@@ -126,7 +126,7 @@ const TopicItemComponent = ({
         )}
         <TopicInfoDetailsItem>
           <Hint hint="Aufrufe">
-            <TextIcon text="420">
+            <TextIcon text={topic.attributes.view_count}>
               <Icon icon={faEye} />
             </TextIcon>
           </Hint>

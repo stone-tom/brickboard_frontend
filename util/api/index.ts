@@ -8,6 +8,7 @@ import confirmAccount from './authentication/confirm-account';
 import answerTopic from './topic/answer-topic';
 import createTopic from './topic/create-topic';
 import markTopicAsRead from './topic/mark-topic-as-read';
+import incrementViewCount from './topic/increment-view-count';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -22,4 +23,5 @@ export {
   answerTopic,
   createTopic,
   markTopicAsRead,
+  incrementViewCount,
 };
