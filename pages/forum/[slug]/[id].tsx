@@ -4,7 +4,12 @@ import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { answerTopic, getTopic, incrementViewCount, markTopicAsRead } from '../../../util/api';
+import {
+  answerTopic,
+  getTopic,
+  incrementViewCount,
+  markTopicAsRead,
+} from '../../../util/api';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 import Button from '../../../elements/core/components/Button/Button';
