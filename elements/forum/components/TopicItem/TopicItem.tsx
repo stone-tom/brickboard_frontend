@@ -145,7 +145,7 @@ const TopicItemComponent = ({
         </TopicInfoDetailsItem>
         <TopicInfoDetailsItem>
           <Hint hint="Antworten">
-            <TextIcon text={`${topic.attributes.posts_count - 1}`}>
+            <TextIcon text={`${topic.attributes.posts_count}`}>
               <Icon icon={faCommentAlt} />
             </TextIcon>
           </Hint>

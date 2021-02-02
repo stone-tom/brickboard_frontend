@@ -52,36 +52,41 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
         <div key={group.attributes.name}>
           <ForumHeading title={group.attributes.name} />
           {group.relationships
-              && group.relationships.messageboards.data.map((mb) => {
-                const board = findMessageBoard(mb.id);
-                if (board !== undefined) {
-                  const lastTopic = getTopic(board.relationships.last_topic.data.id);
-                  const lastUser = getUser(lastTopic.relationships.last_user.data.id);
-                  return (
-                    <ForumItem
-                      key={board.attributes.slug}
-                      title={board.attributes.name}
-                      description={board.attributes.description}
-                      topics={board.attributes.topics_count}
-                      lastTopicTitle={
-                        lastTopic
-                          ? lastTopic.attributes.title
-                          : 'Fehler beim Laden'
-                      }
-                      lastTopicDate={
-                        lastTopic
-                          ? new Date(lastTopic.attributes.last_post_at)
-                          : new Date(Date.now())
-                      }
-                      lastAuthor={
-                        lastUser.attributes.display_name
-                      }
-                      slug={board.attributes.slug}
-                    />
-                  );
+            && group.relationships.messageboards.data.map((mb) => {
+              const board = findMessageBoard(mb.id);
+              if (board !== undefined) {
+                const lastTopic = getTopic(board.relationships.last_topic.data.id);
+                let lastUser = null;
+                if (lastTopic !== undefined) {
+                  lastUser = getUser(lastTopic.relationships.last_user.data.id);
                 }
-                return <div>Board wurde nicht gefunden</div>;
-              })}
+                return (
+                  <ForumItem
+                    key={board.attributes.slug}
+                    title={board.attributes.name}
+                    description={board.attributes.description}
+                    topics={board.attributes.topics_count}
+                    lastTopicTitle={
+                      lastTopic
+                        ? lastTopic.attributes.title
+                        : 'Fehler beim Laden'
+                    }
+                    lastTopicDate={
+                      lastTopic
+                        ? new Date(lastTopic.attributes.last_post_at)
+                        : new Date(Date.now())
+                    }
+                    lastAuthor={
+                      lastUser
+                        ? lastUser.attributes.display_name
+                        : 'Kein User gefunden'
+                    }
+                    slug={board.attributes.slug}
+                  />
+                );
+              }
+              return <div>Board wurde nicht gefunden</div>;
+            })}
         </div>
       ))}
     </Layout>

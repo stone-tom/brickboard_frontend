@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import Link from 'next/link';
-import { ViewWrapper } from '../../styles/global.styles';
+import { FlexRight, ViewWrapper } from '../../styles/global.styles';
 import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
 import { useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
@@ -13,6 +13,7 @@ import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
+import { Button } from '../../elements/core/components/Button/Button.styles';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -59,6 +60,7 @@ function Subforum({
 }: SubforumProps) {
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated } = useStoreState();
+  // if isAuthenticated => useSWR
   const {
     data,
   } = useSWR(
@@ -87,8 +89,9 @@ function Subforum({
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
           }
           let unread = false;
+
           if ((readstate === null && isAuthenticated)
-          || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
+            || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
           if (topic.attributes.title === 'Ein Test') {
@@ -98,7 +101,6 @@ function Subforum({
             console.log('UNREAD?', unread);
             console.log('IS AUTHENTICATED?', isAuthenticated);
           }
-
           // console.log("READSTATE",readstate);
           // console.log(isAuthenticated);
           return (
@@ -125,8 +127,11 @@ function Subforum({
           </button>
         )}
         {isAuthenticated && (
-          <Link href={`./${slug}/neues-thema`} passHref>Neues Thema erstellen</Link>
-
+          <FlexRight>
+            <Link href={`./${slug}/neues-thema`} passHref>
+              <Button>Thema erstellen</Button>
+            </Link>
+          </FlexRight>
         )}
       </ViewWrapper>
     </Layout>
