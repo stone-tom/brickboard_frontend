@@ -94,13 +94,11 @@ function Subforum({
             || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-          if (topic.attributes.title === 'Ein Test') {
-            console.log('TOPIC', topic.attributes.title);
-            console.log('TOPICVIEW', topicView);
-            console.log('READSTATE', readstate);
-            console.log('UNREAD?', unread);
-            console.log('IS AUTHENTICATED?', isAuthenticated);
-          }
+
+          console.log('TOPIC', topic.attributes.title);
+          console.log('READSTATE', readstate);
+          console.log('UNREAD?', unread);
+
           // console.log("READSTATE",readstate);
           // console.log(isAuthenticated);
           return (
