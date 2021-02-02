@@ -7,7 +7,6 @@ import {
   Header,
   Name,
   Status,
-  ButtonWrapper,
   AcceptButton,
   DeclineButton,
   DataWrapper,

@@ -3,11 +3,10 @@ import { ButtonWrapper, PromptButton } from './Prompt.styles';
 import Overlay from '../../../core/components/Overlay/Overlay';
 import OverlayBody from '../../../core/components/OverlayBody/OverlayBody';
 import { OverlayHeadline } from '../../../core/components/OverlayBody/OverlayBody.styles';
-import { useStoreDispatch } from '../../../../context/custom_store';
 
 interface PromptProps {
-  onAccept?: () => void,
-  onDecline?: () => void,
+  onAccept: () => void,
+  onDecline: () => void,
   acceptText?: string,
   declineText?: string,
   children: ReactNode,
@@ -15,22 +14,19 @@ interface PromptProps {
 }
 
 const Prompt = ({
-  acceptText = 'accept',
-  declineText = 'cancel',
+  acceptText = 'Bestätigen',
+  declineText = 'Abbrechen',
   children,
   headline,
   onAccept,
   onDecline,
 }: PromptProps) => {
-  const { removeComponent } = useStoreDispatch();
   const decline = () => {
-    if (onDecline) onDecline();
-    removeComponent();
+    onDecline();
   };
 
   const accept = () => {
-    if (onAccept) onAccept();
-    removeComponent();
+    onAccept();
   };
 
   return (

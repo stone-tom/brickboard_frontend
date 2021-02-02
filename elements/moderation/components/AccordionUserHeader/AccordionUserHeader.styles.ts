@@ -20,12 +20,6 @@ export const Header = styled.div`
   width: 90%;
 `;
 
-export const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-`;
-
 export const DeclineButton = styled(Button)`
   color: red; 
 `;
