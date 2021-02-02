@@ -31,7 +31,7 @@ import Hint from '../../../core/components/Hint/Hint';
 // }
 
 interface PostProps {
-  // type: IconType;
+  // type: number;
   postId: number;
   title?: string;
   postContent: string;

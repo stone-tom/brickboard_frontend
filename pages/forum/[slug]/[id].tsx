@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 interface SubforumProps {
   topicData: any,
   slug: string,
-  id: string,
+  id: number,
 }
 
 function Subforum({
@@ -126,7 +126,7 @@ function Subforum({
                 topicId={id}
                 slug={slug}
                 postContent={postWrapper.attributes.content}
-                type={1}
+                // type={1}
                 author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
                 key={postWrapper.id}
                 created={postWrapper.attributes.created_at}
@@ -140,7 +140,7 @@ function Subforum({
               slug={slug}
               title={`Re: ${topic.attributes.title}`}
               postContent={postWrapper.attributes.content}
-              type={1}
+              // type={1}
               author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
               key={postWrapper.id}
               created={postWrapper.attributes.created_at}
