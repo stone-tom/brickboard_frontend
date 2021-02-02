@@ -1,13 +1,25 @@
-import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
+import { faFileAlt, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
+import Link from 'next/link';
 import React, { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
-import { Button } from '../elements/core/components/Button/Button.styles';
-import { Icon } from '../elements/core/components/Icon/Icon.styled';
-import Indicator from '../elements/core/components/Indicator/Indicator';
-import Table, { Row } from '../elements/core/components/Table/Table';
-import Layout from '../elements/core/container/Layout/Layout';
-import IUser from '../models/IUser';
+import { Button } from '../../elements/core/components/Button/Button.styles';
+import { Icon } from '../../elements/core/components/Icon/Icon.styled';
+import Indicator from '../../elements/core/components/Indicator/Indicator';
+import Table, { Row } from '../../elements/core/components/Table/Table';
+import Layout from '../../elements/core/container/Layout/Layout';
+import IUser from '../../models/IUser';
+
+export const getStatus = (status: string | null) => {
+  switch (status) {
+    case 'locked':
+      return 'gesperrt';
+    case 'pending_moderation' || null:
+      return 'pending';
+    default:
+      return 'bestätigt';
+  }
+};
 
 const mockValues: IUser[] = [
   {
@@ -50,17 +62,6 @@ const UserModeration = () => {
     '',
   ];
 
-  const getStatus = (status: string) => {
-    switch (status) {
-      case 'locked':
-        return 'gesperrt';
-      case 'pending':
-        return 'pending';
-      default:
-        return 'bestätigt';
-    }
-  };
-
   const userDataReducer: (user: IUser) =>
     Row[] = (user: IUser) => ([
       [<Indicator text={user.admin ? 'Admin' : 'User'} color={theme.userTypes[user.admin ? 'admin' : 'user']} />, ''],
@@ -76,6 +77,11 @@ const UserModeration = () => {
         >
           <Icon icon={user.pending_moderation === 'locked' ? faLockOpen : faLock} />
         </Button>
+      ), ''],
+      [(
+        <Link href={`/moderation/posts/${user.id}`}>
+          <Icon icon={faFileAlt} />
+        </Link>
       ), ''],
     ]);
 
