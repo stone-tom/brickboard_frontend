@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useStoreState } from '../../../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
+import { MessageType } from '../../../../models/IMessage';
+import Button from '../../components/Button/Button';
 import {
   SubMenuContainer, SubMenuImageWrapper, SubMenuList, SubMenuListItem, SubMenuWrapper,
 } from './SubMenu.styles';
@@ -9,9 +12,20 @@ import {
 const SubMenu = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { user } = useStoreState();
+  const { performLogout, setMessage } = useStoreDispatch();
+  const router = useRouter();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const handleLogout = () => {
+    performLogout();
+    router.push('/');
+    setMessage({
+      content: 'Erfolgreich abgemeldet!',
+      type: MessageType.warning,
+    });
   };
 
   return (
@@ -25,7 +39,9 @@ const SubMenu = () => {
             <SubMenuListItem><Link href="/moderation/posts">Pending Posts</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Mein Profil</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Film vorstellen</Link></SubMenuListItem>
-            <SubMenuListItem><Link href="/logout">Logout</Link></SubMenuListItem>
+            <SubMenuListItem>
+              <Button reset onClick={() => handleLogout()}>Logout</Button>
+            </SubMenuListItem>
           </SubMenuList>
         )}
       </SubMenuContainer>
