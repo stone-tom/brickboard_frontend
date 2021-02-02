@@ -10,7 +10,6 @@ import {
 export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   error?: boolean,
   chlidren?: ReactNode,
-  noLabel?: boolean,
   onChange?: (event: string) => void,
 }
 
@@ -21,7 +20,6 @@ const FormInputComponent = ({
   required = false,
   error = false,
   value,
-  noLabel,
   onChange,
   ...rest
 }: TextInputProps) => (

@@ -1,32 +1,12 @@
 {
   "root": true,
-  "parser": "babel-eslint",
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
-    "airbnb"
-  ],
+  "extends": ["airbnb"],
   "env": {
-    "browser": true,
-    "commonjs": true,
-    "es6": true,
-    "node": true
-  },
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
+    "browser": true
   },
   "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
-    "linebreak-style": "off",
     "import/no-unresolved": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-filename-extension": 0,
@@ -47,7 +27,16 @@
     "no-param-reassign": 0,
     "import/prefer-default-export": [0, "always"],
     "import/no-default-export": [0, "always"],
-    "react/prop-types": 0,
-    "label-has-associated-control": 0
+    "linebreak-style": "off",
+    "no-undef": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "react/require-default-props": 0,
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "no-tab": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
   }
 }

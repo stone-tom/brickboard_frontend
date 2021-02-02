@@ -5,7 +5,7 @@ export const Message = styled.div < {
   timeout: string,
   type: MessageType,
   active: boolean,
-} > `
+} >`
   position: fixed;
   transform: translateY(-500px);
   opacity: 0;

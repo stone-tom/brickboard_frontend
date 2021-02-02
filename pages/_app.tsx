@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../themes';
 import GlobalStyle from '../styles/global.styles';
 import { StoreProvider } from '../context/custom_store';
 import Message from '../elements/core/components/Message/Message';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({
+  Component,
+  pageProps,
+}: any) {
   const currentTheme = 'main';
 
   return (
