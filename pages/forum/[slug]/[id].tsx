@@ -26,8 +26,6 @@ import filter from '../../../util/filter';
 import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import findObject from '../../../util/finder';
 import { get } from '../../../util/methods';
-import Icon from '../../../elements/core/components/Icon/Icon';
-import HintComponent from '../../../elements/core/components/Hint/Hint';
 
 // interface StaticParams{
 //     params:{
@@ -136,8 +134,6 @@ function Subforum({
 
   const subscribeTopic = async (follow: boolean) => {
     const { error } = await followTopic(slug, topic.id, follow);
-    console.log("Triggered follow",follow);
-    console.log(error);
     if (!error) {
       if (follow) {
         setMessage({
