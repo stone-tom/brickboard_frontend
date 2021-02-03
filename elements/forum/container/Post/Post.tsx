@@ -38,7 +38,7 @@ interface PostProps {
   messageBoardSlug?: string,
   topicTitle?: string,
   author: IUser,
-  onPostUpdated: any;
+  onPostUpdated?: any;
 }
 
 const PostComponent = ({

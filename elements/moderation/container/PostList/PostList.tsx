@@ -21,7 +21,7 @@ const PostListComponent = ({
     return (
       <>
         {data && filter(data, 'post').map((item: IPost) => (
-          <Post post={item} author={user.attributes.display_name} />
+          <Post post={item} author={user} />
         ))}
       </>
     );

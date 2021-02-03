@@ -151,7 +151,7 @@ function Subforum({
   };
 
   const subscribeTopic = async (follow: boolean) => {
-    const { error } = await followTopic(slug, topic.id, follow);
+    const { error } = await followTopic(topic.id, follow);
     if (!error) {
       if (follow) {
         setMessage({
