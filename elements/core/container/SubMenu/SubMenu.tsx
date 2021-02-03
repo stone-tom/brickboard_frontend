@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
+import { backendURL } from '../../../../util/api';
 import Button from '../../components/Button/Button';
 import {
   SubMenuContainer, SubMenuImageWrapper, SubMenuList, SubMenuListItem, SubMenuWrapper,
@@ -27,11 +28,11 @@ const SubMenu = () => {
       type: MessageType.warning,
     });
   };
-
+  const myLoader = ({ src, width, quality }) => `https://brickboard.herokuapp.com${src}?w=${width}&q=${quality || 75}`;
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
       {user.attributes.display_name}
-      <SubMenuImageWrapper><Image width="40" height="40" src={user.attributes.avatar ? user.attributes.avatar : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
+      <SubMenuImageWrapper><Image width="40" height="40" src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>

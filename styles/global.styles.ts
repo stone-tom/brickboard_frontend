@@ -164,3 +164,10 @@ export const FlexBetween = styled.div`
 export const Wrapper = styled.div`
   margin: 20px 0;
 `;
+
+export const FlexEvenly = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+`;

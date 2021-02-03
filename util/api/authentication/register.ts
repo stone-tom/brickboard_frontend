@@ -17,6 +17,7 @@ const register = async (email: string, displayName: string, password: string) =>
     const res = await post(fetchURL, data);
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
+    if (res && res.errors) throw new Error(res.errors.email);
   } catch (e) {
     error = e;
   }

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const SignInForm = styled.form`
   padding: 2rem;
-  box-shadow: 0 0 10px ${(props) => props.theme.darkgray}; 
-  max-width: 500px;
+  box-shadow: 0 0 25px ${(props) => props.theme.gray}; 
+  width: 400px;
   border-radius: 5px;
-  margin: 4rem 0;
+  margin: 2rem 0;
   position: relative;
 `;
 
