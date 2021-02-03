@@ -2,30 +2,34 @@ import React, { useState } from 'react';
 import SunEditor from 'suneditor-react';
 // import 'suneditor/dist/css/suneditor.min.css';
 import { FlexRight } from '../../../../styles/global.styles';
-import getRandomInt from '../../../../util/randomizer';
+// import getRandomInt from '../../../../util/randomizer';
 import Button from '../../components/Button/Button';
 import { EditorContainer, EditorWrapper, TitleInput } from './Editor.styles';
 
-interface EditorProps{
-    onEditorSubmit: (content: any) => void;
-    answer?: boolean;
-    initialContent?: string;
+interface EditorProps {
+  onEditorSubmit: (content: any) => void;
+  answer?: boolean;
+  initialContent?: string;
 }
 
-const titlePlaceholders = [
-  'Wow, mein neues Thema!',
-  'Hallo Brickfilmwelt!',
-  'Wie macht man eigentlich einen Brickfilm?!',
-];
-const postPlaceholders = [
-  'Ich will euch was beichten...',
-  'Ich darf stolz verkünden, dass...',
-  'Boah, was wollt ich eigentlich schreiben?',
-];
+// const titlePlaceholders = [
+//   'Wow, mein neues Thema!',
+//   'Hallo Brickfilmwelt!',
+//   'Wie macht man eigentlich einen Brickfilm?!',
+// ];
+// const postPlaceholders = [
+//   'Ich will euch was beichten...',
+//   'Ich darf stolz verkünden, dass...',
+//   'Boah, was wollt ich eigentlich schreiben?',
+// ];
 
-const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorProps) => {
+const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }: EditorProps) => {
+  // const getTitlePlaceholder = () => titlePlaceholders[getRandomInt(titlePlaceholders.length)];
+  // const getPostPlaceholder = () => postPlaceholders[getRandomInt(postPlaceholders.length)];
   const [editorContent, setEditorContent] = useState('');
   const [title, setTitle] = useState('');
+  // const titlePlaceholder = getTitlePlaceholder();
+  // const postPlaceholder = getPostPlaceholder();
 
   const handleChange = (content) => {
     setEditorContent(content);
@@ -34,8 +38,6 @@ const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorP
     setTitle(text);
   };
 
-  const getTitlePlaceholder = () => titlePlaceholders[getRandomInt(titlePlaceholders.length)];
-  const getPostPlaceholder = () => postPlaceholders[getRandomInt(postPlaceholders.length)];
   const submitTopic = async () => {
     onEditorSubmit({ title, editorContent });
   };
@@ -45,17 +47,17 @@ const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }:EditorP
       {!answer && (
         <>
           <h2>Der Titel</h2>
-          <TitleInput placeholder={`${getTitlePlaceholder()}`} name="title" onChange={(e) => changeTitle(e.target.value)} />
+          <TitleInput placeholder="Hallo Brickfilmwelt!" name="title" onChange={(e) => changeTitle(e.target.value)} />
         </>
       )}
-      {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2> }
+      {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2>}
       <EditorWrapper>
         <SunEditor
           onChange={handleChange}
           lang="de"
-          setContents={initialContent}
           name="editor"
-          placeholder={`${getPostPlaceholder()}`}
+          placeholder="Ich darf stolz verkünden, dass..."
+          setContents={initialContent}
           setOptions={{
             buttonList: [
               ['undo', 'redo'],

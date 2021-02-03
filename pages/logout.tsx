@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../styles/global.styles';
-import { useStoreDispatch } from '../context/custom_store';
 
 function Logout() {
-  const { performLogout } = useStoreDispatch();
-
-  useEffect(() => {
-    performLogout();
-  }, []);
-
   return (
     <Layout title="Logout">
       <ViewWrapper>

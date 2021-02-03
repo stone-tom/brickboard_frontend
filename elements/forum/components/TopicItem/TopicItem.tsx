@@ -19,7 +19,12 @@ import {
   TopicInfo,
   TopicInfoDetails,
   TopicActivity,
+  TopicUnreadMarker,
+  TopicInfoDetailsItem,
 } from './TopicItem.styles';
+import Hint from '../../../core/components/Hint/Hint';
+import Icon from '../../../core/components/Icon/Icon';
+import TextIcon from '../TextIcon/TextIcon';
 
 enum IconType {
   Standard,
@@ -39,91 +44,111 @@ function whichIcon(type: IconType): IconProp {
   }
 }
 
+// interface TopicItemProps {
+//   id: number;
+//   slug: string;
+//   type: IconType;
+//   title: string;
+//   author?: string;
+//   lastAuthor?: string;
+//   created?: Date;
+//   changed?: Date;
+//   views?: number | 0;
+//   comments?: number | 0;
+//   updated?: boolean;
+//   sticky?: boolean;
+//   locked?: boolean;
+//   readstate?: any;
+// }
+
 interface TopicItemProps {
-  id: number;
   slug: string;
-  type: IconType;
-  title: string;
-  author?: string;
-  lastAuthor?: string;
-  created?: Date;
-  changed?: Date;
-  views?: number | 0;
-  comments?: number | 0;
-  updated?: boolean;
-  sticky?: boolean;
-  locked?: boolean;
+  topic: any;
+  author: any;
+  lastCommentor: any;
+  markUnread?: boolean;
 }
 
 const TopicItemComponent = ({
-  id,
   slug,
-  type,
-  title,
-  author = 'Not defined',
-  lastAuthor,
-  created,
-  changed,
-  views,
-  comments,
-  updated,
-  sticky,
-  locked,
+  topic,
+  author,
+  lastCommentor,
+  markUnread,
 }: TopicItemProps) => (
-  <TopicItem updated={updated}>
-    <TopicIcon>
-      <FontAwesomeIcon icon={whichIcon(type)} />
-    </TopicIcon>
+  <TopicItem>
+    {markUnread ? (
+      <>
+        <TopicUnreadMarker unread />
+        <TopicIcon>
+          <Hint hint="Ungelesene Beiträge">
+            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+          </Hint>
+        </TopicIcon>
+      </>
+    ) : (
+      <>
+        <TopicUnreadMarker />
+        <TopicIcon>
+          <Hint hint="Keine ungelesenen Beiträge">
+            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+          </Hint>
+        </TopicIcon>
+      </>
+    )}
+
     <TopicInfo>
       <div>
-        <TopicHeading updated={updated}>
-          <Link href={`/forum/${slug}/${id}`}>{`${title}`}</Link>
+        <TopicHeading>
+          <Link href={`/forum/${slug}/${topic.id}`}>{`${topic.attributes.title}`}</Link>
         </TopicHeading>
         <p>
           von:
-          {` ${author}`}
+          {` ${author.attributes.display_name}`}
           ,&nbsp;
-          <span>{format(new Date(created), 'dd.MM.yyyy, HH:mm')}</span>
+          <span>{format(new Date(topic.attributes.created_at), 'dd.MM.yyyy, HH:mm')}</span>
         </p>
       </div>
       <TopicInfoDetails>
-        {locked && (
+        {topic.attributes.locked && (
           <p>
-            <span aria-label="Gesperrt" data-balloon-pos="down">
-              <FontAwesomeIcon icon={faLock} />
-            </span>
+            <Hint hint="Gesperrt">
+              <Icon icon={faLock} />
+            </Hint>
           </p>
         )}
-        {sticky && (
-          <p>
-            <span aria-label="Gepinnt" data-balloon-pos="down">
-              <FontAwesomeIcon icon={faMapPin} />
-            </span>
-          </p>
+        {topic.attributes.sticky && (
+          <TopicInfoDetailsItem>
+            <Hint hint="Gepinnt">
+              <Icon icon={faMapPin} />
+            </Hint>
+          </TopicInfoDetailsItem>
         )}
-        <p>
-          <span aria-label="Aufrufe" data-balloon-pos="down">
-            <FontAwesomeIcon icon={faEye} />
-          </span>
-          {views}
-        </p>
-        <p>
-          <span aria-label="Antworten" data-balloon-pos="down">
-            <FontAwesomeIcon icon={faCommentAlt} />
-          </span>
-          {comments}
-        </p>
+        <TopicInfoDetailsItem>
+          <Hint hint="Aufrufe">
+            <TextIcon text={topic.attributes.view_count}>
+              <Icon icon={faEye} />
+            </TextIcon>
+          </Hint>
+        </TopicInfoDetailsItem>
+        <TopicInfoDetailsItem>
+          <Hint hint="Antworten">
+            <TextIcon text={`${topic.attributes.posts_count}`}>
+              <Icon icon={faCommentAlt} />
+            </TextIcon>
+          </Hint>
+        </TopicInfoDetailsItem>
       </TopicInfoDetails>
     </TopicInfo>
     <TopicActivity>
       Letzte Antwort:
-      {lastAuthor && (
+      {lastCommentor && (
         <p>
-          von
-          {lastAuthor}
+          von:&nbsp;
+          {lastCommentor.attributes.display_name}
         </p>
       )}
-      <p>{format(new Date(changed), 'dd.MM.yyyy, HH:mm')}</p>
+      <p>{format(new Date(topic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm')}</p>
     </TopicActivity>
   </TopicItem>
 );

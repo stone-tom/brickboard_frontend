@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import { answerTopic, getTopic } from '../../../util/api';
+import {
+  answerTopic,
+  getTopic,
+  incrementViewCount,
+  markTopicAsRead,
+} from '../../../util/api';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 import Button from '../../../elements/core/components/Button/Button';
@@ -68,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 interface SubforumProps {
   topicData: any,
   slug: string,
-  id: string,
+  id: number,
 }
 
 function Subforum({
@@ -100,6 +105,16 @@ function Subforum({
       toggleEditor();
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      markTopicAsRead(slug, topic.id);
+    }
+    if (typeof window !== 'undefined') {
+      incrementViewCount(slug, topic.id);
+    }
+  }, []);
+
   return (
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}
@@ -126,7 +141,7 @@ function Subforum({
                 topicId={id}
                 slug={slug}
                 postContent={postWrapper.attributes.content}
-                type={1}
+                // type={1}
                 author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
                 key={postWrapper.id}
                 created={postWrapper.attributes.created_at}
@@ -140,7 +155,7 @@ function Subforum({
               slug={slug}
               title={`Re: ${topic.attributes.title}`}
               postContent={postWrapper.attributes.content}
-              type={1}
+              // type={1}
               author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
               key={postWrapper.id}
               created={postWrapper.attributes.created_at}
