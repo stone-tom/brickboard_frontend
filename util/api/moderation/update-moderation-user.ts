@@ -1,12 +1,19 @@
 import { backendURL } from '../index';
 import { post } from '../../methods';
 
-const incrementViewCount = async (topicId: number) => {
-  const fetchURL = `${backendURL}/topics/${topicId}/increment`;
+const updateModerationUser = async (
+  id: number,
+  moderation_state: string,
+) => {
+  const data = {
+    moderation_state,
+  };
+
+  const fetchURL = `${backendURL}/admin/moderation/user/${id}`;
   let content: any;
   let error: any;
   try {
-    const res = await post(fetchURL);
+    const res = await post(fetchURL, data);
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
   } catch (e) {
@@ -19,4 +26,4 @@ const incrementViewCount = async (topicId: number) => {
   };
 };
 
-export default incrementViewCount;
+export default updateModerationUser;

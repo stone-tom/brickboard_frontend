@@ -1,8 +1,8 @@
 import { backendURL } from '../index';
 import { get } from '../../methods';
 
-const getTopic = async (slug: string, id: any) => {
-  const fetchURL = `${backendURL}/${slug}/topics/${id}`;
+const getTopic = async (id: any) => {
+  const fetchURL = `${backendURL}/topics/${id}`;
   let content: any;
   let error: any;
 

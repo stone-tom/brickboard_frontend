@@ -1,10 +1,18 @@
+import IRelationship from './IRelationship';
+
+export interface IPostAttributes {
+  content: string,
+  source: string,
+  moderation_state: 'pending_moderation' | 'approved',
+  created_at: string,
+  updated_at: string,
+}
+
 export default interface IPost {
   id: string,
-  attributes: {
-    content: string,
-    created_at: string,
-    moderation_state: 'pending_moderation' | 'approved',
-    source: string,
-    updated_at: string,
-  }
+  type: string,
+  attributes: IPostAttributes,
+  relationships: {
+    [key: string]: IRelationship,
+  },
 }

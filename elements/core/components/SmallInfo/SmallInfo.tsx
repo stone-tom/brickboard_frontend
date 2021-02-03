@@ -12,6 +12,7 @@ interface SmallInfoProps {
 }
 
 const SmallInfoComponent = ({
+
   title = 'Titel leer',
   value = 1,
   icon = faQuestion,

@@ -26,6 +26,7 @@ import filter from '../../../util/filter';
 import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import findObject from '../../../util/finder';
 import { get } from '../../../util/methods';
+import IPost from '../../../models/IPost';
 
 // interface StaticParams{
 //     params:{
@@ -68,7 +69,7 @@ import { get } from '../../../util/methods';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const { id } = context.params;
-  const { content, fetchURL } = await getTopic(slug.toString(), id);
+  const { content, fetchURL } = await getTopic(id);
   const topicData = content;
 
   return {
@@ -94,27 +95,22 @@ function Subforum({
   slug,
   id,
 }: SubforumProps) {
-  const { data } = useSWR(fetchURL, get, { revalidateOnMount: true, initialData: topicData });
-  const { isAuthenticated } = useStoreState();
+  const { data, mutate } = useSWR(
+    fetchURL,
+    get,
+    { revalidateOnMount: true, initialData: topicData },
+  );
+  const { isAuthenticated, user } = useStoreState();
   const { setMessage } = useStoreDispatch();
 
   const topic = filter(data, 'topic')[0];
-  const topicViews = filter(data, 'topic_view');
-  const topicView = findObject(topicViews, data.data.relationships.topic.data.id);
-  const [posts, addPost] = useState(filter(data, 'post'));
+  const posts = filter(data, 'post');
   const userList = filter(data, 'user');
-  const getUser = (userId: number) => {
-    const foundUser = userList.find((user) => userId === user.id);
-    if (foundUser === undefined) {
-      return {
-
-        attributes: { display_name: 'Fix Bug with new User' },
-
-      };
-    }
-    return foundUser;
-  };
   const isLocked = topic.attributes.locked;
+  const [isFollowing, toggleFollowing] = useState(false);
+  if (topic.relationships.follow) {
+    toggleFollowing(true);
+  }
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
 
@@ -127,7 +123,29 @@ function Subforum({
       });
     }
     if (content) {
-      addPost([...posts, content.data]);
+      if (!findObject(userList, content.data.relationships.user.data.id)) {
+        mutate({
+          ...data,
+          included: [
+            ...data.included,
+            content.data,
+            user,
+          ],
+        }, false);
+      } else {
+        mutate({
+          ...data,
+          included: [
+            ...data.included,
+            content.data,
+          ],
+        }, false);
+      }
+
+      setMessage({
+        content: 'Deine Antwort wurde gepostet!',
+        type: MessageType.success,
+      });
       toggleEditor();
     }
   };
@@ -146,17 +164,77 @@ function Subforum({
           type: MessageType.warning,
         });
       }
+      toggleFollowing(!isFollowing);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      markTopicAsRead(slug, topic.id);
+      markTopicAsRead(topic.id);
     }
     if (typeof window !== 'undefined') {
-      incrementViewCount(slug, topic.id);
+      incrementViewCount(topic.id);
     }
   }, []);
+
+  const handlePostUpdate = (updatedPost) => {
+    const updateData = {
+      ...data,
+      included: data.included.map((item) => {
+        if (item.id === updatedPost.id && item.type === 'post') {
+          return {
+            ...item,
+            attributes: {
+              ...item.attributes,
+              content: updatedPost.attributes.content,
+            },
+          };
+        }
+        return item;
+      }),
+    };
+    mutate(updateData, false);
+  };
+
+  // const onUpdateStatus = async (user: IUser, modStatus: string) => {
+  //   setComponent((
+  //     <Prompt
+  //       headline="Moderation Status ändern?"
+  //       onAccept={async () => {
+  //         setComponent(null);
+  //         try {
+  //           await updateModerationUser(parseInt(user.id, 10), modStatus);
+  //           const updateData = {
+  //             ...data,
+  //             included: data.included.map((item) => {
+  //               if (item.id === user.relationships.thredded_user_detail.data.id) {
+  //                 return {
+  //                   ...item,
+  //                   attributes: {
+  //                     moderation_state: modStatus,
+  //                   },
+  //                 };
+  //               }
+  //               return item;
+  //             }),
+  //           };
+  //           mutate(updateData, false);
+  //           setMessage({
+  //             content: 'Moderation Status erfolgreich geändert',
+  //             type: MessageType.success,
+  //           });
+  //         } catch (e) {
+  //           setMessage({
+  //             content: 'Es ist ein Fehler aufgetreten',
+  //             type: MessageType.error,
+  //           });
+  //         }
+  //       }}
+  //       onDecline={() => setComponent(null)}
+  //     >
+  //       Wollen Sie den Moderation Status wirklich ändern?
+  //     </Prompt>));
+  // };
 
   return (
     <Layout
@@ -172,7 +250,7 @@ function Subforum({
           <h1>{topic.attributes.title}</h1>
           {isAuthenticated && (
             <>
-              {topicView.relationships.follow
+              {isFollowing
                 ? (
                   <Button onClick={() => subscribeTopic(false)} icon={faBell} reset>
                     E-Mails aktiv
@@ -193,35 +271,20 @@ function Subforum({
             Antwort posten.
           </Hint>
         )}
-        {posts.map((postWrapper, index) => {
-          if (index === 0) {
-            return (
-              <Post
-                postId={postWrapper.id}
-                topicId={id}
-                slug={slug}
-                postContent={postWrapper.attributes.content}
-                // type={1}
-                author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
-                key={postWrapper.id}
-                created={postWrapper.attributes.created_at}
-              />
-            );
-          }
-          return (
-            <Post
-              postId={postWrapper.id}
-              topicId={id}
-              slug={slug}
-              title={`Re: ${topic.attributes.title}`}
-              postContent={postWrapper.attributes.content}
-              // type={1}
-              author={getUser(postWrapper.relationships.user.data.id).attributes.display_name}
-              key={postWrapper.id}
-              created={postWrapper.attributes.created_at}
-            />
-          );
-        })}
+
+        {posts.map((post: IPost, index) => (
+
+          <Post
+            onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
+            post={post}
+            topicTitle={topic.attributes.title}
+            first={index === 0}
+            messageBoardSlug={slug}
+            author={findObject(userList, post.relationships.user.data.id)}
+            key={post.id}
+          />
+        ))}
+
         {isAuthenticated && !isLocked && (
           <EditorContainer>
             <FlexRight>

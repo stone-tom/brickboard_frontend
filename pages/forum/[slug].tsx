@@ -14,6 +14,8 @@ import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
 import { Button } from '../../elements/core/components/Button/Button.styles';
+import ITopic from '../../models/ITopic';
+import IMessageboard from '../../models/IMessageboard';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -59,7 +61,7 @@ function Subforum({
   messageboardName,
 }: SubforumProps) {
   const [pageIndex, setPageIndex] = useState(1);
-  const { isAuthenticated } = useStoreState();
+  const { isAuthenticated, user } = useStoreState();
   const {
     data,
   } = useSWR(
@@ -71,15 +73,17 @@ function Subforum({
   const topicList = filterContent(data, 'topic');
   const userList = filterContent(data, 'user');
   const readTopics = filterContent(data, 'user_topic_read_state');
+  const messageboard: IMessageboard = filterContent(data, 'messageboard');
+
   return (
     <Layout title={`${messageboardName} - Brickboard 2.0`}>
       <ViewWrapper>
         <Breadcrumbsbar slug={slug} />
 
-        <ForumHeading title={`${messageboardName}`} />
+        <ForumHeading title={`${messageboard.attributes.name}`} />
 
         {topicViews.map((topicView) => {
-          const topic = findObject(topicList, topicView.relationships.topic.data.id);
+          const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
           const author = findObject(userList, topic.relationships.user.data.id);
           const lastCommentor = findObject(userList, topic.relationships.last_user.data.id);
           let readstate = null;
@@ -92,7 +96,18 @@ function Subforum({
             || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-          if (!isAuthenticated) {
+          if (topic.attributes.moderation_state !== 'blocked') {
+            if (!isAuthenticated) {
+              return (
+                <TopicItem
+                  key={topic.attributes.slug}
+                  slug={slug}
+                  topic={topic}
+                  author={author}
+                  lastCommentor={lastCommentor}
+                />
+              );
+            }
             return (
               <TopicItem
                 key={topic.attributes.slug}
@@ -100,20 +115,25 @@ function Subforum({
                 topic={topic}
                 author={author}
                 lastCommentor={lastCommentor}
+                markUnread={unread}
+                isAuthenticated
               />
             );
           }
-          return (
-            <TopicItem
-              key={topic.attributes.slug}
-              slug={slug}
-              topic={topic}
-              author={author}
-              lastCommentor={lastCommentor}
-              markUnread={unread}
-              isAuthenticated
-            />
-          );
+          if (isAuthenticated && user.attributes.admin) {
+            return (
+              <TopicItem
+                key={topic.attributes.slug}
+                slug={slug}
+                topic={topic}
+                author={author}
+                lastCommentor={lastCommentor}
+                markUnread={unread}
+                isAuthenticated
+              />
+            );
+          }
+          return null;
         })}
         {pageIndex > 1 && (
           <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>

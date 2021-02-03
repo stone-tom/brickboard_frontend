@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import createPersistedState from 'use-persisted-state';
 import IMessage from '../models/IMessage';
+import IUser from '../models/IUser';
 import {
   confirmAccount,
   login,
@@ -15,7 +16,7 @@ import {
 } from '../util/api';
 
 interface IState {
-  user: any,
+  user: IUser | null,
   isAuthenticated: boolean,
   message: IMessage | null,
 }
@@ -78,11 +79,7 @@ function StoreProvider({
       throw new Error(error);
     }
     if (content) {
-      user = {
-        name: content.data.attributes.display_name,
-        admin: content.data.attributes.admin,
-        avatar: content.data.attributes.avatar,
-      };
+      user = content.data;
       dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
     }
   };
@@ -108,11 +105,7 @@ function StoreProvider({
     if (error) {
       throw new Error(error);
     }
-    const user = {
-      name: content.data.attributes.display_name,
-      admin: content.data.attributes.admin,
-      avatar: content.data.attributes.avatar,
-    };
+    const user : IUser = content.data;
     return user;
   };
 

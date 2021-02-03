@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TopicItem = styled.div<{
-  updated?: boolean
+  updated?: boolean,
+  blocked?: boolean,
 }>`
   min-height: 50px;
   display: flex;
@@ -14,7 +15,9 @@ export const TopicItem = styled.div<{
   box-shadow: 0px 10px 10px ${(props) => props.theme.lightgray};
 
   transition: background-color .4s;
-
+  ${(props) => props.blocked && css`
+    opacity: 0.4;
+  `}
   &:hover {
     background-color: ${(props) => props.theme.lightgray};
   }

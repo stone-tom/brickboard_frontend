@@ -25,6 +25,8 @@ import {
 import Hint from '../../../core/components/Hint/Hint';
 import Icon from '../../../core/components/Icon/Icon';
 import TextIcon from '../TextIcon/TextIcon';
+import ITopic from '../../../../models/ITopic';
+import IUser from '../../../../models/IUser';
 
 enum IconType {
   Standard,
@@ -63,9 +65,9 @@ function whichIcon(type: IconType): IconProp {
 
 interface TopicItemProps {
   slug: string;
-  topic: any;
-  author: any;
-  lastCommentor: any;
+  topic: ITopic;
+  author: IUser;
+  lastCommentor: IUser;
   markUnread?: boolean;
   isAuthenticated?: boolean;
 }
@@ -77,82 +79,91 @@ const TopicItemComponent = ({
   lastCommentor,
   markUnread,
   isAuthenticated,
-}: TopicItemProps) => (
-  <TopicItem>
-    {markUnread && isAuthenticated ? (
-      <>
-        <TopicUnreadMarker unread />
-        <TopicIcon>
-          <Hint hint="Ungelesene Beiträge">
-            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
-          </Hint>
-        </TopicIcon>
-      </>
-    ) : (
-      <>
-        <TopicUnreadMarker />
-        <TopicIcon>
-          <Hint hint="Keine ungelesenen Beiträge">
-            <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
-          </Hint>
-        </TopicIcon>
-      </>
-    )}
+}: TopicItemProps) => {
+  const isBlocked = topic.attributes.moderation_state === 'blocked';
+  return (
+    <TopicItem blocked={isBlocked}>
+      {markUnread && isAuthenticated ? (
+        <>
+          <TopicUnreadMarker unread />
+          <TopicIcon>
+            <Hint hint="Ungelesene Beiträge">
+              <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+            </Hint>
+          </TopicIcon>
+        </>
+      ) : (
+        <>
+          <TopicUnreadMarker />
+          <TopicIcon>
+            <Hint hint="Keine ungelesenen Beiträge">
+              <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+            </Hint>
+          </TopicIcon>
+        </>
+      )}
 
-    <TopicInfo>
-      <div>
-        <TopicHeading>
-          <Link href={`/forum/${slug}/${topic.id}`}>{`${topic.attributes.title}`}</Link>
-        </TopicHeading>
-        <p>
-          von:
-          {` ${author.attributes.display_name}`}
-          ,&nbsp;
-          <span>{format(new Date(topic.attributes.created_at), 'dd.MM.yyyy, HH:mm')}</span>
-        </p>
-      </div>
-      <TopicInfoDetails>
-        {topic.attributes.locked && (
+      <TopicInfo>
+        <div>
+          <TopicHeading>
+            {isBlocked ? (
+              <>
+                {`BLOCKIERT: ${topic.attributes.title}`}
+              </>
+            )
+              : (
+                <Link href={`/forum/${slug}/${topic.id}`}>{`${topic.attributes.title}`}</Link>
+              )}
+          </TopicHeading>
+          <p>
+            von:
+            {` ${author.attributes.display_name}`}
+            ,&nbsp;
+            <span>{format(new Date(topic.attributes.created_at), 'dd.MM.yyyy, HH:mm')}</span>
+          </p>
+        </div>
+        <TopicInfoDetails>
+          {topic.attributes.locked && (
+            <TopicInfoDetailsItem>
+              <Hint hint="Gesperrt">
+                <Icon icon={faLock} />
+              </Hint>
+            </TopicInfoDetailsItem>
+          )}
+          {topic.attributes.sticky && (
+            <TopicInfoDetailsItem>
+              <Hint hint="Gepinnt">
+                <Icon icon={faMapPin} />
+              </Hint>
+            </TopicInfoDetailsItem>
+          )}
           <TopicInfoDetailsItem>
-            <Hint hint="Gesperrt">
-              <Icon icon={faLock} />
+            <Hint hint="Aufrufe">
+              <TextIcon text={topic.attributes.view_count.toString()}>
+                <Icon icon={faEye} />
+              </TextIcon>
             </Hint>
           </TopicInfoDetailsItem>
-        )}
-        {topic.attributes.sticky && (
           <TopicInfoDetailsItem>
-            <Hint hint="Gepinnt">
-              <Icon icon={faMapPin} />
+            <Hint hint="Antworten">
+              <TextIcon text={`${topic.attributes.posts_count}`}>
+                <Icon icon={faCommentAlt} />
+              </TextIcon>
             </Hint>
           </TopicInfoDetailsItem>
-        )}
-        <TopicInfoDetailsItem>
-          <Hint hint="Aufrufe">
-            <TextIcon text={topic.attributes.view_count}>
-              <Icon icon={faEye} />
-            </TextIcon>
-          </Hint>
-        </TopicInfoDetailsItem>
-        <TopicInfoDetailsItem>
-          <Hint hint="Antworten">
-            <TextIcon text={`${topic.attributes.posts_count}`}>
-              <Icon icon={faCommentAlt} />
-            </TextIcon>
-          </Hint>
-        </TopicInfoDetailsItem>
-      </TopicInfoDetails>
-    </TopicInfo>
-    <TopicActivity>
-      Letzte Antwort:
-      {lastCommentor && (
+        </TopicInfoDetails>
+      </TopicInfo>
+      <TopicActivity>
+        Letzte Antwort:
+        {lastCommentor && (
         <p>
           von:&nbsp;
-          {lastCommentor.attributes.display_name}
+            {lastCommentor.attributes.display_name}
         </p>
-      )}
-      <p>{format(new Date(topic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm')}</p>
-    </TopicActivity>
-  </TopicItem>
-);
-
+        )}
+        <p>{format(new Date(topic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm')}</p>
+      </TopicActivity>
+    </TopicItem>
+  );
+};
 export default TopicItemComponent;
