@@ -1,5 +1,5 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
 import Accordion from '../../elements/core/components/Accordion/Accordion';
