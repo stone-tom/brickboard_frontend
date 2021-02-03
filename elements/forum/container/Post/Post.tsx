@@ -90,7 +90,7 @@ const PostComponent = ({
   };
 
   return (
-    <Post>
+    <Post role="article">
       <PostDetails>
         <PostHeader>
           <PostHeading>{topicTitle}</PostHeading>

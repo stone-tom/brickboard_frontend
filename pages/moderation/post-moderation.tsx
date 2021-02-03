@@ -1,5 +1,5 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
 import Accordion from '../../elements/core/components/Accordion/Accordion';
@@ -32,6 +32,10 @@ const PostModeration = () => {
   const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
   const { setMessage } = useStoreDispatch();
   const [component, setComponent] = useState<ReactNode | null>(null);
+
+  useEffect(() => {
+    console.log(JSON.stringify(data));
+  }, [data]);
 
   const onUpdateStatus = async (user: IUser, modStatus: string) => {
     setComponent((
@@ -78,22 +82,22 @@ const PostModeration = () => {
       <h2>User Moderation</h2>
       <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
       <Wrapper>
-        <Loader isLoading={!data}>
-          {data && data.data && data.data.map((currentUser: IUser) => (
-            <Accordion
-              toggleIcon={faCaretDown}
-              header={(
-                <AccordionUserHeader
-                  onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
-                  user={currentUser}
-                  status={getModerationState(data, currentUser)}
-                />
-              )}
-            >
-              <PostListComponent user={currentUser} />
-            </Accordion>
-          ))}
-        </Loader>
+        {/* <Loader isLoading={!data}> */}
+        {data && data.data && data.data.map((currentUser: IUser) => (
+          <Accordion
+            toggleIcon={faCaretDown}
+            header={(
+              <AccordionUserHeader
+                onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
+                user={currentUser}
+                status={getModerationState(data, currentUser)}
+              />
+            )}
+          >
+            <PostListComponent user={currentUser} />
+          </Accordion>
+        ))}
+        {/* </Loader> */}
       </Wrapper>
     </Layout>
   );

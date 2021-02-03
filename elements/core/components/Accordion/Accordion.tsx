@@ -18,7 +18,7 @@ const Accordion = ({ children, header, toggleIcon }: AccordionProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <AccordionWrapper>
+    <AccordionWrapper role="tab">
       <AccordionHeader
         icon={toggleIcon !== undefined}
         open={open}
@@ -27,6 +27,7 @@ const Accordion = ({ children, header, toggleIcon }: AccordionProps) => {
         {header}
         {toggleIcon && (
           <ToggleButton
+            data-testid="toggle_accordion"
             open={open}
             reset
             onClick={() => setOpen(!open)}

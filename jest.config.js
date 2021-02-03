@@ -15,7 +15,7 @@ module.exports = {
   //     useBabelrc: true,
   //     tsConfigFile: "jest.tsconfig.json"
   //   }
-  // },
+  // }, 
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "enzyme.js"
