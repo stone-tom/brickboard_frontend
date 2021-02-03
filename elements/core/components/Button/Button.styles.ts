@@ -54,6 +54,10 @@ export const Button = styled.button<{
     ${(props) => props.reset && css`
       background: none;
     `}
+
+    ${(props) => (props.reset && props.icon) && css`
+      background: ${props.theme.gray};
+    `}
   }
 
   &:focus {

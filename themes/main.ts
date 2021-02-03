@@ -20,8 +20,8 @@ export default {
     user: 'purple',
   },
   userStatus: {
-    pending: 'orange',
+    pending_moderation: 'orange',
     approved: 'green',
-    locked: 'red',
+    blocked: 'red',
   },
 };

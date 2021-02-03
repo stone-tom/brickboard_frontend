@@ -1,0 +1,110 @@
+{
+  "data": [
+    {
+      "id": "3",
+      "type": "user",
+      "attributes": {
+        "admin": false,
+        "display_name": "Testuser",
+        "created_at": "2021-02-02T15:19:06.218+01:00",
+        "updated_at": "2021-02-02T17:37:03.063+01:00",
+        "avatar": null
+      },
+      "relationships": {
+        "thredded_user_detail": {
+          "data": {
+            "id": "2",
+            "type": "thredded_user_detail"
+          }
+        }
+      }
+    },
+    {
+      "id": "1",
+      "type": "user",
+      "attributes": {
+        "admin": true,
+        "display_name": "Admin",
+        "created_at": "2021-02-02T15:01:40.112+01:00",
+        "updated_at": "2021-02-02T16:45:10.494+01:00",
+        "avatar": null
+      },
+      "relationships": {
+        "thredded_user_detail": {
+          "data": {
+            "id": "1",
+            "type": "thredded_user_detail"
+          }
+        }
+      }
+    },
+    {
+      "id": "4",
+      "type": "user",
+      "attributes": {
+        "admin": false,
+        "display_name": "Testuser2",
+        "created_at": "2021-02-02T18:40:45.902+01:00",
+        "updated_at": "2021-02-02T18:41:13.220+01:00",
+        "avatar": null
+      },
+      "relationships": {
+        "thredded_user_detail": {
+          "data": {
+            "id": "4",
+            "type": "thredded_user_detail"
+          }
+        }
+      }
+    },
+    {
+      "id": "2",
+      "type": "user",
+      "attributes": {
+        "admin": false,
+        "display_name": "Fenris783",
+        "created_at": "2021-02-02T15:01:40.418+01:00",
+        "updated_at": "2021-02-02T15:22:59.845+01:00",
+        "avatar": null
+      },
+      "relationships": {
+        "thredded_user_detail": {
+          "data": {
+            "id": "3",
+            "type": "thredded_user_detail"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "2",
+      "type": "thredded_user_detail",
+      "attributes": {
+        "moderation_state": "approved"
+      }
+    },
+    {
+      "id": "1",
+      "type": "thredded_user_detail",
+      "attributes": {
+        "moderation_state": "approved"
+      }
+    },
+    {
+      "id": "4",
+      "type": "thredded_user_detail",
+      "attributes": {
+        "moderation_state": "blocked"
+      }
+    },
+    {
+      "id": "3",
+      "type": "thredded_user_detail",
+      "attributes": {
+        "moderation_state": "blocked"
+      }
+    }
+  ]
+}

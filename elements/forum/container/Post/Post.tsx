@@ -12,6 +12,7 @@ import { MessageType } from '../../../../models/IMessage';
 import Icon from '../../../core/components/Icon/Icon';
 import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
+import IPost from '../../../../models/IPost';
 
 // enum IconType {
 //   Standard,
@@ -31,54 +32,68 @@ import Hint from '../../../core/components/Hint/Hint';
 // }
 
 interface PostProps {
-  // type: number;
-  postId: number;
-  title?: string;
-  postContent: string;
-  author?: string;
+  // type: IconType;
+  // postId: number;
+  // title?: string;
+  // postContent: string;
+  // author?: string;
   // authorRegistered?: Date;
   // authorProfilePic?: string;
   // authorBadge?: string;
-  created?: Date;
+  // created?: Date;
   // changed?: Date;
   // views?: number;
-  topicId: number;
-  slug: string,
+  // topicId: number;
   // comments?: number;
-  // updated?: boolean;
+  post: IPost,
+  messageBoardSlug?: string,
+  topicId?: number,
+  topicTitle?: string,
+  author: string,
 }
 
 const PostComponent = ({
-  title,
-  postId,
-  postContent,
+  post,
+  messageBoardSlug,
+  // title,
+  // postId,
+  // postContent,
   author = 'Not defined',
   topicId,
-  slug,
-  created,
+  topicTitle,
+  // created,
 }: PostProps) => {
   const { user } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
-  const [postText, changePostText] = useState(postContent);
+  const [postContent, setPostContent] = useState(post.attributes.content || null);
   const { setMessage } = useStoreDispatch();
+
   const submitPost = async (editorContent) => {
-    const { content, error } = await updatePost(slug, topicId, postId, editorContent);
-    if (error) {
-      setMessage({
-        content: `Fehler beim absenden: ${error.message}`,
-        type: MessageType.error,
-      });
-    }
-    if (content) {
-      toggleEditing(false);
-      changePostText(editorContent);
+    if (messageBoardSlug && topicId) {
+      const { content, error } = await updatePost(
+        messageBoardSlug,
+        topicId,
+        parseInt(post.id, 10),
+        editorContent,
+      );
+      if (error) {
+        setMessage({
+          content: `Fehler beim absenden: ${error.message}`,
+          type: MessageType.error,
+        });
+      }
+      if (content) {
+        toggleEditing(false);
+        setPostContent(editorContent);
+      }
     }
   };
+
   return (
-    <Post>
+    <Post role="article">
       <PostDetails>
         <PostHeader>
-          <PostHeading>{title}</PostHeading>
+          <PostHeading>{topicTitle}</PostHeading>
           <PostSettings>
             {user && (
               <>
@@ -93,16 +108,16 @@ const PostComponent = ({
             )}
           </PostSettings>
         </PostHeader>
-        <PostDate>{format(new Date(created), 'dd.MM.yyyy, HH:mm ')}</PostDate>
+        <PostDate>{format(new Date(post.attributes.created_at), 'dd.MM.yyyy, HH:mm ')}</PostDate>
         {isEditing
           ? (
             <Editor
               onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
               answer
-              initialContent={postText}
+              initialContent={postContent}
             />
           )
-          : <PostContent dangerouslySetInnerHTML={{ __html: postText }} />}
+          : <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />}
       </PostDetails>
       <ProfileAside author={author} />
     </Post>

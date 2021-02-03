@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle, css } from 'styled-components';
-import 'balloon-css';
+// import 'balloon-css';
 
 const GlobalStyles = createGlobalStyle`
   font-size: 16px;
@@ -153,4 +153,8 @@ export const Hint = styled.p`
 export const FlexRight = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+export const Wrapper = styled.div`
+  margin: 20px 0;
 `;

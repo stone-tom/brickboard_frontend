@@ -35,8 +35,8 @@ const SubMenu = () => {
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>
-            <SubMenuListItem><Link href="/user-moderation">User Moderation</Link></SubMenuListItem>
-            <SubMenuListItem><Link href="/moderation/posts">Pending Posts</Link></SubMenuListItem>
+            <SubMenuListItem><Link href="/moderation/user-moderation">User Moderation</Link></SubMenuListItem>
+            <SubMenuListItem><Link href="/moderation/post-moderation">Post Moderation</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Mein Profil</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/">Film vorstellen</Link></SubMenuListItem>
             <SubMenuListItem>

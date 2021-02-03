@@ -8,9 +8,10 @@ import { ViewWrapper } from '../../../../styles/global.styles';
 interface LayoutProps {
   title: string;
   children: ReactNode;
+  component?: ReactNode,
 }
 
-const Layout = ({ title, children }: LayoutProps) => {
+const Layout = ({ title, children, component }: LayoutProps) => {
   const { user } = useStoreState();
   return (
     <>
@@ -25,6 +26,7 @@ const Layout = ({ title, children }: LayoutProps) => {
           {children}
         </ViewWrapper>
       </main>
+      {component}
       <Footer />
     </>
   );

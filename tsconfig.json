@@ -26,8 +26,11 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "context/auth.js", "__tests__/index.spec.js"  ],
+    "**/*.tsx",
+    "setupTests.js",
+    "context/custom-store.js",
+    "__tests__/index.spec.js"
+  ],
   "exclude": [
     "node_modules"
   ]
