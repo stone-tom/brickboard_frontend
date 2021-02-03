@@ -33,10 +33,6 @@ const PostModeration = () => {
   const { setMessage } = useStoreDispatch();
   const [component, setComponent] = useState<ReactNode | null>(null);
 
-  useEffect(() => {
-    console.log(JSON.stringify(data));
-  }, [data]);
-
   const onUpdateStatus = async (user: IUser, modStatus: string) => {
     setComponent((
       <Prompt
@@ -82,22 +78,22 @@ const PostModeration = () => {
       <h2>User Moderation</h2>
       <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
       <Wrapper>
-        {/* <Loader isLoading={!data}> */}
-        {data && data.data && data.data.map((currentUser: IUser) => (
-          <Accordion
-            toggleIcon={faCaretDown}
-            header={(
-              <AccordionUserHeader
-                onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
-                user={currentUser}
-                status={getModerationState(data, currentUser)}
-              />
-            )}
-          >
-            <PostListComponent user={currentUser} />
-          </Accordion>
-        ))}
-        {/* </Loader> */}
+        <Loader isLoading={!data}>
+          {data && data.data && data.data.map((currentUser: IUser) => (
+            <Accordion
+              toggleIcon={faCaretDown}
+              header={(
+                <AccordionUserHeader
+                  onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
+                  user={currentUser}
+                  status={getModerationState(data, currentUser)}
+                />
+              )}
+            >
+              <PostListComponent user={currentUser} />
+            </Accordion>
+          ))}
+        </Loader>
       </Wrapper>
     </Layout>
   );
