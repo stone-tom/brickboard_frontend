@@ -154,3 +154,9 @@ export const FlexRight = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+export const FlexBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

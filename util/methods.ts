@@ -25,6 +25,10 @@ export const post = async (
     ...options,
     body: JSON.stringify(data),
   });
+  if (res.status === 204) {
+    return;
+  }
+  // eslint-disable-next-line consistent-return
   return res.json();
 };
 

@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { ViewWrapper, Hint, FlexRight } from '../../../styles/global.styles';
+import useSWR from 'swr';
+import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
+import {
+  ViewWrapper,
+  Hint,
+  FlexRight,
+  FlexBetween,
+} from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import {
   answerTopic,
+  followTopic,
   getTopic,
   incrementViewCount,
   markTopicAsRead,
@@ -17,10 +25,8 @@ import { MessageType } from '../../../models/IMessage';
 import filter from '../../../util/filter';
 import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import findObject from '../../../util/finder';
-import useSWR from 'swr';
 import { get } from '../../../util/methods';
 import Icon from '../../../elements/core/components/Icon/Icon';
-import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
 import HintComponent from '../../../elements/core/components/Hint/Hint';
 
 // interface StaticParams{
@@ -90,7 +96,7 @@ function Subforum({
   slug,
   id,
 }: SubforumProps) {
-  const {data} = useSWR(fetchURL,get,{revalidateOnMount:true, initialData: topicData})
+  const { data } = useSWR(fetchURL, get, { revalidateOnMount: true, initialData: topicData });
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
 
@@ -100,13 +106,13 @@ function Subforum({
   const [posts, addPost] = useState(filter(data, 'post'));
   const userList = filter(data, 'user');
   const getUser = (userId: number) => {
-    let foundUser = userList.find((user) => userId === user.id);
+    const foundUser = userList.find((user) => userId === user.id);
     if (foundUser === undefined) {
       return {
 
-        attributes: { display_name: "Fix Bug with new User" }
+        attributes: { display_name: 'Fix Bug with new User' },
 
-      }
+      };
     }
     return foundUser;
   };
@@ -125,6 +131,25 @@ function Subforum({
     if (content) {
       addPost([...posts, content.data]);
       toggleEditor();
+    }
+  };
+
+  const subscribeTopic = async (follow: boolean) => {
+    const { error } = await followTopic(slug, topic.id, follow);
+    console.log("Triggered follow",follow);
+    console.log(error);
+    if (!error) {
+      if (follow) {
+        setMessage({
+          content: 'E-Mail Benachrichtigungen für dieses Thema wurden aktiviert!',
+          type: MessageType.success,
+        });
+      } else {
+        setMessage({
+          content: 'E-Mail Benachrichtigungen wurden deaktiviert!',
+          type: MessageType.warning,
+        });
+      }
     }
   };
 
@@ -147,15 +172,25 @@ function Subforum({
           id={topic.id}
           topic={topic.attributes.title}
         />
+        <FlexBetween>
+          <h1>{topic.attributes.title}</h1>
+          {isAuthenticated && (
+            <>
+              {topicView.relationships.follow
+                ? (
+                  <Button onClick={() => subscribeTopic(false)} icon={faBell} reset>
+                    E-Mails aktiv
+                  </Button>
+                )
+                : (
+                  <Button onClick={() => subscribeTopic(true)} icon={faBellSlash} reset>
+                    E-Mails deaktiviert
+                  </Button>
+                )}
+            </>
+          )}
 
-        <h1>{topic.attributes.title}</h1>
-        {console.log("THE TOPIC VIEW", topicView)}
-        {isAuthenticated && (
-          <>
-            {topicView.relationships.follow
-            ? <HintComponent hint="E-Mails deaktiveren"><Button reset><Icon icon={faBellSlash} /></Button></HintComponent> 
-            : <HintComponent hint="E-Mails aktivieren"><Button reset><Icon icon={faBell} /></Button></HintComponent>}
-          </>)}
+        </FlexBetween>
         {isLocked && (
           <Hint>
             Dieses Thema wurde von einem der Admins gesperrt. Du kannst keine
