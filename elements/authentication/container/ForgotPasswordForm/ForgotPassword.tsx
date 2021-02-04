@@ -1,34 +1,32 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
-} from './SignInForm.styles';
+} from '../SignInForm/SignInForm.styles';
 
-// cool hovers: https://codepen.io/Takumari85/pen/RaYwpJ
-
-interface LoginInputs {
-  email: string;
-  password: string;
+interface ForgotPW {
+  onSuccess?: any;
 }
-const SignIn = () => {
+
+interface ForgotInputs {
+  email: string;
+}
+const ForgotPasswortComponent = ({ onSuccess }: ForgotPW) => {
   const {
     register, handleSubmit, errors, setError,
-  } = useForm<LoginInputs>();
-  const { performLogin, setMessage } = useStoreDispatch();
-  const router = useRouter();
+  } = useForm<ForgotInputs>();
+  const { performPasswordResetStart, setMessage } = useStoreDispatch();
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async ({ email }) => {
     try {
-      await performLogin(email, password);
+      await performPasswordResetStart(email);
       setMessage({
-        content: 'Erfolgreich eingeloggt',
+        content: 'Eine E-Mail wurde verschickt',
         type: MessageType.success,
       });
-      router.push('/');
+      onSuccess();
     } catch (e) {
       setError('email', {
         type: 'manual',
@@ -38,7 +36,13 @@ const SignIn = () => {
   };
   return (
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
-      <h2>Betrete das Brickboard</h2>
+      <h2>Passwort vergessen?</h2>
+      <p>
+        Bitte teile uns deine E-Mail Adresse mit.
+      </p>
+      <p>
+        Du bekommst einen Link per Mail um es neu zu setzen!
+      </p>
       <SignInLabel>E-Mail Adresse</SignInLabel>
       {errors.email && <ErrorHint><span>{errors.email.message}</span></ErrorHint>}
       <SignInInput
@@ -52,22 +56,9 @@ const SignIn = () => {
           },
         })}
       />
-      <SignInLabel>Passwort</SignInLabel>
-      {errors.password && <ErrorHint><span>{errors.password.message}</span></ErrorHint>}
-      <SignInInput
-        type="password"
-        name="password"
-        placeholder="Password"
-        ref={register({
-          required: 'Bitte gib dein Passwort ein!',
-        })}
-      />
-
-      <LoginButton type="submit" value="Einloggen" placeholder="Passwort" />
-      <Link href="/account/passwort-vergessen">Passwort vergessen?</Link>
-
+      <LoginButton type="submit" value="Absenden" />
     </SignInForm>
   );
 };
 
-export default SignIn;
+export default ForgotPasswortComponent;

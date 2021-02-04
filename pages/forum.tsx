@@ -8,6 +8,10 @@ import Layout from '../elements/core/container/Layout/Layout';
 import { getMessageBoardGroups } from '../util/api';
 import { get } from '../util/methods';
 import filterContent from '../util/filter';
+import ITopic from '../models/ITopic';
+import findObject from '../util/finder';
+import IUser from '../models/IUser';
+import IMessageboard from '../models/IMessageboard';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getMessageBoardGroups();
@@ -37,11 +41,6 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
   const users = filterContent(data, 'user');
   const messageBoards = filterContent(data, 'messageboard');
 
-  // console.log('THE DATA', data);
-  const getTopic = (id: number) => topics.find((topic) => id === topic.id);
-  const getUser = (id: number) => users.find((user) => id === user.id);
-  const findMessageBoard = (id: number) => messageBoards.find((mb) => mb.id === id);
-
   const messageboadGroups = data.data;
   if (messageboadGroups.length === 0) {
     return <ViewWrapper>Es gibt noch keine Beiträge!</ViewWrapper>;
@@ -53,34 +52,22 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
           <ForumHeading title={group.attributes.name} />
           {group.relationships
             && group.relationships.messageboards.data.map((mb) => {
-              const board = findMessageBoard(mb.id);
+              const board: IMessageboard = findObject(messageBoards, mb.id);
               if (board !== undefined) {
-                const lastTopic = getTopic(board.relationships.last_topic.data.id);
-                let lastUser = null;
-                if (lastTopic !== undefined) {
-                  lastUser = getUser(lastTopic.relationships.last_user.data.id);
+                let lastTopic: ITopic = null;
+                if (board.relationships.last_topic && board.relationships.last_topic.data) {
+                  lastTopic = findObject(topics, board.relationships.last_topic.data.id);
+                }
+                let lastUser: IUser = null;
+                if (lastTopic) {
+                  lastUser = findObject(users, lastTopic.relationships.last_user.data.id);
                 }
                 return (
                   <ForumItem
                     key={board.attributes.slug}
-                    title={board.attributes.name}
-                    description={board.attributes.description}
-                    topics={board.attributes.topics_count}
-                    lastTopicTitle={
-                      lastTopic
-                        ? lastTopic.attributes.title
-                        : 'Fehler beim Laden'
-                    }
-                    lastTopicDate={
-                      lastTopic
-                        ? new Date(lastTopic.attributes.last_post_at)
-                        : new Date(Date.now())
-                    }
-                    lastAuthor={
-                      lastUser
-                        ? lastUser.attributes.display_name
-                        : 'Kein User gefunden'
-                    }
+                    messageboard={board}
+                    lastTopic={lastTopic}
+                    lastAuthor={lastUser}
                     slug={board.attributes.slug}
                   />
                 );

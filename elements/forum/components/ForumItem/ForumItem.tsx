@@ -1,6 +1,5 @@
 import React from 'react';
 import { faClipboardList, faUserClock } from '@fortawesome/free-solid-svg-icons';
-
 import { format } from 'date-fns';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,27 +12,27 @@ import {
   ForumItemContent,
   ForumInfoWrapper,
   LastPostHeading,
+  ForumIconWrapper,
 } from './ForumItem.styles';
-import SmallInfo from '../../../core/components/SmallInfo/SmallInfo';
+import ITopic from '../../../../models/ITopic';
+import IUser from '../../../../models/IUser';
+import Hint from '../../../core/components/Hint/Hint';
+import Icon from '../../../core/components/Icon/Icon';
+import TextIcon from '../TextIcon/TextIcon';
+import IMessageboard from '../../../../models/IMessageboard';
 
 interface ForumItemProps {
-  title: string;
-  description?: string;
-  lastTopicDate?: Date;
-  lastTopicTitle?: string;
-  lastAuthor?: string;
-  topics?: number | 0;
+  messageboard: IMessageboard;
+  lastTopic?: ITopic;
+  lastAuthor?: IUser;
   slug: string;
 }
 
 const PostItemComponent = ({
-  title,
-  description,
-  topics = 1,
-  lastTopicDate,
-  lastTopicTitle,
+  messageboard,
+  lastTopic,
   lastAuthor,
-  slug = 'brickfilme-im-allgemeinen',
+  slug,
 }: ForumItemProps) => (
   <>
     <ForumItem>
@@ -50,26 +49,48 @@ const PostItemComponent = ({
       <ForumItemContent>
         <div>
           <ForumHeading>
-            <Link href={`/forum/${slug}`}>{title}</Link>
+            <Link href={`/forum/${slug}`}>{messageboard.attributes.name}</Link>
           </ForumHeading>
-          <p>{description}</p>
+          <p>{messageboard.attributes.description}</p>
         </div>
       </ForumItemContent>
 
       <ForumInfoWrapper>
         <ForumItemDetails>
-          <SmallInfo title="Beiträge" value={topics} icon={faClipboardList} />
-          {lastTopicDate && <SmallInfo title="Letzte Aktivität" value={format(lastTopicDate, 'dd.MM.yyyy, HH:mm ')} icon={faUserClock} />}
+          <ForumIconWrapper>
+            <Hint hint="Beiträge">
+              <TextIcon text={messageboard.attributes.topics_count.toString()}>
+                <Icon icon={faClipboardList} />
+              </TextIcon>
+            </Hint>
+          </ForumIconWrapper>
+          <ForumIconWrapper>
+            <Hint hint="Letzte Aktivität">
+              <TextIcon text={lastTopic
+                ? format(new Date(lastTopic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm ')
+                : 'Nichts Aktuelles'}
+              >
+                <Icon icon={faUserClock} />
+              </TextIcon>
+            </Hint>
+          </ForumIconWrapper>
         </ForumItemDetails>
         <ForumInfo>
           <LastPostHeading>Letzter Post</LastPostHeading>
-          {lastTopicTitle && <p>{lastTopicTitle}</p>}
-          {lastAuthor && (
-          <p>
-            von:
-            {` ${lastAuthor}`}
-          </p>
-          )}
+          {lastTopic ? (
+            <>
+              <p>{lastTopic.attributes.title}</p>
+              {lastAuthor && (
+                <p>
+                  von:
+                  {` ${lastAuthor.attributes.display_name}`}
+                </p>
+              )}
+            </>
+          )
+            : (
+              'Es gibt noch keine Themen.'
+            )}
         </ForumInfo>
       </ForumInfoWrapper>
     </ForumItem>
