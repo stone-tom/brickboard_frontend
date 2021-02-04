@@ -91,6 +91,17 @@ function Subforum({
     { revalidateOnMount: true, initialData: topicData },
   );
   const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <Layout
+        title="Laden... - Brickboard 2.0"
+      >
+        <ViewWrapper>
+          <h1>Seite lädt...</h1>
+        </ViewWrapper>
+      </Layout>
+    );
+  }
   const { isAuthenticated, user } = useStoreState();
   const { setMessage } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
@@ -225,7 +236,7 @@ function Subforum({
     if (content) {
       setMessage({
         content: `Thema wurde erfolgreich ${lock ? 'gesperrt' : 'entsperrt'}`,
-        type: MessageType.success,
+        type: lock ? MessageType.warning : MessageType.success,
       });
       const updateData = {
         ...data,
@@ -285,17 +296,7 @@ function Subforum({
   //       Wollen Sie den Moderation Status wirklich ändern?
   //     </Prompt>));
   // };
-  if (router.isFallback) {
-    return (
-      <Layout
-        title="Laden... - Brickboard 2.0"
-      >
-        <ViewWrapper>
-          <h1>Seite lädt...</h1>
-        </ViewWrapper>
-      </Layout>
-    );
-  }
+
   return (
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}

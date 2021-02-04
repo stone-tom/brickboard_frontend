@@ -28,11 +28,11 @@ const SubMenu = () => {
       type: MessageType.success,
     });
   };
-  // const myLoader = ({ src, width, quality }) => `https://brickboard.herokuapp.com${src}?w=${width}&q=${quality || 75}`;
+  // const myLoader = ({ src, width, quality }) => `https://brickboard.herokuapp.com${src}?w=${width}&q=${quality || 75}`;F
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
       {user.attributes.display_name}
-      <SubMenuImageWrapper><Image width="40" height="40" src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
+      <SubMenuImageWrapper><Image width="40" height="40" src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'} /></SubMenuImageWrapper>
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>

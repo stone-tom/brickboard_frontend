@@ -14,7 +14,7 @@ interface ProfileAsideProps {
 const ProfileAsideComponent = ({
   author = 'Not defined',
   postsCount = 1,
-  authorProfilePic = '/assets/images/501.jpg',
+  authorProfilePic = '/assets/images/default_profile.svg',
   authorCity = 'Legoland',
 }: ProfileAsideProps) => (
   <ProfileAside>
