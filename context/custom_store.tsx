@@ -66,7 +66,10 @@ function reducer(state, { payload, type }) {
 function StoreProvider({
   children,
 }: { children: ReactNode }) {
-  const savedInitialState = { user: initialState.user, isAuthenticated: initialState.isAuthenticated };
+  const savedInitialState = {
+    user: initialState.user,
+    isAuthenticated: initialState.isAuthenticated,
+  };
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
     JSON.stringify(savedInitialState),
   );
