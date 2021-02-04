@@ -19,6 +19,7 @@ interface IState {
   user: IUser | null,
   isAuthenticated: boolean,
   message: IMessage | null,
+  component: ReactNode,
 }
 
 const StoreDispatchContext = createContext(({} as any));
@@ -30,6 +31,7 @@ const initialState: IState = {
   isAuthenticated: false,
   user: null,
   message: null,
+  component: null,
 };
 
 function reducer(state, { payload, type }) {
@@ -55,6 +57,16 @@ function reducer(state, { payload, type }) {
       return {
         ...state,
         message: null,
+      };
+    case 'ADD_COMPONENT':
+      return {
+        ...state,
+        component: payload,
+      };
+    case 'REMOVE_COMPONENT':
+      return {
+        ...state,
+        commponent: null,
       };
     default:
       throw new Error(`Unhandled action type ${type}`);
@@ -121,6 +133,14 @@ function StoreProvider({
     dispatch({ type: 'REMOVE_MESSAGE', payload: null });
   };
 
+  const addComponent = (component: ReactNode) => {
+    dispatch({ type: 'SET_COMPONENT', payload: component });
+  };
+
+  const removeComponent = () => {
+    dispatch({ type: 'REMOVE_COMPONENT', payload: null });
+  };
+
   return (
     <StoreDispatchContext.Provider
       value={{
@@ -130,6 +150,8 @@ function StoreProvider({
         performAccountConfirmation,
         setMessage,
         removeMessage,
+        addComponent,
+        removeComponent,
       }}
     >
       <StoreStateContext.Provider value={state}>

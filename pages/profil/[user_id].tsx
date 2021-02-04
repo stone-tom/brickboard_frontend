@@ -68,7 +68,7 @@ const Profile = ({
         onAccept={async (file) => {
           const bannerData = new FormData();
           bannerData.append('user_details[profile_banner]', file);
-          const { content: updatedUser, error } = await updateUserDetail(id, bannerData);
+          const { content: updatedUser, error } = await updateUserDetail(id, bannerData, true);
           if (updatedUser) {
             const updateData = {
               ...data,
@@ -126,21 +126,57 @@ const Profile = ({
     ));
   };
 
+  const onUpdateUserDetail = async (newUserDetail: IUserDetail) => {
+    const body: any = {
+      user_details: {
+        ...newUserDetail.attributes,
+      },
+    };
+    delete body.user_details.profile_banner;
+
+    const { content: updatedUserDetail, error } = await updateUserDetail(
+      user.id,
+      JSON.stringify(body),
+    );
+    if (updatedUserDetail) {
+      const updateData = {
+        ...data,
+        included: [updatedUserDetail.data],
+      };
+      setMessage({
+        content: 'Persönliche Informationen erfolgreich aktualisiert',
+        type: MessageType.success,
+      });
+      setComponent(false);
+      console.log('UPDARTE', updateData);
+      mutate(updateData, false);
+    }
+    if (error) {
+      setMessage({
+        content: 'Es ist ein Fehler aufgetreten',
+        type: MessageType.error,
+      });
+    }
+  };
+
   return (
     <Layout title="Profil" component={component}>
-      <>
-        <Banner
-          onEditBanner={() => editBanner(user.id)}
-          alt_text="Profil Banner"
-          image={userDetail.attributes.profile_banner}
-          userId={user.id}
-        />
-        <ProfileInformation
-          onEditAvatar={() => onEditAvatar()}
-          userDetail={userDetail}
-          user={user}
-        />
-      </>
+      {user && (
+        <>
+          <Banner
+            onEditBanner={() => editBanner(user.id)}
+            alt_text="Profil Banner"
+            image={userDetail.attributes.profile_banner}
+            userId={user.id}
+          />
+          <ProfileInformation
+            onUpdateUser={(newUserDetail) => onUpdateUserDetail(newUserDetail)}
+            onEditAvatar={() => onEditAvatar()}
+            userDetail={userDetail}
+            user={user}
+          />
+        </>
+      )}
     </Layout>
   );
 };

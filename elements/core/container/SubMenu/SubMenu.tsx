@@ -31,7 +31,7 @@ const SubMenu = () => {
 
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
-      {user.name}
+      {user.attributes.display_name}
       <SubMenuImageWrapper>
         <Image
           width="40"
@@ -44,7 +44,7 @@ const SubMenu = () => {
           <SubMenuList>
             <SubMenuListItem><Link href="/moderation/user-moderation">User Moderation</Link></SubMenuListItem>
             <SubMenuListItem><Link href="/moderation/post-moderation">Post Moderation</Link></SubMenuListItem>
-            {isAuthenticated && user && (<SubMenuListItem><Link href={`/profile/${user.id}`}>Mein Profil</Link></SubMenuListItem>)}
+            {isAuthenticated && user && (<SubMenuListItem><Link href={`/profil/${user.id}`}>Mein Profil</Link></SubMenuListItem>)}
             <SubMenuListItem><Link href="/">Film vorstellen</Link></SubMenuListItem>
             <SubMenuListItem>
               <Button reset onClick={() => handleLogout()}>Logout</Button>

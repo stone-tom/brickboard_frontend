@@ -1,14 +1,16 @@
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
+import { useStoreDispatch } from '../../context/custom_store';
 import { Button } from '../../elements/core/components/Button/Button.styles';
 import { Icon } from '../../elements/core/components/Icon/Icon.styled';
 import Indicator from '../../elements/core/components/Indicator/Indicator';
 import Loader from '../../elements/core/components/Loader/Loader';
 import Table, { Row } from '../../elements/core/components/Table/Table';
 import Layout from '../../elements/core/container/Layout/Layout';
+import Prompt from '../../elements/core/container/Prompt/Prompt';
 import IUser from '../../models/IUser';
 import { Wrapper } from '../../styles/global.styles';
 import { backendURL } from '../../util/api';
@@ -60,10 +62,24 @@ const UserModeration = () => {
     if (!data || !data.data) return null;
     return data.data.map((value) => userDataReducer(value));
   }, [data]);
+  const { addComponent, removeComponent } = useStoreDispatch();
+  const openPrompt = () => {
+    addComponent((
+      <Prompt
+        headline="Moderation Status ändern?"
+        onAccept={() => removeComponent()}
+        onDecline={() => removeComponent()}
+      >
+        Wollen Sie den Moderation Status wirklich ändern?
+      </Prompt>));
+  };
 
   return (
     <Layout title="User Moderation">
       <h1>User Moderation</h1>
+      <Button onClick={openPrompt}>
+        Test
+      </Button>
       <Wrapper>
         <Loader isLoading={!data}>
           <Table
