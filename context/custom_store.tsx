@@ -79,6 +79,7 @@ function StoreProvider({
     }
     if (content) {
       user = {
+        id: content.data.id,
         name: content.data.attributes.display_name,
         admin: content.data.attributes.admin,
         avatar: content.data.attributes.avatar,

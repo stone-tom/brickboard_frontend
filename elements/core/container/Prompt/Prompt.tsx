@@ -44,7 +44,10 @@ const Prompt = ({
           >
             {declineText}
           </PromptButton>
-          <PromptButton onClick={accept} small>
+          <PromptButton
+            onClick={accept}
+            small
+          >
             {acceptText}
           </PromptButton>
         </ButtonWrapper>

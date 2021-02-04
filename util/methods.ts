@@ -28,6 +28,20 @@ export const post = async (
   return res.json();
 };
 
+export const put = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PUT',
+    credentials: 'include',
+    ...options,
+    body: data,
+  });
+  return res.json();
+};
+
 export const deleteMethod = async (
   url: string,
   options?: any,
