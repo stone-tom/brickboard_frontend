@@ -10,6 +10,7 @@ import createTopic from './topic/create-topic';
 import markTopicAsRead from './topic/mark-topic-as-read';
 import incrementViewCount from './topic/increment-view-count';
 import followTopic from './topic/follow-topic';
+import initiatePasswordReset from './authentication/initiate-pw-reset';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -26,4 +27,5 @@ export {
   markTopicAsRead,
   incrementViewCount,
   followTopic,
+  initiatePasswordReset,
 };

@@ -10,6 +10,7 @@ import IMessage from '../models/IMessage';
 import IUser from '../models/IUser';
 import {
   confirmAccount,
+  initiatePasswordReset,
   login,
   logout,
   register,
@@ -109,6 +110,13 @@ function StoreProvider({
     return user;
   };
 
+  const performPasswortResetStart = async (email: string) => {
+    const { error } = await initiatePasswordReset(email);
+    if (error) {
+      throw new Error(error);
+    }
+  };
+
   const setMessage = (message: IMessage) => {
     dispatch({ type: 'SET_MESSAGE', payload: message });
     setTimeout(() => {
@@ -129,6 +137,7 @@ function StoreProvider({
         performAccountConfirmation,
         setMessage,
         removeMessage,
+        performPasswortResetStart,
       }}
     >
       <StoreStateContext.Provider value={state}>
