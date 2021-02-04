@@ -8,6 +8,8 @@ import {
   faBell,
   faBellSlash,
   faClipboardCheck,
+  faMapPin,
+  faSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   ViewWrapper,
@@ -39,6 +41,7 @@ import IPost from '../../../models/IPost';
 import ITopic from '../../../models/ITopic';
 import IMessageboard from '../../../models/IMessageboard';
 import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/components/TopicItem/TopicItem.styles';
+import Prompt from '../../../elements/core/container/Prompt/Prompt';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -103,7 +106,7 @@ function Subforum({
     );
   }
   const { isAuthenticated, user } = useStoreState();
-  const { setMessage } = useStoreDispatch();
+  const { setMessage, addComponent } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
   const topicView = filter(data, 'topic_view')[0];
   const posts = filter(data, 'post');
@@ -256,46 +259,54 @@ function Subforum({
       mutate(updateData, false);
     }
   };
+  const submitPin = async (pinned: boolean) => {
+    const updatedTopic = { topic: { sticky: pinned } };
 
-  // const onUpdateStatus = async (user: IUser, modStatus: string) => {
-  //   setComponent((
-  //     <Prompt
-  //       headline="Moderation Status ändern?"
-  //       onAccept={async () => {
-  //         setComponent(null);
-  //         try {
-  //           await updateModerationUser(parseInt(user.id, 10), modStatus);
-  //           const updateData = {
-  //             ...data,
-  //             included: data.included.map((item) => {
-  //               if (item.id === user.relationships.thredded_user_detail.data.id) {
-  //                 return {
-  //                   ...item,
-  //                   attributes: {
-  //                     moderation_state: modStatus,
-  //                   },
-  //                 };
-  //               }
-  //               return item;
-  //             }),
-  //           };
-  //           mutate(updateData, false);
-  //           setMessage({
-  //             content: 'Moderation Status erfolgreich geändert',
-  //             type: MessageType.success,
-  //           });
-  //         } catch (e) {
-  //           setMessage({
-  //             content: 'Es ist ein Fehler aufgetreten',
-  //             type: MessageType.error,
-  //           });
-  //         }
-  //       }}
-  //       onDecline={() => setComponent(null)}
-  //     >
-  //       Wollen Sie den Moderation Status wirklich ändern?
-  //     </Prompt>));
-  // };
+    const { content, error } = await updateTopic(topic.id, updatedTopic);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      setMessage({
+        content: `Thema wurde erfolgreich ${pinned ? 'angepinnt' : 'entpinned'}`,
+        type: pinned ? MessageType.success : MessageType.warning,
+      });
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === topic.id && item.type === 'topic') {
+            return {
+              ...item,
+              attributes: {
+                ...item.attributes,
+                sticky: pinned,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
+    }
+  };
+
+  const onUpdateStatus = async (lock: boolean) => {
+    addComponent((
+      <Prompt
+        headline={lock ? 'Sperren bestätigen' : 'Entsperren bestätigen'}
+        onAccept={() => submitLock(lock)}
+      >
+        {lock ? (
+          'Wenn du das Thema sperrst können keine Antworten mehr gepostet werden.'
+        )
+          : (
+            'Antworten auf das Thema sind wieder möglich.'
+          )}
+      </Prompt>));
+  };
 
   return (
     <Layout
@@ -324,17 +335,30 @@ function Subforum({
               )}
               {user.attributes.admin
                 && (
-                  <TopicSettingsBarItem>
-                    <Button
-                      reset
-                      icon={topic.attributes.locked ? faClipboardCheck : faBan}
-                      onClick={() => submitLock(!topic.attributes.locked)}
-                    >
-                      {topic.attributes.locked
-                        ? 'Thema entsperren'
-                        : 'Thema sperren'}
-                    </Button>
-                  </TopicSettingsBarItem>
+                  <>
+                    <TopicSettingsBarItem>
+                      <Button
+                        reset
+                        icon={topic.attributes.locked ? faClipboardCheck : faBan}
+                        onClick={() => onUpdateStatus(!topic.attributes.locked)}
+                      >
+                        {topic.attributes.locked
+                          ? 'Thema entsperren'
+                          : 'Thema sperren'}
+                      </Button>
+                    </TopicSettingsBarItem>
+                    <TopicSettingsBarItem>
+                      <Button
+                        reset
+                        icon={topic.attributes.sticky ? faSlash : faMapPin}
+                        onClick={() => submitPin(!topic.attributes.sticky)}
+                      >
+                        {topic.attributes.sticky
+                          ? 'Thema entpinnen'
+                          : 'Thema anpinnen'}
+                      </Button>
+                    </TopicSettingsBarItem>
+                  </>
                 )}
             </TopicSettingsBar>
           )}
