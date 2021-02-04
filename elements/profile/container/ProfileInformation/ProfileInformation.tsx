@@ -22,6 +22,7 @@ import {
   BadgeTitle,
   SocialNetworkWrapper,
   SocialNetworkLink,
+  Username,
 } from './ProfileInformation.styles';
 
 interface ProfileCardProps {
@@ -55,7 +56,7 @@ const ProfileInformation = ({
   {
     name: 'Filme',
     content: (
-      <p>Hier stehen die File</p>
+      <p>Hier könnten ihre Filme stehen</p>
     ),
   }];
 
@@ -82,6 +83,9 @@ const ProfileInformation = ({
             )}
           </Avatar>
         </AvatarWrapper>
+        <Username>
+          {user.attributes.display_name}
+        </Username>
         <BadgeWrapper>
           <Badge icon={faRibbon} />
           <BadgeTitle>Alter Hase</BadgeTitle>
@@ -106,7 +110,10 @@ const ProfileInformation = ({
         </SocialNetworkWrapper>
       </ProfileCardWrapper>
       <ProfileInformationWrapper>
-        <ProfileBar user={user} />
+        <ProfileBar
+          user={user}
+          userDetail={userDetail}
+        />
         {contentItems[activeContent].content}
       </ProfileInformationWrapper>
     </Wrapper>

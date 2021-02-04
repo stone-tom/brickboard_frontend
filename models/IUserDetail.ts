@@ -14,6 +14,8 @@ export interface IUserDetailAttributes {
   facebook_url: string,
   twitter_url: string,
   interests: string[],
+  posts_count: number,
+  movies_count: number,
   moderation_state: 'pending_moderation' | 'approved' | 'blocked',
 }
 

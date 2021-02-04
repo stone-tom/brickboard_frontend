@@ -1,5 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck, faPen, faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import { useStoreState } from '../../../../context/custom_store';
 import IMapping from '../../../../models/IMapping';
@@ -12,6 +14,7 @@ import {
   ProfileMapperLine,
   EditMapping,
 } from './ProfileMapper.styles';
+import getFormatter from './formatter';
 
 interface ProfileMapperProps {
   headline: string,
@@ -22,6 +25,7 @@ interface ProfileMapperProps {
   userId: string,
   onValueChange: (newValue: string, key: string) => void,
   onSubmit: () => void,
+  hasChanged: boolean,
 }
 
 export interface MappingComponentProps {
@@ -29,6 +33,7 @@ export interface MappingComponentProps {
   href?: string,
   value: any,
   icon?: IconProp,
+  formatter?: (value: string) => string,
   onChange: (newValue: string) => void,
   isEditing: boolean,
 }
@@ -40,29 +45,45 @@ const ProfileMapper = ({
   userId,
   onValueChange,
   onSubmit,
+  hasChanged,
 }: ProfileMapperProps) => {
   const { isAuthenticated, user } = useStoreState();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const handleEditClick = () => {
     if (!isEditing) {
       setIsEditing(true);
-    } else {
+    } else if (isEditing && hasChanged) {
       onSubmit();
+      setIsEditing(false);
+    } else {
       setIsEditing(false);
     }
   };
+
+  const getIcon = () => {
+    if (!isEditing) return faPen;
+    if (isEditing && hasChanged) return faCheck;
+    return faTimes;
+  };
+
+  const getColor = () => {
+    if (!isEditing) return 'black';
+    if (isEditing && hasChanged) return 'green';
+    return 'brickred';
+  };
+
   return (
     <Wrapper>
       <MapperHeadline>
         {headline}
         {isAuthenticated && user.id === userId && (
           <EditMapping
-            isEditing={isEditing}
+            color={getColor()}
             small
             reset
             onClick={() => handleEditClick()}
           >
-            <Icon icon={!isEditing ? faEdit : faCheck} />
+            <Icon icon={getIcon()} />
           </EditMapping>
         )}
       </MapperHeadline>
@@ -72,8 +93,7 @@ const ProfileMapper = ({
         >
           {Object.keys(section).map((key) => {
             const mapInfo = section[key];
-            const value = content[key];
-            if (value === null || value === undefined) return null;
+            const value = content[key] || '-';
             let Component = null;
 
             if (mapInfo.type === 'text') {
@@ -91,6 +111,7 @@ const ProfileMapper = ({
                 title={mapInfo.title}
                 value={value}
                 icon={mapInfo.icon}
+                formatter={mapInfo.format ? getFormatter(mapInfo.format) : undefined}
               />
             );
           })}

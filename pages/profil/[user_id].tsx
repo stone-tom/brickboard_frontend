@@ -150,7 +150,7 @@ const Profile = ({
   };
 
   return (
-    <Layout title="Profil">
+    <Layout fullWidth title="Profil">
       {user && (
         <>
           <Banner

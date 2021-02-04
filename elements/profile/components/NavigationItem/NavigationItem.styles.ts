@@ -1,8 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { css } from 'styled-components';
 
 export const NavItem = styled.div<{
   active?: boolean,
 }>`
+  font-size: 18px;
   min-width: 170px;
   height: 50px;
   display: flex;
@@ -18,4 +20,10 @@ export const NavItem = styled.div<{
     height: 50px;
     transition: .35s ease;
   `}
+`;
+
+export const NavIcon = styled(FontAwesomeIcon)`
+  height: 14px;
+  width: 14px;
+  margin-right: 5px;
 `;

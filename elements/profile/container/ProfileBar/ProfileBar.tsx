@@ -1,19 +1,22 @@
 import {
-  faClipboardList, faEnvelope, faRibbon, faVideo,
+  faClipboardList, faEnvelope, faVideo,
 } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import React from 'react';
 import IUser from '../../../../models/IUser';
+import IUserDetail from '../../../../models/IUserDetail';
 import Button from '../../../core/components/Button/Button';
 import StatisticItem from '../../components/StatisticItem/StatisticItem';
 import { ProfileBarWrapper, Username, Statistics } from './ProfileBar.styles';
 
 interface ProfileBarProps {
   user: IUser,
+  userDetail: IUserDetail,
 }
 
 const ProfileBar = ({
   user,
+  userDetail,
 }: ProfileBarProps) => (
   <ProfileBarWrapper>
     <Username>
@@ -23,21 +26,17 @@ const ProfileBar = ({
       <StatisticItem
         icon={faVideo}
         text="Filme"
-        value={33}
+        value={userDetail.attributes.movies_count}
       />
       <StatisticItem
         icon={faClipboardList}
         text="Beiträge"
-        value={120}
-      />
-      <StatisticItem
-        icon={faRibbon}
-        text="Badges"
-        value={34}
+        value={userDetail.attributes.posts_count}
       />
     </Statistics>
     <Link href="/messages" passHref>
       <Button
+        disabled
         small
         icon={faEnvelope}
       >

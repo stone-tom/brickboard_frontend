@@ -3,12 +3,13 @@ import styled, { css } from 'styled-components';
 export const FormInput = styled.input<{
   error?: boolean
 }>`
+  font-family: "Nunito",-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   color: ${(props) => props.theme.black};
   border: 1px solid ${(props) => props.theme.black};
-  padding: 10px 15px;
+  padding: 8px 10px;
   transition: all .4s ease 0s;
   font-size: 1em;
-  margin-top: 8px;
   width: 100%;
   
   ${(props) => props.error && css`
@@ -28,7 +29,15 @@ export const FormInput = styled.input<{
   }
 `;
 
-export const InputLabel = styled.label`
+export const InputLabel = styled.label<{
+  noLabel?: boolean,
+}>`
+
+  ${(props) => props.noLabel && css`
+    padding: 0;
+    margin: 0;
+  `}
+
   color: ${(props) => props.theme.black};
   padding: 10px 0px;
   font-weight: bold;
