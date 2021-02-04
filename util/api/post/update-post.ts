@@ -1,14 +1,13 @@
 import { backendURL } from '../index';
 import { patch } from '../../methods';
 
-const updatePost = async (slug: string,
-  topicId: number, postId: number, customContent: string) => {
+const updatePost = async (postId: number, customContent: string) => {
   const data = {
     post: {
       content: customContent,
     },
   };
-  const fetchURL = `${backendURL}/${slug}/topics/${topicId}/${postId}`;
+  const fetchURL = `${backendURL}/posts/${postId}`;
   let content: any;
   let error: any;
   try {

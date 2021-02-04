@@ -21,8 +21,8 @@ const SubMenu = () => {
   };
 
   const handleLogout = () => {
-    performLogout();
     router.push('/');
+    performLogout();
     setMessage({
       content: 'Erfolgreich abgemeldet!',
       type: MessageType.success,
