@@ -42,6 +42,7 @@ function reducer(state, { payload, type }) {
       };
     case 'LOGOUT':
       return {
+        ...state,
         isAuthenticated: false,
         user: null,
       };

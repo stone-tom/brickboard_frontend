@@ -10,6 +10,7 @@ import {
   AcceptButton,
   DeclineButton,
   DataWrapper,
+  ButtonWrapper,
 } from './AccordionUserHeader.styles';
 
 interface HeaderProps {
@@ -35,26 +36,28 @@ const AccordionUserHeader = ({
           color={theme.userStatus[status]}
         />
       </DataWrapper>
-      {status === 'blocked' && (
-        <AcceptButton
-          small
-          reset
-          icon={faCheck}
-          onClick={() => onUpdateStatus(user, 'approved')}
-        >
-          bestätigen
-        </AcceptButton>
-      )}
-      {status === 'approved' && (
-        <DeclineButton
-          small
-          reset
-          icon={faTimes}
-          onClick={() => onUpdateStatus(user, 'blocked')}
-        >
-          sperren
-        </DeclineButton>
-      )}
+      <ButtonWrapper>
+        {status !== 'approved' && (
+          <AcceptButton
+            small
+            reset
+            icon={faCheck}
+            onClick={() => onUpdateStatus(user, 'approved')}
+          >
+            bestätigen
+          </AcceptButton>
+        )}
+        {status !== 'blocked' && (
+          <DeclineButton
+            small
+            reset
+            icon={faTimes}
+            onClick={() => onUpdateStatus(user, 'blocked')}
+          >
+            sperren
+          </DeclineButton>
+        )}
+      </ButtonWrapper>
     </Header>
   );
 };
