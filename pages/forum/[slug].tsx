@@ -14,6 +14,9 @@ import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
 import { Button } from '../../elements/core/components/Button/Button.styles';
+import ITopic from '../../models/ITopic';
+import IMessageboard from '../../models/IMessageboard';
+import IUser from '../../models/IUser';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -35,12 +38,10 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { content, fetchURL } = await getTopicViews(params.slug);
 
   const topicsData = content;
-  const messageboardName = params.slug;
   return {
     props: {
       topicsData,
       slug: params.slug,
-      messageboardName,
       fetchURL,
     },
     revalidate: 1,
@@ -50,16 +51,14 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 interface SubforumProps {
   topicsData: any,
   slug: string,
-  messageboardName: string,
 }
 
 function Subforum({
   topicsData,
   slug,
-  messageboardName,
 }: SubforumProps) {
   const [pageIndex, setPageIndex] = useState(1);
-  const { isAuthenticated } = useStoreState();
+  const { isAuthenticated, user } = useStoreState();
   const {
     data,
   } = useSWR(
@@ -71,39 +70,67 @@ function Subforum({
   const topicList = filterContent(data, 'topic');
   const userList = filterContent(data, 'user');
   const readTopics = filterContent(data, 'user_topic_read_state');
+  const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
+
   return (
-    <Layout title={`${messageboardName} - Brickboard 2.0`}>
+    <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
         <Breadcrumbsbar slug={slug} />
 
-        <ForumHeading title={`${messageboardName}`} />
+        <ForumHeading title={`${messageboard.attributes.name}`} />
 
         {topicViews.map((topicView) => {
-          const topic = findObject(topicList, topicView.relationships.topic.data.id);
-          const author = findObject(userList, topic.relationships.user.data.id);
-          const lastCommentor = findObject(userList, topic.relationships.last_user.data.id);
+          const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
+          const author: IUser = findObject(userList, topic.relationships.user.data.id);
+          const lastCommentor: IUser = findObject(userList, topic.relationships.last_user.data.id);
           let readstate = null;
 
           if (topicView.relationships.read_state !== undefined) {
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
           }
           let unread = false;
-
           if ((readstate === null && isAuthenticated)
             || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-
-          return (
-            <TopicItem
-              key={topic.attributes.slug}
-              slug={slug}
-              topic={topic}
-              author={author}
-              lastCommentor={lastCommentor}
-              markUnread={unread}
-            />
-          );
+          if (topic.attributes.moderation_state !== 'blocked') {
+            if (!isAuthenticated) {
+              return (
+                <TopicItem
+                  key={topic.attributes.slug}
+                  slug={slug}
+                  topic={topic}
+                  author={author}
+                  lastCommentor={lastCommentor}
+                />
+              );
+            }
+            return (
+              <TopicItem
+                key={topic.attributes.slug}
+                slug={slug}
+                topic={topic}
+                author={author}
+                lastCommentor={lastCommentor}
+                markUnread={unread}
+                isAuthenticated
+              />
+            );
+          }
+          if (isAuthenticated && user.attributes.admin) {
+            return (
+              <TopicItem
+                key={topic.attributes.slug}
+                slug={slug}
+                topic={topic}
+                author={author}
+                lastCommentor={lastCommentor}
+                markUnread={unread}
+                isAuthenticated
+              />
+            );
+          }
+          return null;
         })}
         {pageIndex > 1 && (
           <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>

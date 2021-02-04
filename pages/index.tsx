@@ -13,11 +13,11 @@ function Home() {
       <Layout title="Brickboard 2.0">
         <ViewWrapper>
           <h1>Be carefull, this is a construction site</h1>
-          {isAuthenticated && (
+          {isAuthenticated && user && (
             <>
               <h1>
                 Hallo
-                {user.name}
+                {user.attributes.display_name}
               </h1>
               <button type="button" onClick={() => performLogout()}>Abmelden</button>
             </>

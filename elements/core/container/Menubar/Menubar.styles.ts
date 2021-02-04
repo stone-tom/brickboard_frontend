@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const MenuBackground = styled.div`
   box-shadow: 0 0 10px ${(props) => props.theme.darkgray}; 
   background-color: ${(props) => props.theme.white};
+  position: relative;
+  z-index: 1000;
 `;
 
 export const MenuWrapper = styled.div`

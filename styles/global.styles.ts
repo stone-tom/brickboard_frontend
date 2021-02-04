@@ -155,6 +155,12 @@ export const FlexRight = styled.div`
   justify-content: flex-end;
 `;
 
+export const FlexBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const Wrapper = styled.div`
   margin: 20px 0;
 `;

@@ -29,7 +29,7 @@ export const CodeConfirmation = ({
     try {
       const user = await performAccountConfirmation(confirmationCode);
       setRedirect(true);
-      setHint(`Willkommen ${user.name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
+      setHint(`Willkommen ${user.attributes.display_name}! Dein Konto wurde erfolgreich aktiviert! Du kannst dich jetzt einloggen!`);
     } catch (error) {
       setHint(error.message);
     }

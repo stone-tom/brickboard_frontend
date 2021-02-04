@@ -1,8 +1,13 @@
 import { backendURL } from '../index';
 import { post } from '../../methods';
 
-const incrementViewCount = async (topicId: number) => {
-  const fetchURL = `${backendURL}/topics/${topicId}/increment`;
+const followTopic = async (topicId: number, follow: boolean) => {
+  let fetchURL = '';
+  if (follow) {
+    fetchURL = `${backendURL}/topics/${topicId}/follow`;
+  } else {
+    fetchURL = `${backendURL}/topics/${topicId}/unfollow`;
+  }
   let content: any;
   let error: any;
   try {
@@ -19,4 +24,4 @@ const incrementViewCount = async (topicId: number) => {
   };
 };
 
-export default incrementViewCount;
+export default followTopic;

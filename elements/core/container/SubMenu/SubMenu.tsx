@@ -20,8 +20,8 @@ const SubMenu = () => {
   };
 
   const handleLogout = () => {
-    performLogout();
     router.push('/');
+    performLogout();
     setMessage({
       content: 'Erfolgreich abgemeldet!',
       type: MessageType.warning,
@@ -30,8 +30,8 @@ const SubMenu = () => {
 
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
-      {user.name}
-      <SubMenuImageWrapper><Image width="40" height="40" src={user.avatar ? user.avatar : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
+      {user.attributes.display_name}
+      <SubMenuImageWrapper><Image width="40" height="40" src={user.attributes.avatar ? user.attributes.avatar : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>

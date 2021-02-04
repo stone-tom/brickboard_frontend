@@ -1,8 +1,8 @@
 import { backendURL } from '../index';
 import { post } from '../../methods';
 
-const markTopicAsRead = async (slug: string, topicId: number) => {
-  const fetchURL = `${backendURL}/${slug}/topics/${topicId}/mark_as_read`;
+const markTopicAsRead = async (topicId: number) => {
+  const fetchURL = `${backendURL}/action/topics/${topicId}/mark_as_read`;
   let content: any;
   let error: any;
   try {

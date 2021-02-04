@@ -13,6 +13,7 @@ import Icon from '../../../core/components/Icon/Icon';
 import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
+import IUser from '../../../../models/IUser';
 
 // enum IconType {
 //   Standard,
@@ -32,47 +33,30 @@ import IPost from '../../../../models/IPost';
 // }
 
 interface PostProps {
-  // type: IconType;
-  // postId: number;
-  // title?: string;
-  // postContent: string;
-  // author?: string;
-  // authorRegistered?: Date;
-  // authorProfilePic?: string;
-  // authorBadge?: string;
-  // created?: Date;
-  // changed?: Date;
-  // views?: number;
-  // topicId: number;
-  // comments?: number;
+  first?: boolean,
   post: IPost,
   messageBoardSlug?: string,
-  topicId?: number,
   topicTitle?: string,
-  author: string,
+  author: IUser,
+  onPostUpdated?: any;
 }
 
 const PostComponent = ({
   post,
   messageBoardSlug,
-  // title,
-  // postId,
-  // postContent,
-  author = 'Not defined',
-  topicId,
+  first,
+  author,
   topicTitle,
-  // created,
+  onPostUpdated,
 }: PostProps) => {
   const { user } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
-  const [postContent, setPostContent] = useState(post.attributes.content || null);
+  const postContent = post.attributes.content;
   const { setMessage } = useStoreDispatch();
 
   const submitPost = async (editorContent) => {
-    if (messageBoardSlug && topicId) {
+    if (messageBoardSlug && post.relationships.postable.data.id) {
       const { content, error } = await updatePost(
-        messageBoardSlug,
-        topicId,
         parseInt(post.id, 10),
         editorContent,
       );
@@ -84,7 +68,7 @@ const PostComponent = ({
       }
       if (content) {
         toggleEditing(false);
-        setPostContent(editorContent);
+        onPostUpdated(content.data);
       }
     }
   };
@@ -93,11 +77,15 @@ const PostComponent = ({
     <Post role="article">
       <PostDetails>
         <PostHeader>
-          <PostHeading>{topicTitle}</PostHeading>
+
+          <PostHeading>
+            {!first && `Re: ${topicTitle}`}
+          </PostHeading>
+
           <PostSettings>
             {user && (
               <>
-                {user.name === author && (
+                {user.attributes.display_name === author.attributes.display_name && (
                   <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                     {!isEditing
                       ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
@@ -119,7 +107,7 @@ const PostComponent = ({
           )
           : <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />}
       </PostDetails>
-      <ProfileAside author={author} />
+      <ProfileAside author={author.attributes.display_name} />
     </Post>
   );
 };
