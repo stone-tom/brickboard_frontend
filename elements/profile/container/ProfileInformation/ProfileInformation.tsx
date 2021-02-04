@@ -8,6 +8,7 @@ import IUserDetail from '../../../../models/IUserDetail';
 import { backendURL } from '../../../../util/api';
 import Icon from '../../../core/components/Icon/Icon';
 import { EditButton } from '../../components/Banner/Banner.styles';
+import ProfileBar from '../ProfileBar/ProfileBar';
 import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {
   ProfileCardWrapper,
@@ -37,20 +38,18 @@ const ProfileInformation = ({
   const contentItems: {
     name: string,
     content: ReactNode,
-  }[] = [
-    {
-      name: 'Infos',
-      content: (
-        <p>Hier stehen persönliche Informationen</p>
-      ),
-    },
-    {
-      name: 'Filme',
-      content: (
-        <p>Hier stehen die File</p>
-      ),
-    },
-  ];
+  }[] = [{
+    name: 'Infos',
+    content: (
+      <p>Hier stehen persönliche Informationen</p>
+    ),
+  },
+  {
+    name: 'Filme',
+    content: (
+      <p>Hier stehen die File</p>
+    ),
+  }];
 
   const [activeContent, setActiveContent] = useState<number>(0);
 
@@ -99,6 +98,7 @@ const ProfileInformation = ({
         </SocialNetworkWrapper>
       </ProfileCardWrapper>
       <ProfileInformationWrapper>
+        <ProfileBar user={user} />
         {contentItems[activeContent].content}
       </ProfileInformationWrapper>
     </Wrapper>
