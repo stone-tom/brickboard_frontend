@@ -83,25 +83,13 @@ const TopicItemComponent = ({
   const isBlocked = topic.attributes.moderation_state === 'blocked';
   return (
     <TopicItem blocked={isBlocked}>
-      {markUnread && isAuthenticated ? (
-        <>
-          <TopicUnreadMarker unread />
-          <TopicIcon>
-            <Hint hint="Ungelesene Beiträge">
-              <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
-            </Hint>
-          </TopicIcon>
-        </>
-      ) : (
-        <>
-          <TopicUnreadMarker />
-          <TopicIcon>
-            <Hint hint="Keine ungelesenen Beiträge">
-              <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
-            </Hint>
-          </TopicIcon>
-        </>
-      )}
+
+      <TopicUnreadMarker unread={markUnread && isAuthenticated} />
+      <TopicIcon>
+        <Hint hint={markUnread && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
+          <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+        </Hint>
+      </TopicIcon>
 
       <TopicInfo>
         <div>
@@ -156,10 +144,10 @@ const TopicItemComponent = ({
       <TopicActivity>
         Letzte Antwort:
         {lastCommentor && (
-        <p>
-          von:&nbsp;
+          <p>
+            von:&nbsp;
             {lastCommentor.attributes.display_name}
-        </p>
+          </p>
         )}
         <p>{format(new Date(topic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm')}</p>
       </TopicActivity>

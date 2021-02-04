@@ -1,5 +1,5 @@
 import { backendURL } from '../index';
-import { put } from '../../methods';
+import { putMethod } from '../../methods';
 
 const resetPassword = async (code: string, password: string, password_confirmation: string) => {
   const data = {
@@ -14,7 +14,7 @@ const resetPassword = async (code: string, password: string, password_confirmati
   let content: any;
   let error: any;
   try {
-    const res = await put(fetchURL, data);
+    const res = await putMethod(fetchURL, data);
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
     if (res && res.errors) throw new Error(res.errors.reset_password_token[0]);

@@ -38,7 +38,6 @@ const PostModeration = () => {
       <Prompt
         headline="Moderation Status ändern?"
         onAccept={async () => {
-          setComponent(null);
           try {
             await updateModerationUser(parseInt(user.id, 10), modStatus);
             const updateData = {

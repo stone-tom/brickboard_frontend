@@ -10,18 +10,18 @@ interface ForgotPW {
   onSuccess?: any;
 }
 
-interface LoginInputs {
+interface ForgotInputs {
   email: string;
 }
 const ForgotPasswortComponent = ({ onSuccess }: ForgotPW) => {
   const {
     register, handleSubmit, errors, setError,
-  } = useForm<LoginInputs>();
-  const { performPasswortResetStart, setMessage } = useStoreDispatch();
+  } = useForm<ForgotInputs>();
+  const { performPasswordResetStart, setMessage } = useStoreDispatch();
 
   const onSubmit = async ({ email }) => {
     try {
-      await performPasswortResetStart(email);
+      await performPasswordResetStart(email);
       setMessage({
         content: 'Eine E-Mail wurde verschickt',
         type: MessageType.success,

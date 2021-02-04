@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -63,6 +64,7 @@ const SignIn = () => {
       />
 
       <LoginButton type="submit" value="Einloggen" placeholder="Passwort" />
+      <Link href="/account/passwort-vergessen">Passwort vergessen?</Link>
 
     </SignInForm>
   );

@@ -26,9 +26,22 @@ export const post = async (
     body: JSON.stringify(data),
   });
   if (res.status === 204) {
-    return;
+    return null;
   }
-  // eslint-disable-next-line consistent-return
+  return res.json();
+};
+
+export const put = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PUT',
+    credentials: 'include',
+    ...options,
+    body: data,
+  });
   return res.json();
 };
 
@@ -62,5 +75,26 @@ export const patch = async (
     ...options,
     body: JSON.stringify(data),
   });
+  return res.json();
+};
+
+export const putMethod = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    ...options,
+    body: JSON.stringify(data),
+  });
+  if (res.status === 204) {
+    return null;
+  }
   return res.json();
 };

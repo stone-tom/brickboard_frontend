@@ -18,7 +18,7 @@ function ForgotPasswordPage() {
               <AuthInfo>
                 <h2>E-Mail verschickt!</h2>
                 <p>Du solltest eine Mail mit einem Link erhalten haben.</p>
-                <p>Nutze diesen Link um den Passwort zu resetten</p>
+                <p>Nutze diesen Link um den Passwort neu zu setzen.</p>
               </AuthInfo>
             )}
 

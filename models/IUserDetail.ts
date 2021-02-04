@@ -1,4 +1,4 @@
-export default interface IUserDetail {
+export interface IUserDetailAttributes {
   profile_banner: string,
   profile_description: string,
   occupation: string,
@@ -14,4 +14,11 @@ export default interface IUserDetail {
   facebook_url: string,
   twitter_url: string,
   interests: string[],
+  moderation_state: 'pending_moderation' | 'approved' | 'blocked',
+}
+
+export default interface IUserDetail {
+  id: string,
+  type: 'thredded_user_show_detail',
+  attributes: IUserDetailAttributes,
 }

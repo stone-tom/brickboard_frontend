@@ -20,7 +20,7 @@ export const Button = styled.button<{
   `}
 
   ${(props) => props.gray && css`
-    background: ${props.theme.gray};
+    background: ${props.theme.darkgray};
   `}
 
   ${(props) => props.disabled && css`

@@ -14,6 +14,7 @@ import {
   login,
   logout,
   register,
+  resetPassword,
 } from '../util/api';
 
 interface IState {
@@ -43,6 +44,7 @@ function reducer(state, { payload, type }) {
       };
     case 'LOGOUT':
       return {
+        ...state,
         isAuthenticated: false,
         user: null,
       };
@@ -110,8 +112,15 @@ function StoreProvider({
     return user;
   };
 
-  const performPasswortResetStart = async (email: string) => {
+  const performPasswordResetStart = async (email: string) => {
     const { error } = await initiatePasswordReset(email);
+    if (error) {
+      throw new Error(error);
+    }
+  };
+
+  const performPasswordReset = async (email: string, password: string, confirmation: string) => {
+    const { error } = await resetPassword(email, password, confirmation);
     if (error) {
       throw new Error(error);
     }
@@ -137,7 +146,8 @@ function StoreProvider({
         performAccountConfirmation,
         setMessage,
         removeMessage,
-        performPasswortResetStart,
+        performPasswordResetStart,
+        performPasswordReset,
       }}
     >
       <StoreStateContext.Provider value={state}>
