@@ -1,5 +1,5 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
 import Accordion from '../../elements/core/components/Accordion/Accordion';
@@ -30,11 +30,10 @@ export const getModerationState = (data: any, user: IUser) => {
 
 const PostModeration = () => {
   const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
-  const { setMessage } = useStoreDispatch();
-  const [component, setComponent] = useState<ReactNode | null>(null);
+  const { setMessage, addComponent } = useStoreDispatch();
 
   const onUpdateStatus = async (user: IUser, modStatus: string) => {
-    setComponent((
+    addComponent((
       <Prompt
         headline="Moderation Status ändern?"
         onAccept={async () => {
@@ -66,14 +65,13 @@ const PostModeration = () => {
             });
           }
         }}
-        onDecline={() => setComponent(null)}
       >
         Wollen Sie den Moderation Status wirklich ändern?
       </Prompt>));
   };
 
   return (
-    <Layout title="Pending Posts" component={component}>
+    <Layout title="Pending Posts">
       <h2>User Moderation</h2>
       <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
       <Wrapper>

@@ -8,6 +8,7 @@ import IUserDetail from '../../../../models/IUserDetail';
 import { backendURL } from '../../../../util/api';
 import Icon from '../../../core/components/Icon/Icon';
 import { EditButton } from '../../components/Banner/Banner.styles';
+import PersonalInformation from '../PersonalInformation/PersonalInformation';
 import ProfileBar from '../ProfileBar/ProfileBar';
 import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {
@@ -27,21 +28,28 @@ interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
   onEditAvatar: () => void,
+  onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
 
 const ProfileInformation = ({
   user,
   userDetail,
   onEditAvatar,
+  onUpdateUser,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
+
   const contentItems: {
     name: string,
     content: ReactNode,
   }[] = [{
     name: 'Infos',
     content: (
-      <p>Hier stehen persönliche Informationen</p>
+      <PersonalInformation
+        onUpdateUserDetail={(newUserDetail) => onUpdateUser(newUserDetail)}
+        user={user}
+        userDetail={userDetail}
+      />
     ),
   },
   {

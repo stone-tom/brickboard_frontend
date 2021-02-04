@@ -1,9 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
-import React, {
-  ReactNode,
-  useState,
-} from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
@@ -55,20 +52,19 @@ const Profile = ({
   fetchURL,
 }: ProfileProps) => {
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
-  const [component, setComponent] = useState<ReactNode>();
-  const { setMessage } = useStoreDispatch();
+  const { setMessage, addComponent } = useStoreDispatch();
 
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
 
   const editBanner = (id: string) => {
-    setComponent((
+    addComponent((
       <UploadOverlay
         headline="Profil Banner upload"
         onAccept={async (file) => {
           const bannerData = new FormData();
           bannerData.append('user_details[profile_banner]', file);
-          const { content: updatedUser, error } = await updateUserDetail(id, bannerData);
+          const { content: updatedUser, error } = await updateUserDetail(id, bannerData, true);
           if (updatedUser) {
             const updateData = {
               ...data,
@@ -78,7 +74,6 @@ const Profile = ({
               content: 'Profil Banner erfolgreich aktualisiert',
               type: MessageType.success,
             });
-            setComponent(false);
             mutate(updateData, false);
           }
           if (error) {
@@ -88,13 +83,12 @@ const Profile = ({
             });
           }
         }}
-        onDecline={() => setComponent(false)}
       />
     ));
   };
 
   const onEditAvatar = () => {
-    setComponent((
+    addComponent((
       <UploadOverlay
         headline="Avatar upload"
         onAccept={async (file) => {
@@ -111,7 +105,6 @@ const Profile = ({
               content: 'Avatar erfolgreich aktualisiert',
               type: MessageType.success,
             });
-            setComponent(false);
             mutate(updateData, false);
           }
           if (error) {
@@ -121,26 +114,59 @@ const Profile = ({
             });
           }
         }}
-        onDecline={() => setComponent(false)}
       />
     ));
   };
 
+  const onUpdateUserDetail = async (newUserDetail: IUserDetail) => {
+    const body: any = {
+      user_details: {
+        ...newUserDetail.attributes,
+      },
+    };
+    delete body.user_details.profile_banner;
+
+    const { content: updatedUserDetail, error } = await updateUserDetail(
+      user.id,
+      JSON.stringify(body),
+    );
+    if (updatedUserDetail) {
+      const updateData = {
+        ...data,
+        included: [updatedUserDetail.data],
+      };
+      setMessage({
+        content: 'Persönliche Informationen erfolgreich aktualisiert',
+        type: MessageType.success,
+      });
+      mutate(updateData, false);
+    }
+    if (error) {
+      setMessage({
+        content: 'Es ist ein Fehler aufgetreten',
+        type: MessageType.error,
+      });
+    }
+  };
+
   return (
-    <Layout title="Profil" component={component}>
-      <>
-        <Banner
-          onEditBanner={() => editBanner(user.id)}
-          alt_text="Profil Banner"
-          image={userDetail.attributes.profile_banner}
-          userId={user.id}
-        />
-        <ProfileInformation
-          onEditAvatar={() => onEditAvatar()}
-          userDetail={userDetail}
-          user={user}
-        />
-      </>
+    <Layout title="Profil">
+      {user && (
+        <>
+          <Banner
+            onEditBanner={() => editBanner(user.id)}
+            alt_text="Profil Banner"
+            image={userDetail.attributes.profile_banner}
+            userId={user.id}
+          />
+          <ProfileInformation
+            onUpdateUser={(newUserDetail) => onUpdateUserDetail(newUserDetail)}
+            onEditAvatar={() => onEditAvatar()}
+            userDetail={userDetail}
+            user={user}
+          />
+        </>
+      )}
     </Layout>
   );
 };
