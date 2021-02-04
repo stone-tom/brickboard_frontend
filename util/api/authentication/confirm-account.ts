@@ -1,5 +1,5 @@
-import { backendURL } from "../index";
-import { get } from "../../methods";
+import { backendURL } from '../index';
+import { get } from '../../methods';
 
 const confirmAccounts = async (code: string) => {
   const fetchURL = `${backendURL}/confirmation?confirmation_token=${code}`;

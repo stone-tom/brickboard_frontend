@@ -5,6 +5,7 @@ import { useStoreDispatch } from '../../../../context/custom_store';
 import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
+
 interface SignUpProps {
   onFailedRegistering?: any;
 }

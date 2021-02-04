@@ -31,7 +31,7 @@ export const CodeConfirmation = ({
   const tryConfirmation = async (confirmationCode: string) => {
     try {
       const res = await performAccountConfirmation(confirmationCode);
-      console.log("RES",res);
+      console.log('RES', res);
       if (res) {
         setUser(res);
         setSuccess(true);

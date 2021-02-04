@@ -28,7 +28,7 @@ const SubMenu = () => {
       type: MessageType.warning,
     });
   };
-  const myLoader = ({ src, width, quality }) => `https://brickboard.herokuapp.com${src}?w=${width}&q=${quality || 75}`;
+  // const myLoader = ({ src, width, quality }) => `https://brickboard.herokuapp.com${src}?w=${width}&q=${quality || 75}`;
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
       {user.attributes.display_name}
