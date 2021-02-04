@@ -66,14 +66,11 @@ function reducer(state, { payload, type }) {
 function StoreProvider({
   children,
 }: { children: ReactNode }) {
+  const savedInitialState = { user: initialState.user, isAuthenticated: initialState.isAuthenticated };
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
-    JSON.stringify(initialState),
+    JSON.stringify(savedInitialState),
   );
-  const [state, dispatch] = useReducer(reducer, JSON.parse(brickboardUser));
-
-  useEffect(() => {
-    saveBrickboardUser(JSON.stringify(state));
-  }, [state, saveBrickboardUser]);
+  const [state, dispatch] = useReducer(reducer, { ...JSON.parse(brickboardUser), message: null });
 
   const performLogin = async (email, password) => {
     const { content, error } = await login(email, password);
@@ -86,6 +83,7 @@ function StoreProvider({
       dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
     }
   };
+
   const performLogout = async () => {
     const { error } = await logout();
     if (error) {
@@ -93,6 +91,11 @@ function StoreProvider({
     }
     dispatch({ type: 'LOGOUT', payload: null });
   };
+
+  useEffect(() => {
+    const savedstate = { user: state.user, isAuthenticated: state.isAuthenticated };
+    saveBrickboardUser(JSON.stringify(savedstate));
+  }, [performLogin, performLogout]);
 
   const performSignup = async (email, displayName, password) => {
     const { content, error } = await register(email, displayName, password);
