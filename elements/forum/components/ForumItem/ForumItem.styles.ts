@@ -45,6 +45,15 @@ export const ForumHeading = styled.h3`
   }
 `;
 
+export const ForumIconWrapper = styled.div`
+  svg {
+    margin-right: 10px;
+  } 
+  span {
+    display: inline-block;
+  }  
+`;
+
 export const ForumInfoWrapper = styled.div`
   width: 45%;
   display: flex;

@@ -11,7 +11,6 @@ import {
   MapperHeadline,
   ProfileMapperLine,
   EditMapping,
-  EditIcon,
 } from './ProfileMapper.styles';
 
 interface ProfileMapperProps {

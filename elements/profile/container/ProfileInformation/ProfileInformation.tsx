@@ -39,7 +39,6 @@ const ProfileInformation = ({
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
 
-
   const contentItems: {
     name: string,
     content: ReactNode,

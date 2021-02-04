@@ -6,15 +6,18 @@ import {
   ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
 
+interface SignUpProps {
+  onFailedRegistering?: any;
+}
 interface LoginInputs {
-    email: string;
-    password: string;
-    passwordRepeat: string;
-    displayName: string;
-    termsAndConditions: string;
-    request: string;
-  }
-const SignUp = () => {
+  email: string;
+  password: string;
+  passwordRepeat: string;
+  displayName: string;
+  termsAndConditions: string;
+  request: string;
+}
+const SignUp = ({ onFailedRegistering }: SignUpProps) => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
@@ -36,6 +39,7 @@ const SignUp = () => {
       await performSignup(email, displayName, password, passwordRepeat);
       router.push('/konto-bestaetigen/hinweis');
     } catch ({ message }) {
+      onFailedRegistering();
       setError('request', {
         type: 'manual',
         message,
@@ -103,7 +107,7 @@ const SignUp = () => {
 
       <SignInLabel>Ich akzeptiere die AGB (Link einfügen)</SignInLabel>
       {errors.termsAndConditions
-      && <ErrorHint><span>{errors.termsAndConditions.message}</span></ErrorHint>}
+        && <ErrorHint><span>{errors.termsAndConditions.message}</span></ErrorHint>}
       <SignInInput
         type="checkbox"
         name="termsAndConditions"

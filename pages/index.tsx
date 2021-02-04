@@ -7,7 +7,6 @@ import { ViewWrapper } from '../styles/global.styles';
 function Home() {
   const { isAuthenticated, user } = useStoreState();
   const { performLogout } = useStoreDispatch();
-  console.log(user);
   return (
     <>
       <Layout title="Brickboard 2.0">

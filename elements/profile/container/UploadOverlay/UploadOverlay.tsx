@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useStoreDispatch } from '../../../../context/custom_store';
 // import { useStoreDispatch } from '../../../../context/custom_store';
 // import { MessageType } from '../../../../models/IMessage';
 // import updateUserDetail from '../../../../util/api/user/update-user-detail';
@@ -9,7 +10,7 @@ import { ButtonWrapper, PromptButton } from '../../../core/container/Prompt/Prom
 
 interface UploadOverlayProps {
   headline: string,
-  onDecline: () => void,
+  onDecline?: () => void,
   onAccept: (file: File) => void,
 }
 
@@ -19,11 +20,18 @@ const UploadOverlay = ({
   onAccept,
 }: UploadOverlayProps) => {
   const [file, setFile] = useState<File>();
+  const { removeComponent } = useStoreDispatch();
 
   const accept = () => {
     if (file) {
       onAccept(file);
     }
+    removeComponent();
+  };
+
+  const decline = () => {
+    if (onDecline) onDecline();
+    removeComponent();
   };
 
   return (
@@ -35,7 +43,7 @@ const UploadOverlay = ({
         <File onFileUpload={(newFile) => setFile(newFile)} />
         <ButtonWrapper>
           <PromptButton
-            onClick={onDecline}
+            onClick={decline}
             gray
             small
           >

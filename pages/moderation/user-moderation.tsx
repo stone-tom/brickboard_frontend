@@ -1,6 +1,6 @@
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';

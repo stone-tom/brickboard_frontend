@@ -1,9 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
-import React, {
-  ReactNode,
-  useState,
-} from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
@@ -55,14 +52,13 @@ const Profile = ({
   fetchURL,
 }: ProfileProps) => {
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
-  const [component, setComponent] = useState<ReactNode>();
-  const { setMessage } = useStoreDispatch();
+  const { setMessage, addComponent } = useStoreDispatch();
 
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
 
   const editBanner = (id: string) => {
-    setComponent((
+    addComponent((
       <UploadOverlay
         headline="Profil Banner upload"
         onAccept={async (file) => {
@@ -78,7 +74,6 @@ const Profile = ({
               content: 'Profil Banner erfolgreich aktualisiert',
               type: MessageType.success,
             });
-            setComponent(false);
             mutate(updateData, false);
           }
           if (error) {
@@ -88,13 +83,12 @@ const Profile = ({
             });
           }
         }}
-        onDecline={() => setComponent(false)}
       />
     ));
   };
 
   const onEditAvatar = () => {
-    setComponent((
+    addComponent((
       <UploadOverlay
         headline="Avatar upload"
         onAccept={async (file) => {
@@ -111,7 +105,6 @@ const Profile = ({
               content: 'Avatar erfolgreich aktualisiert',
               type: MessageType.success,
             });
-            setComponent(false);
             mutate(updateData, false);
           }
           if (error) {
@@ -121,7 +114,6 @@ const Profile = ({
             });
           }
         }}
-        onDecline={() => setComponent(false)}
       />
     ));
   };
@@ -147,8 +139,6 @@ const Profile = ({
         content: 'Persönliche Informationen erfolgreich aktualisiert',
         type: MessageType.success,
       });
-      setComponent(false);
-      console.log('UPDARTE', updateData);
       mutate(updateData, false);
     }
     if (error) {
@@ -160,7 +150,7 @@ const Profile = ({
   };
 
   return (
-    <Layout title="Profil" component={component}>
+    <Layout title="Profil">
       {user && (
         <>
           <Banner

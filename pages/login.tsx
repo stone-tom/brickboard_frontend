@@ -1,13 +1,17 @@
 import React from 'react';
 import Layout from '../elements/core/container/Layout/Layout';
-import { ViewWrapper } from '../styles/global.styles';
+import { FlexEvenly, ViewWrapper } from '../styles/global.styles';
 import SignInForm from '../elements/authentication/container/SignInForm/SignInForm';
+import AuthImage from '../elements/authentication/components/AuthImage/AuthImage';
 
 function Login() {
   return (
     <Layout title="Login">
       <ViewWrapper>
-        <SignInForm />
+        <FlexEvenly>
+          <SignInForm />
+          <AuthImage path="/assets/images/login.webp" />
+        </FlexEvenly>
       </ViewWrapper>
     </Layout>
   );

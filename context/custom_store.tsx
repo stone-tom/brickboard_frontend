@@ -10,9 +10,11 @@ import IMessage from '../models/IMessage';
 import IUser from '../models/IUser';
 import {
   confirmAccount,
+  initiatePasswordReset,
   login,
   logout,
   register,
+  resetPassword,
 } from '../util/api';
 
 interface IState {
@@ -66,7 +68,7 @@ function reducer(state, { payload, type }) {
     case 'REMOVE_COMPONENT':
       return {
         ...state,
-        commponent: null,
+        component: null,
       };
     default:
       throw new Error(`Unhandled action type ${type}`);
@@ -76,14 +78,14 @@ function reducer(state, { payload, type }) {
 function StoreProvider({
   children,
 }: { children: ReactNode }) {
+  const savedInitialState = {
+    user: initialState.user,
+    isAuthenticated: initialState.isAuthenticated,
+  };
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
-    JSON.stringify(initialState),
+    JSON.stringify(savedInitialState),
   );
-  const [state, dispatch] = useReducer(reducer, JSON.parse(brickboardUser));
-
-  useEffect(() => {
-    saveBrickboardUser(JSON.stringify(state));
-  }, [state, saveBrickboardUser]);
+  const [state, dispatch] = useReducer(reducer, { ...JSON.parse(brickboardUser), message: null });
 
   const performLogin = async (email, password) => {
     const { content, error } = await login(email, password);
@@ -96,6 +98,7 @@ function StoreProvider({
       dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
     }
   };
+
   const performLogout = async () => {
     const { error } = await logout();
     if (error) {
@@ -103,6 +106,11 @@ function StoreProvider({
     }
     dispatch({ type: 'LOGOUT', payload: null });
   };
+
+  useEffect(() => {
+    const savedstate = { user: state.user, isAuthenticated: state.isAuthenticated };
+    saveBrickboardUser(JSON.stringify(savedstate));
+  }, [performLogin, performLogout]);
 
   const performSignup = async (email, displayName, password) => {
     const { content, error } = await register(email, displayName, password);
@@ -122,6 +130,20 @@ function StoreProvider({
     return user;
   };
 
+  const performPasswordResetStart = async (email: string) => {
+    const { error } = await initiatePasswordReset(email);
+    if (error) {
+      throw new Error(error);
+    }
+  };
+
+  const performPasswordReset = async (email: string, password: string, confirmation: string) => {
+    const { error } = await resetPassword(email, password, confirmation);
+    if (error) {
+      throw new Error(error);
+    }
+  };
+
   const setMessage = (message: IMessage) => {
     dispatch({ type: 'SET_MESSAGE', payload: message });
     setTimeout(() => {
@@ -134,7 +156,7 @@ function StoreProvider({
   };
 
   const addComponent = (component: ReactNode) => {
-    dispatch({ type: 'SET_COMPONENT', payload: component });
+    dispatch({ type: 'ADD_COMPONENT', payload: component });
   };
 
   const removeComponent = () => {
@@ -152,6 +174,8 @@ function StoreProvider({
         removeMessage,
         addComponent,
         removeComponent,
+        performPasswordResetStart,
+        performPasswordReset,
       }}
     >
       <StoreStateContext.Provider value={state}>

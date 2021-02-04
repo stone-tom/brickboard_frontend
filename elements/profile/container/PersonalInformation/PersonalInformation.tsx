@@ -1,6 +1,8 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faCamera, faGlobe, faLaptop, faLightbulb, faMapMarkedAlt, faMusic } from '@fortawesome/free-solid-svg-icons';
-import React, { useEffect, useMemo, useState } from 'react';
+import {
+  faCamera, faGlobe, faLaptop, faLightbulb, faMapMarkedAlt, faMusic,
+} from '@fortawesome/free-solid-svg-icons';
+import React, { useMemo, useState } from 'react';
 import IMapping from '../../../../models/IMapping';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
@@ -95,10 +97,6 @@ const PersonalInformation = ({
       },
     });
   };
-
-  useEffect(() => {
-    console.log(newContent);
-  }, [newContent]);
 
   return (
     <PersonalInformationWrapper>

@@ -72,6 +72,24 @@ function Subforum({
   const readTopics = filterContent(data, 'user_topic_read_state');
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
 
+  if (data.data.length === 0 || data.included === []) {
+    return (
+      <Layout title="Themen - Brickboard 2.0">
+        <ViewWrapper>
+          <Breadcrumbsbar slug={slug} />
+          <h1>Dieses Board hat leider noch keine Themen...</h1>
+          {isAuthenticated && (
+            <FlexRight>
+              <Link href={`./${slug}/neues-thema`} passHref>
+                <Button>Thema erstellen</Button>
+              </Link>
+            </FlexRight>
+          )}
+        </ViewWrapper>
+      </Layout>
+    );
+  }
+
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
