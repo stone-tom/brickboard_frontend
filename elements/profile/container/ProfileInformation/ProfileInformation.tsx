@@ -1,13 +1,14 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faEdit, faGlobe, faRibbon } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
-import React from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useStoreState } from '../../../../context/custom_store';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
 import { backendURL } from '../../../../util/api';
 import Icon from '../../../core/components/Icon/Icon';
 import { EditButton } from '../../components/Banner/Banner.styles';
+import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {
   ProfileCardWrapper,
   Wrapper,
@@ -33,6 +34,25 @@ const ProfileInformation = ({
   onEditAvatar,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
+  const contentItems: {
+    name: string,
+    content: ReactNode,
+  }[] = [
+    {
+      name: 'Infos',
+      content: (
+        <p>Hier stehen persönliche Informationen</p>
+      ),
+    },
+    {
+      name: 'Filme',
+      content: (
+        <p>Hier stehen die File</p>
+      ),
+    },
+  ];
+
+  const [activeContent, setActiveContent] = useState<number>(0);
 
   return (
     <Wrapper>
@@ -59,6 +79,10 @@ const ProfileInformation = ({
           <Badge icon={faRibbon} />
           <BadgeTitle>Alter Hase</BadgeTitle>
         </BadgeWrapper>
+        <ProfileNavigation
+          contentItems={contentItems}
+          onContentChange={(index) => setActiveContent(index)}
+        />
         <SocialNetworkWrapper>
           <SocialNetworkLink href={userDetail.attributes.facebook_url}>
             <Icon icon={faFacebook} />
@@ -75,7 +99,7 @@ const ProfileInformation = ({
         </SocialNetworkWrapper>
       </ProfileCardWrapper>
       <ProfileInformationWrapper>
-        INFORMATION
+        {contentItems[activeContent].content}
       </ProfileInformationWrapper>
     </Wrapper>
   );
