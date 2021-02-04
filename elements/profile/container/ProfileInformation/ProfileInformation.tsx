@@ -1,15 +1,13 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faGlobe, faRibbon } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faGlobe, faRibbon } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React from 'react';
-import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
+import { useStoreState } from '../../../../context/custom_store';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
 import { backendURL } from '../../../../util/api';
-import ButtonComponent from '../../../core/components/Button/Button';
 import Icon from '../../../core/components/Icon/Icon';
-import { Overlay } from '../../../core/components/Overlay/Overlay.styles';
-import { OverlayBody } from '../../../core/components/OverlayBody/OverlayBody.styles';
+import { EditButton } from '../../components/Banner/Banner.styles';
 import {
   ProfileCardWrapper,
   Wrapper,
@@ -26,13 +24,15 @@ import {
 interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
+  onEditAvatar: () => void,
 }
 
 const ProfileInformation = ({
   user,
   userDetail,
+  onEditAvatar,
 }: ProfileCardProps) => {
-  const { addComponent, removeComponent } = useStoreDispatch();
+  const { isAuthenticated, user: authUser } = useStoreState();
 
   return (
     <Wrapper>
@@ -45,6 +45,14 @@ const ProfileInformation = ({
               alt="Profilbild"
               src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_avatar.jpg'}
             />
+            {isAuthenticated && user.id === authUser.id && (
+              <EditButton
+                reset
+                onClick={() => onEditAvatar()}
+              >
+                <Icon icon={faEdit} />
+              </EditButton>
+            )}
           </Avatar>
         </AvatarWrapper>
         <BadgeWrapper>
@@ -69,17 +77,6 @@ const ProfileInformation = ({
       <ProfileInformationWrapper>
         INFORMATION
       </ProfileInformationWrapper>
-      <ButtonComponent
-        onClick={() => addComponent((
-          <Overlay>
-            <OverlayBody>
-              <button type="button" onClick={() => removeComponent()}>REMOVE</button>
-            </OverlayBody>
-          </Overlay>
-        ))}
-      >
-        Test
-      </ButtonComponent>
     </Wrapper>
   );
 };

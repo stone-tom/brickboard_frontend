@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -54,11 +53,10 @@ export const ProfileCardWrapper = styled.div`
   background: ${(props) => props.theme.gray};
   width: 30%;
   min-height: 100%;
-  border: 1px solid black;
 `;
 
 export const ProfileInformationWrapper = styled.div`
-  background: ${(props) => props.theme.brickred};
+  background: ${(props) => props.theme.white};
   width: 70%;
   min-height: 100%;
 `;

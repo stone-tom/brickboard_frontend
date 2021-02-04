@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
+import { backendURL } from '../../../../util/api';
 import Button from '../../components/Button/Button';
 import {
   SubMenuContainer, SubMenuImageWrapper, SubMenuList, SubMenuListItem, SubMenuWrapper,
@@ -24,14 +25,20 @@ const SubMenu = () => {
     router.push('/');
     setMessage({
       content: 'Erfolgreich abgemeldet!',
-      type: MessageType.warning,
+      type: MessageType.success,
     });
   };
 
   return (
     <SubMenuWrapper onClick={() => toggleMenu()}>
       {user.name}
-      <SubMenuImageWrapper><Image width="40" height="40" src={user.avatar ? user.avatar : '/assets/images/501.jpg'} /></SubMenuImageWrapper>
+      <SubMenuImageWrapper>
+        <Image
+          width="40"
+          height="40"
+          src={user.avatar ? `${backendURL}${user.avatar}` : '/assets/images/501.jpg'}
+        />
+      </SubMenuImageWrapper>
       <SubMenuContainer>
         {showMenu && (
           <SubMenuList>

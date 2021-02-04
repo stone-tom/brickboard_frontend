@@ -2,13 +2,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { Params } from 'next/dist/next-server/server/router';
 import React, {
   ReactNode,
-  useEffect,
-  useMemo,
   useState,
 } from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch } from '../../context/custom_store';
-import Loader from '../../elements/core/components/Loader/Loader';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Banner from '../../elements/profile/components/Banner/Banner';
 import ProfileInformation from '../../elements/profile/container/ProfileInformation/ProfileInformation';
@@ -17,11 +14,11 @@ import IUserDetail from '../../models/IUserDetail';
 import getUserDetails from '../../util/api/user/get-user-detail';
 import getUsers from '../../util/api/user/get-users';
 import updateUserDetail from '../../util/api/user/update-user-detail';
+import updateUser from '../../util/api/user/update-user';
 import filter from '../../util/filter';
 import { get } from '../../util/methods';
 import UploadOverlay from '../../elements/profile/container/UploadOverlay/UploadOverlay';
 import { MessageType } from '../../models/IMessage';
-import { backendURL } from '../../util/api';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -96,6 +93,39 @@ const Profile = ({
     ));
   };
 
+  const onEditAvatar = () => {
+    setComponent((
+      <UploadOverlay
+        headline="Avatar upload"
+        onAccept={async (file) => {
+          const avatarData = new FormData();
+          avatarData.append('user[avatar]', file);
+          avatarData.append('user[current_password]', '123456');
+          const { content: updatedUser, error } = await updateUser(avatarData);
+          if (updatedUser) {
+            const updateData = {
+              ...data,
+              data: updatedUser.data,
+            };
+            setMessage({
+              content: 'Avatar erfolgreich aktualisiert',
+              type: MessageType.success,
+            });
+            setComponent(false);
+            mutate(updateData, false);
+          }
+          if (error) {
+            setMessage({
+              content: 'Es ist ein Fehler aufgetreten',
+              type: MessageType.error,
+            });
+          }
+        }}
+        onDecline={() => setComponent(false)}
+      />
+    ));
+  };
+
   return (
     <Layout title="Profil" component={component}>
       <>
@@ -105,7 +135,11 @@ const Profile = ({
           image={userDetail.attributes.profile_banner}
           userId={user.id}
         />
-        <ProfileInformation userDetail={userDetail} user={user} />
+        <ProfileInformation
+          onEditAvatar={() => onEditAvatar()}
+          userDetail={userDetail}
+          user={user}
+        />
       </>
     </Layout>
   );
