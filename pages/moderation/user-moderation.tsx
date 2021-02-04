@@ -62,24 +62,10 @@ const UserModeration = () => {
     if (!data || !data.data) return null;
     return data.data.map((value) => userDataReducer(value));
   }, [data]);
-  const { addComponent, removeComponent } = useStoreDispatch();
-  const openPrompt = () => {
-    addComponent((
-      <Prompt
-        headline="Moderation Status ändern?"
-        onAccept={() => removeComponent()}
-        onDecline={() => removeComponent()}
-      >
-        Wollen Sie den Moderation Status wirklich ändern?
-      </Prompt>));
-  };
 
   return (
     <Layout title="User Moderation">
       <h1>User Moderation</h1>
-      <Button onClick={openPrompt}>
-        Test
-      </Button>
       <Wrapper>
         <Loader isLoading={!data}>
           <Table

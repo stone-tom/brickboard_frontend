@@ -3,7 +3,7 @@ import { ButtonWrapper, PromptButton } from './Prompt.styles';
 import Overlay from '../../../core/components/Overlay/Overlay';
 import OverlayBody from '../../../core/components/OverlayBody/OverlayBody';
 import { OverlayHeadline } from '../../../core/components/OverlayBody/OverlayBody.styles';
-import { useStoreState } from '../../../../context/custom_store';
+import { useStoreDispatch } from '../../../../context/custom_store';
 
 interface PromptProps {
   onAccept: () => void,
@@ -22,7 +22,7 @@ const Prompt = ({
   onAccept,
   onDecline,
 }: PromptProps) => {
-  const { removeComponent } = useStoreState();
+  const { removeComponent } = useStoreDispatch();
 
   const decline = () => {
     if (onDecline) onDecline();

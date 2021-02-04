@@ -17,7 +17,7 @@ const personal_data_mapping: IMapping[] = [
       editable: true,
     },
     created_at: {
-      editable: true,
+      editable: false,
       type: 'text',
       title: 'Mitglied seit:',
     },
