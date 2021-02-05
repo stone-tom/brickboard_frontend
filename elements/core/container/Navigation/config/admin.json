@@ -1,0 +1,14 @@
+[
+  {
+    "text": "Moderation: Benutzer",
+    "path": "/moderation/user-moderation"
+  },
+  {
+    "text": "Moderation: Posts",
+    "path": "/moderation/post-moderation"
+  },
+  {
+    "text": "Film vorstellen",
+    "path": "/user-moderation"
+  }
+]

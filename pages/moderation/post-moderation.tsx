@@ -1,7 +1,8 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 import React from 'react';
 import useSWR from 'swr';
-import { useStoreDispatch } from '../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Accordion from '../../elements/core/components/Accordion/Accordion';
 import Loader from '../../elements/core/components/Loader/Loader';
 import Layout from '../../elements/core/container/Layout/Layout';
@@ -29,6 +30,10 @@ export const getModerationState = (data: any, user: IUser) => {
 };
 
 const PostModeration = () => {
+  const router = useRouter();
+  const { user: authUser } = useStoreState();
+  if (authUser && !authUser.attributes.admin) router.push('/404');
+
   const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
   const { setMessage, addComponent } = useStoreDispatch();
 
@@ -72,7 +77,7 @@ const PostModeration = () => {
 
   return (
     <Layout title="Pending Posts">
-      <h2>User Moderation</h2>
+      <h2>Post Moderation</h2>
       <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
       <Wrapper>
         <Loader isLoading={!data}>
