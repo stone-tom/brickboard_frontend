@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import React from 'react';
 import useSWR from 'swr';
@@ -16,6 +17,8 @@ import filter from '../../util/filter';
 import { get } from '../../util/methods';
 import UploadOverlay from '../../elements/profile/container/UploadOverlay/UploadOverlay';
 import { MessageType } from '../../models/IMessage';
+import { ViewWrapper } from '../../styles/global.styles';
+import Loader from '../../elements/core/components/Loader/Loader';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -27,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         user_id: user.id,
       },
     })),
-    fallback: false,
+    fallback: true,
   };
 };
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
@@ -51,8 +54,18 @@ const Profile = ({
   content,
   fetchURL,
 }: ProfileProps) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <Layout title="Lädt - Brickboard 2.0">
+        <ViewWrapper>
+          <Loader isLoading />
+        </ViewWrapper>
+      </Layout>
+    );
+  }
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
-  const { setMessage, addComponent } = useStoreDispatch();
+  const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
 
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
@@ -91,10 +104,10 @@ const Profile = ({
     addComponent((
       <UploadOverlay
         headline="Avatar upload"
-        onAccept={async (file) => {
+        onAccept={async (file, password) => {
           const avatarData = new FormData();
           avatarData.append('user[avatar]', file);
-          avatarData.append('user[current_password]', '123456');
+          avatarData.append('user[current_password]', password);
           const { content: updatedUser, error } = await updateUser(avatarData);
           if (updatedUser) {
             const updateData = {
@@ -105,6 +118,7 @@ const Profile = ({
               content: 'Avatar erfolgreich aktualisiert',
               type: MessageType.success,
             });
+            updateUserAvatar(updatedUser.data.attributes.avatar);
             mutate(updateData, false);
           }
           if (error) {

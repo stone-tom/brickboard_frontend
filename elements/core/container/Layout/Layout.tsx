@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-import Menubar from '../Menubar/Menubar';
+import Menubar from '../Navigation/Navigation';
 import { useStoreState } from '../../../../context/custom_store';
 import Footer from '../Footer/Footer';
 import { ViewWrapper } from '../../../../styles/global.styles';

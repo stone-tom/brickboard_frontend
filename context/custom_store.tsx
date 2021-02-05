@@ -73,6 +73,11 @@ function reducer(state, { payload, type }) {
         ...state,
         component: null,
       };
+    case 'UPDATE_AVATAR':
+      return {
+        ...state,
+        user: payload,
+      };
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -113,15 +118,6 @@ function StoreProvider({
     dispatch({ type: 'LOGOUT', payload: null });
   };
 
-  useEffect(() => {
-    const savedstate = {
-      user: state.user,
-      isAuthenticated: state.isAuthenticated,
-      moderation_state: state.moderation_state,
-    };
-    saveBrickboardUser(JSON.stringify(savedstate));
-  }, [performLogin, performLogout]);
-
   const performSignup = async (email, displayName, password) => {
     const { content, error } = await register(email, displayName, password);
     if (error) {
@@ -136,7 +132,7 @@ function StoreProvider({
     if (error) {
       throw new Error(error);
     }
-    const user : IUser = content.data;
+    const user: IUser = content.data;
     return user;
   };
 
@@ -152,6 +148,17 @@ function StoreProvider({
     if (error) {
       throw new Error(error);
     }
+  };
+
+  const updateUserAvatar = (avatarUrl: string) => {
+    const newUser = {
+      ...state.user,
+      attributes: {
+        ...state.user.attributes,
+        avatar: avatarUrl,
+      },
+    };
+    dispatch({ type: 'UPDATE_AVATAR', payload: newUser });
   };
 
   const setMessage = (message: IMessage) => {
@@ -173,6 +180,15 @@ function StoreProvider({
     dispatch({ type: 'REMOVE_COMPONENT', payload: null });
   };
 
+  useEffect(() => {
+    const savedstate = {
+      user: state.user,
+      isAuthenticated: state.isAuthenticated,
+      moderation_state: state.moderation_state,
+    };
+    saveBrickboardUser(JSON.stringify(savedstate));
+  }, [performLogin, performLogout, updateUserAvatar]);
+
   return (
     <StoreDispatchContext.Provider
       value={{
@@ -186,6 +202,7 @@ function StoreProvider({
         removeComponent,
         performPasswordResetStart,
         performPasswordReset,
+        updateUserAvatar,
       }}
     >
       <StoreStateContext.Provider value={state}>

@@ -1,5 +1,5 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faEdit, faGlobe, faRibbon } from '@fortawesome/free-solid-svg-icons';
+import { faCertificate, faEdit, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { useStoreState } from '../../../../context/custom_store';
@@ -70,8 +70,8 @@ const ProfileInformation = ({
             <Image
               layout="fill"
               objectFit="cover"
-              alt="Profilbild"
-              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_avatar.jpg'}
+              alt="Profilbild (von Heroku gelöscht)"
+              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'}
             />
             {isAuthenticated && user.id === authUser.id && (
               <EditButton
@@ -87,7 +87,7 @@ const ProfileInformation = ({
           {user.attributes.display_name}
         </Username>
         <BadgeWrapper>
-          <Badge icon={faRibbon} />
+          <Badge icon={faCertificate} />
           <BadgeTitle>Alter Hase</BadgeTitle>
         </BadgeWrapper>
         <ProfileNavigation
