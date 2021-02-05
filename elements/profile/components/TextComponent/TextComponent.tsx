@@ -6,6 +6,7 @@ import {
   TextComponentWrapper,
   Title,
   Value,
+  IconWrapper,
 } from './TextComponent.styles';
 
 const TextComponent = ({
@@ -14,10 +15,13 @@ const TextComponent = ({
   icon,
   isEditing,
   onChange,
+  formatter,
 }: MappingComponentProps) => (
   <TextComponentWrapper>
     {icon ? (
-      <Icon icon={icon} />
+      <IconWrapper>
+        <Icon icon={icon} />
+      </IconWrapper>
     )
       : (
         <Title>
@@ -27,13 +31,15 @@ const TextComponent = ({
     {isEditing ? (
       <FormInput
         type="text"
-        value={value}
+        value={value === '-' ? '' : value}
         onChange={(e) => onChange(e.target.value)}
       />
     )
       : (
         <Value>
-          {value}
+          {formatter
+            ? formatter(value)
+            : value}
         </Value>
       )}
   </TextComponentWrapper>

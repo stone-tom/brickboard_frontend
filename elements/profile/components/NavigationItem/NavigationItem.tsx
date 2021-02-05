@@ -1,5 +1,6 @@
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import { NavItem } from './NavigationItem.styles';
+import { NavItem, NavIcon } from './NavigationItem.styles';
 
 interface NavItemProps {
   name: string,
@@ -16,6 +17,7 @@ const NavigationItem = ({
     active={active}
     onClick={onClick}
   >
+    <NavIcon icon={faChevronRight} />
     {name}
   </NavItem>
 );

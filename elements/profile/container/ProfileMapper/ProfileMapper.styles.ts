@@ -2,8 +2,8 @@ import styled, { css } from 'styled-components';
 import { Button } from '../../../core/components/Button/Button.styles';
 
 export const Wrapper = styled.div`
-  padding: 20px;
-  flex: 0 0 50%;
+  padding: 60px;
+  flex: 0 0 40%;
 `;
 
 export const MapperHeadline = styled.h3`
@@ -20,11 +20,11 @@ export const ProfileMapperLine = styled.div`
 `;
 
 export const EditMapping = styled(Button)<{
-  isEditing: boolean,
+  color: string,
 }>`
   margin: 0 10px;
 
-  ${(props) => props.isEditing && css`
-    color: green;
+  ${(props) => props.color && css`
+    color: ${(props.theme[props.color])};
   `}
 `;
