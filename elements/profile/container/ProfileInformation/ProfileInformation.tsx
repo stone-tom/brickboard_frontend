@@ -70,7 +70,7 @@ const ProfileInformation = ({
             <Image
               layout="fill"
               objectFit="cover"
-              alt="Profilbild"
+              alt="Profilbild (von Heroku gelöscht)"
               src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'}
             />
             {isAuthenticated && user.id === authUser.id && (

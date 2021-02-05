@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import React from 'react';
 import useSWR from 'swr';
@@ -16,6 +17,8 @@ import filter from '../../util/filter';
 import { get } from '../../util/methods';
 import UploadOverlay from '../../elements/profile/container/UploadOverlay/UploadOverlay';
 import { MessageType } from '../../models/IMessage';
+import { ViewWrapper } from '../../styles/global.styles';
+import Loader from '../../elements/core/components/Loader/Loader';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -27,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         user_id: user.id,
       },
     })),
-    fallback: false,
+    fallback: true,
   };
 };
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
@@ -51,6 +54,16 @@ const Profile = ({
   content,
   fetchURL,
 }: ProfileProps) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <Layout title="Lädt - Brickboard 2.0">
+        <ViewWrapper>
+          <Loader isLoading />
+        </ViewWrapper>
+      </Layout>
+    );
+  }
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
   const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
 

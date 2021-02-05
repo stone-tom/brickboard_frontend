@@ -82,6 +82,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-family: "Nunito",-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
       Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: #333333;
   }
 
   *,
