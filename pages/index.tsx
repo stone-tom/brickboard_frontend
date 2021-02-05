@@ -7,13 +7,12 @@ import { ViewWrapper } from '../styles/global.styles';
 function Home() {
   const { isAuthenticated, user } = useStoreState();
   const { performLogout } = useStoreDispatch();
-
   return (
     <>
       <Layout title="Brickboard 2.0">
         <ViewWrapper>
           <h1>Be carefull, this is a construction site</h1>
-          {isAuthenticated && user && (
+          {isAuthenticated && user && user && (
             <>
               <h1>
                 Hallo

@@ -8,10 +8,10 @@ import { ViewWrapper } from '../../../../styles/global.styles';
 interface LayoutProps {
   title: string;
   children: ReactNode;
-  component?: ReactNode,
+  fullWidth?: boolean,
 }
 
-const Layout = ({ title, children, component }: LayoutProps) => {
+const Layout = ({ title, children, fullWidth }: LayoutProps) => {
   const { user } = useStoreState();
   return (
     <>
@@ -22,11 +22,12 @@ const Layout = ({ title, children, component }: LayoutProps) => {
 
       <main>
         <Menubar user={user} />
-        <ViewWrapper>
+        <ViewWrapper
+          fullWidth={fullWidth}
+        >
           {children}
         </ViewWrapper>
       </main>
-      {component}
       <Footer />
     </>
   );

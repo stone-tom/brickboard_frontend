@@ -129,6 +129,7 @@ const GlobalStyles = createGlobalStyle`
 export default GlobalStyles;
 
 export const ViewWrapper = styled.div <{
+  fullWidth?: boolean,
   center?: boolean,
 }>`
   
@@ -139,8 +140,13 @@ export const ViewWrapper = styled.div <{
   `}
 
   min-height: calc(100vh - 80px);
-  padding: 15px;
-  max-width: ${(props) => props.theme.max_container_width};
+  width: 100vw;
+
+  ${(props) => !props.fullWidth && css`
+    max-width: ${props.theme.max_container_width};
+    padding: 15px;
+  `}
+
   margin: 0 auto;
 `;
 

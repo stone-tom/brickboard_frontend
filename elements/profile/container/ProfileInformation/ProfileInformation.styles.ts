@@ -18,7 +18,8 @@ export const AvatarWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px;
+  margin: 50px 50px 20px 50px;
+  
 `;
 
 export const SocialNetworkWrapper = styled.div`
@@ -51,12 +52,23 @@ export const BadgeTitle = styled.p`
 
 export const ProfileCardWrapper = styled.div`
   background: ${(props) => props.theme.gray};
-  width: 30%;
+  min-width: 320px;;
   min-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 `;
 
 export const ProfileInformationWrapper = styled.div`
   background: ${(props) => props.theme.white};
-  width: 70%;
+  width: 80%;
   min-height: 100%;
+`;
+
+export const Username = styled.p`
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;

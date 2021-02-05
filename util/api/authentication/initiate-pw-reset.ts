@@ -13,7 +13,6 @@ const initiatePasswordReset = async (email: string) => {
   let error: any;
   try {
     const res = await post(fetchURL, data);
-    console.log('THE RES', res);
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
     if (res && res.errors) throw new Error(res.errors.email[0]);
