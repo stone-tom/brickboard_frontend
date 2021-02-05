@@ -105,7 +105,7 @@ function Subforum({
       </Layout>
     );
   }
-  const { isAuthenticated, user } = useStoreState();
+  const { isAuthenticated, user, moderation_state } = useStoreState();
   const { setMessage, addComponent } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
   const topicView = filter(data, 'topic_view')[0];
@@ -387,7 +387,7 @@ function Subforum({
         {isAuthenticated && !isLocked && (
           <EditorContainer>
             <FlexRight>
-              <Button type="button" onClick={() => toggleEditor()}>
+              <Button disabled={moderation_state !== 'approved'} type="button" onClick={() => toggleEditor()}>
                 {editorActive ? 'Abbrechen' : 'Antworten'}
               </Button>
             </FlexRight>

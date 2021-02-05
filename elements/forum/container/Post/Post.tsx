@@ -49,7 +49,7 @@ const PostComponent = ({
   topicTitle,
   onPostUpdated,
 }: PostProps) => {
-  const { user } = useStoreState();
+  const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
   const postContent = post.attributes.content;
   const { setMessage } = useStoreDispatch();
@@ -75,9 +75,9 @@ const PostComponent = ({
 
   return (
     <Post role="article">
+      <ProfileAside author={author} />
       <PostDetails>
         <PostHeader>
-
           <PostHeading>
             {!first && `Re: ${topicTitle}`}
           </PostHeading>
@@ -85,7 +85,8 @@ const PostComponent = ({
           <PostSettings>
             {user && (
               <>
-                {user.attributes.display_name === author.attributes.display_name && (
+                {user.attributes.display_name === author.attributes.display_name
+                && moderation_state === 'approved' && (
                   <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                     {!isEditing
                       ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
@@ -107,7 +108,6 @@ const PostComponent = ({
           )
           : <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />}
       </PostDetails>
-      <ProfileAside author={author.attributes.display_name} />
     </Post>
   );
 };
