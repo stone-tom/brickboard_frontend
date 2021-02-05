@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import { Button } from '../../elements/core/components/Button/Button.styles';
 import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
+import HintComponent from '../../elements/core/components/Hint/Hint';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -30,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         slug: board.attributes.slug,
       },
     })),
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -57,8 +59,18 @@ function Subforum({
   topicsData,
   slug,
 }: SubforumProps) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <Layout title="Themen - Brickboard 2.0">
+        <ViewWrapper>
+          <h1>Bitte warten, die Seite lädt...</h1>
+        </ViewWrapper>
+      </Layout>
+    );
+  }
   const [pageIndex, setPageIndex] = useState(1);
-  const { isAuthenticated, user } = useStoreState();
+  const { isAuthenticated, user, moderation_state } = useStoreState();
   const {
     data,
   } = useSWR(
@@ -163,7 +175,16 @@ function Subforum({
         {isAuthenticated && (
           <FlexRight>
             <Link href={`./${slug}/neues-thema`} passHref>
-              <Button>Thema erstellen</Button>
+              <Button disabled={moderation_state !== 'approved'}>
+                {moderation_state !== 'approved' ? (
+                  <HintComponent hint="Dein Konto ist nicht freigeschalten">
+                    Thema erstellen
+                  </HintComponent>
+                )
+                  : (
+                    'Thema erstellen'
+                  )}
+              </Button>
             </Link>
           </FlexRight>
         )}

@@ -1,7 +1,7 @@
 import { backendURL } from '../index';
 import { post } from '../../methods';
 
-const followTopic = async (topicId: number, follow: boolean) => {
+const followTopic = async (topicId: number | string, follow: boolean) => {
   let fetchURL = '';
   if (follow) {
     fetchURL = `${backendURL}/topics/${topicId}/follow`;

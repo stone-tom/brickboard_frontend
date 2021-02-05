@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
-import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBan,
+  faBell,
+  faBellSlash,
+  faClipboardCheck,
+  faMapPin,
+  faSlash,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   ViewWrapper,
   Hint,
@@ -14,9 +23,11 @@ import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadc
 import {
   answerTopic,
   followTopic,
+  getMessageBoardGroups,
   getTopic,
   incrementViewCount,
   markTopicAsRead,
+  updateTopic,
 } from '../../../util/api';
 import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
@@ -27,48 +38,29 @@ import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import findObject from '../../../util/finder';
 import { get } from '../../../util/methods';
 import IPost from '../../../models/IPost';
+import ITopic from '../../../models/ITopic';
+import IMessageboard from '../../../models/IMessageboard';
+import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/components/TopicItem/TopicItem.styles';
+import Prompt from '../../../elements/core/container/Prompt/Prompt';
 
-// interface StaticParams{
-//     params:{
-//     slug:string;
-//     id: number;
-//     }
-// }
-// Welche Pfade prerendered werden können
-// export const getStaticPaths: GetStaticPaths=async ()=>{
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { content } = await getMessageBoardGroups();
+  let messageboards = filter(content, 'messageboard');
+  messageboards = messageboards.filter((board: IMessageboard) => (
+    board.relationships.last_topic.data));
+  return {
+    paths: messageboards.map((board: IMessageboard) => ({
+      params: {
+        slug: board.attributes.slug,
+        id: board.relationships.last_topic.data.id,
+      },
+    })),
+    fallback: true,
+  };
+};
 
-//   const res = await fetch(`https://${process.env.BACKEND_URL}/messageboards`);
-//   const messageboardData = await res.json();
-//   const messageboards=messageboardData.data[0].attributes.messageboards;
-
-//   let paths=messageboards.map(board=>{
-//     return board.messageboard.slug
-//   });
-
-//     return {
-//         paths: [
-//             { params: { slug: 'brickfilme-im-allgemeinen', id: "1"} },
-//             { params: { slug: 'neuigkeiten', id: "1" } }
-//         ],
-//         fallback: true,
-//       };
-// };
-
-// export const getStaticProps: GetStaticProps = async ({params}:Params) => {
-//   const res = await fetch("https://jsonplaceholder.typicode.com/Topics");
-//   const userData = await res.json();
-//   const users = userData;
-//   return {
-//     props: {
-//       users,
-//     },
-//     revalidate: 1,
-//   };
-// };
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { slug } = context.params;
-  const { id } = context.params;
+export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
+  const { id, slug } = params;
   const { content, fetchURL } = await getTopic(id);
   const topicData = content;
 
@@ -79,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       slug,
       id,
     },
+    revalidate: 1,
   };
 };
 
@@ -100,16 +93,28 @@ function Subforum({
     get,
     { revalidateOnMount: true, initialData: topicData },
   );
-  const { isAuthenticated, user } = useStoreState();
-  const { setMessage } = useStoreDispatch();
-
-  const topic = filter(data, 'topic')[0];
+  const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <Layout
+        title="Laden... - Brickboard 2.0"
+      >
+        <ViewWrapper>
+          <h1>Seite lädt...</h1>
+        </ViewWrapper>
+      </Layout>
+    );
+  }
+  const { isAuthenticated, user, moderation_state } = useStoreState();
+  const { setMessage, addComponent } = useStoreDispatch();
+  const topic: ITopic = filter(data, 'topic')[0];
+  const topicView = filter(data, 'topic_view')[0];
   const posts = filter(data, 'post');
   const userList = filter(data, 'user');
   const isLocked = topic.attributes.locked;
-  const [isFollowing, toggleFollowing] = useState(false);
-  if (topic.relationships.follow) {
-    toggleFollowing(true);
+  let isFollowing = false;
+  if (topicView.relationships.follow) {
+    isFollowing = true;
   }
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
@@ -151,7 +156,7 @@ function Subforum({
   };
 
   const subscribeTopic = async (follow: boolean) => {
-    const { error } = await followTopic(topic.id, follow);
+    const { content, error } = await followTopic(topic.id, follow);
     if (!error) {
       if (follow) {
         setMessage({
@@ -164,7 +169,33 @@ function Subforum({
           type: MessageType.warning,
         });
       }
-      toggleFollowing(!isFollowing);
+
+      const updatedTopicView = findObject(content.data, topicView.id);
+
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === topicView.id && item.type === 'topic_view' && follow) {
+            return {
+              ...item,
+              relationships: {
+                ...item.relationships,
+                follow: updatedTopicView.relationships.follow,
+              },
+            };
+          }
+          if (item.id === topicView.id && item.type === 'topic_view' && !follow) {
+            return {
+              ...item,
+              relationships: {
+                ...updatedTopicView.relationships,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
     }
   };
 
@@ -195,46 +226,87 @@ function Subforum({
     };
     mutate(updateData, false);
   };
+  const submitLock = async (lock: boolean) => {
+    const updatedTopic = { topic: { locked: lock } };
 
-  // const onUpdateStatus = async (user: IUser, modStatus: string) => {
-  //   setComponent((
-  //     <Prompt
-  //       headline="Moderation Status ändern?"
-  //       onAccept={async () => {
-  //         setComponent(null);
-  //         try {
-  //           await updateModerationUser(parseInt(user.id, 10), modStatus);
-  //           const updateData = {
-  //             ...data,
-  //             included: data.included.map((item) => {
-  //               if (item.id === user.relationships.thredded_user_detail.data.id) {
-  //                 return {
-  //                   ...item,
-  //                   attributes: {
-  //                     moderation_state: modStatus,
-  //                   },
-  //                 };
-  //               }
-  //               return item;
-  //             }),
-  //           };
-  //           mutate(updateData, false);
-  //           setMessage({
-  //             content: 'Moderation Status erfolgreich geändert',
-  //             type: MessageType.success,
-  //           });
-  //         } catch (e) {
-  //           setMessage({
-  //             content: 'Es ist ein Fehler aufgetreten',
-  //             type: MessageType.error,
-  //           });
-  //         }
-  //       }}
-  //       onDecline={() => setComponent(null)}
-  //     >
-  //       Wollen Sie den Moderation Status wirklich ändern?
-  //     </Prompt>));
-  // };
+    const { content, error } = await updateTopic(topic.id, updatedTopic);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      setMessage({
+        content: `Thema wurde erfolgreich ${lock ? 'gesperrt' : 'entsperrt'}`,
+        type: lock ? MessageType.warning : MessageType.success,
+      });
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === topic.id && item.type === 'topic') {
+            return {
+              ...item,
+              attributes: {
+                ...item.attributes,
+                locked: lock,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
+    }
+  };
+  const submitPin = async (pinned: boolean) => {
+    const updatedTopic = { topic: { sticky: pinned } };
+
+    const { content, error } = await updateTopic(topic.id, updatedTopic);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      setMessage({
+        content: `Thema wurde erfolgreich ${pinned ? 'angepinnt' : 'entpinned'}`,
+        type: pinned ? MessageType.success : MessageType.warning,
+      });
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === topic.id && item.type === 'topic') {
+            return {
+              ...item,
+              attributes: {
+                ...item.attributes,
+                sticky: pinned,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
+    }
+  };
+
+  const onUpdateStatus = async (lock: boolean) => {
+    addComponent((
+      <Prompt
+        headline={lock ? 'Sperren bestätigen' : 'Entsperren bestätigen'}
+        onAccept={() => submitLock(lock)}
+      >
+        {lock ? (
+          'Wenn du das Thema sperrst können keine Antworten mehr gepostet werden.'
+        )
+          : (
+            'Antworten auf das Thema sind wieder möglich.'
+          )}
+      </Prompt>));
+  };
 
   return (
     <Layout
@@ -249,19 +321,46 @@ function Subforum({
         <FlexBetween>
           <h1>{topic.attributes.title}</h1>
           {isAuthenticated && (
-            <>
-              {isFollowing
-                ? (
-                  <Button onClick={() => subscribeTopic(false)} icon={faBell} reset>
-                    E-Mails aktiv
+            <TopicSettingsBar>
+              {!topic.attributes.locked && (
+                <TopicSettingsBarItem>
+                  <Button
+                    onClick={() => subscribeTopic(!isFollowing)}
+                    icon={isFollowing ? faBell : faBellSlash}
+                    reset
+                  >
+                    {`E-Mails ${isFollowing ? 'aktiv' : 'deaktiviert'}`}
                   </Button>
-                )
-                : (
-                  <Button onClick={() => subscribeTopic(true)} icon={faBellSlash} reset>
-                    E-Mails deaktiviert
-                  </Button>
+                </TopicSettingsBarItem>
+              )}
+              {user.attributes.admin
+                && (
+                  <>
+                    <TopicSettingsBarItem>
+                      <Button
+                        reset
+                        icon={topic.attributes.locked ? faClipboardCheck : faBan}
+                        onClick={() => onUpdateStatus(!topic.attributes.locked)}
+                      >
+                        {topic.attributes.locked
+                          ? 'Thema entsperren'
+                          : 'Thema sperren'}
+                      </Button>
+                    </TopicSettingsBarItem>
+                    <TopicSettingsBarItem>
+                      <Button
+                        reset
+                        icon={topic.attributes.sticky ? faSlash : faMapPin}
+                        onClick={() => submitPin(!topic.attributes.sticky)}
+                      >
+                        {topic.attributes.sticky
+                          ? 'Thema entpinnen'
+                          : 'Thema anpinnen'}
+                      </Button>
+                    </TopicSettingsBarItem>
+                  </>
                 )}
-            </>
+            </TopicSettingsBar>
           )}
 
         </FlexBetween>
@@ -288,7 +387,7 @@ function Subforum({
         {isAuthenticated && !isLocked && (
           <EditorContainer>
             <FlexRight>
-              <Button type="button" onClick={() => toggleEditor()}>
+              <Button disabled={moderation_state !== 'approved'} type="button" onClick={() => toggleEditor()}>
                 {editorActive ? 'Abbrechen' : 'Antworten'}
               </Button>
             </FlexRight>

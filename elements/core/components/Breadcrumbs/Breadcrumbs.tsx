@@ -4,7 +4,7 @@ import { BreadcrumbsWrapper } from './Breadcrumbs.styles';
 
 interface CrumbsProps {
   slug: string;
-  id?: number;
+  id?: number | string;
   topic?: string;
 }
 

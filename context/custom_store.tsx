@@ -20,6 +20,7 @@ import {
 interface IState {
   user: IUser | null,
   isAuthenticated: boolean,
+  moderation_state: 'blocked' | 'approved' | 'pending_moderation' | null;
   message: IMessage | null,
   component: ReactNode,
 }
@@ -32,6 +33,7 @@ const usePersistedStoreState = createPersistedState('brickboard-user');
 const initialState: IState = {
   isAuthenticated: false,
   user: null,
+  moderation_state: null,
   message: null,
   component: null,
 };
@@ -49,6 +51,7 @@ function reducer(state, { payload, type }) {
         ...state,
         isAuthenticated: false,
         user: null,
+        moderation_state: null,
       };
     case 'SET_MESSAGE':
       return {
@@ -81,6 +84,7 @@ function StoreProvider({
   const savedInitialState = {
     user: initialState.user,
     isAuthenticated: initialState.isAuthenticated,
+    moderation_state: initialState.moderation_state,
   };
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
     JSON.stringify(savedInitialState),
@@ -90,12 +94,14 @@ function StoreProvider({
   const performLogin = async (email, password) => {
     const { content, error } = await login(email, password);
     let user = {};
+    let moderation_state = 'pending';
     if (error) {
       throw new Error(error);
     }
     if (content) {
       user = content.data;
-      dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+      moderation_state = content.included[0].attributes.moderation_state;
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user, moderation_state } });
     }
   };
 
@@ -108,7 +114,11 @@ function StoreProvider({
   };
 
   useEffect(() => {
-    const savedstate = { user: state.user, isAuthenticated: state.isAuthenticated };
+    const savedstate = {
+      user: state.user,
+      isAuthenticated: state.isAuthenticated,
+      moderation_state: state.moderation_state,
+    };
     saveBrickboardUser(JSON.stringify(savedstate));
   }, [performLogin, performLogout]);
 
