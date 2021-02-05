@@ -36,7 +36,6 @@ const PostModeration = () => {
 
   const { data, mutate } = useSWR(`${backendURL}/admin/moderation/users/page-1`, get);
   const { setMessage, addComponent } = useStoreDispatch();
-
   const onUpdateStatus = async (user: IUser, modStatus: string) => {
     addComponent((
       <Prompt

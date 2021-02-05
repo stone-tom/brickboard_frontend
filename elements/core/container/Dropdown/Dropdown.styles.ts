@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 
 export const DropdownWrapper = styled.nav`
@@ -18,7 +19,7 @@ export const Name = styled.p`
   margin: 0 10px;
 `;
 
-export const DropItem = styled.div`
+export const DropItem = styled.a`
   z-index: 9000;
   padding: 20px 30px;
   width: 100%;
@@ -57,4 +58,8 @@ export const Transparent = styled.div`
   background-color: transparent;
   height: 50px;
   cursor: pointer;
+`;
+
+export const NavLink = styled(Link)`
+  width: 100%;
 `;

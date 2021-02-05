@@ -52,7 +52,7 @@ const Profile = ({
   fetchURL,
 }: ProfileProps) => {
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
-  const { setMessage, addComponent } = useStoreDispatch();
+  const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
 
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
@@ -91,10 +91,10 @@ const Profile = ({
     addComponent((
       <UploadOverlay
         headline="Avatar upload"
-        onAccept={async (file) => {
+        onAccept={async (file, password) => {
           const avatarData = new FormData();
           avatarData.append('user[avatar]', file);
-          avatarData.append('user[current_password]', '123456');
+          avatarData.append('user[current_password]', password);
           const { content: updatedUser, error } = await updateUser(avatarData);
           if (updatedUser) {
             const updateData = {
@@ -105,6 +105,7 @@ const Profile = ({
               content: 'Avatar erfolgreich aktualisiert',
               type: MessageType.success,
             });
+            updateUserAvatar(updatedUser.data.attributes.avatar);
             mutate(updateData, false);
           }
           if (error) {

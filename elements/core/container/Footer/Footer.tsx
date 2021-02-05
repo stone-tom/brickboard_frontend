@@ -7,7 +7,10 @@ import {
 const FooterComponent = () => (
   <Footer>
     <FooterWrapper>
-      This is the footer
+      <ul>
+        <li>© Brickboard 2021</li>
+        <li><a target="blank" href="https://www.brickboard.de/">Zum alten Brickboard</a></li>
+      </ul>
     </FooterWrapper>
   </Footer>
 );

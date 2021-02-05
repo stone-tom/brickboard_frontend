@@ -140,7 +140,6 @@ export const ViewWrapper = styled.div <{
   `}
 
   min-height: calc(100vh - 80px);
-  width: 100vw;
 
   ${(props) => !props.fullWidth && css`
     max-width: ${props.theme.max_container_width};

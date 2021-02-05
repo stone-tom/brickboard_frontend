@@ -12,6 +12,7 @@ import incrementViewCount from './topic/increment-view-count';
 import followTopic from './topic/follow-topic';
 import initiatePasswordReset from './authentication/initiate-pw-reset';
 import resetPassword from './authentication/reset-password';
+import updateTopic from './topic/update-topic';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -30,4 +31,5 @@ export {
   followTopic,
   initiatePasswordReset,
   resetPassword,
+  updateTopic,
 };

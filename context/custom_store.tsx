@@ -20,6 +20,7 @@ import {
 interface IState {
   user: IUser | null,
   isAuthenticated: boolean,
+  moderation_state: 'blocked' | 'approved' | 'pending_moderation' | null;
   message: IMessage | null,
   component: ReactNode,
 }
@@ -32,6 +33,7 @@ const usePersistedStoreState = createPersistedState('brickboard-user');
 const initialState: IState = {
   isAuthenticated: false,
   user: null,
+  moderation_state: null,
   message: null,
   component: null,
 };
@@ -49,6 +51,7 @@ function reducer(state, { payload, type }) {
         ...state,
         isAuthenticated: false,
         user: null,
+        moderation_state: null,
       };
     case 'SET_MESSAGE':
       return {
@@ -70,6 +73,11 @@ function reducer(state, { payload, type }) {
         ...state,
         component: null,
       };
+    case 'UPDATE_AVATAR':
+      return {
+        ...state,
+        user: payload,
+      };
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -81,6 +89,7 @@ function StoreProvider({
   const savedInitialState = {
     user: initialState.user,
     isAuthenticated: initialState.isAuthenticated,
+    moderation_state: initialState.moderation_state,
   };
   const [brickboardUser, saveBrickboardUser] = usePersistedStoreState(
     JSON.stringify(savedInitialState),
@@ -90,12 +99,14 @@ function StoreProvider({
   const performLogin = async (email, password) => {
     const { content, error } = await login(email, password);
     let user = {};
+    let moderation_state = 'pending';
     if (error) {
       throw new Error(error);
     }
     if (content) {
       user = content.data;
-      dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+      moderation_state = content.included[0].attributes.moderation_state;
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user, moderation_state } });
     }
   };
 
@@ -106,11 +117,6 @@ function StoreProvider({
     }
     dispatch({ type: 'LOGOUT', payload: null });
   };
-
-  useEffect(() => {
-    const savedstate = { user: state.user, isAuthenticated: state.isAuthenticated };
-    saveBrickboardUser(JSON.stringify(savedstate));
-  }, [performLogin, performLogout]);
 
   const performSignup = async (email, displayName, password) => {
     const { content, error } = await register(email, displayName, password);
@@ -126,7 +132,7 @@ function StoreProvider({
     if (error) {
       throw new Error(error);
     }
-    const user : IUser = content.data;
+    const user: IUser = content.data;
     return user;
   };
 
@@ -142,6 +148,17 @@ function StoreProvider({
     if (error) {
       throw new Error(error);
     }
+  };
+
+  const updateUserAvatar = (avatarUrl: string) => {
+    const newUser = {
+      ...state.user,
+      attributes: {
+        ...state.user.attributes,
+        avatar: avatarUrl,
+      },
+    };
+    dispatch({ type: 'UPDATE_AVATAR', payload: newUser });
   };
 
   const setMessage = (message: IMessage) => {
@@ -163,6 +180,15 @@ function StoreProvider({
     dispatch({ type: 'REMOVE_COMPONENT', payload: null });
   };
 
+  useEffect(() => {
+    const savedstate = {
+      user: state.user,
+      isAuthenticated: state.isAuthenticated,
+      moderation_state: state.moderation_state,
+    };
+    saveBrickboardUser(JSON.stringify(savedstate));
+  }, [performLogin, performLogout, updateUserAvatar]);
+
   return (
     <StoreDispatchContext.Provider
       value={{
@@ -176,6 +202,7 @@ function StoreProvider({
         removeComponent,
         performPasswordResetStart,
         performPasswordReset,
+        updateUserAvatar,
       }}
     >
       <StoreStateContext.Provider value={state}>

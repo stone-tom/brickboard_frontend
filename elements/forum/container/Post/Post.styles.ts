@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Post = styled.section`
   display: grid;
-  grid-template-columns: auto 200px;
+  grid-template-columns: 200px auto;
   margin: 1rem 0;
 `;
 

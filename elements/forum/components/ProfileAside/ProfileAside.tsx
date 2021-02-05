@@ -1,45 +1,49 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
-import { ProfileAside, ProfileAsideHeading, ProfileCondensedInfo } from './ProfileAside.style';
+import { format } from 'date-fns';
+import {
+  ProfileAside,
+  ProfileAsideFact,
+  ProfileAsideHeading,
+  ProfileCondensedInfo,
+  ProfileImageWrapper,
+} from './ProfileAside.style';
+import IUser from '../../../../models/IUser';
 
 interface ProfileAsideProps {
-  author?: string;
+  author?: IUser;
   // authorRegistered?: Date;
-  authorProfilePic?: string;
-  postsCount?: number;
+  // postsCount?: number;
   // authorBadge?: string;
-  authorCity?: string;
+  // authorCity?: string;
 }
 
 const ProfileAsideComponent = ({
-  author = 'Not defined',
-  postsCount = 1,
-  authorProfilePic = '/assets/images/501.jpg',
-  authorCity = 'Legoland',
+  author,
 }: ProfileAsideProps) => (
   <ProfileAside>
     <ProfileCondensedInfo>
-      <div
-        style={{
-          position: 'relative',
-          maxHeight: '200px',
-          maxWidth: '200px',
-        }}
-      >
-        <Image quality={100} src={authorProfilePic} alt="Profilbild" layout="fill" />
-      </div>
+      <ProfileImageWrapper>
+        <Image
+          quality={100}
+          src={author.attributes.avatar ? author.attributes.avatar : '/assets/images/default_profile.svg'}
+          alt="Profilbild (von Heroku gelöscht)"
+          layout="fill"
+        />
+      </ProfileImageWrapper>
     </ProfileCondensedInfo>
-
-    <ProfileAsideHeading>{author}</ProfileAsideHeading>
+    <Link href={`/profil/${author.id}`} passHref>
+      <ProfileAsideHeading>
+        {author.attributes.display_name}
+      </ProfileAsideHeading>
+    </Link>
     <div>
-      <p>
-        Beiträge:
-        {postsCount}
-      </p>
-      <p>
-        Aus:
-        {authorCity}
-      </p>
+      <ProfileAsideFact>
+        Mitglied seit:
+        <br />
+        {format(new Date(author.attributes.created_at), 'dd.MM.yyyy')}
+      </ProfileAsideFact>
     </div>
   </ProfileAside>
 );

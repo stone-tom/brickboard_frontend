@@ -14,9 +14,10 @@ import {
   Dropdown,
   Transparent,
   Wrapper,
+  NavLink,
 } from './Dropdown.styles';
-import userNav from '../Navigation/config/user.json';
-import adminNav from '../Navigation/config/admin.json';
+import userNav from '../Navigation/submenu/user.json';
+import adminNav from '../Navigation/submenu/admin.json';
 
 const SubMenu = () => {
   const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ const SubMenu = () => {
           {user.attributes.display_name}
         </Name>
         <Avatar>
-          <Image width="40" height="40" src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/501.jpg'} />
+          <Image width="40" height="40" src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'} />
         </Avatar>
       </UserWrapper>
 
@@ -57,19 +58,21 @@ const SubMenu = () => {
         >
           <Transparent />
           <Dropdown>
-            <DropItem
-              onClick={() => setOpen(false)}
-            >
-              <Link href={`/profil/${user.id}`}>
+            <NavLink href={`/profil/${user.id}`} passHref>
+              <DropItem
+                onClick={() => setOpen(false)}
+              >
                 Profil
-              </Link>
-            </DropItem>
-            {navigation.map((item) => (
-              <DropItem>
-                <Link href={item.path}>
-                  {item.text}
-                </Link>
               </DropItem>
+            </NavLink>
+
+            {navigation.map((item) => (
+              <Link href={item.path}>
+                <DropItem>
+                  {item.text}
+                </DropItem>
+
+              </Link>
             ))}
             <DropItem
               onClick={() => handleLogout()}

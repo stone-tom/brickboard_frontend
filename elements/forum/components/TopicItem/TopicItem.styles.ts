@@ -85,3 +85,12 @@ export const TopicActivity = styled.div`
   padding-left: .5rem;
   border-left: lightgray 1px solid;
 `;
+
+export const TopicSettingsBar = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+export const TopicSettingsBarItem = styled.li`
+  padding: 5px;
+`;

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Footer = styled.footer`
   background-color: ${(props) => props.theme.darkgray}; 
   color: ${(props) => props.theme.white};
-  width: 100vw;
 `;
 
 export const FooterWrapper = styled.div`
