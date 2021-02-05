@@ -63,7 +63,9 @@ const SignIn = () => {
         })}
       />
 
-      <LoginButton type="submit" value="Einloggen" placeholder="Passwort" />
+      <LoginButton type="submit">
+        Einloggen
+      </LoginButton>
       <Link href="/account/passwort-vergessen">Passwort vergessen?</Link>
 
     </SignInForm>

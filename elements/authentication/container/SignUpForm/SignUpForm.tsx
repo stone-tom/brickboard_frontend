@@ -116,7 +116,9 @@ const SignUp = ({ onFailedRegistering }: SignUpProps) => {
         })}
       />
 
-      <LoginButton type="submit" value="Registrieren" placeholder="Passwort" />
+      <LoginButton type="submit">
+        Registrieren
+      </LoginButton>
 
     </SignInForm>
   );

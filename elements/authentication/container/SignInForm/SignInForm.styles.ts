@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../../core/components/Button/Button.styles';
 
 export const SignInForm = styled.form`
   padding: 2rem;
@@ -20,7 +21,7 @@ export const SignInInput = styled.input`
   position: relative;
 `;
 
-export const LoginButton = styled.input`
+export const LoginButton = styled(Button)`
   display: block;
   width: 100%;
   padding: 1rem;

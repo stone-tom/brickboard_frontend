@@ -72,7 +72,9 @@ const ResetPasswortComponent = ({ onSuccess, code }: ResetPW) => {
           required: 'Bitte gib dein Passwort erneut ein!',
         })}
       />
-      <LoginButton type="submit" value="Absenden" />
+      <LoginButton type="submit">
+        Absenden
+      </LoginButton>
     </SignInForm>
   );
 };

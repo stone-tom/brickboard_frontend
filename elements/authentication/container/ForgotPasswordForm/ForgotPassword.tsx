@@ -56,7 +56,9 @@ const ForgotPasswortComponent = ({ onSuccess }: ForgotPW) => {
           },
         })}
       />
-      <LoginButton type="submit" value="Absenden" />
+      <LoginButton type="submit">
+        Absenden
+      </LoginButton>
     </SignInForm>
   );
 };
