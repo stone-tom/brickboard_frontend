@@ -20,7 +20,7 @@ import {
 interface IState {
   user: IUser | null,
   isAuthenticated: boolean,
-  moderation_state: 'blocked' | 'approved' | 'pending' | null;
+  moderation_state: 'blocked' | 'approved' | 'pending_moderation' | null;
   message: IMessage | null,
   component: ReactNode,
 }
