@@ -1,0 +1,16 @@
+{
+  "max_size_avatar": 500000,
+  "allowed_file_types_avatar": [
+    "image/jpeg",
+    "image/jpg",
+    ".jpg",
+    ".jpeg"
+  ],
+  "max_size_banner": 500000,
+  "allowed_file_types_banner": [
+    "image/jpeg",
+    "image/jpg",
+    ".jpg",
+    ".jpeg"
+  ]
+}

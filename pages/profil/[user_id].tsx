@@ -19,6 +19,7 @@ import UploadOverlay from '../../elements/profile/container/UploadOverlay/Upload
 import { MessageType } from '../../models/IMessage';
 import { ViewWrapper } from '../../styles/global.styles';
 import Loader from '../../elements/core/components/Loader/Loader';
+import Restrictions from '../../config/file_upload_restrictions.json';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -74,6 +75,8 @@ const Profile = ({
     addComponent((
       <UploadOverlay
         headline="Profil Banner upload"
+        allowedTypes={Restrictions.allowed_file_types_banner}
+        maxSize={Restrictions.max_size_banner}
         onAccept={async (file) => {
           const bannerData = new FormData();
           bannerData.append('user_details[profile_banner]', file);
@@ -103,6 +106,9 @@ const Profile = ({
   const onEditAvatar = () => {
     addComponent((
       <UploadOverlay
+        withPassword
+        allowedTypes={Restrictions.allowed_file_types_avatar}
+        maxSize={Restrictions.max_size_avatar}
         headline="Avatar upload"
         onAccept={async (file, password) => {
           const avatarData = new FormData();
