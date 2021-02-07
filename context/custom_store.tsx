@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useReducer,
 } from 'react';
-// import createPersistedState from 'use-persisted-state';
 import IMessage from '../models/IMessage';
 import IUser from '../models/IUser';
 import {
@@ -27,8 +26,6 @@ interface IState {
 
 const StoreDispatchContext = createContext(({} as any));
 const StoreStateContext = createContext(({} as any));
-
-// const usePersistedStoreState = createPersistedState('brickboard-user');
 
 const initialState: IState = {
   isAuthenticated: false,
