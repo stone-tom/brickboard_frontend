@@ -10,6 +10,7 @@ import {
   ProfileImageWrapper,
 } from './ProfileAside.style';
 import IUser from '../../../../models/IUser';
+import { backendURL } from '../../../../util/api';
 
 interface ProfileAsideProps {
   author?: IUser;
@@ -27,7 +28,7 @@ const ProfileAsideComponent = ({
       <ProfileImageWrapper>
         <Image
           quality={100}
-          src={author.attributes.avatar ? author.attributes.avatar : '/assets/images/default_profile.svg'}
+          src={author.attributes.avatar ? `${backendURL}${author.attributes.avatar}` : '/assets/images/default_profile.svg'}
           alt="Profilbild (von Heroku gelöscht)"
           layout="fill"
         />
