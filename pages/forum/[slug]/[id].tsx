@@ -370,6 +370,13 @@ function Subforum({
             Antwort posten.
           </Hint>
         )}
+        {topic.attributes.moderation_state === 'pending_moderation' && (
+          <Hint>
+            Dieses Konto wurde noch nicht von einem der Admins bestätigt.
+            Bis dahin kannst nur du dieses Thema sehen. Checke regelmäßig deine E-Mails,
+            um zu sehen ob dein Konto freigeschalten wurde!
+          </Hint>
+        )}
 
         {posts.map((post: IPost, index) => (
 
