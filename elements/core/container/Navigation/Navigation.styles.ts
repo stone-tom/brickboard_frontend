@@ -15,19 +15,30 @@ export const NavigationWrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 80px;
+`;
 
+export const MenuImageContainer = styled.div`
+  position: relative;
+`;
+
+export const FontImageWrapper = styled.div`
+  margin-left: 145px;
+  cursor: pointer;
 `;
 
 export const MenuImageWrapper = styled.div`
-  width: 190px;
-  height: 80px;
-  position: relative;
+  width: 140px;
+  height: 100px;
+  position: absolute;
+  top: -17px;
   cursor: pointer;
 `;
 
 export const NavigationList = styled.ul`
   display: flex;
 `;
+
 export const NavigationItem = styled.li`
   display: flex;
   align-items: center;

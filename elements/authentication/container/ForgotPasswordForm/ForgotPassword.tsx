@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import {
-  ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
+  ErrorHint, LoginButton, SignInForm, SignInHeading, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
 
 interface ForgotPW {
@@ -36,7 +36,7 @@ const ForgotPasswortComponent = ({ onSuccess }: ForgotPW) => {
   };
   return (
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
-      <h2>Passwort vergessen?</h2>
+      <SignInHeading>Passwort vergessen?</SignInHeading>
       <p>
         Bitte teile uns deine E-Mail Adresse mit.
       </p>

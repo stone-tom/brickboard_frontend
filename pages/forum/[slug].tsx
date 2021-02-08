@@ -83,12 +83,17 @@ function Subforum({
   const userList = filterContent(data, 'user');
   const readTopics = filterContent(data, 'user_topic_read_state');
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
+  const openTopic = (clickedTopic: ITopic) => {
+    if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
+      router.push(`./${slug}/${clickedTopic.id}`);
+    }
+  };
 
   if (data.data.length === 0 || data.included === []) {
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
-          <Breadcrumbsbar slug={slug} />
+          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
           <h1>Dieses Board hat leider noch keine Themen...</h1>
           {isAuthenticated && (
             <FlexRight>
@@ -105,7 +110,7 @@ function Subforum({
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
-        <Breadcrumbsbar slug={slug} />
+        <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
 
         <ForumHeading title={`${messageboard.attributes.name}`} />
 
@@ -132,6 +137,7 @@ function Subforum({
                   topic={topic}
                   author={author}
                   lastCommentor={lastCommentor}
+                  onClick={() => openTopic(topic)}
                 />
               );
             }
@@ -144,6 +150,7 @@ function Subforum({
                 lastCommentor={lastCommentor}
                 markUnread={unread}
                 isAuthenticated
+                onClick={() => openTopic(topic)}
               />
             );
           } if (isAuthenticated
@@ -158,6 +165,7 @@ function Subforum({
                 lastCommentor={lastCommentor}
                 markUnread={unread}
                 isAuthenticated
+                onClick={() => openTopic(topic)}
               />
             );
           }

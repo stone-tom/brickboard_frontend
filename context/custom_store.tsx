@@ -93,7 +93,6 @@ function StoreProvider({
     //   localStorage.setItem('brickboardUser', JSON.stringify(savedInitialState)),
     // );
     const savedlocalState = JSON.parse(localStorage.getItem('brickboardUser'));
-    console.log('GETS TRIGGRED');
     if (savedlocalState === null || !savedlocalState.isAuthenticated) {
       localStorage.setItem('brickboardUser', JSON.stringify(savedInitialState));
     }
@@ -191,8 +190,6 @@ function StoreProvider({
         isAuthenticated: state.isAuthenticated,
         moderation_state: state.moderation_state,
       };
-      console.log('USE EFFFECT');
-
       localStorage.setItem('brickboardUser', JSON.stringify(savedstate));
     }, [performLogin, performLogout, updateUserAvatar]);
 

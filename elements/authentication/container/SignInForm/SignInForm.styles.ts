@@ -10,6 +10,10 @@ export const SignInForm = styled.form`
   position: relative;
 `;
 
+export const SignInHeading = styled.h2`
+  margin-bottom: 1rem;
+`;
+
 export const SignInInput = styled.input`
   display: block;
   padding: 1rem;

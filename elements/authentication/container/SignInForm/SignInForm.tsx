@@ -1,11 +1,12 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
+import { FlexCenter } from '../../../../styles/global.styles';
+import ColoredLink from '../../../core/components/ColoredNextLink/ColoredNextLink';
 import {
-  ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
+  ErrorHint, LoginButton, SignInForm, SignInHeading, SignInInput, SignInLabel,
 } from './SignInForm.styles';
 
 // cool hovers: https://codepen.io/Takumari85/pen/RaYwpJ
@@ -28,7 +29,7 @@ const SignIn = () => {
         content: 'Erfolgreich eingeloggt',
         type: MessageType.success,
       });
-      router.push('/');
+      router.back();
     } catch (e) {
       setError('email', {
         type: 'manual',
@@ -38,7 +39,7 @@ const SignIn = () => {
   };
   return (
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
-      <h2>Betrete das Brickboard</h2>
+      <SignInHeading>Betrete das Brickboard</SignInHeading>
       <SignInLabel>E-Mail Adresse</SignInLabel>
       {errors.email && <ErrorHint><span>{errors.email.message}</span></ErrorHint>}
       <SignInInput
@@ -66,7 +67,12 @@ const SignIn = () => {
       <LoginButton type="submit">
         Einloggen
       </LoginButton>
-      <Link href="/account/passwort-vergessen">Passwort vergessen?</Link>
+      <FlexCenter>
+        <ColoredLink href="/registrieren" text="Du hast noch kein Konto?" />
+      </FlexCenter>
+      <FlexCenter>
+        <ColoredLink href="/account/passwort-vergessen" text="Passwort vergessen?" />
+      </FlexCenter>
 
     </SignInForm>
   );

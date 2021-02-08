@@ -68,6 +68,7 @@ const CustomEditor = ({ onEditorSubmit, answer = false, initialContent }: Editor
             ],
             imageFileInput: false,
             minHeight: '300px',
+            height: 'auto',
           }}
         />
       </EditorWrapper>
