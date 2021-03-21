@@ -123,7 +123,7 @@ function Subforum({
             || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
-          if (topic.attributes.moderation_state !== 'blocked') {
+          if (topic.attributes.moderation_state === 'approved') {
             if (!isAuthenticated) {
               return (
                 <TopicItem
@@ -146,8 +146,9 @@ function Subforum({
                 isAuthenticated
               />
             );
-          }
-          if (isAuthenticated && user.attributes.admin) {
+          } if (isAuthenticated
+            && (user.attributes.display_name === author.attributes.display_name
+              || user.attributes.admin)) {
             return (
               <TopicItem
                 key={topic.attributes.slug}
@@ -175,7 +176,7 @@ function Subforum({
         {isAuthenticated && (
           <FlexRight>
             <Link href={`./${slug}/neues-thema`} passHref>
-              <Button disabled={moderation_state !== 'approved'}>
+              <Button disabled={moderation_state === 'blocked'}>
                 {moderation_state !== 'approved' ? (
                   <HintComponent hint="Dein Konto ist nicht freigeschalten">
                     Thema erstellen

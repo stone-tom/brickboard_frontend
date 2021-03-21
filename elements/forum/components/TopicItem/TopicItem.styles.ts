@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const TopicItem = styled.div<{
   updated?: boolean,
-  blocked?: boolean,
+  moderation_state?: 'blocked' | 'pending_moderation' | 'approved',
 }>`
   min-height: 50px;
   display: flex;
@@ -15,9 +15,12 @@ export const TopicItem = styled.div<{
   box-shadow: 0px 10px 10px ${(props) => props.theme.lightgray};
 
   transition: background-color .4s;
-  ${(props) => props.blocked && css`
+  ${(props) => props.moderation_state === 'blocked' && css`
     opacity: 0.4;
   `}
+  ${(props) => props.moderation_state === 'pending_moderation' && css`
+  background-color: ${props.theme.warning};
+`}
   &:hover {
     background-color: ${(props) => props.theme.lightgray};
   }
@@ -43,7 +46,8 @@ export const TopicIcon = styled.div<{
   color: ${(props) => (props.updated ? props.theme.brickred : props.theme.darkgray)};
 
   svg {
-    max-height: 50px;
+    height: 50px;
+    width: 50px;
   }
 `;
 export const TopicUnreadMarker = styled.div<{
