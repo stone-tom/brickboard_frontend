@@ -69,7 +69,7 @@ interface TopicItemProps {
   lastCommentor: IUser;
   markUnread?: boolean;
   isAuthenticated?: boolean;
-  onClick?: any;
+  onClick?: () => void;
 }
 
 const TopicItemComponent = ({

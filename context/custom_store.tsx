@@ -89,9 +89,6 @@ function StoreProvider({
     moderation_state: initialState.moderation_state,
   };
   if (typeof window !== 'undefined') {
-    // const [brickboardUser, saveBrickboardUser] = useState(
-    //   localStorage.setItem('brickboardUser', JSON.stringify(savedInitialState)),
-    // );
     const savedlocalState = JSON.parse(localStorage.getItem('brickboardUser'));
     if (savedlocalState === null || !savedlocalState.isAuthenticated) {
       localStorage.setItem('brickboardUser', JSON.stringify(savedInitialState));
