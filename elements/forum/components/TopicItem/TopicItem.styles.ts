@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const TopicItem = styled.div<{
   updated?: boolean,
   moderation_state?: 'blocked' | 'pending_moderation' | 'approved',
+  pinned?: boolean,
 }>`
   min-height: 50px;
   display: flex;
@@ -12,6 +13,7 @@ export const TopicItem = styled.div<{
   border: lightgray 1px solid;
   border-radius: 2px;
   margin: .5rem 0;
+  cursor: pointer;
   box-shadow: 0px 10px 10px ${(props) => props.theme.lightgray};
 
   transition: background-color .4s;
@@ -20,7 +22,7 @@ export const TopicItem = styled.div<{
   `}
   ${(props) => props.moderation_state === 'pending_moderation' && css`
   background-color: ${props.theme.warning};
-`}
+  `}
   &:hover {
     background-color: ${(props) => props.theme.lightgray};
   }
@@ -37,6 +39,7 @@ export const TopicHeading = styled.h3<{
 
 export const TopicIcon = styled.div<{
   updated?: boolean,
+  pinned?: boolean,
 }>`
   display: flex;
   width: 5%;
@@ -46,9 +49,22 @@ export const TopicIcon = styled.div<{
   color: ${(props) => (props.updated ? props.theme.brickred : props.theme.darkgray)};
 
   svg {
-    height: 50px;
-    width: 50px;
+    height: 40px !important;
+    width: 40px !important;
   }
+
+  @media screen and (max-width: 850px){
+    svg {
+    height: 30px !important;
+    width: 30px !important;
+  }
+  }
+
+  ${(props) => props.pinned && css`
+  background-color: ${props.theme.darkgray};
+  color: ${props.theme.white};
+  `}
+
 `;
 export const TopicUnreadMarker = styled.div<{
   unread?: boolean,
@@ -67,11 +83,19 @@ export const TopicInfo = styled.div`
   padding: .2rem;
   padding-left: .5rem;
   border-left: lightgray 1px solid;
+
+  @media screen and (max-width: 850px){
+    flex-wrap: wrap;
+    padding: 0.8rem;
+  }
 `;
 
 export const TopicInfoDetails = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 850px){
+    margin-top: 10px 0;
+  }
 `;
 export const TopicInfoDetailsItem = styled.div`
   svg {

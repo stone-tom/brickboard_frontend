@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import {
-  ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
+  ErrorHint, LoginButton, SignInForm, SignInHeading, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
 
 interface ResetPW {
@@ -46,7 +46,7 @@ const ResetPasswortComponent = ({ onSuccess, code }: ResetPW) => {
   };
   return (
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
-      <h2>Passwort wiederherstellen.</h2>
+      <SignInHeading>Passwort wiederherstellen.</SignInHeading>
       <p>
         Gib dein neues Passwort ein!
       </p>

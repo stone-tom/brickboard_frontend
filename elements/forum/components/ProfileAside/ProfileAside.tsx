@@ -40,6 +40,8 @@ const ProfileAsideComponent = ({
       </ProfileAsideHeading>
     </Link>
     <div>
+      {author.attributes.admin
+        && <ProfileAsideFact>Administrator</ProfileAsideFact>}
       <ProfileAsideFact>
         Mitglied seit:
         <br />
