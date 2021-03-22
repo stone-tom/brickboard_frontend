@@ -24,7 +24,7 @@ const UploadOverlay = ({
   allowedTypes,
   maxSize,
 }: UploadOverlayProps) => {
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>();
   const [password, setPassword] = useState<string>();
   const { removeComponent, setMessage } = useStoreDispatch();
 
@@ -43,13 +43,12 @@ const UploadOverlay = ({
   const handleFileUpload = (newFile: File) => {
     if (!allowedTypes.includes(newFile.type)) {
       setMessage({
-        content: 'Das Bild hat einen nicht erlaubten Dateityp',
+        content: `Das Bild muss einen der folgenden Dateitypen haben: ${allowedTypes.join(' ')}`,
         type: MessageType.error,
       });
-      setFile(newFile);
     } else if (newFile.size > maxSize) {
       setMessage({
-        content: 'Das Bild ist zu groß',
+        content: `Das Bild darf die Maximalgröße von ${maxSize / 1000}KB nicht übersteigen`,
         type: MessageType.error,
       });
     } else {
@@ -71,6 +70,9 @@ const UploadOverlay = ({
             Passwort
           </FormInput>
         )}
+        {`Erlaubte Dateiformate: ${allowedTypes.join(' ')}`}
+        <br />
+        {`maximale Dateigröße: ${maxSize / 1000}KB`}
         <File
           onFileUpload={(newFile) => handleFileUpload(newFile)}
         />
