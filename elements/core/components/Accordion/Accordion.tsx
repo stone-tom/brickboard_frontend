@@ -22,7 +22,7 @@ const Accordion = ({ children, header, toggleIcon }: AccordionProps) => {
       <AccordionHeader
         icon={toggleIcon !== undefined}
         open={open}
-        onClick={(e) => e.target.type === 'button' ? undefined : setOpen(!open)}
+        onClick={(e: any) => e.target.type === 'button' ? undefined : setOpen(!open)}
       >
         {header}
         {toggleIcon && (
