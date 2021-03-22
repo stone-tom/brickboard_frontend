@@ -13,8 +13,6 @@ export const NavigationWrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-<<<<<<< HEAD
-=======
   height: 80px;
 `;
 
@@ -25,7 +23,6 @@ export const MenuImageContainer = styled.div`
 export const FontImageWrapper = styled.div`
   margin-left: 145px;
   cursor: pointer;
->>>>>>> 4e3e15763f4dbca078d7e8ca9352f00d4fee45b4
 `;
 
 export const MenuImageWrapper = styled.div`
