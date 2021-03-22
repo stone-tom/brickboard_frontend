@@ -66,7 +66,6 @@ const Profile = ({
     );
   }
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
-  console.log('###########', data);
   const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
 
   const user: IUser = data.data;

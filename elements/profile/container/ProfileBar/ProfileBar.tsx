@@ -124,7 +124,7 @@ const ProfileBar = ({
         )}
 
       </ButtonWrapper>
-    </ProfileBarWrapper >
+    </ProfileBarWrapper>
   );
 };
 
