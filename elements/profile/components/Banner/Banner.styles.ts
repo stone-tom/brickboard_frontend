@@ -8,8 +8,20 @@ export const BannerWrapper = styled.div`
 `;
 
 export const EditButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  background: #fff;
+  border-radius: 50%;
   position: absolute;
   top: 20px;
   right: 20px;
   color: ${(props) => props.theme.black};
+  background: rgba(255,255,255,0.80);
+
+  &:hover {
+    background: #fff;
+  }
 `;

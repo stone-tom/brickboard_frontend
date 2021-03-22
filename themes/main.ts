@@ -15,7 +15,7 @@ export default {
     '#4BBA31', // success
     '#F2CB07', // warning
   ],
-  max_container_width: '1170px',
+  max_container_width: '1550px',
   nav_height: '80px',
   userTypes: {
     admin: 'cyan',

@@ -1,25 +1,30 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import { NavItem, NavIcon } from './NavigationItem.styles';
+import { TabItem, TabIcon } from './TabItem.styles';
 
 interface NavItemProps {
   name: string,
   active?: boolean,
   onClick: () => void,
+  icon?: IconProp,
 }
 
 const NavigationItem = ({
   name,
   active,
   onClick,
+  icon,
 }: NavItemProps) => (
-  <NavItem
+  <TabItem
     active={active}
     onClick={onClick}
   >
-    <NavIcon icon={faChevronRight} />
+    {icon && (
+      <TabIcon icon={faChevronRight} />
+    )}
     {name}
-  </NavItem>
+  </TabItem>
 );
 
 export default NavigationItem;

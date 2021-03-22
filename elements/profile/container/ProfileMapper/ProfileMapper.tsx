@@ -32,6 +32,7 @@ export interface MappingComponentProps {
   title?: string,
   href?: string,
   value: any,
+  placeholder?: string,
   icon?: IconProp,
   formatter?: (value: string) => string,
   onChange: (newValue: string) => void,
@@ -112,6 +113,7 @@ const ProfileMapper = ({
                 value={value}
                 icon={mapInfo.icon}
                 formatter={mapInfo.format ? getFormatter(mapInfo.format) : undefined}
+                placeholder={mapInfo.placeholder}
               />
             );
           })}

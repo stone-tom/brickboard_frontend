@@ -41,9 +41,9 @@ const UserModeration = () => {
   const theme = useContext(ThemeContext);
 
   const headerItems = [
+    'Name:',
     'Benutzertyp:',
     'Status:',
-    'Name:',
     'Erstellt am:',
     '',
   ];
@@ -88,13 +88,14 @@ const UserModeration = () => {
 
   const userDataReducer: (user: IUser) =>
     Row[] = (user: IUser) => ([
-      [<Indicator text={user.attributes.admin ? 'Admin' : 'User'} color={theme.userTypes[user.attributes.admin ? 'admin' : 'user']} />, ''],
+      user.attributes.display_name,
+      [<Indicator text={user.attributes.admin ? 'Admin' : 'User'} color={theme.userTypes[user.attributes.admin ? 'admin' : 'user']} />, user.attributes.admin ? 'admin' : 'user'],
       [<Indicator
         text={getStatus(getModerationState(data, user))}
         color={theme.userStatus[getModerationState(data, user)]}
-      />, ''],
-      user.attributes.display_name,
-      format(new Date(user.attributes.created_at), 'dd.mm.yyyy'),
+      />, getModerationState(data, user)],
+
+      format(new Date(user.attributes.created_at), 'dd.MM.yyyy'),
       [(
         <EditMapping
           color={getModerationState(data, user) === 'blocked' ? 'green' : 'brickred'}
@@ -102,6 +103,7 @@ const UserModeration = () => {
           onClick={() => handleUserStatus(user, getModerationState(data, user) === 'blocked' ? 'approved' : 'blocked')}
         >
           <Icon icon={getModerationState(data, user) === 'blocked' ? faLockOpen : faLock} />
+          {getModerationState(data, user) === 'blocked' ? 'entsperren' : 'blockieren'}
         </EditMapping>
       ), ''],
     ]);
@@ -117,6 +119,7 @@ const UserModeration = () => {
       <Wrapper>
         <Loader isLoading={!data}>
           <Table
+            sorting={['string', 'string', 'string', 'string']}
             headerItems={headerItems}
             values={values}
             empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}

@@ -22,14 +22,11 @@ const File = ({
   const { setMessage } = useStoreDispatch();
 
   const onUpload = async (e: any) => {
-    const allowed = ['jpg', 'jpeg', 'image/jpeg'];
     if (e.target.files[0]) {
-      if (allowed.includes(e.target.files[0].type)) {
-        onFileUpload(e.target.files[0]);
-      }
+      onFileUpload(e.target.files[0]);
     } else {
       setMessage({
-        content: 'Der Dateityp ist nicht erlaubt! Möglich sind nur Dateien mit der Endung .jpg',
+        content: 'Es konnte keine Datei gefunden werden',
         type: MessageType.error,
       });
     }
