@@ -3,12 +3,73 @@ import Link from 'next/link';
 import { useStoreState } from '../context/custom_store';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../styles/global.styles';
+import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
+
+const demoNews = [{
+  id: '1',
+  type: 'news',
+  attributes: {
+    title: 'Das Brickboard 2.0 ',
+    user_id: 1,
+    created_at: '2021-02-07T22:32:55.742+01:00',
+    updated_at: '2021-02-07T22:32:55.742+01:00',
+    short_desctiption: 'Willkommen auf der offiziellen Baustelle! Erfahre mehr, was bereits funktioniert!',
+  },
+  relationships: {
+    thredded_user_detail: {
+      data: {
+        id: 1,
+        type: 'thredded_user_detail',
+      },
+    },
+  },
+},
+{
+  id: '2',
+  type: 'news',
+  attributes: {
+    title: 'Stopmotionsonntag',
+    user_id: 1,
+    created_at: '2021-02-07T22:32:55.742+01:00',
+    updated_at: '2021-02-07T22:32:55.742+01:00',
+    short_desctiption: 'Wie immer wird ein neuer Film präsentiert, diesmal ist es XX von XY!',
+  },
+  relationships: {
+    thredded_user_detail: {
+      data: {
+        id: 1,
+        type: 'thredded_user_detail',
+      },
+    },
+  },
+},
+{
+  id: '3',
+  type: 'news',
+  attributes: {
+    title: 'Demonews Beitrag',
+    user_id: 1,
+    created_at: '2021-02-07T22:32:55.742+01:00',
+    updated_at: '2021-02-07T22:32:55.742+01:00',
+    short_desctiption: 'Reine Demozwecke',
+  },
+  relationships: {
+    thredded_user_detail: {
+      data: {
+        id: 1,
+        type: 'thredded_user_detail',
+      },
+    },
+  },
+},
+];
 
 function Home() {
   const { isAuthenticated, user } = useStoreState();
   return (
     <>
       <Layout title="Brickboard 2.0">
+        <NewsSection newsList={demoNews} />
         <ViewWrapper>
           {isAuthenticated && user && user && (
             <>
