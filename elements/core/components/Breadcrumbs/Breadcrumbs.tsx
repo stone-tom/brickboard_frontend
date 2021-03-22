@@ -1,29 +1,34 @@
-import Link from 'next/link';
 import React from 'react';
+import ColoredNextLink from '../ColoredNextLink/ColoredNextLink';
 import { BreadcrumbsWrapper } from './Breadcrumbs.styles';
 
 interface CrumbsProps {
   slug: string;
+  messageboardname?: string;
   id?: number | string;
   topic?: string;
 }
 
-const Breadcrumbsbar = ({ slug, id, topic }: CrumbsProps) => (
+const Breadcrumbsbar = ({
+  slug,
+  id,
+  topic,
+  messageboardname,
+}: CrumbsProps) => (
   <BreadcrumbsWrapper>
     <li key="forumlink">
-      <Link href="/forum">Forum</Link>
-      {' '}
-      {'>'}
+      <ColoredNextLink href="/forum" text="Forum" />
+      {' > '}
     </li>
     <li key="topiclink">
-      <Link href={`/forum/${slug}`}>{slug}</Link>
+      &nbsp;
+      <ColoredNextLink href={`/forum/${slug}`} text={`${!messageboardname ? slug : messageboardname}`} />
     </li>
     {id ? (
       <li key="postlink">
-        {'>'}
-        <Link href={`/forum/${slug}/topics/${id}`}>
-          <strong>{topic}</strong>
-        </Link>
+        &nbsp;
+        {' > '}
+        <strong>{topic}</strong>
       </li>
     ) : (
       ''

@@ -6,6 +6,7 @@ import { FlexEvenly, ViewWrapper } from '../../../styles/global.styles';
 import AuthImage from '../../../elements/authentication/components/AuthImage/AuthImage';
 import AuthInfo from '../../../elements/authentication/components/AuthInfo/AuthInfo';
 import ResetPasswortComponent from '../../../elements/authentication/container/ResetPasswort/ResetPassword';
+import { SignInHeading } from '../../../elements/authentication/container/SignInForm/SignInForm.styles';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { code } = context.params;
@@ -31,7 +32,7 @@ function ResetPasswordPage({ code }: CodeConfirmationProps) {
           )
             : (
               <AuthInfo>
-                <h2>Erfolgreich wiederhergestellt!</h2>
+                <SignInHeading>Erfolgreich wiederhergestellt!</SignInHeading>
                 <p>Dein Passwort wurde erfolgreich gesetzt!</p>
                 <p>Du kannst dich wieder anmelden!</p>
                 <Link href="/login">Zum Login</Link>

@@ -13,18 +13,33 @@ export const NavigationWrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
+=======
+  height: 80px;
+`;
+
+export const MenuImageContainer = styled.div`
+  position: relative;
+`;
+
+export const FontImageWrapper = styled.div`
+  margin-left: 145px;
+  cursor: pointer;
+>>>>>>> 4e3e15763f4dbca078d7e8ca9352f00d4fee45b4
 `;
 
 export const MenuImageWrapper = styled.div`
-  width: 190px;
-  height: 80px;
-  position: relative;
+  width: 140px;
+  height: 100px;
+  position: absolute;
+  top: -17px;
   cursor: pointer;
 `;
 
 export const NavigationList = styled.ul`
   display: flex;
 `;
+
 export const NavigationItem = styled.li`
   display: flex;
   align-items: center;

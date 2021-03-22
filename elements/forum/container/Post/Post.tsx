@@ -67,6 +67,10 @@ const PostComponent = ({
         });
       }
       if (content) {
+        setMessage({
+          content: 'Post erfolgreich bearbeitet!',
+          type: MessageType.success,
+        });
         toggleEditing(false);
         onPostUpdated(content.data);
       }

@@ -79,11 +79,11 @@ const PostItemComponent = ({
           <LastPostHeading>Letzter Post</LastPostHeading>
           {lastTopic ? (
             <>
-              <p>{lastTopic.attributes.title}</p>
+              <Link href={`/forum/${slug}/${lastTopic.id}`}>{lastTopic.attributes.title}</Link>
               {lastAuthor && (
                 <p>
                   von:
-                  {` ${lastAuthor.attributes.display_name}`}
+                  <Link href={`/profil/${lastAuthor.id}`}>{` ${lastAuthor.attributes.display_name}`}</Link>
                 </p>
               )}
             </>

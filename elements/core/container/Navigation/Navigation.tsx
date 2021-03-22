@@ -11,6 +11,8 @@ import {
   Seperator,
   UnauthorizedWrapper,
   NavigationBar,
+  MenuImageContainer,
+  FontImageWrapper,
 } from './Navigation.styles';
 
 const Navigation = ({
@@ -19,9 +21,14 @@ const Navigation = ({
   <NavigationBar>
     <NavigationWrapper>
       <Link href="/">
-        <MenuImageWrapper>
-          <Image src="/assets/images/bb_black_font.png" alt="Brickboard Logo" layout="fill" />
-        </MenuImageWrapper>
+        <MenuImageContainer>
+          <FontImageWrapper>
+            <Image src="/assets/images/bb_font.png" alt="Brickboard" height="32px" width="60px" />
+          </FontImageWrapper>
+          <MenuImageWrapper>
+            <Image src="/assets/images/bb_logo.png" alt="Brickboard Logo" layout="fill" objectFit="contain" />
+          </MenuImageWrapper>
+        </MenuImageContainer>
       </Link>
 
       <NavigationList>
