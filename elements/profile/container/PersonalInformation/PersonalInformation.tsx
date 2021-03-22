@@ -77,7 +77,7 @@ const technology_mapping: IMapping[] = [
       icon: faMusic,
       placeholder: 'Logic X',
     },
-    light: {
+    lighting: {
       type: 'text',
       editable: true,
       icon: faLightbulb,

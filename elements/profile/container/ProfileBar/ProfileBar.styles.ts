@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import Button from '../../../core/components/Button/Button';
 
 export const ProfileBarWrapper = styled.div`
+  background: ${(props) => props.theme.lightgray};
   height: 80px;
   width: 100%;
   display: flex;

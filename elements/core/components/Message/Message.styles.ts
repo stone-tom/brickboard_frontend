@@ -9,12 +9,13 @@ export const Message = styled.div < {
   position: fixed;
   transform: translateY(-500px);
   opacity: 0;
-  right: 0;
+  right: 20px;
+  top: 20px;
   z-index: 9999;
   background: ${(props) => props.theme.message[props.type]};
   color: #fff;
   transition: all ${(props) => props.timeout} ease 0s;
-  width: 100%;
+  width: 400px;
   height: 80px;
   font-weight: 300;
   font-size: 18px;

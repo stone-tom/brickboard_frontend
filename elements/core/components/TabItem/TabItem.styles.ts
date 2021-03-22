@@ -18,10 +18,10 @@ export const TabItem = styled.div<{
   background: ${(props) => props.theme.white};
 
   ${(props) => props.active && css`
-  border-bottom: 0;
-  color: red;
-  height: 55px;
-  transition: .35s ease;
+    border-bottom: 0;
+    color: red;
+    height: 55px;
+    transition: .35s ease;
 `}
 `;
 
