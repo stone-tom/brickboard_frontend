@@ -54,7 +54,7 @@ const AccordionUserHeader = ({
             icon={faTimes}
             onClick={() => onUpdateStatus(user, 'blocked')}
           >
-            sperren
+            blockieren
           </DeclineButton>
         )}
       </ButtonWrapper>

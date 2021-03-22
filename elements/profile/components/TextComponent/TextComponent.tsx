@@ -16,6 +16,7 @@ const TextComponent = ({
   isEditing,
   onChange,
   formatter,
+  placeholder,
 }: MappingComponentProps) => (
   <TextComponentWrapper>
     {icon ? (
@@ -33,6 +34,7 @@ const TextComponent = ({
         type="text"
         value={value === '-' ? '' : value}
         onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
       />
     )
       : (

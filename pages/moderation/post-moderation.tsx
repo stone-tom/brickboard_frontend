@@ -77,7 +77,10 @@ const PostModeration = () => {
   return (
     <Layout title="Pending Posts">
       <h2>Post Moderation</h2>
-      <p>Hier können Sie die Posts von allen Benutzern lesen und den Moderation Status anpasen.</p>
+      <p>
+        Hier können Sie die Posts von allen Benutzern
+        lesen und den Moderation Status des Benutzers anpasen.
+      </p>
       <Wrapper>
         <Loader isLoading={!data}>
           {data && data.data && data.data.map((currentUser: IUser) => (
