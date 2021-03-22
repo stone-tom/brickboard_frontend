@@ -15,6 +15,7 @@ import resetPassword from './authentication/reset-password';
 import updateTopic from './topic/update-topic';
 import banPost from './post/ban-post';
 import getNews from './news/get-news';
+import createNews from './news/create-news';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -36,4 +37,5 @@ export {
   updateTopic,
   banPost,
   getNews,
+  createNews,
 };

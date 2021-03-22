@@ -1,17 +1,15 @@
 import { backendURL } from '../index';
-import { post } from '../../methods';
+import { postWithoutJson } from '../../methods';
 
-const answerTopic = async (slug: string, id: number, customContent: string) => {
-  const data = {
-    post: {
-      content: customContent,
-    },
-  };
-  const fetchURL = `${backendURL}/${slug}/topics/${id}`;
+const createNews = async (
+  data: FormData | string,
+  formData?: boolean,
+) => {
+  const fetchURL = `${backendURL}/news`;
   let content: any;
   let error: any;
   try {
-    const res = await post(fetchURL, data, {
+    const res = await postWithoutJson(fetchURL, data, !formData && {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -29,4 +27,4 @@ const answerTopic = async (slug: string, id: number, customContent: string) => {
   };
 };
 
-export default answerTopic;
+export default createNews;

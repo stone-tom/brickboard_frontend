@@ -14,6 +14,7 @@ import {
 } from './NewsArticle.styles';
 import { ExternalLink } from '../../../core/components/ExternalLink/ExternalLink.styles';
 import Button from '../../../core/components/Button/Button';
+import { backendURL } from '../../../../util/api';
 
 interface NewsArticleProps {
   author: IUser;
@@ -24,7 +25,7 @@ const NewsArticle = ({ author, news }: NewsArticleProps) => (
 
   <NewsArticleWrapper>
     <NewsArticleImageWrapper>
-      <Image src={news.attributes.news_banner ? news.attributes.news_banner : '/assets/images/news1.jpg'} alt={news.attributes.title} objectFit="cover" layout="fill" />
+      <Image src={news.attributes.news_banner ? `${backendURL}${news.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={news.attributes.title} objectFit="cover" layout="fill" />
     </NewsArticleImageWrapper>
     <NewsArticleInfos>
       <NewsArticleHeader>

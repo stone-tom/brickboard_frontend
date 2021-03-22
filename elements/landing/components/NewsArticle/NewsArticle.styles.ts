@@ -5,6 +5,7 @@ export const NewsArticleWrapper = styled.article`
   position: relative;
   box-shadow: 0 0 10px ${(props) => props.theme.gray};
   min-height: 10rem;
+  margin-bottom: 1rem;
   background-color: ${(props) => props.theme.white};
 `;
 
