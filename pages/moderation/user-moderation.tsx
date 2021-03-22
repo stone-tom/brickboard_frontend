@@ -5,7 +5,7 @@ import React, { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
 import { useStoreDispatch, useStoreState } from '../../context/custom_store';
-import { Icon } from '../../elements/core/components/Icon/Icon.styled';
+import { Icon } from '../../elements/core/components/Icon/Icon.styles';
 import Indicator from '../../elements/core/components/Indicator/Indicator';
 import Loader from '../../elements/core/components/Loader/Loader';
 import Table, { Row } from '../../elements/core/components/Table/Table';
