@@ -4,8 +4,9 @@ export interface INewsAttributes {
   title: string,
   url?: string,
   topic_id?: number,
-  user_id?: number,
+  user_id?: number
   short_description?: string,
+  news_banner?: string,
   description?: string,
   created_at: string,
   updated_at: string,

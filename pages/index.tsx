@@ -11,9 +11,10 @@ const demoNews = [{
   attributes: {
     title: 'Das Brickboard 2.0 ',
     user_id: 1,
+    url: '/assets/images/news2.jpg',
     created_at: '2021-02-07T22:32:55.742+01:00',
     updated_at: '2021-02-07T22:32:55.742+01:00',
-    short_desctiption: 'Willkommen auf der offiziellen Baustelle! Erfahre mehr, was bereits funktioniert!',
+    short_description: 'Willkommen auf der offiziellen Baustelle! Erfahre mehr, was bereits funktioniert!',
   },
   relationships: {
     thredded_user_detail: {
@@ -32,7 +33,7 @@ const demoNews = [{
     user_id: 1,
     created_at: '2021-02-07T22:32:55.742+01:00',
     updated_at: '2021-02-07T22:32:55.742+01:00',
-    short_desctiption: 'Wie immer wird ein neuer Film präsentiert, diesmal ist es XX von XY!',
+    short_description: 'Immer wieder sonntags präsentiert das Brickboard einen besonderen Brickfilm. Egal ob Blockbuster oder Avantgarde, ob Klassiker oder brandneu, ob lustig oder dramatisch – wir möchten die Vielfalt des Brickfilms abbilden!',
   },
   relationships: {
     thredded_user_detail: {
@@ -51,7 +52,7 @@ const demoNews = [{
     user_id: 1,
     created_at: '2021-02-07T22:32:55.742+01:00',
     updated_at: '2021-02-07T22:32:55.742+01:00',
-    short_desctiption: 'Reine Demozwecke',
+    short_description: 'Reine Demozwecke',
   },
   relationships: {
     thredded_user_detail: {
@@ -68,7 +69,7 @@ function Home() {
   const { isAuthenticated, user } = useStoreState();
   return (
     <>
-      <Layout title="Brickboard 2.0">
+      <Layout title="Brickboard 2.0" fullWidth>
         <NewsSection newsList={demoNews} />
         <ViewWrapper>
           {isAuthenticated && user && user && (

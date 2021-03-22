@@ -14,6 +14,7 @@ import initiatePasswordReset from './authentication/initiate-pw-reset';
 import resetPassword from './authentication/reset-password';
 import updateTopic from './topic/update-topic';
 import banPost from './post/ban-post';
+import getNews from './news/get-news';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -34,4 +35,5 @@ export {
   resetPassword,
   updateTopic,
   banPost,
+  getNews,
 };

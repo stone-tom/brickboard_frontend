@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import INewsItem from '../../../../models/INewsItem';
 import NewsItem from '../../components/NewsItem/NewsItem';
-import { NewsListing, NewsSectionWrapper, ShowCase } from './NewsSection.styles';
+import { AllNewsItem, NewsListing, NewsSectionWrapper, ShowCase } from './NewsSection.styles';
+import Button from '../../../core/components/Button/Button';
 
 const demoUser = {
   id: '1',
@@ -24,19 +26,30 @@ const demoUser = {
 };
 
 interface NewsSectionProps {
-  newsList: INewsItem[];
+  newsList: any;
 }
 
 const NewsSection = ({ newsList } : NewsSectionProps) => {
-  const [activeNews, setActiveNews] = newsList;
+  const [activeNews, setActiveNews] = useState(newsList[0]);
+
+  const changeActiveNews = (newsItem) => {
+    setActiveNews(newsItem);
+  };
 
   return (
     <NewsSectionWrapper>
       <ShowCase>
-        <NewsItem newsitem={newsList[0]} author={demoUser} />
+        <NewsItem newsitem={activeNews} author={demoUser} active />
       </ShowCase>
       <NewsListing>
-        {newsList.map((news: INewsItem) => <NewsItem key={`news_${news.id}`} newsitem={news} author={demoUser} />)}
+        {newsList.map((news: INewsItem) => <NewsItem bordered={news.id === activeNews.id} key={`news_${news.id}`} newsitem={news} author={demoUser} onClick={() => changeActiveNews(news)} />)}
+        <AllNewsItem>
+          <Link href="./news" passHref>
+            <Button reset>
+              Alle News anzeigen
+            </Button>
+          </Link>
+        </AllNewsItem>
       </NewsListing>
     </NewsSectionWrapper>
   );
