@@ -7,7 +7,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name?: string,
   label?: string,
   required?: boolean,
-  file: string | number | readonly string [],
   onChange?: () => void,
   onFileUpload?: (file: File) => void,
 }
@@ -18,7 +17,6 @@ const File = ({
   label = '',
   name,
   required,
-  file,
   ...rest
 }: InputProps) => {
   const { setMessage } = useStoreDispatch();
@@ -41,7 +39,6 @@ const File = ({
         name={name}
         required={required}
         onChange={onChange || onUpload}
-        value={file}
         {...rest}
       />
       <label htmlFor={name}>{label}</label>
