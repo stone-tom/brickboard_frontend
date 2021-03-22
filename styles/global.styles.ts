@@ -132,6 +132,7 @@ export default GlobalStyles;
 export const ViewWrapper = styled.div <{
   fullWidth?: boolean,
   center?: boolean,
+  column?: boolean,
 }>`
   
   ${(props) => props.center && css`
@@ -140,7 +141,11 @@ export const ViewWrapper = styled.div <{
     align-items: center;
   `}
 
-  min-height: calc(100vh - 80px);
+  ${(props) => props.column && css`
+  flex-direction: column;
+`}
+
+  min-height: calc(100vh - 252px);
 
   ${(props) => !props.fullWidth && css`
     max-width: ${props.theme.max_container_width};
@@ -176,4 +181,10 @@ export const FlexEvenly = styled.div`
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
+`;
+
+export const FlexCenter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

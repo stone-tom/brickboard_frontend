@@ -8,6 +8,8 @@ import {
   faBell,
   faBellSlash,
   faClipboardCheck,
+  faLock,
+  faLockOpen,
   faMapPin,
   faSlash,
 } from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +24,7 @@ import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import {
   answerTopic,
+  banPost,
   followTopic,
   getMessageBoardGroups,
   getTopic,
@@ -292,6 +295,22 @@ function Subforum({
       mutate(updateData, false);
     }
   };
+  const blockTopic = async (blocking: boolean) => {
+    const updatedModeration = blocking ? 'blocked' : 'approved';
+    const { error } = await banPost(posts[0].id, updatedModeration);
+    if (!error) {
+      setMessage({
+        content: `Thema wurde erfolgreich ${blocking ? 'blockiert' : 'freigeschalten'}`,
+        type: blocking ? MessageType.success : MessageType.warning,
+      });
+      router.push(`/forum/${slug}`);
+    } else {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+  };
 
   const onUpdateStatus = async (lock: boolean) => {
     addComponent((
@@ -307,6 +326,32 @@ function Subforum({
           )}
       </Prompt>));
   };
+  const onTryBlocking = async (blocking: boolean) => {
+    addComponent((
+      <Prompt
+        headline={blocking ? 'Blockieren bestätigen' : 'Freigeben bestätigen'}
+        onAccept={() => blockTopic(blocking)}
+      >
+        {blocking ? (
+          <div>
+            <p>Wenn du das Thema blockiest, wird es aus dem Forum entfernt!</p>
+            <p>Admins können es noch sehen.</p>
+          </div>
+        )
+          : (
+            'Wenn du das Thema feischaltest, ist es wieder voll im Forum verfügbar.'
+          )}
+      </Prompt>));
+  };
+  if (topic.attributes.moderation_state === 'blocked' && !user.attributes.admin) {
+    return (
+      <Layout title="Blockiertes Thema - Brickboard 2.0">
+        <ViewWrapper>
+          <h1>Dieses Thema wurde von einem Admin entfernt.</h1>
+        </ViewWrapper>
+      </Layout>
+    );
+  }
 
   return (
     <Layout
@@ -339,7 +384,18 @@ function Subforum({
                     <TopicSettingsBarItem>
                       <Button
                         reset
-                        icon={topic.attributes.locked ? faClipboardCheck : faBan}
+                        icon={topic.attributes.sticky ? faSlash : faMapPin}
+                        onClick={() => submitPin(!topic.attributes.sticky)}
+                      >
+                        {topic.attributes.sticky
+                          ? 'Thema entpinnen'
+                          : 'Thema anpinnen'}
+                      </Button>
+                    </TopicSettingsBarItem>
+                    <TopicSettingsBarItem>
+                      <Button
+                        reset
+                        icon={topic.attributes.locked ? faLockOpen : faLock}
                         onClick={() => onUpdateStatus(!topic.attributes.locked)}
                       >
                         {topic.attributes.locked
@@ -350,12 +406,12 @@ function Subforum({
                     <TopicSettingsBarItem>
                       <Button
                         reset
-                        icon={topic.attributes.sticky ? faSlash : faMapPin}
-                        onClick={() => submitPin(!topic.attributes.sticky)}
+                        icon={topic.attributes.moderation_state !== 'blocked' ? faBan : faClipboardCheck}
+                        onClick={() => onTryBlocking(topic.attributes.moderation_state !== 'blocked')}
                       >
-                        {topic.attributes.sticky
-                          ? 'Thema entpinnen'
-                          : 'Thema anpinnen'}
+                        {topic.attributes.moderation_state !== 'blocked'
+                          ? 'Thema blockieren'
+                          : 'Thema freischalten'}
                       </Button>
                     </TopicSettingsBarItem>
                   </>
@@ -377,6 +433,11 @@ function Subforum({
             um zu sehen ob dein Konto freigeschalten wurde!
           </Hint>
         )}
+        {topic.attributes.moderation_state === 'blocked' && (
+          <Hint>
+            Dieses Thema ist blockiert, nur Admins können es sehen.
+          </Hint>
+        )}
 
         {posts.map((post: IPost, index) => (
 
@@ -391,7 +452,7 @@ function Subforum({
           />
         ))}
 
-        {isAuthenticated && !isLocked && (
+        {isAuthenticated && !isLocked && topic.attributes.moderation_state !== 'blocked' && (
           <EditorContainer>
             <FlexRight>
               <Button disabled={moderation_state !== 'approved'} type="button" onClick={() => toggleEditor()}>

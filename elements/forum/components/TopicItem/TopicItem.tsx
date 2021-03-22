@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEye,
   faCommentAlt,
@@ -70,6 +69,7 @@ interface TopicItemProps {
   lastCommentor: IUser;
   markUnread?: boolean;
   isAuthenticated?: boolean;
+  onClick?: () => void;
 }
 
 const TopicItemComponent = ({
@@ -79,13 +79,18 @@ const TopicItemComponent = ({
   lastCommentor,
   markUnread,
   isAuthenticated,
+  onClick,
 }: TopicItemProps) => (
-  <TopicItem moderation_state={topic.attributes.moderation_state}>
+  <TopicItem
+    onClick={() => onClick()}
+    moderation_state={topic.attributes.moderation_state}
+    pinned={topic.attributes.sticky}
+  >
 
     <TopicUnreadMarker unread={markUnread && isAuthenticated} />
-    <TopicIcon>
+    <TopicIcon pinned={topic.attributes.sticky}>
       <Hint hint={markUnread && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
-        <FontAwesomeIcon icon={whichIcon(IconType.Standard)} />
+        <Icon icon={whichIcon(IconType.Standard)} />
       </Hint>
     </TopicIcon>
 

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Button } from '../Button/Button.styles';
-import { Icon } from '../Icon/Icon.styled';
+import { Icon } from '../Icon/Icon.styles';
 
 export const AccordionWrapper = styled.div`
   width: 100%;

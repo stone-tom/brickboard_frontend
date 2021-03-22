@@ -2,8 +2,10 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
+import { FlexCenter } from '../../../../styles/global.styles';
+import ColoredLink from '../../../core/components/ColoredNextLink/ColoredNextLink';
 import {
-  ErrorHint, LoginButton, SignInForm, SignInInput, SignInLabel,
+  ErrorHint, LoginButton, SignInForm, SignInHeading, SignInInput, SignInLabel,
 } from '../SignInForm/SignInForm.styles';
 
 interface SignUpProps {
@@ -48,7 +50,7 @@ const SignUp = ({ onFailedRegistering }: SignUpProps) => {
   };
   return (
     <SignInForm onSubmit={handleSubmit(onSubmit)}>
-      <h2>Werde Teil des Brickboards!</h2>
+      <SignInHeading>Werde Teil des Brickboards!</SignInHeading>
       {errors.request && <ErrorHint><span>{errors.request.message}</span></ErrorHint>}
 
       <SignInLabel>E-Mail Adresse</SignInLabel>
@@ -119,7 +121,9 @@ const SignUp = ({ onFailedRegistering }: SignUpProps) => {
       <LoginButton type="submit">
         Registrieren
       </LoginButton>
-
+      <FlexCenter>
+        <ColoredLink href="/login" text="Du hast bereits ein Konto?" />
+      </FlexCenter>
     </SignInForm>
   );
 };
