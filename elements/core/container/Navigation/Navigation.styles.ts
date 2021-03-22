@@ -8,14 +8,11 @@ export const NavigationBar = styled.div`
 `;
 
 export const NavigationWrapper = styled.nav`
-  max-width: 1170px;
+  max-width: ${(props) => props.theme.max_container_width};
   margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 `;
 
 export const MenuImageWrapper = styled.div`

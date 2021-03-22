@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react';
-import NavigationItem from '../../components/NavigationItem/NavigationItem';
-import { NavigationWrapper } from './ProfileNavigation.styles';
+import TabItem from '../../components/TabItem/TabItem';
+import { Tabs, Wrapper } from './Tab.styles';
 
 interface ProfileNavigationProps {
-  contentItems: {
+  tabs: {
     name: string,
     content: ReactNode,
   }[],
@@ -12,7 +12,7 @@ interface ProfileNavigationProps {
 }
 
 const ProfileNavigation = ({
-  contentItems,
+  tabs,
   defaultContent = 0,
   onContentChange,
 }: ProfileNavigationProps) => {
@@ -25,16 +25,18 @@ const ProfileNavigation = ({
     setActive(index);
   };
   return (
-    <NavigationWrapper>
-      {contentItems.map((item, index) => (
-        <NavigationItem
-          name={item.name}
-          key={index}
-          active={index === active}
-          onClick={() => handleActiveChange(index)}
-        />
-      ))}
-    </NavigationWrapper>
+    <Wrapper>
+      <Tabs>
+        {tabs.map((item, index) => (
+          <TabItem
+            name={item.name}
+            key={index}
+            active={index === active}
+            onClick={() => handleActiveChange(index)}
+          />
+        ))}
+      </Tabs>
+    </Wrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React from 'react';
 import { useStoreState } from '../../../../context/custom_store';
@@ -38,7 +38,7 @@ const BannerComponent = ({
           reset
           onClick={() => onEditBanner()}
         >
-          <Icon icon={faEdit} />
+          <Icon icon={faPencilAlt} />
         </EditButton>
       )}
     </BannerWrapper>

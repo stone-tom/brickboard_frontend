@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Button from '../../../core/components/Button/Button';
 
 export const ProfileBarWrapper = styled.div`
   height: 80px;
@@ -19,4 +20,29 @@ export const Username = styled.p`
 export const Statistics = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const StatusChangeButton = styled(Button)<{
+  color: string,
+}>`
+  margin: 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 10px;
+
+  ${(props) => props.color && css`
+    background: ${(props.theme[props.color])};
+  `}
+
+  svg {
+    margin-right: 10px;
+  }
 `;

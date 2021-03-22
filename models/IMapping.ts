@@ -7,5 +7,6 @@ export default interface IMapping {
     icon?: IconProp,
     editable?: boolean,
     format?: ((value: any) => string) | string,
+    placeholder?: string,
   }
 }

@@ -66,6 +66,7 @@ const Profile = ({
     );
   }
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
+  console.log('###########', data);
   const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
 
   const user: IUser = data.data;
@@ -172,7 +173,7 @@ const Profile = ({
   return (
     <Layout fullWidth title="Profil">
       {user && (
-        <>
+        <ViewWrapper fullHeight>
           <Banner
             onEditBanner={() => editBanner(user.id)}
             alt_text="Profil Banner"
@@ -185,7 +186,7 @@ const Profile = ({
             userDetail={userDetail}
             user={user}
           />
-        </>
+        </ViewWrapper>
       )}
     </Layout>
   );

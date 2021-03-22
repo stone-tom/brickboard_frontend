@@ -4,8 +4,9 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  max-width: ${(props) => props.theme.max_container_width};
   min-height: 100%;
+  margin: 0 auto;
 `;
 
 export const Avatar = styled.div`
@@ -52,7 +53,7 @@ export const BadgeTitle = styled.p`
 
 export const ProfileCardWrapper = styled.div`
   background: ${(props) => props.theme.gray};
-  min-width: 320px;;
+  min-width: 320px;
   min-height: 100%;
   display: flex;
   justify-content: space-between;

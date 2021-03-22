@@ -1,5 +1,5 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faCertificate, faEdit, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faCertificate, faGlobe, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { useStoreState } from '../../../../context/custom_store';
@@ -10,7 +10,7 @@ import Icon from '../../../core/components/Icon/Icon';
 import { EditButton } from '../../components/Banner/Banner.styles';
 import PersonalInformation from '../PersonalInformation/PersonalInformation';
 import ProfileBar from '../ProfileBar/ProfileBar';
-import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
+import ProfileNavigation from '../../../core/container/Tab/Tab';
 import {
   ProfileCardWrapper,
   Wrapper,
@@ -78,7 +78,7 @@ const ProfileInformation = ({
                 reset
                 onClick={() => onEditAvatar()}
               >
-                <Icon icon={faEdit} />
+                <Icon icon={faPencilAlt} />
               </EditButton>
             )}
           </Avatar>
@@ -90,10 +90,6 @@ const ProfileInformation = ({
           <Badge icon={faCertificate} />
           <BadgeTitle>Alter Hase</BadgeTitle>
         </BadgeWrapper>
-        <ProfileNavigation
-          contentItems={contentItems}
-          onContentChange={(index) => setActiveContent(index)}
-        />
         <SocialNetworkWrapper>
           <SocialNetworkLink href={userDetail.attributes.facebook_url}>
             <Icon icon={faFacebook} />
@@ -113,6 +109,10 @@ const ProfileInformation = ({
         <ProfileBar
           user={user}
           userDetail={userDetail}
+        />
+        <ProfileNavigation
+          tabs={contentItems}
+          onContentChange={(index) => setActiveContent(index)}
         />
         {contentItems[activeContent].content}
       </ProfileInformationWrapper>

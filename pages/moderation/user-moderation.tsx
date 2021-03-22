@@ -56,7 +56,7 @@ const UserModeration = () => {
           try {
             await updateModerationUser(parseInt(user.id, 10), modStatus);
             const updateData = {
-              ...data,
+              ...data,  
               included: data.included.map((item) => {
                 if (item.id === user.relationships.thredded_user_detail.data.id) {
                   return {

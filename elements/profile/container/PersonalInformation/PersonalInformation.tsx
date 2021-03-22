@@ -2,12 +2,12 @@ import React, { useMemo, useState } from 'react';
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { isEqual } from 'lodash';
 import {
-  faCamera, faGlobe, faLaptop, faLightbulb, faMapMarkedAlt, faMusic,
+  faCamera, faGlobe, faLaptop, faLightbulb, faMusic,
 } from '@fortawesome/free-solid-svg-icons';
 import IMapping from '../../../../models/IMapping';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
-import { PersonalInformationWrapper } from './PersonalInformation.styles';
+import { PersonalInformationWrapper, Wrapper } from './PersonalInformation.styles';
 import ProfileMapper from '../ProfileMapper/ProfileMapper';
 
 const personal_data_mapping: IMapping[] = [
@@ -16,6 +16,7 @@ const personal_data_mapping: IMapping[] = [
       type: 'text',
       title: 'Tätigkeit:',
       editable: true,
+      placeholder: 'Student',
     },
     created_at: {
       type: 'text',
@@ -25,7 +26,8 @@ const personal_data_mapping: IMapping[] = [
     location: {
       editable: true,
       type: 'text',
-      icon: faMapMarkedAlt,
+      title: 'Wohnort',
+      placeholder: 'Berlin',
     },
   },
 ];
@@ -61,21 +63,25 @@ const technology_mapping: IMapping[] = [
       type: 'text',
       editable: true,
       icon: faCamera,
+      placeholder: 'Canon 750d',
     },
     cutting_program: {
       type: 'text',
       editable: true,
       icon: faLaptop,
+      placeholder: 'Adobe Premiere',
     },
     sound: {
       type: 'text',
       editable: true,
       icon: faMusic,
+      placeholder: 'Logic X',
     },
     light: {
       type: 'text',
       editable: true,
       icon: faLightbulb,
+      placeholder: 'Ikea Schreibtischlampen',
     },
   },
 ];
@@ -118,33 +124,35 @@ const PersonalInformation = ({
 
   return (
     <PersonalInformationWrapper>
-      <ProfileMapper
-        hasChanged={hasChanged()}
-        onSubmit={hasChanged() ? (() => onUpdateUserDetail(newContent)) : null}
-        onValueChange={(newValue, key) => handleChange(newValue, key)}
-        userId={user.id}
-        content={content}
-        headline="Persönliche Daten"
-        mapping={personal_data_mapping}
-      />
-      <ProfileMapper
-        hasChanged={hasChanged()}
-        onSubmit={() => onUpdateUserDetail(newContent)}
-        onValueChange={(newValue, key) => handleChange(newValue, key)}
-        userId={user.id}
-        content={content}
-        headline=" Technologien"
-        mapping={technology_mapping}
-      />
-      <ProfileMapper
-        hasChanged={hasChanged()}
-        onSubmit={() => onUpdateUserDetail(newContent)}
-        onValueChange={(newValue, key) => handleChange(newValue, key)}
-        userId={user.id}
-        content={content}
-        headline=" Links"
-        mapping={links_mapping}
-      />
+      <Wrapper>
+        <ProfileMapper
+          hasChanged={hasChanged()}
+          onSubmit={hasChanged() ? (() => onUpdateUserDetail(newContent)) : null}
+          onValueChange={(newValue, key) => handleChange(newValue, key)}
+          userId={user.id}
+          content={content}
+          headline="Persönliche Daten"
+          mapping={personal_data_mapping}
+        />
+        <ProfileMapper
+          hasChanged={hasChanged()}
+          onSubmit={() => onUpdateUserDetail(newContent)}
+          onValueChange={(newValue, key) => handleChange(newValue, key)}
+          userId={user.id}
+          content={content}
+          headline=" Technologien"
+          mapping={technology_mapping}
+        />
+        <ProfileMapper
+          hasChanged={hasChanged()}
+          onSubmit={() => onUpdateUserDetail(newContent)}
+          onValueChange={(newValue, key) => handleChange(newValue, key)}
+          userId={user.id}
+          content={content}
+          headline=" Links"
+          mapping={links_mapping}
+        />
+      </Wrapper>
     </PersonalInformationWrapper>
   );
 };
