@@ -23,8 +23,16 @@ export const EditMapping = styled(Button)<{
   color: string,
 }>`
   margin: 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
   ${(props) => props.color && css`
     color: ${(props.theme[props.color])};
   `}
+
+  svg {
+    margin-right: 10px;
+  }
 `;

@@ -16,13 +16,13 @@ interface AccordionProps {
 
 const Accordion = ({ children, header, toggleIcon }: AccordionProps) => {
   const [open, setOpen] = useState<boolean>(false);
-
+  /* eslint-disable no-confusing-arrow */
   return (
     <AccordionWrapper role="tab">
       <AccordionHeader
         icon={toggleIcon !== undefined}
         open={open}
-        onClick={toggleIcon !== undefined ? null : () => setOpen(!open)}
+        onClick={(e) => e.target.type === 'button' ? undefined : setOpen(!open)}
       >
         {header}
         {toggleIcon && (
@@ -44,5 +44,5 @@ const Accordion = ({ children, header, toggleIcon }: AccordionProps) => {
     </AccordionWrapper>
   );
 };
-
+  /* eslint-enable no-confusing-arrow */
 export default Accordion;
