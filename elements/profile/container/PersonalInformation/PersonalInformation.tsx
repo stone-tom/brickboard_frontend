@@ -98,10 +98,14 @@ const PersonalInformation = ({
   onUpdateUserDetail,
 }: PersonInformationProps) => {
   const [newContent, setNewContent] = useState<IUserDetail>(userDetail);
-  const content = useMemo(() => ({
-    ...user.attributes,
-    ...newContent.attributes,
-  }), [user, newContent]);
+
+  const content = useMemo(() => {
+    const details = userDetail.id === newContent.id ? newContent.attributes : userDetail.attributes;
+    return {
+      ...user.attributes,
+      ...details,
+    };
+  }, [user, newContent]);
 
   const handleChange = (newValue: string, key: string) => {
     setNewContent({
