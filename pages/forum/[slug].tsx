@@ -18,7 +18,7 @@ import { Button } from '../../elements/core/components/Button/Button.styles';
 import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
-import HintComponent from '../../elements/core/components/Hint/Hint';
+import Hint from '../../elements/core/components/Hint/Hint';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -186,9 +186,9 @@ function Subforum({
             <Link href={`./${slug}/neues-thema`} passHref>
               <Button disabled={moderation_state === 'blocked'}>
                 {moderation_state !== 'approved' ? (
-                  <HintComponent hint="Dein Konto ist nicht freigeschalten">
+                  <Hint hint="Dein Konto ist nicht freigeschalten">
                     Thema erstellen
-                  </HintComponent>
+                  </Hint>
                 )
                   : (
                     'Thema erstellen'
