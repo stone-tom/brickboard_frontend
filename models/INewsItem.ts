@@ -3,7 +3,7 @@ import IRelationship from './IRelationship';
 export interface INewsAttributes {
   title: string,
   url?: string,
-  topic_id?: number,
+  topic_url?: string,
   user_id?: number
   short_description?: string,
   news_banner?: string,

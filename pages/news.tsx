@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
+import useSWR from 'swr';
 import { GetStaticProps } from 'next';
 import Layout from '../elements/core/container/Layout/Layout';
 import { FlexRight, ViewWrapper } from '../styles/global.styles';
-import { getNews } from '../util/api';
+import { backendURL, deleteNews, getNews } from '../util/api';
 import filter from '../util/filter';
 import NewsArticle from '../elements/landing/components/NewsArticle/NewsArticle';
 import findObject from '../util/finder';
 import INewsItem from '../models/INewsItem';
 import NewsCreator from '../elements/news/container/NewsCreator/NewsCreator';
 import { NewsArticleContainer } from '../elements/landing/components/NewsArticle/NewsArticle.styles';
-import { useStoreState } from '../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../context/custom_store';
 import { Button } from '../elements/core/components/Button/Button.styles';
 import Restrictions from '../config/file_upload_restrictions.json';
-import useSWR from 'swr';
 import { get } from '../util/methods';
+import Prompt from '../elements/core/container/Prompt/Prompt';
+import { MessageType } from '../models/IMessage';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getNews();
@@ -29,19 +31,18 @@ export const getStaticProps: GetStaticProps = async () => {
 
 interface NewsProps {
   content: any;
-  fetchUrl: string,
 }
-const NewsPage = ({ content, fetchUrl }: NewsProps) => {
+const NewsPage = ({ content }: NewsProps) => {
+  const [pageIndex, setPageIndex] = useState(1);
   const { data, mutate } = useSWR(
-    fetchUrl,
+    `${backendURL}/news/page-${pageIndex}`,
     get,
     { revalidateOnMount: true, initialData: content },
   );
   const { isAuthenticated, user } = useStoreState();
+  const { addComponent, setMessage } = useStoreDispatch();
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
-
-  console.log("THE DATA", data);
 
   if (data === undefined || data.data === undefined) {
     return (
@@ -55,25 +56,69 @@ const NewsPage = ({ content, fetchUrl }: NewsProps) => {
   const userList = filter(data, 'user');
   const newsList = data.data;
 
-  const mutateNews = (freshNews) => {
-    console.log("Triggered mutate");
-    console.log({
-      ...data,
-      data: [...data.data, freshNews.data],
-      included: [...data.included, freshNews.included[0]],
-    });
+  const mutateNews = (freshNews, updated = false) => {
+    if (updated) {
+      const updatedNews = {
+        data: data.data.map((item) => {
+          if (parseInt(item.id, 10) === parseInt(freshNews.data.id, 10)) {
+            return {
+              ...freshNews.data,
+            };
+          }
+          return item;
+        }),
+        included: [
+          ...data.included,
+        ],
+      };
+      mutate(updatedNews, false);
+      return;
+    }
+    newsList.unshift(freshNews.data);
     if (!findObject(userList, freshNews.data.relationships.user.data.id)) {
       mutate({
         ...data,
-        data: [...data.data, freshNews.data],
         included: [...data.included, freshNews.included[0]],
       }, false);
-    } else {
-      mutate({
-        ...data,
-        data: [...data.data, freshNews.data],
-      }, false);
     }
+    toggleEditor();
+  };
+
+  const performDelete = async (id) => {
+    const { error } = await deleteNews(id);
+    if (error) {
+      setMessage({
+        content: 'Fehler beim löschen',
+        type: MessageType.error,
+      });
+    } else {
+      setMessage({
+        content: 'News erfolgreich gelöscht',
+        type: MessageType.success,
+      });
+      const updatedNews = {
+        data: data.data.filter((item) => {
+          if (item.id === id) return null;
+          return item;
+        }),
+        included: [
+          ...data.included,
+        ],
+      };
+      mutate(updatedNews, false);
+    }
+  };
+
+  const onTryDeleting = async (id) => {
+    addComponent((
+      <Prompt
+        headline="Löschen bestätigen?"
+        onAccept={() => performDelete(id)}
+      >
+        <div>
+          <p>News löschen kann nicht rückgängig gemacht werden!</p>
+        </div>
+      </Prompt>));
   };
 
   return (
@@ -95,13 +140,31 @@ const NewsPage = ({ content, fetchUrl }: NewsProps) => {
               allowedTypes={Restrictions.allowed_file_types_news}
             />
           )}
-          {newsList.map((news: INewsItem) => (
-            <NewsArticle
-              news={news}
-              author={findObject(userList, news.relationships.user.data.id)}
-            />
-          ))}
+          {newsList.map((news: INewsItem) => {
+            if (news !== null) {
+              return (
+                <NewsArticle
+                  key={`news_${news.id}`}
+                  news={news}
+                  author={findObject(userList, news.relationships.user.data.id)}
+                  onDelete={({ id }) => onTryDeleting(id)}
+                  onUpdated={({ content: freshNews }) => mutateNews(freshNews, true)}
+                />
+              );
+            }
+            return null;
+          })}
         </NewsArticleContainer>
+        {pageIndex > 1 && (
+          <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+            Vorige Seite
+          </button>
+        )}
+        {newsList.length >= 10 && (
+          <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+            Nächste Seite
+          </button>
+        )}
       </ViewWrapper>
     </Layout>
   );

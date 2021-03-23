@@ -1,13 +1,12 @@
 import { backendURL } from '../index';
-import { get } from '../../methods';
+import { patchWithoutJson } from '../../methods';
 
-const getNews = async () => {
-  const fetchURL = `${backendURL}/news/page-1`;
+const updateNews = async (newsId: number, data: FormData | string) => {
+  const fetchURL = `${backendURL}/news/${newsId}`;
   let content: any;
   let error: any;
-
   try {
-    const res = await get(fetchURL);
+    const res = await patchWithoutJson(fetchURL, data);
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
   } catch (e) {
@@ -20,4 +19,4 @@ const getNews = async () => {
   };
 };
 
-export default getNews;
+export default updateNews;

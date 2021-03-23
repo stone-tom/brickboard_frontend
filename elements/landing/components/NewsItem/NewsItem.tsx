@@ -16,6 +16,7 @@ import {
 } from './NewsItem.styles';
 import ExternalLink from '../../../core/components/ExternalLink/ExternalLink';
 import Button from '../../../core/components/Button/Button';
+import { backendURL } from '../../../../util/api';
 
 interface NewsItemProps {
   newsitem: INewsItem;
@@ -35,7 +36,7 @@ const NewsItem = ({
   if (active) {
     return (
       <BigNewsItemWrapper>
-        <Image src={newsitem.attributes.url ? newsitem.attributes.url : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
+        <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
         <NewsInfos>
           <BigNewsItemHeading>{newsitem.attributes.title}</BigNewsItemHeading>
           <BigNewsItemDescription>{newsitem.attributes.short_description}</BigNewsItemDescription>
@@ -43,9 +44,9 @@ const NewsItem = ({
 
         </NewsInfos>
         <NewsItemButtonFloat>
-          {newsitem.attributes.url && !newsitem.attributes.topic_id && (
+          {newsitem.attributes.url && !newsitem.attributes.topic_url && (
           <ExternalLink href="">Zur Seite</ExternalLink>)}
-          {newsitem.attributes.topic_id && <Link href={`./${newsitem.attributes.topic_id}`} passHref><Button>Zum Beitrag</Button></Link>}
+          {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`} passHref><Button>Zum Beitrag</Button></Link>}
         </NewsItemButtonFloat>
       </BigNewsItemWrapper>
     );
@@ -54,7 +55,7 @@ const NewsItem = ({
     <NewsItemWrapper onClick={() => onClick()}>
       <NewsItemBorder active={bordered} />
       <NewsItemHeading>{newsitem.attributes.title}</NewsItemHeading>
-      <Image src={newsitem.attributes.url ? newsitem.attributes.url : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
+      <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
     </NewsItemWrapper>
   );
 };

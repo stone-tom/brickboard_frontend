@@ -111,3 +111,20 @@ export const postWithoutJson = async (
   }
   return res.json();
 };
+
+export const patchWithoutJson = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PATCH',
+    credentials: 'include',
+    ...options,
+    body: data,
+  });
+  if (res.status === 204) {
+    return null;
+  }
+  return res.json();
+};

@@ -16,6 +16,8 @@ import updateTopic from './topic/update-topic';
 import banPost from './post/ban-post';
 import getNews from './news/get-news';
 import createNews from './news/create-news';
+import deleteNews from './news/delete-news';
+import updateNews from './news/update-news';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -38,4 +40,6 @@ export {
   banPost,
   getNews,
   createNews,
+  deleteNews,
+  updateNews,
 };

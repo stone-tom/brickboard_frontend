@@ -1,46 +1,88 @@
 import React, { useState } from 'react';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
-import { createNews } from '../../../../util/api';
+import INewsItem from '../../../../models/INewsItem';
+import { FlexRight } from '../../../../styles/global.styles';
+import { createNews, updateNews } from '../../../../util/api';
 import Button from '../../../core/components/Button/Button';
 import File from '../../../core/components/File/File';
 import FormInput from '../../../core/components/FormInput/FormInput';
-import { NewsCreatorWrapper } from './NewsCreator.styles';
+import { NewsArticleImageWrapper, NewsArticleInfos } from '../../../landing/components/NewsArticle/NewsArticle.styles';
+import {
+  BtnCancelWrapper,
+  CreatorContainer,
+  NewsCreatorWrapper,
+  UrlInfo,
+  UrlWrapper,
+  WideArea,
+} from './NewsCreator.styles';
 
 interface NewsCreatorProps {
   allowedTypes: string[];
   maxSize: number,
-  onCreateNews: any;
+  onCreateNews?: any;
+  newsItem?: INewsItem;
+  onCancel?: () => void;
+  onUpdateNews?: any;
 }
-const NewsCreator = ({ allowedTypes, maxSize, onCreateNews }: NewsCreatorProps) => {
+const NewsCreator = ({
+  allowedTypes,
+  maxSize,
+  onCreateNews,
+  newsItem,
+  onCancel,
+  onUpdateNews,
+}: NewsCreatorProps) => {
   const [file, setFile] = useState<File | null>();
-  const [title, setTitle] = useState('');
-  const [url, setUrl] = useState('');
-  const [topic_url, setTopicUrl] = useState('');
-  const [short_description, setShortDescription] = useState();
+  const [title, setTitle] = useState(newsItem ? newsItem.attributes.title : '');
+  const [url, setUrl] = useState(newsItem ? newsItem.attributes.url : '');
+  const [topic_url, setTopicUrl] = useState<string>(newsItem ? newsItem.attributes.topic_url : '');
+  const [short_description, setShortDescription] = useState<string>(newsItem ? newsItem.attributes.short_description : '');
+  const [allFields, setAllFields] = useState(false);
 
   const { setMessage } = useStoreDispatch();
 
   const submitNews = async () => {
     const newsData = new FormData();
-    newsData.append('news[news_banner]', file);
+    if (file) {
+      newsData.append('news[news_banner]', file);
+    }
     newsData.append('news[title]', title);
     newsData.append('news[short_description]', short_description);
-    const { content, error } = await createNews(newsData, true);
-    if (error) {
+
+    if (topic_url !== '' && topic_url !== null && topic_url !== undefined) {
+      newsData.append('news[topic_url]', topic_url);
+    }
+    if (url !== '' && url !== null && url !== undefined) {
+      newsData.append('news[url]', url);
+    }
+    let occuredError;
+    if (newsItem) {
+      const { content, error } = await updateNews(parseInt(newsItem.id, 10), newsData);
+      occuredError = error;
+      if (content) {
+        setMessage({
+          content: 'News wurden geupdated',
+          type: MessageType.success,
+        });
+        onUpdateNews({ content });
+      }
+    } else {
+      const { content, error } = await createNews(newsData, true);
+      occuredError = error;
+      if (content) {
+        setMessage({
+          content: 'News wurden erstellt',
+          type: MessageType.success,
+        });
+        onCreateNews({ content });
+      }
+    }
+    if (occuredError) {
       setMessage({
         content: 'Es ist ein Fehler aufgetreten',
         type: MessageType.error,
       });
-    }
-    if (content) {
-      setMessage({
-        content: 'News wurden erstellt',
-        type: MessageType.success,
-      });
-      console.log("RECEIVED THIS CONTENT");
-      console.log(content);
-      onCreateNews({ content });
     }
   };
 
@@ -57,21 +99,47 @@ const NewsCreator = ({ allowedTypes, maxSize, onCreateNews }: NewsCreatorProps) 
       });
     } else {
       setFile(newFile);
+      setAllFields(true);
     }
   };
   return (
-    <NewsCreatorWrapper>
-      <File onFileUpload={(newFile) => handleFileUpload(newFile)} />
-      <p>Überschrift</p>
-      <FormInput type="text" name="title" placeholder="Das Brickboard 2.0 ist gestartet!" onChange={(value) => setTitle(value)} />
-      <p>Kurze Beschreibung</p>
-      <textarea onChange={(value) => setShortDescription(value.target.value)} name="short_description" />
-      <p>Optional: Link zu Webseite</p>
-      <FormInput type="text" name="url" placeholder="https://www.brickboard.de/" onChange={(value) => setUrl(value.toString())} />
-      <p>Optional: Teil-Url zum Thema</p>
-      <FormInput type="text" name="topic_url" placeholder="https://www.brickboard.de/" onChange={(value) => setUrl(value.toString())} />
-      <Button onClick={() => submitNews()}>Abschicken</Button>
-    </NewsCreatorWrapper>
+    <CreatorContainer>
+      <NewsCreatorWrapper>
+        <NewsArticleImageWrapper>
+          <p>Bild * am besten 1920x1080px</p>
+          <File onFileUpload={(newFile) => handleFileUpload(newFile)} />
+        </NewsArticleImageWrapper>
+        <NewsArticleInfos>
+          <p>Überschrift *</p>
+          <FormInput type="text" name="title" placeholder="Das Brickboard 2.0 ist gestartet!" onChange={(value) => setTitle(value)} defaultValue={newsItem && newsItem.attributes.title} />
+          <p>Kurze Beschreibung *</p>
+          <WideArea onChange={(value) => setShortDescription(value.target.value)} name="short_description" defaultValue={newsItem ? newsItem.attributes.short_description : ''} />
+          <UrlWrapper>
+            <UrlInfo>
+              <p>Optional: Link zu Webseite</p>
+              <FormInput type="text" name="url" placeholder="https://www.brickboard.de/" onChange={(value) => setUrl(value)} defaultValue={newsItem ? newsItem.attributes.url : ''} />
+            </UrlInfo>
+            <UrlInfo>
+              <p>Optional: Teil-Url zum Thema</p>
+              <FormInput type="text" name="topic_url" placeholder="https://www.brickboard.de/" onChange={(value) => setTopicUrl(value)} defaultValue={newsItem ? newsItem.attributes.topic_url : ''} />
+            </UrlInfo>
+          </UrlWrapper>
+        </NewsArticleInfos>
+      </NewsCreatorWrapper>
+      <FlexRight>
+        <Button disabled={!allFields && !newsItem} onClick={() => submitNews()}>
+          Abschicken
+        </Button>
+        {newsItem && (
+          <BtnCancelWrapper>
+            <Button reset onClick={() => onCancel()}>
+              Abbrechen
+            </Button>
+          </BtnCancelWrapper>
+        )}
+      </FlexRight>
+    </CreatorContainer>
+
   );
 };
 

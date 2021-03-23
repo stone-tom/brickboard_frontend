@@ -9,6 +9,14 @@ export const NewsArticleWrapper = styled.article`
   background-color: ${(props) => props.theme.white};
 `;
 
+export const NewsDeleteButtonWrapper = styled.div`
+  margin-left: 1rem;
+`;
+
+export const NewsButtonWrapper = styled.div`
+  display: flex;
+`;
+
 export const NewsArticleContainer = styled.div`
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -16,6 +24,8 @@ export const NewsArticleContainer = styled.div`
 
 export const NewsArticleHeader = styled.header`
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const NewsArticleImageWrapper = styled.div`

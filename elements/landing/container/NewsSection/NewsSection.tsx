@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import INewsItem from '../../../../models/INewsItem';
 import NewsItem from '../../components/NewsItem/NewsItem';
-import { AllNewsItem, NewsListing, NewsSectionWrapper, ShowCase } from './NewsSection.styles';
+import {
+  AllNewsItem,
+  NewsListing,
+  NewsSectionWrapper,
+  ShowCase,
+} from './NewsSection.styles';
 import Button from '../../../core/components/Button/Button';
 
 const demoUser = {
