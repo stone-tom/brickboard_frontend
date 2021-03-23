@@ -24,8 +24,8 @@ interface IState {
   component: ReactNode,
 }
 
-const StoreDispatchContext = createContext(({} as any));
-const StoreStateContext = createContext(({} as any));
+export const StoreDispatchContext = createContext(({} as any));
+export const StoreStateContext = createContext(({} as any));
 
 const initialState: IState = {
   isAuthenticated: false,

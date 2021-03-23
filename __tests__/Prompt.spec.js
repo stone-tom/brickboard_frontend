@@ -7,19 +7,26 @@ import { OverlayHeadline, OverlayBody } from '../elements/core/components/Overla
 import { PromptButton } from '../elements/core/container/Prompt/Prompt.styles';
 import { Overlay } from '../elements/core/components/Overlay/Overlay.styles';
 import { act } from '@testing-library/react';
-
+import { StoreDispatchContext, StoreStateContext } from '../context/custom_store';
 
 describe('Render Prompt Component', () => {
 
   it('renders correctly', () => {
-  
+    const initialState = {
+      component: null,
+    }
+    const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
-        <Prompt
-          headline="headline"
-        >
-          test-message
+        <StoreDispatchContext.Provider value={{ removeComponent }}>
+          <StoreStateContext.Provider value={initialState}>
+            <Prompt
+              headline="headline"
+            >
+              test-message
         </Prompt>
+          </StoreStateContext.Provider>
+        </StoreDispatchContext.Provider>
       </ThemeProvider>
     ));
 
@@ -31,16 +38,23 @@ describe('Render Prompt Component', () => {
   });
 
   it('renders named buttons correctly', () => {
-  
+    const initialState = {
+      component: null,
+    }
+    const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
-        <Prompt
-          acceptText="Accept"
-          declineText="Decline"
-          headline="headline"
-        >
-          test-message
+        <StoreDispatchContext.Provider value={{ removeComponent }}>
+          <StoreStateContext.Provider value={initialState}>
+            <Prompt
+              acceptText="Accept"
+              declineText="Decline"
+              headline="headline"
+            >
+              test-message
         </Prompt>
+          </StoreStateContext.Provider>
+        </StoreDispatchContext.Provider>
       </ThemeProvider>
     ));
 
@@ -52,16 +66,24 @@ describe('Render Prompt Component', () => {
   });
 
   it('calls onDecline correctly', () => {
-    
     const onDeclineMock = jest.fn();
+
+    const initialState = {
+      component: null,
+    }
+    const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
-        <Prompt
-          headline="headline"
-          onDecline={onDeclineMock}
-        >
-          test-message
+        <StoreDispatchContext.Provider value={{ removeComponent }}>
+          <StoreStateContext.Provider value={initialState}>
+            <Prompt
+              headline="headline"
+              onDecline={onDeclineMock}
+            >
+              test-message
         </Prompt>
+          </StoreStateContext.Provider>
+        </StoreDispatchContext.Provider>
       </ThemeProvider>
     ));
 
@@ -76,18 +98,53 @@ describe('Render Prompt Component', () => {
   });
 
   it('calls onAccept correctly', () => {
-    
     const onAcceptMock = jest.fn();
+    const initialState = {
+      component: null,
+    }
+    const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
-        <Prompt
-          headline="headline"
-          onAccept={onAcceptMock}
-        >
-          test-message
+        <StoreDispatchContext.Provider value={{ removeComponent }}>
+          <StoreStateContext.Provider value={initialState}>
+            <Prompt
+              headline="headline"
+              onAccept={onAcceptMock}
+            >
+              test-message
         </Prompt>
+          </StoreStateContext.Provider>
+        </StoreDispatchContext.Provider>
       </ThemeProvider>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ));
+
 
     const acceptButton = prompt.find('button').at(1);
     expect(acceptButton.length).toBe(1);

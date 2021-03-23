@@ -9,14 +9,14 @@ test('renders post-moderation view correctly', async () => {
   fetch.mockResponseOnce(JSON.stringify(mockUsers));
   render(
     <ThemeProvider theme={main}>
-      <PostModeration />
+        <PostModeration />
     </ThemeProvider>);
 
   const accordions = await screen.findAllByRole('tab');
-  const lockButtons = await screen.findAllByText('sperren');
+  const lockButtons = await screen.findAllByText('blockieren');
   const approveButtons = await screen.getAllByText('bestätigen');
   const toggleButtons = screen.getAllByTestId('toggle_accordion');
-  expect(screen.getByRole('heading')).toHaveTextContent('User Moderation');
+  expect(screen.getByRole('heading')).toHaveTextContent('Post Moderation');
   expect(accordions).toHaveLength(4);
   expect(lockButtons).toHaveLength(2);
   expect(approveButtons).toHaveLength(2);

@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
 import main from '../themes/main';
 import FormInput from '../elements/core/components/FormInput/FormInput';
-import { ClearButton } from '../elements/core/components/FormInput/FormInput.styles';
 
 describe('Render TextInput Component', () => {
 

@@ -30,7 +30,7 @@
     "setupTests.js",
     "context/custom-store.js",
     "__tests__/index.spec.js"
-  ],
+, "__tests__/Button.spec.js"  ],
   "exclude": [
     "node_modules"
   ]
