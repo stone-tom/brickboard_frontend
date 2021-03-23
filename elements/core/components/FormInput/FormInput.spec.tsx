@@ -1,11 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import FormInput from '../elements/core/components/FormInput/FormInput';
+import main from '../../../../themes/main';
+import FormInput from './FormInput';
 
 describe('Render TextInput Component', () => {
-
   it('renders correctly', () => {
     const formInput = mount((
       <ThemeProvider theme={main}>
@@ -28,9 +27,5 @@ describe('Render TextInput Component', () => {
     expect(formInput.find(FormInput).length).toBe(1);
     expect(formInput.find(FormInput).prop('required')).toBeTruthy();
     expect(formInput.find('label').text()).toBe('Username: *');
-
   });
-}); 
-
-
-
+});

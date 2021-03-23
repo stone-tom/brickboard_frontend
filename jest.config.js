@@ -4,23 +4,13 @@ module.exports = {
     "tsx",
     "js"
   ],
-  // transform: {
-  //   "^.+\\.tsx?$": "ts-jest"
-  // },
   testMatch: [
-    "**/*.(test|spec).(js|jsx)"
+    "**/*.(test|spec).(ts|tsx)"
   ],
-  // globals: {
-  //   "ts-jest": {
-  //     useBabelrc: true,
-  //     tsConfigFile: "jest.tsconfig.json"
-  //   }
-  // }, 
   coveragePathIgnorePatterns: [
     "/node_modules/",
-    "enzyme.js"
   ],
-  setupTestFrameworkScriptFile: "<rootDir>/enzyme.js",
+  setupFilesAfterEnv: ['./setupTests.js'],
   coverageReporters: [
     "json",
     "lcov",

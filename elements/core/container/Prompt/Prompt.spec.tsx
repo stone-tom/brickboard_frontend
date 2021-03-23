@@ -1,20 +1,19 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import Prompt from '../elements/core/container/Prompt/Prompt';
-import { OverlayHeadline, OverlayBody } from '../elements/core/components/OverlayBody/OverlayBody.styles';
-import { PromptButton } from '../elements/core/container/Prompt/Prompt.styles';
-import { Overlay } from '../elements/core/components/Overlay/Overlay.styles';
 import { act } from '@testing-library/react';
-import { StoreDispatchContext, StoreStateContext } from '../context/custom_store';
+import main from '../../../../themes/main';
+import Prompt from './Prompt';
+import { PromptButton } from './Prompt.styles';
+import { StoreDispatchContext, StoreStateContext } from '../../../../context/custom_store';
+import { OverlayBody, OverlayHeadline } from '../../components/OverlayBody/OverlayBody.styles';
+import { Overlay } from '../../components/Overlay/Overlay.styles';
 
 describe('Render Prompt Component', () => {
-
   it('renders correctly', () => {
     const initialState = {
       component: null,
-    }
+    };
     const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
@@ -24,7 +23,7 @@ describe('Render Prompt Component', () => {
               headline="headline"
             >
               test-message
-        </Prompt>
+            </Prompt>
           </StoreStateContext.Provider>
         </StoreDispatchContext.Provider>
       </ThemeProvider>
@@ -34,13 +33,13 @@ describe('Render Prompt Component', () => {
     expect(prompt.find(PromptButton).length).toBe(2);
     expect(prompt.find(Overlay).length).toBe(1);
     expect(prompt.find(OverlayBody).length).toBe(1);
-    expect(prompt.find(OverlayBody).children().text()).toBe('headlinetest-messageAbbrechenBestätigen')
+    expect(prompt.find(OverlayBody).children().text()).toBe('headlinetest-messageAbbrechenBestätigen');
   });
 
   it('renders named buttons correctly', () => {
     const initialState = {
       component: null,
-    }
+    };
     const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
@@ -52,7 +51,7 @@ describe('Render Prompt Component', () => {
               headline="headline"
             >
               test-message
-        </Prompt>
+            </Prompt>
           </StoreStateContext.Provider>
         </StoreDispatchContext.Provider>
       </ThemeProvider>
@@ -62,7 +61,7 @@ describe('Render Prompt Component', () => {
     expect(prompt.find(PromptButton).length).toBe(2);
     expect(prompt.find(Overlay).length).toBe(1);
     expect(prompt.find(OverlayBody).length).toBe(1);
-    expect(prompt.find(OverlayBody).children().text()).toBe('headlinetest-messageDeclineAccept')
+    expect(prompt.find(OverlayBody).children().text()).toBe('headlinetest-messageDeclineAccept');
   });
 
   it('calls onDecline correctly', () => {
@@ -70,7 +69,7 @@ describe('Render Prompt Component', () => {
 
     const initialState = {
       component: null,
-    }
+    };
     const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
@@ -81,7 +80,7 @@ describe('Render Prompt Component', () => {
               onDecline={onDeclineMock}
             >
               test-message
-        </Prompt>
+            </Prompt>
           </StoreStateContext.Provider>
         </StoreDispatchContext.Provider>
       </ThemeProvider>
@@ -101,7 +100,7 @@ describe('Render Prompt Component', () => {
     const onAcceptMock = jest.fn();
     const initialState = {
       component: null,
-    }
+    };
     const removeComponent = jest.fn();
     const prompt = mount((
       <ThemeProvider theme={main}>
@@ -112,39 +111,11 @@ describe('Render Prompt Component', () => {
               onAccept={onAcceptMock}
             >
               test-message
-        </Prompt>
+            </Prompt>
           </StoreStateContext.Provider>
         </StoreDispatchContext.Provider>
       </ThemeProvider>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     ));
-
 
     const acceptButton = prompt.find('button').at(1);
     expect(acceptButton.length).toBe(1);

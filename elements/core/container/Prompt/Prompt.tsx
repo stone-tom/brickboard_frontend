@@ -6,7 +6,7 @@ import { OverlayHeadline } from '../../../core/components/OverlayBody/OverlayBod
 import { useStoreDispatch } from '../../../../context/custom_store';
 
 interface PromptProps {
-  onAccept: () => void,
+  onAccept?: () => void,
   onDecline?: () => void,
   acceptText?: string,
   declineText?: string,

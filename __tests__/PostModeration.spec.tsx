@@ -1,16 +1,18 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
+import fetch from 'jest-fetch-mock';
 import { ThemeProvider } from 'styled-components';
 import main from '../themes/main';
 import PostModeration from '../pages/moderation/post-moderation';
 import mockUsers from './mock-data/users.json';
-import { render, screen } from '@testing-library/react'
 
 test('renders post-moderation view correctly', async () => {
   fetch.mockResponseOnce(JSON.stringify(mockUsers));
   render(
     <ThemeProvider theme={main}>
-        <PostModeration />
-    </ThemeProvider>);
+      <PostModeration />
+    </ThemeProvider>,
+  );
 
   const accordions = await screen.findAllByRole('tab');
   const lockButtons = await screen.findAllByText('blockieren');

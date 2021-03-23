@@ -1,16 +1,15 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import Accordion from '../elements/core/components/Accordion/Accordion';
-import { AccordionHeader, AccordionBody, ToggleButton } from '../elements/core/components/Accordion/Accordion.styles';
 import { act } from '@testing-library/react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ThemeProvider } from 'styled-components';
+import main from '../../../../themes/main';
+import Accordion from './Accordion';
+import { AccordionHeader, AccordionBody, ToggleButton } from './Accordion.styles';
 
-const Test = () => (<>test</>)
+const Test = () => (<>test</>);
 
 describe('Render Accordion Component', () => {
-
   it('renders correctly', () => {
     const accordion = mount((
       <ThemeProvider theme={main}>
