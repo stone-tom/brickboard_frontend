@@ -37,4 +37,7 @@ export const VideoTitle = styled.p`
   background: linear-gradient(to bottom, #000, rgba(0,0,0,0));
 `;
 
-export const CategoryWrapper = styled.div``;
+export const CategoryWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;

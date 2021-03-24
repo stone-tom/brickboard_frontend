@@ -73,7 +73,7 @@ const ProfileInformation = ({
               layout="fill"
               objectFit="cover"
               alt="Profilbild (von Heroku gelöscht)"
-              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_thumbnail.png'}
+              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.png'}
             />
             {isAuthenticated && user.id === authUser.id && (
               <EditButton
