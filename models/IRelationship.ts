@@ -5,5 +5,5 @@ export default interface IRelationship {
   } | {
     id: string,
     type: string,
-  }[]
+  }[] | any
 }
