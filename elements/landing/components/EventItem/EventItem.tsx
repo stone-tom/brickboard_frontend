@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faAward, faCalendar, faTimes } from '@fortawesome/free-solid-svg-icons';
 import IEvent from '../../../../models/IEvent';
 import Button from '../../../core/components/Button/Button';
 import ExternalLink from '../../../core/components/ExternalLink/ExternalLink';
@@ -17,20 +17,26 @@ import {
   EventTitleWrapper,
 } from './EventItem.styles';
 import IconComponent from '../../../core/components/Icon/Icon';
+import { FlexCenter } from '../../../../styles/global.styles';
 
 interface EventItemProps {
   eventItem?: IEvent;
   title?: string;
   short_description?: string;
   infoItem?: boolean;
+  pastEvent?: boolean;
+  showModifiers?: boolean;
+  onDelete?: (id) => number;
 }
 
 const EventItem = ({
   eventItem,
   title,
   short_description,
-
+  pastEvent,
   infoItem,
+  showModifiers,
+  onDelete,
 }: EventItemProps) => {
   if (infoItem) {
     return (
@@ -57,7 +63,7 @@ const EventItem = ({
   }
 
   return (
-    <EventItemWrapper>
+    <EventItemWrapper pastEvent={pastEvent}>
       <EventHeader>
         <EventTitleWrapper>
           <h3>{eventItem.attributes.title}</h3>
@@ -66,7 +72,9 @@ const EventItem = ({
           {eventItem.attributes.host === 'Brickboard' ? (
             <Image src="/assets/images/bb_logo.png" alt="Brickboard" width="150" height="100" layout="responsive" />
           ) : (
-            <p>{eventItem.attributes.host}</p>
+            <CalendarIconWrapper dark>
+              <IconComponent icon={faAward} />
+            </CalendarIconWrapper>
           )}
         </EventHostWrapper>
       </EventHeader>
@@ -83,6 +91,17 @@ const EventItem = ({
             <Link href={`.${eventItem.attributes.topic_url}`}><Button small>Zum Thema</Button></Link>
           )}
         </EventInfos>
+        {showModifiers && (
+          <FlexCenter>
+            <Button
+              reset
+              icon={faTimes}
+              onClick={() => onDelete({ id: eventItem.id })}
+            >
+              Löschen
+            </Button>
+          </FlexCenter>
+        )}
       </EventBody>
     </EventItemWrapper>
   );

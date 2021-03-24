@@ -2,13 +2,20 @@ import styled, { css } from 'styled-components';
 
 export const EventItemWrapper = styled.div<{
   infoItem?: boolean,
+  pastEvent?: boolean,
 }>`
   margin: 1rem;
   box-shadow: ${(props) => props.theme.boxShadow}; 
+  
 
   ${(props) => props.infoItem && css`
     background-color: ${props.theme.gray};
   `}
+
+  ${(props) => props.pastEvent && css`
+    opacity: 0.6;
+  `}
+
 `;
 
 export const EventHeader = styled.header`
@@ -64,11 +71,16 @@ export const EventInfos = styled.div<{
   `}
 `;
 
-export const CalendarIconWrapper = styled.div`
+export const CalendarIconWrapper = styled.div<{
+  dark?: boolean,
+}>`
   color: ${(props) => props.theme.white};
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
 
+    ${(props) => props.dark && css`
+    color: ${props.theme.darkgray};
+  `}
 `;

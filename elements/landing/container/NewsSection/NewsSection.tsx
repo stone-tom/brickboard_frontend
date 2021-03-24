@@ -9,32 +9,14 @@ import {
   ShowCase,
 } from './NewsSection.styles';
 import Button from '../../../core/components/Button/Button';
-
-const demoUser = {
-  id: '1',
-  type: 'user',
-  attributes: {
-    admin: true,
-    display_name: 'Admin',
-    created_at: '2021-02-02T15:01:40.112+01:00',
-    updated_at: '2021-03-22T09:48:52.909+01:00',
-    avatar: '/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBYUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--239de5b64967567e087f883146c9ed6da13acb79/default_profile.jpg',
-  },
-  relationships: {
-    thredded_user_detail: {
-      data: {
-        id: '1',
-        type: 'thredded_user_detail',
-      },
-    },
-  },
-};
+import findObject from '../../../../util/finder';
 
 interface NewsSectionProps {
-  newsList: any;
+  newsList: INewsItem[];
+  authors?: any[];
 }
 
-const NewsSection = ({ newsList } : NewsSectionProps) => {
+const NewsSection = ({ newsList, authors }: NewsSectionProps) => {
   const [activeNews, setActiveNews] = useState(newsList[0]);
 
   const changeActiveNews = (newsItem) => {
@@ -44,10 +26,22 @@ const NewsSection = ({ newsList } : NewsSectionProps) => {
   return (
     <NewsSectionWrapper>
       <ShowCase>
-        <NewsItem newsitem={activeNews} author={demoUser} active />
+        <NewsItem
+          newsitem={activeNews}
+          author={findObject(authors, activeNews.relationships.user.data.id)}
+          active
+        />
       </ShowCase>
       <NewsListing>
-        {newsList.map((news: INewsItem) => <NewsItem bordered={news.id === activeNews.id} key={`news_${news.id}`} newsitem={news} author={demoUser} onClick={() => changeActiveNews(news)} />)}
+        {newsList.map((news: INewsItem) => (
+          <NewsItem
+            bordered={news.id === activeNews.id}
+            key={`news_${news.id}`}
+            newsitem={news}
+            author={findObject(authors, news.relationships.user.data.id)}
+            onClick={() => changeActiveNews(news)}
+          />
+        ))}
         <AllNewsItem>
           <Link href="./news">
             <Button reset>

@@ -11,6 +11,7 @@ import {
   EventCalendarWrapper,
 } from './EventCalendar.styles';
 import Button from '../../../core/components/Button/Button';
+import { FlexRight } from '../../../../styles/global.styles';
 
 interface EventCalendarProps {
   eventList: any;
@@ -60,7 +61,9 @@ const EventCalendar = ({ eventList }: EventCalendarProps) => {
           />
         ))}
       </Slider>
-      <Link href="./events"><Button reset>Alle Events anzeigen</Button></Link>
+      <FlexRight>
+        <Link href="./events"><Button>Alle Events anzeigen</Button></Link>
+      </FlexRight>
     </EventCalendarWrapper>
   );
 };
