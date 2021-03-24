@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import ReactTooltip from 'react-tooltip';
+import { nanoid } from 'nanoid';
 
 interface HintProps {
   children: ReactNode,
@@ -16,13 +17,18 @@ const Hint = (({
   type = 'dark',
   effect = 'float',
   ...rest
-}: HintProps) => (
-  <>
-    <p data-tip={hint} aria-label={hint}>
-      {children}
-    </p>
-    <ReactTooltip place={place} type={type} effect={effect} {...rest} />
-  </>
-));
+}: HintProps) => {
+  const id = nanoid();
+  return (
+    <>
+      <p data-tip={hint} aria-label={hint} data-for={id}>
+        <>
+          {children}
+        </>
+        <ReactTooltip place={place} type={type} effect={effect} {...rest} id={id} />
+      </p>
+    </>
+  );
+});
 
 export default Hint;

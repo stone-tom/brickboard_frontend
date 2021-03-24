@@ -25,6 +25,7 @@ import {
   Username,
 } from './ProfileInformation.styles';
 import Hint from '../../../core/components/Hint/Hint';
+import VideoCard from '../../../core/container/VideoCard/VideoCard';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -57,7 +58,14 @@ const ProfileInformation = ({
   {
     name: 'Filme',
     content: (
-      <p>Hier könnten ihre Filme stehen</p>
+      <>
+        <p>Hier könnten ihre Filme stehen</p>
+        <VideoCard
+          created_at="2021-02-02T15:05:48.632+01:00"
+          creator="Test Creator"
+          title="Title"
+        />
+      </>
     ),
   }];
 
@@ -72,7 +80,7 @@ const ProfileInformation = ({
               layout="fill"
               objectFit="cover"
               alt="Profilbild (von Heroku gelöscht)"
-              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'}
+              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_thumbnail.png'}
             />
             {isAuthenticated && user.id === authUser.id && (
               <EditButton
@@ -84,11 +92,9 @@ const ProfileInformation = ({
             )}
           </Avatar>
         </AvatarWrapper>
-        <Hint hint="Test">
-          <Username>
-            {user.attributes.display_name}
-          </Username>
-        </Hint>
+        <Username>
+          {user.attributes.display_name}
+        </Username>
         <BadgeWrapper>
           <Badge icon={faCertificate} />
           <BadgeTitle>Alter Hase</BadgeTitle>
