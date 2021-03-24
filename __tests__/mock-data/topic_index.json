@@ -1,0 +1,579 @@
+{
+  "data": [
+      {
+          "id": "43",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "43",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "42",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "42",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "51",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "51",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "50",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "50",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "49",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "49",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "44",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "44",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      },
+      {
+          "id": "29",
+          "type": "topic_view",
+          "relationships": {
+              "topic": {
+                  "data": {
+                      "id": "29",
+                      "type": "topic"
+                  }
+              },
+              "categories": {
+                  "data": []
+              }
+          }
+      }
+  ],
+  "included": [
+      {
+          "id": "10",
+          "type": "user",
+          "attributes": {
+              "admin": false,
+              "display_name": "Test User",
+              "created_at": "2021-02-05T13:38:30.895+01:00",
+              "updated_at": "2021-02-05T13:44:11.091+01:00",
+              "avatar": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBUZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--40a9069d2ba403ef2d45efea3f4edbbfc7636c74/julien-lasbleiz-carrie-final-signed.jpg"
+          },
+          "relationships": {
+              "thredded_user_detail": {
+                  "data": {
+                      "id": "6",
+                      "type": "thredded_user_detail"
+                  }
+              },
+              "thredded_main_badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "1",
+          "type": "user",
+          "attributes": {
+              "admin": true,
+              "display_name": "Admin",
+              "created_at": "2021-02-02T15:01:40.112+01:00",
+              "updated_at": "2021-03-22T15:26:20.098+01:00",
+              "avatar": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--304a9eadc909dc264fa75fbfbf49e3dcade5fb62/Untitled.jpg"
+          },
+          "relationships": {
+              "thredded_user_detail": {
+                  "data": {
+                      "id": "1",
+                      "type": "thredded_user_detail"
+                  }
+              },
+              "thredded_main_badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "5",
+          "type": "messageboard",
+          "attributes": {
+              "name": "Filmvorstellungen",
+              "description": "Hier könnt ihr eure fertigen Brickfilme vorstellen oder eine konstruktive Kritik zu anderen Filmen beitragen.",
+              "slug": "filmvorstellungen",
+              "topics_count": 8,
+              "movies_count": 0,
+              "posts_count": 10,
+              "position": 1612274777,
+              "locked": false,
+              "topic_types": [
+                  "Thredded::TopicMovie",
+                  "Thredded::TopicDefault"
+              ],
+              "created_at": "2021-02-02T15:06:17.363+01:00",
+              "updated_at": "2021-02-07T17:35:53.097+01:00"
+          },
+          "relationships": {
+              "messageboard_group": {
+                  "data": {
+                      "id": "2",
+                      "type": "messageboard_group"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "last_topic": {
+                  "data": {
+                      "id": "51",
+                      "type": "topic"
+                  }
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "43",
+          "type": "topic",
+          "attributes": {
+              "title": "Test Topic",
+              "slug": "habe-super-duper-thema",
+              "posts_count": 2,
+              "sticky": true,
+              "locked": false,
+              "hash_id": "d61141352071ab0c81fc",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-06T21:24:30.453+01:00",
+              "type": "Thredded::TopicMovie",
+              "video_url": null,
+              "view_count": 14,
+              "created_at": "2021-02-05T13:41:58.839+01:00",
+              "updated_at": "2021-02-06T21:24:30.547+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "10",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "42",
+          "type": "topic",
+          "attributes": {
+              "title": "Das ist mein toller Film!",
+              "slug": "das-ist-mein-toller-film",
+              "posts_count": 1,
+              "sticky": true,
+              "locked": true,
+              "hash_id": "9888f6a3ac6b47bd1848",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-05T13:21:02.275+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 10,
+              "created_at": "2021-02-05T13:21:02.269+01:00",
+              "updated_at": "2021-02-05T14:01:46.141+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "20",
+          "type": "user",
+          "attributes": {
+              "admin": false,
+              "display_name": "brickfilmAT",
+              "created_at": "2021-02-07T17:12:43.125+01:00",
+              "updated_at": "2021-02-07T22:32:55.742+01:00",
+              "avatar": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBXZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--beb461721437d77a6b5cc68c8291d901b7b8e575/Legostudio01%20Logo.jpg"
+          },
+          "relationships": {
+              "thredded_user_detail": {
+                  "data": {
+                      "id": "19",
+                      "type": "thredded_user_detail"
+                  }
+              },
+              "thredded_main_badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "51",
+          "type": "topic",
+          "attributes": {
+              "title": "explizit reinklicken",
+              "slug": "explizit-reinklicken",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": true,
+              "hash_id": "7ab53c08e089eb45f8bb",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-07T17:35:06.956+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 9,
+              "created_at": "2021-02-07T17:35:06.948+01:00",
+              "updated_at": "2021-02-07T17:35:53.094+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "50",
+          "type": "topic",
+          "attributes": {
+              "title": "esrfsdfsf",
+              "slug": "esrfsdfsf",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": false,
+              "hash_id": "eefd465f347c41046935",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-07T17:34:32.703+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 3,
+              "created_at": "2021-02-07T17:34:32.696+01:00",
+              "updated_at": "2021-02-07T17:34:32.768+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "49",
+          "type": "topic",
+          "attributes": {
+              "title": "Glasses 11?!?!",
+              "slug": "glasses-11",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": false,
+              "hash_id": "bc14a7d8eb6aa4e29e76",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-07T17:25:37.117+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 8,
+              "created_at": "2021-02-07T17:25:37.110+01:00",
+              "updated_at": "2021-02-07T17:29:06.964+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "20",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "12",
+          "type": "user",
+          "attributes": {
+              "admin": false,
+              "display_name": "julia_mmt",
+              "created_at": "2021-02-05T14:50:45.611+01:00",
+              "updated_at": "2021-02-05T14:56:07.418+01:00",
+              "avatar": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBVQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--834044c83388ce8959e91bd9b0d3e1e9bed9bd40/Pusteblume.jpg"
+          },
+          "relationships": {
+              "thredded_user_detail": {
+                  "data": {
+                      "id": "12",
+                      "type": "thredded_user_detail"
+                  }
+              },
+              "thredded_main_badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "44",
+          "type": "topic",
+          "attributes": {
+              "title": "User Testing",
+              "slug": "user-testing",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": true,
+              "hash_id": "e899fd411695f78698f7",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-05T14:52:17.889+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 7,
+              "created_at": "2021-02-05T14:52:17.882+01:00",
+              "updated_at": "2021-02-05T15:00:31.870+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "12",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "12",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "3",
+          "type": "user",
+          "attributes": {
+              "admin": false,
+              "display_name": "Testuser",
+              "created_at": "2021-02-02T15:19:06.218+01:00",
+              "updated_at": "2021-02-08T14:59:54.807+01:00",
+              "avatar": null
+          },
+          "relationships": {
+              "thredded_user_detail": {
+                  "data": {
+                      "id": "2",
+                      "type": "thredded_user_detail"
+                  }
+              },
+              "thredded_main_badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "29",
+          "type": "topic",
+          "attributes": {
+              "title": "Mein erstes Thema!!",
+              "slug": "mein-erstes-thema",
+              "posts_count": 2,
+              "sticky": false,
+              "locked": true,
+              "hash_id": "20bfa322b8d973eea484",
+              "moderation_state": "approved",
+              "last_post_at": "2021-02-04T18:31:25.552+01:00",
+              "type": "Thredded::TopicDefault",
+              "video_url": null,
+              "view_count": 9,
+              "created_at": "2021-02-04T11:00:10.067+01:00",
+              "updated_at": "2021-02-04T18:31:28.902+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "3",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": []
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      }
+  ]
+}
