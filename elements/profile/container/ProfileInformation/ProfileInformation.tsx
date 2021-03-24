@@ -24,10 +24,13 @@ import {
   SocialNetworkLink,
   Username,
 } from './ProfileInformation.styles';
+import ITopic from '../../../../models/ITopic';
+import PersonalMovies from '../PersonalMovies/PersonalMovies';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
+  movies: ITopic[],
   onEditAvatar: () => void,
   onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
@@ -35,11 +38,11 @@ interface ProfileCardProps {
 const ProfileInformation = ({
   user,
   userDetail,
+  movies,
   onEditAvatar,
   onUpdateUser,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
-
   const contentItems: {
     name: string,
     content: ReactNode,
@@ -56,9 +59,11 @@ const ProfileInformation = ({
   {
     name: 'Filme',
     content: (
-      <>
-        <p>Hier könnten ihre Filme stehen</p>
-      </>
+      <PersonalMovies
+        creator={user.attributes.display_name}
+        movies={movies}
+      />
+
     ),
   }];
 

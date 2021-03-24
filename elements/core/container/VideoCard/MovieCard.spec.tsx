@@ -4,13 +4,14 @@ import { ThemeProvider } from 'styled-components';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import main from '../../../../themes/main';
-import VideoCard from './VideoCard';
+import MovieCard from './MovieCard';
 import {
   Card, CreatedAt, Creator, VideoTitle,
-} from './VideoCard.styles';
+} from './MovieCard.styles';
 import Tag from '../../components/Tag/Tag';
 
 const videoProps: { [key: string]: any } = {
+  id: '1',
   title: 'Testtitel',
   videoURL: 'https://www.youtube.com/watch?v=gf7BG23vK7c',
   creator: 'BrickBoard',
@@ -69,7 +70,8 @@ describe('Render Card Component', async () => {
   it('renders correctly', () => {
     const card = mount((
       <ThemeProvider theme={main}>
-        <VideoCard
+        <MovieCard
+          id={videoProps.id}
           title={videoProps.title}
           videoURL={videoProps.videoURL}
           creator={videoProps.creator}
@@ -92,7 +94,8 @@ describe('Render Card Component', async () => {
   it('renders correctly without videoURL', () => {
     const card = mount((
       <ThemeProvider theme={main}>
-        <VideoCard
+        <MovieCard
+          id={videoProps.id}
           title={videoProps.title}
           creator={videoProps.creator}
           created_at={videoProps.created_at}

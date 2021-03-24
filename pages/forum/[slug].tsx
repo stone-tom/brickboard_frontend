@@ -93,7 +93,7 @@ function Subforum({
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
-          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+          <Breadcrumbsbar slug={slug} messageboardname={slug} />
           <h1>Dieses Board hat leider noch keine Themen...</h1>
           {isAuthenticated && (
             <FlexRight>

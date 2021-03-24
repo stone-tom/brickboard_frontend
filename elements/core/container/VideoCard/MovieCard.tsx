@@ -9,31 +9,33 @@ import {
   CreatedAt,
   CreatorInformation,
   CategoryWrapper,
-} from './VideoCard.styles';
+} from './MovieCard.styles';
 import Tag from '../../components/Tag/Tag';
 import ICategory from '../../../../models/ICategory';
 
-interface VideoCardProps {
+interface MovieCardProps {
   title: string,
   videoURL?: string,
   creator: string,
   created_at: string,
   categories: ICategory[]
+  id: string,
 }
 
-const VideoCard = ({
+const MovieCard = ({
   title,
   videoURL,
   creator,
   created_at,
   categories,
-}: VideoCardProps) => {
+  id,
+}: MovieCardProps) => {
   const getYouTubeId = (url: string) => {
     const result = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
     return (result[2] !== undefined) ? result[2].split(/[^0-9a-z_-]/i)[0] : result[0];
   };
   return (
-    <Link href="/">
+    <Link href={`/forum/filmvorstellungen/${id}`}>
       <Card>
         <Image
           layout="fill"
@@ -64,4 +66,4 @@ const VideoCard = ({
   );
 };
 
-export default VideoCard;
+export default MovieCard;

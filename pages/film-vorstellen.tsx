@@ -1,5 +1,5 @@
 import React from 'react';
-import VideoCard from '../elements/core/container/VideoCard/VideoCard';
+import MovieCard from '../elements/core/container/MovieCard/MovieCard';
 import ICategory from '../models/ICategory';
 
 const categories: ICategory[] = [
@@ -52,7 +52,7 @@ const categories: ICategory[] = [
 ];
 
 const PresentMovie = () => (
-  <VideoCard
+  <MovieCard
     created_at="2021-02-02T15:05:48.632+01:00"
     creator="Test Creator"
     title="Title"

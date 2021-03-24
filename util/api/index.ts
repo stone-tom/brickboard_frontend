@@ -15,7 +15,7 @@ import resetPassword from './authentication/reset-password';
 import updateTopic from './topic/update-topic';
 import banPost from './post/ban-post';
 
-export const backendURL = 'https://dev.brickboard.de';
+export const backendURL = 'https://brickboard.herokuapp.com';
 
 export {
   getMessageBoardGroups,
