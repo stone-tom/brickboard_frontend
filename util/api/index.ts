@@ -18,6 +18,8 @@ import getNews from './news/get-news';
 import createNews from './news/create-news';
 import deleteNews from './news/delete-news';
 import updateNews from './news/update-news';
+import getEvents from './events/get-events';
+import getLandingPage from './landingpage/get-landing-page';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
 
@@ -42,4 +44,6 @@ export {
   createNews,
   deleteNews,
   updateNews,
+  getEvents,
+  getLandingPage,
 };

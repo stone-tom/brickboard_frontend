@@ -134,12 +134,17 @@ export const ViewWrapper = styled.div <{
   center?: boolean,
   fullHeight?: boolean,
   column?: boolean,
+  dark?: boolean,
 }>`
   
   ${(props) => props.center && css`
     display: flex;
     justify-content: center;
     align-items: center;
+  `}
+
+  ${(props) => props.dark && css`
+    background-color: ${props.theme.gray};
   `}
 
   ${(props) => props.column && css`
@@ -169,6 +174,11 @@ export const Hint = styled.p`
 export const FlexRight = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+export const FlexLeft = styled.div`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 export const FlexBetween = styled.div`

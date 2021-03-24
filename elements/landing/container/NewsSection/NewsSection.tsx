@@ -49,7 +49,7 @@ const NewsSection = ({ newsList } : NewsSectionProps) => {
       <NewsListing>
         {newsList.map((news: INewsItem) => <NewsItem bordered={news.id === activeNews.id} key={`news_${news.id}`} newsitem={news} author={demoUser} onClick={() => changeActiveNews(news)} />)}
         <AllNewsItem>
-          <Link href="./news" passHref>
+          <Link href="./news">
             <Button reset>
               Alle News anzeigen
             </Button>

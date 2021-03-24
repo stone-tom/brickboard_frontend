@@ -9,7 +9,7 @@ export const FooterWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 1170px;
+  max-width: ${(props) => props.theme.max_container_width};
   margin: 0 auto;
   padding: 20px 15px;
 `;

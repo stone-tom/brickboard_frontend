@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const NewsSectionWrapper = styled.section`
   display: flex;
   min-height: 80vh;
+  max-width: 1920px;
+  margin: 0 auto;
 
   @media (max-width: 880px){
     flex-wrap: wrap;

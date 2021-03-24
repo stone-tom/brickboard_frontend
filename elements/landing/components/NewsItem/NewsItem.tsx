@@ -46,7 +46,7 @@ const NewsItem = ({
         <NewsItemButtonFloat>
           {newsitem.attributes.url && !newsitem.attributes.topic_url && (
           <ExternalLink href="">Zur Seite</ExternalLink>)}
-          {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`} passHref><Button>Zum Beitrag</Button></Link>}
+          {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`}><Button>Zum Beitrag</Button></Link>}
         </NewsItemButtonFloat>
       </BigNewsItemWrapper>
     );
