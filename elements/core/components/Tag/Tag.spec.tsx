@@ -16,7 +16,7 @@ test('renders tag with name correctly', async () => {
 });
 
 test('renders tag with icon correctly', async () => {
-  const icon = '<svg role="graphics-document" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M24 24H0V0h24v24z" fill="none"/><circle fill="currentColor" cx="12" cy="12" r="8"/></svg>';
+  const icon = '/assets/images/vercel.svg';
   render(
     <ThemeProvider theme={main}>
       <Tag name="Action" icon={icon} />
@@ -24,7 +24,7 @@ test('renders tag with icon correctly', async () => {
   );
 
   const tag = await screen.findByTestId('tag');
-  const svg = await screen.findByRole('graphics-document');
+  const svg = await screen.findByTestId('tag_icon');
   expect(tag).toBeTruthy();
   expect(svg).toBeTruthy();
 });

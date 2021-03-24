@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import {
   TagWrapper,
@@ -13,7 +14,9 @@ const Tag = ({
   icon,
 }: TagProps) => (
   <TagWrapper data-testid="tag">
-    {icon ? <div dangerouslySetInnerHTML={{ __html: icon }} /> : name}
+    {icon ? (
+      <Image data-testid="tag_icon" src={icon} width="18px" height="18px" />
+    ) : name}
   </TagWrapper>
 );
 /* eslint-enable react/no-danger */
