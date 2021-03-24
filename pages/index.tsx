@@ -150,20 +150,21 @@ interface LandingPageProps{
 
 function Home({ content } : LandingPageProps) {
   const eventList = content.current_events.data;
+  const newsList = content.latest_new.data;
   console.log("CURRENT EVENTS", eventList);
   const { isAuthenticated, user } = useStoreState();
   return (
     <>
       <Layout title="Brickboard 2.0" fullWidth>
         <ViewWrapper dark fullWidth>
-          <NewsSection newsList={demoNews} />
+          <NewsSection newsList={newsList} />
         </ViewWrapper>
         <ViewWrapper>
 
           <h1>Willkommen auf der Baustelle des Brickboard`s (2.0).</h1>
           <p>Das Forum und die Profile sind jedoch schon voll funktionsfähig!</p>
           <Link href="/forum">Zum Forum</Link>
-          <EventCalendar eventList={eventList} />
+          <EventCal3endar eventList={eventList} />
         </ViewWrapper>
       </Layout>
     </>

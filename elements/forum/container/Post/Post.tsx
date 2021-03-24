@@ -93,8 +93,8 @@ const PostComponent = ({
                 && moderation_state === 'approved' && (
                   <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                     {!isEditing
-                      ? <Hint direction="down" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
-                      : <Hint direction="down" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
+                      ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
+                      : <Hint place="bottom" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
                   </Button>
                 )}
               </>

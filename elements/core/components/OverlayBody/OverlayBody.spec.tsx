@@ -1,11 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import OverlayBody from '../elements/core/components/OverlayBody/OverlayBody';
+import main from '../../../../themes/main';
+import OverlayBody from './OverlayBody';
 
 describe('Render OverlayBody Component with children', () => {
-
   it('renders correctly', () => {
     const overlayBody = mount((
       <ThemeProvider theme={main}>

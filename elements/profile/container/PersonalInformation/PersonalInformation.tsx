@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { isEqual } from 'lodash';
 import {
@@ -98,10 +98,16 @@ const PersonalInformation = ({
   onUpdateUserDetail,
 }: PersonInformationProps) => {
   const [newContent, setNewContent] = useState<IUserDetail>(userDetail);
+
+  useEffect(() => {
+    setNewContent(userDetail);
+  }, [userDetail]);
+
   const content = useMemo(() => ({
     ...user.attributes,
     ...newContent.attributes,
-  }), [user, newContent]);
+  }
+  ), [user, newContent]);
 
   const handleChange = (newValue: string, key: string) => {
     setNewContent({
