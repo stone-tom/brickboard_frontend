@@ -1,20 +1,28 @@
 import React, { ReactNode } from 'react';
-import { HintSpan } from './Hint.styled';
+import ReactTooltip from 'react-tooltip';
 
-interface IconInterface {
-  children?: ReactNode,
+interface HintProps {
+  children: ReactNode,
   hint: string,
-  direction?: 'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-roght' | 'down-left' | 'down-right',
+  type?: 'dark' | 'success' | 'warning' | 'error' | 'info' | 'light',
+  place?: 'top' | 'right' | 'bottom' | 'left',
+  effect?: 'float' | 'solid',
 }
 
-const HintComponent = (({
+const Hint = (({
   children,
   hint,
-  direction = 'up',
-}: IconInterface) => (
-  <HintSpan aria-label={hint} data-balloon-pos={direction}>
-    {children}
-  </HintSpan>
+  place = 'top',
+  type = 'dark',
+  effect = 'float',
+  ...rest
+}: HintProps) => (
+  <>
+    <p data-tip={hint} aria-label={hint}>
+      {children}
+    </p>
+    <ReactTooltip place={place} type={type} effect={effect} {...rest} />
+  </>
 ));
 
-export default HintComponent;
+export default Hint;

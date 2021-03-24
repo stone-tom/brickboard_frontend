@@ -1,16 +1,15 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import Table from '../elements/core/components/Table/Table';
-import { TableSortButton, TableRow } from '../elements/core/components/Table/Table.styles';
 import { act } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
+import main from '../../../../themes/main';
+import Table, { Row, SortingFunction } from './Table';
+import { TableSortButton, TableRow } from './Table.styles';
 
 describe('Render Table Component', () => {
-
   it('renders correctly', () => {
     const headerItems = ['Typ', 'Titel', 'Vorname', 'Nachname', 'Benutzername', 'Telefonnummer', 'Email', ''];
-    const values = [['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', <button type="button">Test</button>], ['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', <button type="button">Test</button>], ['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', <button type="button">Test</button>]];
+    const values: Row[][] = [['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', [<button type="button">Test</button>, '']], ['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', [<button type="button">Test</button>, '']], ['admin', 'Ing', 'Max', 'Mustermann', 'mm5484', '06648648221', 'email@test.at', [<button type="button">Test</button>, '']]];
     const table = mount((
       <ThemeProvider theme={main}>
         <Table headerItems={headerItems} values={values} />
@@ -31,11 +30,11 @@ describe('Render Table Component', () => {
   });
 
   it('sorts correctly', () => {
-    const customSort = (a, b) => {
+    const customSort = (a: any, b: any) => {
       if (a === 'a' && b === 'b') return 1;
       if (a === 'b' && b === 'a') return -1;
-      return 0;
-    }
+      return [0];
+    };
     const headerItems = ['header1', 'header2', 'header3'];
     const values = [
       ['z', 1, 'a'],
@@ -43,7 +42,7 @@ describe('Render Table Component', () => {
       ['b', 100, 'b'],
       ['x', 3, 'a'],
     ];
-    const sorting = ['string', 'number', customSort];
+    const sorting = ['string', 'number', customSort] as ('string' | 'number' | SortingFunction | null)[];
 
     const table = mount((
       <ThemeProvider theme={main}>
@@ -56,7 +55,7 @@ describe('Render Table Component', () => {
     ));
 
     expect(table.find(TableSortButton).length).toBe(3);
-    
+
     // check first button all direction and reset
     act(() => {
       table.find(TableSortButton).first().find('button').simulate('click');
@@ -144,12 +143,10 @@ describe('Render Table Component', () => {
   });
 
   it('applies row modifier', () => {
-    const rowModifier = jest.fn((row) => {
-      return {
-        test: row[0],
-        conditional: row[0] === 'a'
-      }
-    });
+    const rowModifier = jest.fn((row) => ({
+      test: row[0],
+      conditional: row[0] === 'a',
+    }));
 
     const headerItems = ['header1', 'header2', 'header3'];
     const values = [
@@ -179,5 +176,5 @@ describe('Render Table Component', () => {
     expect(table.find(TableRow).at(2).prop('conditional')).toBeTruthy();
     expect(table.find(TableRow).at(3).prop('conditional')).toBeFalsy();
     expect(table.find(TableRow).at(4).prop('conditional')).toBeFalsy();
-  })
+  });
 });

@@ -14,9 +14,9 @@ import {
 
 export type Row = (number | undefined | string | null | [ReactNode | JSX.Element, string]);
 
-type SortingValue = number | undefined | string | null;
+export type SortingValue = number | undefined | string | null;
 
-type SortingFunction = (a: SortingValue, b: SortingValue) => number;
+export type SortingFunction = (a: SortingValue, b: SortingValue) => number;
 
 const defaultRowModifier = () => ({});
 interface TableProps {

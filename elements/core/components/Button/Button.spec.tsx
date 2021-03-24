@@ -1,11 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
-import main from '../themes/main';
-import Button from '../elements/core/components/Button/Button';
+import main from '../../../../themes/main';
+import Button from './Button';
 
 describe('Render Button Component', () => {
-
   it('renders correctly', () => {
     const button = mount((
       <ThemeProvider theme={main}>
@@ -16,9 +15,8 @@ describe('Render Button Component', () => {
     expect(button.find(Button).length).toBe(1);
     expect(button.find(Button).children().text()).toBe('Button');
     expect(button.find(Button).props().disabled).toBe(undefined);
-
   });
-  
+
   it('renders disabled button correctly', () => {
     const buttonDisabled = mount((
       <ThemeProvider theme={main}>

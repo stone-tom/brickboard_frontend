@@ -24,6 +24,7 @@ import {
   SocialNetworkLink,
   Username,
 } from './ProfileInformation.styles';
+import Hint from '../../../core/components/Hint/Hint';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -83,9 +84,11 @@ const ProfileInformation = ({
             )}
           </Avatar>
         </AvatarWrapper>
-        <Username>
-          {user.attributes.display_name}
-        </Username>
+        <Hint hint="Test">
+          <Username>
+            {user.attributes.display_name}
+          </Username>
+        </Hint>
         <BadgeWrapper>
           <Badge icon={faCertificate} />
           <BadgeTitle>Alter Hase</BadgeTitle>
