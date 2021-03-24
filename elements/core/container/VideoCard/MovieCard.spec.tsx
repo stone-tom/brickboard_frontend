@@ -82,13 +82,13 @@ describe('Render Card Component', async () => {
     ));
 
     expect(card.find(Card).length).toBe(1);
-    expect(card.find(Image).length).toBe(1);
+    expect(card.find(Image).length).toBe(2);
     expect(card.find(Tag).length).toBe(2);
     expect(card.find(Tag).at(1).text()).toBe('Thriller');
     expect(card.find(VideoTitle).text()).toBe(videoProps.title);
     expect(card.find(Creator).text()).toBe(videoProps.creator);
     expect(card.find(CreatedAt).text()).toBe(format(new Date(videoProps.created_at), 'dd.MM.yyyy'));
-    expect(card.find(Image).prop('src')).toBe('https://img.youtube.com/vi/gf7BG23vK7c/0.jpg');
+    expect(card.find(Image).first().prop('src')).toBe('https://img.youtube.com/vi/gf7BG23vK7c/0.jpg');
   });
 
   it('renders correctly without videoURL', () => {
@@ -105,12 +105,12 @@ describe('Render Card Component', async () => {
     ));
 
     expect(card.find(Card).length).toBe(1);
-    expect(card.find(Image).length).toBe(1);
+    expect(card.find(Image).length).toBe(2);
     expect(card.find(VideoTitle).text()).toBe(videoProps.title);
     expect(card.find(Tag).length).toBe(2);
     expect(card.find(Tag).at(1).text()).toBe('Thriller');
     expect(card.find(Creator).text()).toBe(videoProps.creator);
     expect(card.find(CreatedAt).text()).toBe(format(new Date(videoProps.created_at), 'dd.MM.yyyy'));
-    expect(card.find(Image).prop('src')).toBe('/assets/images/default_thumbnail.png');
+    expect(card.find(Image).first().prop('src')).toBe('/assets/images/default_thumbnail.png');
   });
 });

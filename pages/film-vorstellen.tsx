@@ -13,7 +13,7 @@ const categories: ICategory[] = [
       position: 0,
       created_at: '2021-03-23T21:13:14.907+01:00',
       updated_at: '2021-03-23T21:13:14.907+01:00',
-      category_icon: '<svg xmlns="http://www.w3.org/2000/svg" height="12" viewBox="0 0 24 24" width="12"><path d="M24 24H0V0h24v24z" fill="none"/><circle fill="currentColor" cx="12" cy="12" r="8"/></svg>',
+      category_icon: '/assets/images/vercel.svg',
     },
     relationships: {
       topics: {
