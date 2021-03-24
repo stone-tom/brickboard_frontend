@@ -36,3 +36,5 @@ export const VideoTitle = styled.p`
   width: 100%;
   background: linear-gradient(to bottom, #000, rgba(0,0,0,0));
 `;
+
+export const CategoryWrapper = styled.div``;

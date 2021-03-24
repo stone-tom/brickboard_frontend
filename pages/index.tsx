@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useStoreState } from '../context/custom_store';
 import Layout from '../elements/core/container/Layout/Layout';
 import { ViewWrapper } from '../styles/global.styles';
+import VideoCard from '../elements/core/container/VideoCard/VideoCard';
 
 function Home() {
   const { isAuthenticated, user } = useStoreState();

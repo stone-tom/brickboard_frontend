@@ -24,8 +24,6 @@ import {
   SocialNetworkLink,
   Username,
 } from './ProfileInformation.styles';
-import Hint from '../../../core/components/Hint/Hint';
-import VideoCard from '../../../core/container/VideoCard/VideoCard';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -60,11 +58,6 @@ const ProfileInformation = ({
     content: (
       <>
         <p>Hier könnten ihre Filme stehen</p>
-        <VideoCard
-          created_at="2021-02-02T15:05:48.632+01:00"
-          creator="Test Creator"
-          title="Title"
-        />
       </>
     ),
   }];
