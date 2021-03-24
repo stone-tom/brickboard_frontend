@@ -7,7 +7,7 @@ interface TagProps {
   name: string
   icon?: string,
 }
-
+/* eslint-disable react/no-danger */
 const Tag = ({
   name,
   icon,
@@ -16,5 +16,6 @@ const Tag = ({
     {icon ? <div dangerouslySetInnerHTML={{ __html: icon }} /> : name}
   </TagWrapper>
 );
+/* eslint-enable react/no-danger */
 
 export default Tag;
