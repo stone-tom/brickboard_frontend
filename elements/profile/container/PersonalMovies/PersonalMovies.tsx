@@ -1,6 +1,6 @@
 import React from 'react';
 import ITopic from '../../../../models/ITopic';
-import MovieCard from '../../../core/container/VideoCard/MovieCard';
+import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { PersonalInformationWrapper } from '../PersonalInformation/PersonalInformation.styles';
 import {
   MovieWrapper,
