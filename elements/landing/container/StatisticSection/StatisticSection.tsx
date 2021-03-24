@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import Counter from '../../../core/components/Counter/Counter';
 import {
   StatisticsHeader,
   StatisticsHeading,
@@ -25,17 +26,17 @@ const StatisticSection = ({ user_count, topic_count, movie_count }: StatisticSec
     </StatisticsHeader>
     <StatsItem>
       <Image src="/assets/images/blog.svg" width="100" height="100" />
-      <Statsnumber>{topic_count}</Statsnumber>
+      <Statsnumber><Counter end={topic_count} /></Statsnumber>
       <StatsDescription>Beiträge</StatsDescription>
     </StatsItem>
     <StatsItem>
       <Image src="/assets/images/camera.svg" width="100" height="100" />
-      <Statsnumber>{movie_count}</Statsnumber>
+      <Statsnumber><Counter end={movie_count} /></Statsnumber>
       <StatsDescription>Filme</StatsDescription>
     </StatsItem>
     <StatsItem>
       <Image src="/assets/images/lego.svg" width="100" height="100" />
-      <Statsnumber>{user_count}</Statsnumber>
+      <Statsnumber><Counter end={user_count} /></Statsnumber>
       <StatsDescription>Nutzer</StatsDescription>
     </StatsItem>
   </StatisticsWrapper>

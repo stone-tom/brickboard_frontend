@@ -5,6 +5,11 @@ export const NewsItemWrapper = styled.li`
   width: 100%;
   height: 30%;
   box-shadow: 0 0 10px ${(props) => props.theme.darkgray};
+
+  ${(props) => props.active && css`
+    border-color: ${props.theme.brickred};
+  `}
+
   cursor: pointer;
   @media (max-width: 880px){
     width: 33%;
