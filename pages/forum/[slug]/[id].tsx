@@ -352,7 +352,6 @@ function Subforum({
       </Layout>
     );
   }
-
   return (
     <Layout
       title={`${topic.attributes.title} - Brickboard 2.0`}
@@ -440,7 +439,6 @@ function Subforum({
         )}
 
         {posts.map((post: IPost, index) => (
-
           <Post
             onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
             post={post}
@@ -449,6 +447,8 @@ function Subforum({
             messageBoardSlug={slug}
             author={findObject(userList, post.relationships.user.data.id)}
             key={post.id}
+            slug={slug}
+            videoURL={topic.attributes.video_url}
           />
         ))}
 

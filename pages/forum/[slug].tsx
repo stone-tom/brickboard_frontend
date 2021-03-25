@@ -19,6 +19,7 @@ import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
 import Hint from '../../elements/core/components/Hint/Hint';
+import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -93,7 +94,7 @@ function Subforum({
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
-          <Breadcrumbsbar slug={slug} messageboardname={slug} />
+          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
           <h1>Dieses Board hat leider noch keine Themen...</h1>
           {isAuthenticated && (
             <FlexRight>
@@ -107,13 +108,27 @@ function Subforum({
     );
   }
 
+  if (slug === 'filmvorstellungen') {
+    return (
+      <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
+        <ViewWrapper>
+          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+          <ForumHeading title={`${messageboard.attributes.name}`} />
+          <MoviePresentations
+            movies={topicList}
+            users={userList}
+          />
+        </ViewWrapper>
+      </Layout>
+    );
+  }
+
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
         <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
 
         <ForumHeading title={`${messageboard.attributes.name}`} />
-
         {topicViews.map((topicView) => {
           const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
           const author: IUser = findObject(userList, topic.relationships.user.data.id);

@@ -39,6 +39,8 @@ interface PostProps {
   topicTitle?: string,
   author: IUser,
   onPostUpdated?: any;
+  slug?: string,
+  videoURL?: string,
 }
 
 const PostComponent = ({
@@ -48,6 +50,8 @@ const PostComponent = ({
   author,
   topicTitle,
   onPostUpdated,
+  slug,
+  videoURL,
 }: PostProps) => {
   const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
@@ -90,12 +94,12 @@ const PostComponent = ({
             {user && (
               <>
                 {user.attributes.display_name === author.attributes.display_name
-                && moderation_state === 'approved' && (
-                  <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
-                    {!isEditing
-                      ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
-                      : <Hint place="bottom" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
-                  </Button>
+                  && moderation_state === 'approved' && (
+                    <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
+                      {!isEditing
+                        ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
+                        : <Hint place="bottom" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
+                    </Button>
                 )}
               </>
             )}
@@ -111,6 +115,16 @@ const PostComponent = ({
             />
           )
           : <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />}
+        {slug === 'filmvorstellungen' && (
+          <iframe
+            title="Youtube Video"
+            id="ytplayer"
+            width="640"
+            height="360"
+            src={videoURL.replace('watch', 'embed')}
+            frameBorder="0"
+          />
+        )}
       </PostDetails>
     </Post>
   );

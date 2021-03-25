@@ -1,0 +1,108 @@
+{
+  "data": [
+      {
+          "id": "65",
+          "type": "topic",
+          "attributes": {
+              "title": "Testfilm",
+              "slug": "testfilm",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": false,
+              "hash_id": "8406beb9b0cf93a3ac70",
+              "moderation_state": "approved",
+              "last_post_at": "2021-03-24T18:20:20.026+01:00",
+              "type": "Thredded::TopicMovie",
+              "video_url": "https://www.youtube.com/watch?v=Y4hPiTiDXQI",
+              "view_count": 7,
+              "created_at": "2021-03-24T18:20:20.018+01:00",
+              "updated_at": "2021-03-24T18:20:20.097+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": [
+                      {
+                          "id": "1",
+                          "type": "category"
+                      },
+                      {
+                          "id": "2",
+                          "type": "category"
+                      }
+                  ]
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      },
+      {
+          "id": "67",
+          "type": "topic",
+          "attributes": {
+              "title": "Thriller Film",
+              "slug": "thriller-film",
+              "posts_count": 1,
+              "sticky": false,
+              "locked": false,
+              "hash_id": "235d65c44b2443d3aef5",
+              "moderation_state": "approved",
+              "last_post_at": "2021-03-25T00:36:51.473+01:00",
+              "type": "Thredded::TopicMovie",
+              "video_url": "https://www.youtube.com/watch?v=Y4hPiTiDXQI",
+              "view_count": 0,
+              "created_at": "2021-03-25T00:36:51.467+01:00",
+              "updated_at": "2021-03-25T00:36:51.518+01:00"
+          },
+          "relationships": {
+              "messageboard": {
+                  "data": {
+                      "id": "5",
+                      "type": "messageboard"
+                  }
+              },
+              "user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "last_user": {
+                  "data": {
+                      "id": "1",
+                      "type": "user"
+                  }
+              },
+              "categories": {
+                  "data": [
+                      {
+                          "id": "1",
+                          "type": "category"
+                      }
+                  ]
+              },
+              "badge": {
+                  "data": null
+              }
+          }
+      }
+  ]
+}

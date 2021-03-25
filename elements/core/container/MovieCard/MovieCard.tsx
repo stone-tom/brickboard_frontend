@@ -36,7 +36,7 @@ const MovieCard = ({
   };
   return (
     <Link href={`/forum/filmvorstellungen/${id}`}>
-      <Card>
+      <Card data-testid="movie_card">
         <Image
           layout="fill"
           objectFit="cover"
@@ -55,6 +55,7 @@ const MovieCard = ({
           <CategoryWrapper>
             {categories.map((category) => (
               <Tag
+                key={category.attributes.name}
                 name={category.attributes.name}
                 icon={category.attributes.category_icon}
               />
