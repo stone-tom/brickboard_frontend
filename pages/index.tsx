@@ -8,6 +8,8 @@ import { getLandingPage } from '../util/api';
 import StatisticSection from '../elements/landing/container/StatisticSection/StatisticSection';
 import filter from '../util/filter';
 import NewMemberSection from '../elements/landing/container/NewMemberSection/NewMemberSection';
+import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShowcase';
+import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const { content } = await getLandingPage();
@@ -33,6 +35,11 @@ function Home({ content }: LandingPageProps) {
   const eventList = content.current_events.data;
   const newsList = content.latest_news.data;
   const newsAuthors = filter(content.latest_news, 'user');
+  const movieList = content.random_movies.data;
+  const movieAuthors = filter(content.random_movies, 'user');
+  const movieCategories = filter(content.random_movies, 'category');
+  const randomUsers = content.random_users.data;
+  const randomUsersDetails = filter(content.random_users, 'thredded_user_show_detail');
   return (
     <>
       <Layout title="Startseite - Willkommen beim Brickboard 2.0" fullWidth>
@@ -51,6 +58,14 @@ function Home({ content }: LandingPageProps) {
             memberdetails={content.latest_user.included[0]}
           />
         )}
+        <ViewWrapper small>
+          {/* <VideoShowcase
+            movieList={movieList}
+            authorList={movieAuthors}
+            categories={movieCategories}
+          /> */}
+        </ViewWrapper>
+        <CommunitySection users={randomUsers} userDetails={randomUsersDetails} />
         <StatisticSection
           movie_count={content.movie_count}
           topic_count={content.topic_count}
