@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import useSWR from 'swr';
 import { Params } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
 import { ViewWrapper } from '../../../styles/global.styles';
 import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import Layout from '../../../elements/core/container/Layout/Layout';
-import Editor from '../../../elements/core/container/Editor/Editor';
 import filterContent from '../../../util/filter';
 import { createTopic, getMessageBoardGroups } from '../../../util/api';
 import { MessageType } from '../../../models/IMessage';
-import PresentMovieForm from '../../../elements/forum/container/PresentMovieForm/PresentMovieForm';
+import PresentMovieForm, { ICreateTopic } from '../../../elements/forum/container/PresentMovieForm/PresentMovieForm';
 import getCategories from '../../../util/api/topic/get-categories';
-import useSWR from 'swr';
 import { get } from '../../../util/methods';
+import PostForm from '../../../elements/forum/container/PostForm/PostForm';
+import ICategory from '../../../models/ICategory';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -73,8 +74,8 @@ function NeuesThema({
   const { setMessage } = useStoreDispatch();
   const router = useRouter();
 
-  const submitTopic = async (title: string, editorContent: any) => {
-    const { content, error } = await createTopic(slug, title, editorContent);
+  const submitTopic = async (values: ICreateTopic) => {
+    const { content, error } = await createTopic(slug, values);
     if (error) {
       setMessage({
         content: `Fehler beim absenden: ${error.message}`,
@@ -82,6 +83,10 @@ function NeuesThema({
       });
     }
     if (content) {
+      setMessage({
+        content: 'Dein Thema wurde erfolgreich erstellt',
+        type: MessageType.success,
+      });
       router.push(`../${slug}`);
     }
   };
@@ -101,12 +106,16 @@ function NeuesThema({
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
       <ViewWrapper>
         {slug !== 'filmvorstellungen' ? (
-          <Editor
-            onEditorSubmit={({ title, editorContent }) => submitTopic(title, editorContent)}
+          <PostForm
+            onEditorSubmit={({ title, editorContent }) => submitTopic({
+              title,
+              content: editorContent,
+            })}
           />
         ) : (
           <PresentMovieForm
-            categories={data.data.map((item) => item)}
+            categories={data.data.map((item: ICategory) => item)}
+            onSubmit={(movieValues) => submitTopic(movieValues)}
           />
         )}
       </ViewWrapper>

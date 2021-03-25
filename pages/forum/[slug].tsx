@@ -118,6 +118,22 @@ function Subforum({
             movies={topicList}
             users={userList}
           />
+          {isAuthenticated && (
+            <FlexRight>
+              <Link href={`./${slug}/neues-thema`} passHref>
+                <Button disabled={moderation_state === 'blocked'}>
+                  {moderation_state !== 'approved' ? (
+                    <Hint hint="Dein Konto ist nicht freigeschalten">
+                      Thema erstellen
+                    </Hint>
+                  )
+                    : (
+                      'Thema erstellen'
+                    )}
+                </Button>
+              </Link>
+            </FlexRight>
+          )}
         </ViewWrapper>
       </Layout>
     );

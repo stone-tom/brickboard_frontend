@@ -6,7 +6,6 @@ import {
 } from './Post.styles';
 import ProfileAside from '../../components/ProfileAside/ProfileAside';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
-import Editor from '../../../core/container/Editor/Editor';
 import updatePost from '../../../../util/api/post/update-post';
 import { MessageType } from '../../../../models/IMessage';
 import Icon from '../../../core/components/Icon/Icon';
@@ -15,6 +14,7 @@ import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
 import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
+import PostForm from '../../container/PostForm/PostForm';
 
 // enum IconType {
 //   Standard,
@@ -111,7 +111,7 @@ const PostComponent = ({
         <PostDate>{format(new Date(post.attributes.created_at), 'dd.MM.yyyy, HH:mm ')}</PostDate>
         {isEditing
           ? (
-            <Editor
+            <PostForm
               onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
               answer
               initialContent={postContent}

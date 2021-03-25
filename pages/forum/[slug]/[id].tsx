@@ -32,7 +32,6 @@ import {
   markTopicAsRead,
   updateTopic,
 } from '../../../util/api';
-import Editor from '../../../elements/core/container/Editor/Editor';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
 import Button from '../../../elements/core/components/Button/Button';
 import { MessageType } from '../../../models/IMessage';
@@ -45,6 +44,7 @@ import ITopic from '../../../models/ITopic';
 import IMessageboard from '../../../models/IMessageboard';
 import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/components/TopicItem/TopicItem.styles';
 import Prompt from '../../../elements/core/container/Prompt/Prompt';
+import PostForm from '../../../elements/forum/container/PostForm/PostForm';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -460,7 +460,7 @@ function Subforum({
               </Button>
             </FlexRight>
             {editorActive && (
-              <Editor answer onEditorSubmit={({ editorContent }) => submitTopic(editorContent)} />
+              <PostForm answer onEditorSubmit={({ editorContent }) => submitTopic(editorContent)} />
             )}
           </EditorContainer>
         )}
