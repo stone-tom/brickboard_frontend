@@ -24,7 +24,6 @@ import {
   SocialNetworkLink,
   Username,
 } from './ProfileInformation.styles';
-import Hint from '../../../core/components/Hint/Hint';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -57,7 +56,9 @@ const ProfileInformation = ({
   {
     name: 'Filme',
     content: (
-      <p>Hier könnten ihre Filme stehen</p>
+      <>
+        <p>Hier könnten ihre Filme stehen</p>
+      </>
     ),
   }];
 
@@ -84,11 +85,9 @@ const ProfileInformation = ({
             )}
           </Avatar>
         </AvatarWrapper>
-        <Hint hint="Test">
-          <Username>
-            {user.attributes.display_name}
-          </Username>
-        </Hint>
+        <Username>
+          {user.attributes.display_name}
+        </Username>
         <BadgeWrapper>
           <Badge icon={faCertificate} />
           <BadgeTitle>Alter Hase</BadgeTitle>

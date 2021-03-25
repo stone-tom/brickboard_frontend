@@ -23,7 +23,7 @@ import Restrictions from '../../config/file_upload_restrictions.json';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
-  const users = content.data;
+  const users = content.data || null;
 
   return {
     paths: users.map((user) => ({
