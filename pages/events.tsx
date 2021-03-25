@@ -125,7 +125,7 @@ const NewsPage = ({ content }: NewsProps) => {
             infoItem
             icon={faCalendar}
             title="Kommende Events"
-            short_description="Hier sind alle Events die in der nächsten zeit stattfinden!"
+            short_description="Hier sind alle Events die in der nächsten Zeit stattfinden!"
           />
           {upcomingEvents.map((eventItem: IEvent) => {
             if (eventItem !== null) {
