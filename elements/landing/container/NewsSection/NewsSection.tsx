@@ -10,6 +10,7 @@ import {
 } from './NewsSection.styles';
 import Button from '../../../core/components/Button/Button';
 import findObject from '../../../../util/finder';
+import { ViewWrapper } from '../../../../styles/global.styles';
 
 interface NewsSectionProps {
   newsList: INewsItem[];
@@ -26,11 +27,18 @@ const NewsSection = ({ newsList, authors }: NewsSectionProps) => {
   return (
     <NewsSectionWrapper>
       <ShowCase>
-        <NewsItem
-          newsitem={activeNews}
-          author={findObject(authors, activeNews.relationships.user.data.id)}
-          active
-        />
+        {activeNews ? (
+          <NewsItem
+            newsitem={activeNews}
+            author={findObject(authors, activeNews.relationships.user.data.id)}
+            active
+          />
+        ) : (
+          <ViewWrapper small center>
+            <h2>Noch keine News vorhanden</h2>
+          </ViewWrapper>
+        )}
+
       </ShowCase>
       <NewsListing>
         {newsList.map((news: INewsItem) => (

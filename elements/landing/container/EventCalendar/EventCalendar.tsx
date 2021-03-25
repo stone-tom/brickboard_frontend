@@ -48,22 +48,29 @@ const EventCalendar = ({ eventList }: EventCalendarProps) => {
       <EventCalendarHeading>
         Eventkalender
       </EventCalendarHeading>
-      <Slider {...settings}>
-        <EventItem
-          infoItem
-          title="Kommende Events"
-          short_description="Hier sind alle kommenden Events aus der Brickfilmwelt aufgelistet"
-        />
-        {eventList.map((eventItem: IEvent) => (
-          <EventItem
-            eventItem={eventItem}
-            key={`event_${eventItem.id}`}
-          />
-        ))}
-      </Slider>
-      <FlexRight>
-        <Link href="./events"><Button>Alle Events anzeigen</Button></Link>
-      </FlexRight>
+      {eventList.length > 0 ? (
+        <>
+          <Slider {...settings}>
+            <EventItem
+              infoItem
+              title="Kommende Events"
+              short_description="Hier sind alle kommenden Events aus der Brickfilmwelt aufgelistet"
+            />
+            {eventList.map((eventItem: IEvent) => (
+              <EventItem
+                eventItem={eventItem}
+                key={`event_${eventItem.id}`}
+              />
+            ))}
+          </Slider>
+          <FlexRight>
+            <Link href="./events"><Button>Alle Events anzeigen</Button></Link>
+          </FlexRight>
+        </>
+      ) : (
+        <p>Noch sind keine Events vorhanden</p>
+      )}
+
     </EventCalendarWrapper>
   );
 };
