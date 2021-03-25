@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Card = styled.div`
   position: relative;
-  height: 200px;
+  height: 169px;
   width: 300px;
   color: #fff;
   cursor: pointer;

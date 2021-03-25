@@ -14,6 +14,7 @@ import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
+import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
 
 // enum IconType {
 //   Standard,
@@ -81,6 +82,8 @@ const PostComponent = ({
     }
   };
 
+  console.log(videoURL.replace('watch', 'embed'));
+
   return (
     <Post role="article">
       <ProfileAside author={author} />
@@ -121,7 +124,7 @@ const PostComponent = ({
             id="ytplayer"
             width="640"
             height="360"
-            src={videoURL.replace('watch', 'embed')}
+            src={`https://www.youtube.com/embed/${getYouTubeId(videoURL)}`}
             frameBorder="0"
           />
         )}
