@@ -3,10 +3,15 @@ import styled, { css } from 'styled-components';
 export const EventItemWrapper = styled.div<{
   infoItem?: boolean,
   pastEvent?: boolean,
+  borderless?: boolean,
 }>`
   margin: 1rem;
   box-shadow: ${(props) => props.theme.boxShadow}; 
   
+  ${(props) => props.borderless && css`
+  margin: 0 2rem 0 2rem;
+  max-width: 300px;
+  `}
 
   ${(props) => props.infoItem && css`
     background-color: ${props.theme.gray};

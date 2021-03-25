@@ -5,6 +5,7 @@ export const ExternalLink = styled.a<{
   gray?: boolean,
   reset?: boolean,
   icon?: boolean,
+  disabled?: boolean,
 }>`
   background: ${(props) => props.theme.brickred};
   color: #fff;

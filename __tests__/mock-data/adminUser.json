@@ -1,0 +1,22 @@
+{
+  "id": "1",
+  "type": "user",
+  "attributes": {
+    "admin": true,
+    "display_name": "Admin",
+    "created_at": "2021-02-02T15:01:40.112+01:00",
+    "updated_at": "2021-03-25T17:06:55.942+01:00",
+    "avatar": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--304a9eadc909dc264fa75fbfbf49e3dcade5fb62/Untitled.jpg"
+  },
+  "relationships": {
+    "thredded_user_detail": {
+      "data": {
+        "id": "1",
+        "type": "thredded_user_detail"
+      }
+    },
+    "thredded_main_badge": {
+      "data": null
+    }
+  }
+}

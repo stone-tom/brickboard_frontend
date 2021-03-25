@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
 export const NewMemberWrapper = styled.section`
-  margin-bottom: 4rem;
-
   background: linear-gradient(
     to right,
-    ${(props) => props.theme.white} 0%,
-    ${(props) => props.theme.white} 50%,
+    ${(props) => props.theme.lightgray} 0%,
+    ${(props) => props.theme.lightgray} 50%,
     ${(props) => props.theme.gray} 50%,
     ${(props) => props.theme.gray} 100%
   );

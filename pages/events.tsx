@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { GetStaticProps } from 'next';
+import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../elements/core/container/Layout/Layout';
 import { FlexRight, ViewWrapper } from '../styles/global.styles';
 import { backendURL, deleteEvent, getEvents } from '../util/api';
@@ -91,7 +92,7 @@ const NewsPage = ({ content }: NewsProps) => {
     }
   };
 
-  const onTryDeleting = async (id) => {
+  const onTryDeleting = (id) => {
     addComponent((
       <Prompt
         headline="Löschen bestätigen?"
@@ -122,6 +123,7 @@ const NewsPage = ({ content }: NewsProps) => {
         <EventList>
           <EventItem
             infoItem
+            icon={faCalendar}
             title="Kommende Events"
             short_description="Hier sind alle Events die in der nächsten zeit stattfinden!"
           />
@@ -141,6 +143,7 @@ const NewsPage = ({ content }: NewsProps) => {
         </EventList>
         <EventList>
           <EventItem
+            icon={faClock}
             infoItem
             title="Vergangene Events"
             short_description="Hier sind alle Events die bereits vorbei sind!"

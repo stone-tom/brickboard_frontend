@@ -42,7 +42,7 @@ function Home({ content }: LandingPageProps) {
   const randomUsersDetails = filter(content.random_users, 'thredded_user_show_detail');
   return (
     <>
-      <Layout title="Startseite - Willkommen beim Brickboard 2.0" fullWidth>
+      <Layout title="Startseite - Willkommen am Brickboard 2.0" fullWidth>
         <ViewWrapper dark fullWidth>
           <NewsSection newsList={newsList} authors={newsAuthors} />
         </ViewWrapper>
@@ -59,11 +59,11 @@ function Home({ content }: LandingPageProps) {
           />
         )}
         <ViewWrapper small>
-          {/* <VideoShowcase
+          <VideoShowcase
             movieList={movieList}
             authorList={movieAuthors}
             categories={movieCategories}
-          /> */}
+          />
         </ViewWrapper>
         <CommunitySection users={randomUsers} userDetails={randomUsersDetails} />
         <StatisticSection

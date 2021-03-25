@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const UserShowCaseWrapper = styled.div`
    margin-top: 1rem;
+   margin-right: 15px;
 `;
 
 export const UserDetails = styled.div`

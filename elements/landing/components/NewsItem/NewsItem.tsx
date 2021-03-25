@@ -36,7 +36,7 @@ const NewsItem = ({
   if (active) {
     return (
       <BigNewsItemWrapper>
-        <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
+        <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/default_news_image.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
         <NewsInfos>
           <BigNewsItemHeading>{newsitem.attributes.title}</BigNewsItemHeading>
           <BigNewsItemDescription>{newsitem.attributes.short_description}</BigNewsItemDescription>
@@ -55,7 +55,7 @@ const NewsItem = ({
     <NewsItemWrapper onClick={() => onClick()}>
       <NewsItemBorder active={bordered} />
       <NewsItemHeading>{newsitem.attributes.title}</NewsItemHeading>
-      <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
+      <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/default_news_image.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />
     </NewsItemWrapper>
   );
 };

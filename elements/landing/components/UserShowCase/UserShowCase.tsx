@@ -17,7 +17,7 @@ import {
 interface UserShowCaseProps {
   user: IUser;
   userDetails?: IUserDetail;
-};
+}
 
 const UserShowCase = ({ user, userDetails }: UserShowCaseProps) => (
   <UserShowCaseWrapper>

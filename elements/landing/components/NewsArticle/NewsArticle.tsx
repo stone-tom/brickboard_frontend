@@ -23,7 +23,7 @@ import Restrictions from '../../../../config/file_upload_restrictions.json';
 interface NewsArticleProps {
   author: IUser;
   news: INewsItem;
-  onDelete: any;
+  onDelete?: any;
   onUpdated?: any;
 }
 
@@ -55,7 +55,7 @@ const NewsArticle = ({
         ) : (
           <NewsArticleWrapper>
             <NewsArticleImageWrapper>
-              <Image src={news.attributes.news_banner ? `${backendURL}${news.attributes.news_banner}` : '/assets/images/news1.jpg'} alt={news.attributes.title} objectFit="cover" layout="fill" />
+              <Image src={news.attributes.news_banner ? `${backendURL}${news.attributes.news_banner}` : '/assets/images/default_news_image.jpg'} alt={news.attributes.title} objectFit="cover" layout="fill" />
             </NewsArticleImageWrapper>
             <NewsArticleInfos>
               <NewsArticleHeader>

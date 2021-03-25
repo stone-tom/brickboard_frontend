@@ -1,8 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { format } from 'date-fns';
-import { faAward, faCalendar, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faAward, faTimes } from '@fortawesome/free-solid-svg-icons';
 import IEvent from '../../../../models/IEvent';
 import Button from '../../../core/components/Button/Button';
 import ExternalLink from '../../../core/components/ExternalLink/ExternalLink';
@@ -24,9 +25,11 @@ interface EventItemProps {
   title?: string;
   short_description?: string;
   infoItem?: boolean;
+  icon?: IconProp;
+  borderless?: boolean;
   pastEvent?: boolean;
   showModifiers?: boolean;
-  onDelete?: (id) => number;
+  onDelete?: (id) => void;
 }
 
 const EventItem = ({
@@ -34,20 +37,22 @@ const EventItem = ({
   title,
   short_description,
   pastEvent,
+  icon,
+  borderless,
   infoItem,
   showModifiers,
   onDelete,
 }: EventItemProps) => {
   if (infoItem) {
     return (
-      <EventItemWrapper infoItem={infoItem}>
+      <EventItemWrapper borderless={borderless} infoItem={infoItem}>
         <EventHeader>
           <EventTitleWrapper>
             <h3>{title}</h3>
           </EventTitleWrapper>
           <EventHostWrapper infoItem={infoItem}>
             <CalendarIconWrapper>
-              <IconComponent icon={faCalendar} />
+              <IconComponent icon={icon} />
             </CalendarIconWrapper>
           </EventHostWrapper>
         </EventHeader>
@@ -58,7 +63,6 @@ const EventItem = ({
           <EventInfos infoItem />
         </EventBody>
       </EventItemWrapper>
-
     );
   }
 
@@ -69,9 +73,16 @@ const EventItem = ({
           <h3>{eventItem.attributes.title}</h3>
         </EventTitleWrapper>
         <EventHostWrapper>
-          {eventItem.attributes.host === 'Brickboard' ? (
+          {eventItem.attributes.host === 'Brickboard' && (
             <Image src="/assets/images/bb_logo.png" alt="Brickboard" width="150" height="100" layout="responsive" />
-          ) : (
+          )}
+          {eventItem.attributes.host === 'Bricks in Motion' && (
+            <Image src="/assets/images/bim.png" alt="Brickboard" width="150" height="100" layout="responsive" />
+          )}
+          {eventItem.attributes.host === 'Brickfilmers Guild' && (
+            <Image src="/assets/images/bfg.png" alt="Brickboard" width="150" height="100" layout="responsive" />
+          )}
+          {(eventItem.attributes.host === 'Andere' || eventItem.attributes.host === 'Brick à Brack') && (
             <CalendarIconWrapper dark>
               <IconComponent icon={faAward} />
             </CalendarIconWrapper>

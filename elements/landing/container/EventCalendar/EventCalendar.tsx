@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Slider from 'react-slick';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import IEvent from '../../../../models/IEvent';
 import EventItem from '../../components/EventItem/EventItem';
 import 'slick-carousel/slick/slick.css';
@@ -9,6 +10,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import {
   EventCalendarHeading,
   EventCalendarWrapper,
+  SliderWrapper,
 } from './EventCalendar.styles';
 import Button from '../../../core/components/Button/Button';
 import { FlexRight } from '../../../../styles/global.styles';
@@ -50,19 +52,22 @@ const EventCalendar = ({ eventList }: EventCalendarProps) => {
       </EventCalendarHeading>
       {eventList.length > 0 ? (
         <>
-          <Slider {...settings}>
-            <EventItem
-              infoItem
-              title="Kommende Events"
-              short_description="Hier sind alle kommenden Events aus der Brickfilmwelt aufgelistet"
-            />
-            {eventList.map((eventItem: IEvent) => (
+          <SliderWrapper>
+            <Slider {...settings}>
               <EventItem
-                eventItem={eventItem}
-                key={`event_${eventItem.id}`}
+                infoItem
+                icon={faCalendar}
+                title="Kommende Events"
+                short_description="Hier sind alle kommenden Events aus der Brickfilmwelt aufgelistet"
               />
-            ))}
-          </Slider>
+              {eventList.map((eventItem: IEvent) => (
+                <EventItem
+                  eventItem={eventItem}
+                  key={`event_${eventItem.id}`}
+                />
+              ))}
+            </Slider>
+          </SliderWrapper>
           <FlexRight>
             <Link href="./events"><Button>Alle Events anzeigen</Button></Link>
           </FlexRight>

@@ -51,7 +51,7 @@ const NewsSection = ({ newsList, authors }: NewsSectionProps) => {
           />
         ))}
         <AllNewsItem>
-          <Link href="./news">
+          <Link href="./news" passHref>
             <Button reset>
               Alle News anzeigen
             </Button>

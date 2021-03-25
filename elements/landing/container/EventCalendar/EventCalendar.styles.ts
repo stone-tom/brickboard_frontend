@@ -14,3 +14,8 @@ export const EventList = styled.ul`
   display: flex;
   flex-wrap: wrap;
 `;
+
+export const SliderWrapper = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+`;
