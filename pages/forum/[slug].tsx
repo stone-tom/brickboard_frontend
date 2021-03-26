@@ -14,7 +14,7 @@ import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
-import { Button } from '../../elements/core/components/Button/Button.styles';
+import Button from '../../elements/core/components/Button/Button';
 import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
@@ -173,14 +173,14 @@ function Subforum({
           return null;
         })}
         {pageIndex > 1 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
             Vorige Seite
-          </button>
+          </Button>
         )}
         {topicList.length >= 20 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
             Nächste Seite
-          </button>
+          </Button>
         )}
         {isAuthenticated && (
           <FlexRight>
