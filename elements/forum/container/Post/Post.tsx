@@ -15,6 +15,7 @@ import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
 import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
 import PostForm from '../../container/PostForm/PostForm';
+import MovieForm from '../MovieForm/MovieForm';
 
 // enum IconType {
 //   Standard,
@@ -111,11 +112,20 @@ const PostComponent = ({
         <PostDate>{format(new Date(post.attributes.created_at), 'dd.MM.yyyy, HH:mm ')}</PostDate>
         {isEditing
           ? (
-            <PostForm
-              onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
-              answer
-              initialContent={postContent}
-            />
+            <>
+              {slug === 'filmvorstellungen' ? (
+                <MovieForm
+                  categories={[]}
+                  onSubmit={(movieValues) => console(movieValues)}
+                />
+              ) : (
+                <PostForm
+                  onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
+                  answer
+                  initialContent={postContent}
+                />
+              )}
+            </>
           )
           : <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />}
         {slug === 'filmvorstellungen' && (

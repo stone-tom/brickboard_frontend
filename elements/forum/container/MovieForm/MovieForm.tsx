@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
 import { MessageType } from '../../../../models/IMessage';
+import IPost from '../../../../models/IPost';
+import ITopic from '../../../../models/ITopic';
 import { FlexRight } from '../../../../styles/global.styles';
 import Button from '../../../core/components/Button/Button';
 import FormInput from '../../../core/components/FormInput/FormInput';
@@ -12,7 +14,7 @@ import {
   VideoInformationWrapper,
   InputWrapper,
   Title,
-} from './PresentMovieForm.styles';
+} from './MovieForm';
 
 export interface ICreateTopic {
   title: string,
@@ -25,11 +27,13 @@ export interface ICreateTopic {
 interface PresentMovieFormProps {
   categories: ICategory[],
   onSubmit: (body: ICreateTopic) => void,
+  movie?: IPost,
 }
 
-const PresentMovieForm = ({
+const MovieForm = ({
   categories,
   onSubmit,
+  movie,
 }: PresentMovieFormProps) => {
   const { setMessage } = useStoreDispatch();
   const [selectedCategories, setSelectedCategories] = useState<{
@@ -37,8 +41,8 @@ const PresentMovieForm = ({
     value: string,
   }[]>([]);
 
-  const [url, setURL] = useState<string>();
-  const [content, setContent] = useState<string>();
+  const [url, setURL] = useState<string>(movie.attributes.);
+  const [content, setContent] = useState<string>(movie.attributes.);
   const [title, setTitle] = useState<string>();
 
   const handleCategorySelect = (newItems: {
@@ -120,4 +124,4 @@ const PresentMovieForm = ({
   );
 };
 
-export default PresentMovieForm;
+export default MovieForm;

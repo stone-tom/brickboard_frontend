@@ -10,7 +10,7 @@ import Layout from '../../../elements/core/container/Layout/Layout';
 import filterContent from '../../../util/filter';
 import { createTopic, getMessageBoardGroups } from '../../../util/api';
 import { MessageType } from '../../../models/IMessage';
-import PresentMovieForm, { ICreateTopic } from '../../../elements/forum/container/PresentMovieForm/PresentMovieForm';
+import PresentMovieForm, { ICreateTopic } from '../../../elements/forum/container/MovieForm/MovieForm';
 import getCategories from '../../../util/api/topic/get-categories';
 import { get } from '../../../util/methods';
 import PostForm from '../../../elements/forum/container/PostForm/PostForm';
@@ -113,7 +113,7 @@ function NeuesThema({
             })}
           />
         ) : (
-          <PresentMovieForm
+          <MovieForm
             categories={data.data.map((item: ICategory) => item)}
             onSubmit={(movieValues) => submitTopic(movieValues)}
           />
