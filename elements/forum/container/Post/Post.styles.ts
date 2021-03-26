@@ -35,6 +35,10 @@ export const PostDetails = styled.div`
 
 export const PostContent = styled.div`
   padding: 1rem;
+
+  ul {
+    list-style-type: circle;
+  }
 `;
 
 export const PostSettings = styled.ul`

@@ -83,7 +83,7 @@ const MovieForm = ({
             value={title}
             onChange={(newValue) => setTitle(newValue)}
           >
-            Title
+            Titel
           </FormInput>
         </Title>
         <InputWrapper>
@@ -107,7 +107,7 @@ const MovieForm = ({
             onChange={(newCategories) => handleCategorySelect(newCategories)}
             value={selectedCategories}
           >
-            Kategorien:
+            Kategorien
           </MultiSelectComponent>
         </InputWrapper>
       </VideoInformationWrapper>
