@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const EventCalendarWrapper = styled.section`
   margin-top: 4rem;
@@ -10,9 +10,18 @@ export const EventCalendarHeading = styled.h2`
   border-bottom: 5px solid ${(props) => props.theme.brickred};
 `;
 
-export const EventList = styled.ul`
+export const EventList = styled.ul<{
+  space?: boolean,
+}>`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  ${(props) => props.space && css`
+    margin-bottom: 8rem;
+  `}
+
 `;
 
 export const SliderWrapper = styled.div`

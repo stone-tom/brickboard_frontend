@@ -1,5 +1,6 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
+import useSWR from 'swr';
 import Layout from '../elements/core/container/Layout/Layout';
 import { Greeting, ViewWrapper } from '../styles/global.styles';
 import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
@@ -10,21 +11,26 @@ import filter from '../util/filter';
 import NewMemberSection from '../elements/landing/container/NewMemberSection/NewMemberSection';
 import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShowcase';
 import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
+import { get } from '../util/methods';
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { content } = await getLandingPage();
+export const getStaticProps: GetStaticProps = async () => {
+  const { content, fetchURL } = await getLandingPage();
+
   return {
     props: {
       content,
+      fetchURL,
     },
+    revalidate: 1,
   };
 };
 
 interface LandingPageProps {
   content: any;
+  fetchUrl: string;
 }
 
-function Home({ content }: LandingPageProps) {
+function Home({ content, fetchUrl }: LandingPageProps) {
   if (!content) {
     return (
       <Layout title="Brickboard 2.0" fullWidth>
@@ -32,14 +38,17 @@ function Home({ content }: LandingPageProps) {
       </Layout>
     );
   }
-  const eventList = content.current_events.data;
-  const newsList = content.latest_news.data;
-  const newsAuthors = filter(content.latest_news, 'user');
-  const movieList = content.random_movies.data;
-  const movieAuthors = filter(content.random_movies, 'user');
-  const movieCategories = filter(content.random_movies, 'category');
-  const randomUsers = content.random_users.data;
-  const randomUsersDetails = filter(content.random_users, 'thredded_user_show_detail');
+  const { data } = useSWR(fetchUrl,
+    get,
+    { revalidateOnMount: true, initialData: content });
+  const eventList = data.current_events.data;
+  const newsList = data.latest_news.data;
+  const newsAuthors = filter(data.latest_news, 'user');
+  const movieList = data.random_movies.data;
+  const movieAuthors = filter(data.random_movies, 'user');
+  const movieCategories = filter(data.random_movies, 'category');
+  const randomUsers = data.random_users.data;
+  const randomUsersDetails = filter(data.random_users, 'thredded_user_show_detail');
   return (
     <>
       <Layout title="Startseite - Willkommen am Brickboard 2.0" fullWidth>
@@ -52,10 +61,10 @@ function Home({ content }: LandingPageProps) {
 
           <EventCalendar eventList={eventList} />
         </ViewWrapper>
-        {content.latest_user && (
+        {data.latest_user && (
           <NewMemberSection
-            member={content.latest_user.data}
-            memberdetails={content.latest_user.included[0]}
+            member={data.latest_user.data}
+            memberdetails={data.latest_user.included[0]}
           />
         )}
         <ViewWrapper small>
