@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
 import { MessageType } from '../../../../models/IMessage';
-import IPost from '../../../../models/IPost';
-import ITopic from '../../../../models/ITopic';
 import { FlexRight } from '../../../../styles/global.styles';
 import Button from '../../../core/components/Button/Button';
 import FormInput from '../../../core/components/FormInput/FormInput';
@@ -27,7 +25,7 @@ export interface ICreateTopic {
 interface PresentMovieFormProps {
   categories: ICategory[],
   onSubmit: (body: ICreateTopic) => void,
-  defaultValues?: any,
+  defaultValues?: any;
 }
 
 const MovieForm = ({
@@ -39,7 +37,7 @@ const MovieForm = ({
   const [selectedCategories, setSelectedCategories] = useState<{
     label: string,
     value: string,
-  }[]>(defaultValues && defaultValues.categories.map((category) => ({
+  }[]>(defaultValues && defaultValues.categories.map((category: ICategory) => ({
     label: category.attributes.name,
     value: category.id,
   })));

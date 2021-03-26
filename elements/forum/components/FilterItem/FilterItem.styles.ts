@@ -13,9 +13,7 @@ export const FilterCard = styled.div<{
   transition: background .5s ease;
   background: ${(props) => props.theme.lightgray};
   border-bottom: 3px solid ${(props) => props.theme.lightgray};
-  &:not(:last-child) {
-    border-right: 1px solid ${(props) => props.theme.gray};
-  }
+  border-right: 1px solid ${(props) => props.theme.gray};
   
   &:hover {
     background: ${(props) => props.theme.gray};

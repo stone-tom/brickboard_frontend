@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import useSWR from 'swr';
@@ -67,9 +67,6 @@ function NeuesThema({
     },
   );
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   const { isAuthenticated } = useStoreState();
   const { setMessage } = useStoreDispatch();
   const router = useRouter();

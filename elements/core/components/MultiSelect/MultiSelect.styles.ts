@@ -49,7 +49,7 @@ export const MultiSelect = styled(Select)<{
     box-shadow: none;
 
     &:hover {
-      border-color: ${(props) => props.theme.brickred};
+      border-color: ${(props) => props.theme.black};
     }
 
     &:focused {
@@ -67,7 +67,7 @@ export const MultiSelect = styled(Select)<{
   }
 
   .multiselect__multi-value__remove:hover {
-    background-color: ${(props) => props.theme.brickredDark};
+    background-color: ${(props) => props.theme.black};
     color: #fff;
   }
 

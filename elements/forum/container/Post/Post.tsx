@@ -109,7 +109,7 @@ const PostComponent = ({
                         ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
                         : <Hint place="bottom" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
                     </Button>
-                  )}
+                )}
               </>
             )}
           </PostSettings>

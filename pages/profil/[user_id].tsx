@@ -71,7 +71,6 @@ const Profile = ({
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
   const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
-  console.log(movies);
 
   const editBanner = (id: string) => {
     addComponent((
