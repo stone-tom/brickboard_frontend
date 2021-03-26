@@ -6,6 +6,7 @@ import IUser from '../../../../models/IUser';
 import { backendURL } from '../../../../util/api';
 import findObject from '../../../../util/finder';
 import { get } from '../../../../util/methods';
+import Loader from '../../../core/components/Loader/Loader';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { Wrapper } from '../../../profile/container/PersonalMovies/PersonalMovies.styles';
 import FilterBar from '../FilterBar/FilterBar';
@@ -30,7 +31,7 @@ const MoviePresentations = ({
   }, [selected, movies, filteredMovies]);
 
   return (
-    <>
+    <Loader isLoading={!currentMovies || !allCategories}>
       {allCategories && (
         <FilterBar
           onChange={(selectedItems) => setSelected(selectedItems)}
@@ -63,7 +64,7 @@ const MoviePresentations = ({
           <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
         )}
       </MoviePresentationWrapper>
-    </>
+    </Loader>
   );
 };
 

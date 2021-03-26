@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useStoreDispatch } from '../../../../context/custom_store';
@@ -10,6 +9,7 @@ import {
 
 interface SignUpProps {
   onFailedRegistering?: any;
+  onSuccess?: any;
 }
 interface LoginInputs {
   email: string;
@@ -19,12 +19,11 @@ interface LoginInputs {
   termsAndConditions: string;
   request: string;
 }
-const SignUp = ({ onFailedRegistering }: SignUpProps) => {
+const SignUp = ({ onFailedRegistering, onSuccess }: SignUpProps) => {
   const {
     register, handleSubmit, errors, setError,
   } = useForm<LoginInputs>();
   const { performSignup } = useStoreDispatch();
-  const router = useRouter();
 
   const onSubmit = async ({
     email, displayName, password, passwordRepeat,
@@ -39,7 +38,7 @@ const SignUp = ({ onFailedRegistering }: SignUpProps) => {
 
     try {
       await performSignup(email, displayName, password, passwordRepeat);
-      router.push('/konto-bestaetigen/hinweis');
+      onSuccess({ email });
     } catch ({ message }) {
       onFailedRegistering();
       setError('request', {

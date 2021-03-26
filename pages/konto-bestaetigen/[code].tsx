@@ -6,6 +6,7 @@ import { FlexEvenly, ViewWrapper } from '../../styles/global.styles';
 import { useStoreDispatch } from '../../context/custom_store';
 import AuthInfo from '../../elements/authentication/components/AuthInfo/AuthInfo';
 import AuthImage from '../../elements/authentication/components/AuthImage/AuthImage';
+import Button from '../../elements/core/components/Button/Button';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { code } = context.params;
@@ -69,8 +70,7 @@ export const CodeConfirmation = ({
                   <p>{displayedError}</p>
                 </>
               )}
-            <Link href="/">Zur Startseite</Link>
-            {isSuccess && <Link href="/login">Zum Login</Link>}
+            {isSuccess && <Link href="/login" passHref><Button small>Zum Login</Button></Link>}
           </AuthInfo>
           <AuthImage path={isSuccess ? '/assets/images/signupsuccess.webp' : '/assets/images/forgotpassword.webp'} />
         </FlexEvenly>

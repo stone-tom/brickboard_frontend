@@ -11,7 +11,12 @@ const answerTopic = async (slug: string, id: number, customContent: string) => {
   let content: any;
   let error: any;
   try {
-    const res = await post(fetchURL, data);
+    const res = await post(fetchURL, data, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
     if (res && res.data) content = res;
     if (res && res.error) throw new Error(res.error);
   } catch (e) {

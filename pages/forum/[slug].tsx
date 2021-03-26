@@ -70,6 +70,7 @@ function Subforum({
       </Layout>
     );
   }
+
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated, user, moderation_state } = useStoreState();
   const {
@@ -79,11 +80,11 @@ function Subforum({
     get,
     { initialData: topicsData, revalidateOnMount: true },
   );
+  const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
   const topicViews = data.data;
   const topicList = filterContent(data, 'topic');
   const userList = filterContent(data, 'user');
   const readTopics = filterContent(data, 'user_topic_read_state');
-  const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
   const openTopic = (clickedTopic: ITopic) => {
     if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
       router.push(`./${slug}/${clickedTopic.id}`);
@@ -94,7 +95,7 @@ function Subforum({
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
-          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+          <Breadcrumbsbar slug={slug} messageboardname={slug} />
           <h1>Dieses Board hat leider noch keine Themen...</h1>
           {isAuthenticated && (
             <FlexRight>

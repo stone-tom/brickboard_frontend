@@ -12,5 +12,12 @@
     "image/jpg",
     ".jpg",
     ".jpeg"
+  ],
+  "max_size_news": 800000,
+  "allowed_file_types_news": [
+    "image/jpeg",
+    "image/jpg",
+    ".jpg",
+    ".jpeg"
   ]
 }

@@ -24,6 +24,7 @@ import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import {
   answerTopic,
+  backendURL,
   banPost,
   followTopic,
   getMessageBoardGroups,
@@ -66,7 +67,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { id, slug } = params;
   const { content, fetchURL } = await getTopic(id);
-  const { content: allCategories, fetchURL: categoryURL } = await getCategories(id);
+  const { content: allCategories, fetchURL: categoryURL } = await getCategories();
   const topicData = content;
 
   return {
@@ -106,7 +107,7 @@ function Subforum({
   );
 
   const { data: allCategories } = useSWR(
-    categories.categoryURL,
+    categories.categoryURL || `${backendURL}/categories/`,
     get,
     { revalidateOnMount: true, initialData: categories.allCategories },
   );

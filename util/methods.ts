@@ -12,15 +12,11 @@ export const get = async (url: string, options?: any) => {
 
 export const post = async (
   url: string,
-  data?: { [key: string]: any },
+  data?: any,
   options?: any,
 ) => {
   const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
     credentials: 'include',
     ...options,
     body: JSON.stringify(data),
@@ -92,6 +88,40 @@ export const putMethod = async (
     credentials: 'include',
     ...options,
     body: JSON.stringify(data),
+  });
+  if (res.status === 204) {
+    return null;
+  }
+  return res.json();
+};
+
+export const postWithoutJson = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    ...options,
+    body: data,
+  });
+  if (res.status === 204) {
+    return null;
+  }
+  return res.json();
+};
+
+export const patchWithoutJson = async (
+  url: string,
+  data?: any,
+  options?: any,
+) => {
+  const res = await fetch(url, {
+    method: 'PATCH',
+    credentials: 'include',
+    ...options,
+    body: data,
   });
   if (res.status === 204) {
     return null;
