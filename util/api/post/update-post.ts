@@ -1,10 +1,11 @@
 import { backendURL } from '../index';
 import { patch } from '../../methods';
+import { ICreateTopic } from '../../../elements/forum/container/MovieForm/MovieForm';
 
-const updatePost = async (postId: number, customContent: string) => {
+const updatePost = async (postId: number, values: ICreateTopic) => {
   const data = {
     post: {
-      content: customContent,
+      ...values,
     },
   };
   const fetchURL = `${backendURL}/posts/${postId}`;

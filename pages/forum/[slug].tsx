@@ -19,6 +19,7 @@ import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
 import Hint from '../../elements/core/components/Hint/Hint';
+import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -69,6 +70,7 @@ function Subforum({
       </Layout>
     );
   }
+
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated, user, moderation_state } = useStoreState();
   const {
@@ -79,6 +81,15 @@ function Subforum({
     { initialData: topicsData, revalidateOnMount: true },
   );
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
+  const topicViews = data.data;
+  const topicList = filterContent(data, 'topic');
+  const userList = filterContent(data, 'user');
+  const readTopics = filterContent(data, 'user_topic_read_state');
+  const openTopic = (clickedTopic: ITopic) => {
+    if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
+      router.push(`./${slug}/${clickedTopic.id}`);
+    }
+  };
 
   if (data.data.length === 0 || data.included === []) {
     return (
@@ -98,15 +109,36 @@ function Subforum({
     );
   }
 
-  const topicViews = data.data;
-  const topicList = filterContent(data, 'topic');
-  const userList = filterContent(data, 'user');
-  const readTopics = filterContent(data, 'user_topic_read_state');
-  const openTopic = (clickedTopic: ITopic) => {
-    if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
-      router.push(`./${slug}/${clickedTopic.id}`);
-    }
-  };
+  if (slug === 'filmvorstellungen') {
+    return (
+      <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
+        <ViewWrapper>
+          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+          <ForumHeading title={`${messageboard.attributes.name}`} />
+          <MoviePresentations
+            movies={topicList}
+            users={userList}
+          />
+          {isAuthenticated && (
+            <FlexRight>
+              <Link href={`./${slug}/neues-thema`} passHref>
+                <Button disabled={moderation_state === 'blocked'}>
+                  {moderation_state !== 'approved' ? (
+                    <Hint hint="Dein Konto ist nicht freigeschalten">
+                      Thema erstellen
+                    </Hint>
+                  )
+                    : (
+                      'Thema erstellen'
+                    )}
+                </Button>
+              </Link>
+            </FlexRight>
+          )}
+        </ViewWrapper>
+      </Layout>
+    );
+  }
 
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
@@ -114,7 +146,6 @@ function Subforum({
         <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
 
         <ForumHeading title={`${messageboard.attributes.name}`} />
-
         {topicViews.map((topicView) => {
           const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
           const author: IUser = findObject(userList, topic.relationships.user.data.id);

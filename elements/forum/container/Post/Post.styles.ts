@@ -40,3 +40,7 @@ export const PostContent = styled.div`
 export const PostSettings = styled.ul`
   display: flex;
 `;
+
+export const CategoryLabel = styled.div`
+  margin-right: 10px;
+`;

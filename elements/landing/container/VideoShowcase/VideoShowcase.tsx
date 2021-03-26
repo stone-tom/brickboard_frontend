@@ -8,7 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Button from '../../../core/components/Button/Button';
 import { FlexRight } from '../../../../styles/global.styles';
 import { EventCalendarHeading, EventCalendarWrapper, SliderWrapper } from '../EventCalendar/EventCalendar.styles';
-import VideoCard from '../../../core/container/VideoCard/VideoCard';
+import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import findObject from '../../../../util/finder';
 import ICategory from '../../../../models/ICategory';
 import { VideoMargin } from './VideoShowcase.styles';
@@ -73,7 +73,8 @@ const VideoShowcase = ({ movieList, authorList, categories }: VideoShowcaseProps
               />
               {movieList.map((movie) => (
                 <VideoMargin>
-                  <VideoCard
+                  <MovieCard
+                    id={movie.id}
                     title={movie.attributes.title}
                     videoURL={movie.attributes.video_url}
                     categories={filterCategories(movie)}
