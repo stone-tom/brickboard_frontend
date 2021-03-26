@@ -16,7 +16,8 @@ export const VideoInformationWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin: 10px 0;
+  margin: 20px 0;
+  color: ${(props) => props.theme.darkgray};
   
   & > * {
     margin-right: 20px;

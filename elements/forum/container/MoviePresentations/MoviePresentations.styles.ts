@@ -7,3 +7,6 @@ export const MoviePresentationWrapper = styled.div`
   margin: 20px 0;
   width: 100%;
 `;
+
+export const Empty = styled.p`
+`;

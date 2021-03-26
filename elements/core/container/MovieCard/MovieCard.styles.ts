@@ -40,4 +40,5 @@ export const VideoTitle = styled.p`
 export const CategoryWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;

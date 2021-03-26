@@ -45,6 +45,7 @@ import IMessageboard from '../../../models/IMessageboard';
 import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/components/TopicItem/TopicItem.styles';
 import Prompt from '../../../elements/core/container/Prompt/Prompt';
 import PostForm from '../../../elements/forum/container/PostForm/PostForm';
+import getCategories from '../../../util/api/topic/get-categories';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -65,10 +66,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { id, slug } = params;
   const { content, fetchURL } = await getTopic(id);
+  const { content: allCategories, fetchURL:categoryURL } = await getCategories(id);
   const topicData = content;
 
   return {
     props: {
+      categories: {
+        allCategories,
+        categoryURL,
+      },
       fetchURL,
       topicData,
       slug,
@@ -83,6 +89,7 @@ interface SubforumProps {
   topicData: any,
   slug: string,
   id: number,
+  categories: any,
 }
 
 function Subforum({
@@ -90,11 +97,18 @@ function Subforum({
   topicData,
   slug,
   id,
+  categories,
 }: SubforumProps) {
   const { data, mutate } = useSWR(
     fetchURL,
     get,
     { revalidateOnMount: true, initialData: topicData },
+  );
+
+  const { data: allCategories } = useSWR(
+    categories.categoryURL,
+    get,
+    { revalidateOnMount: true, initialData: categories.allCategories },
   );
   const router = useRouter();
   if (router.isFallback) {
@@ -438,19 +452,25 @@ function Subforum({
           </Hint>
         )}
 
-        {posts.map((post: IPost, index) => (
-          <Post
-            onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
-            post={post}
-            topicTitle={topic.attributes.title}
-            first={index === 0}
-            messageBoardSlug={slug}
-            author={findObject(userList, post.relationships.user.data.id)}
-            key={post.id}
-            slug={slug}
-            videoURL={topic.attributes.video_url}
-          />
-        ))}
+        {posts.map((post: IPost, index) => {
+          console.log(data);
+          console.log('topic', topic);
+          return (
+            <Post
+              onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
+              post={post}
+              topicTitle={topic.attributes.title}
+              first={index === 0}
+              messageBoardSlug={slug}
+              author={findObject(userList, post.relationships.user.data.id)}
+              key={post.id}
+              slug={slug}
+              videoURL={topic.attributes.video_url}
+              categories={filter(data, 'category')}
+              allCategories={allCategories.data}
+            />
+          );
+        })}
 
         {isAuthenticated && !isLocked && topic.attributes.moderation_state !== 'blocked' && (
           <EditorContainer>

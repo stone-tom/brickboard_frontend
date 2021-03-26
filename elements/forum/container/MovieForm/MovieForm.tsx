@@ -14,7 +14,7 @@ import {
   VideoInformationWrapper,
   InputWrapper,
   Title,
-} from './MovieForm';
+} from './MovieForm.styles';
 
 export interface ICreateTopic {
   title: string,
@@ -27,23 +27,26 @@ export interface ICreateTopic {
 interface PresentMovieFormProps {
   categories: ICategory[],
   onSubmit: (body: ICreateTopic) => void,
-  movie?: IPost,
+  defaultValues?: any,
 }
 
 const MovieForm = ({
   categories,
   onSubmit,
-  movie,
+  defaultValues,
 }: PresentMovieFormProps) => {
   const { setMessage } = useStoreDispatch();
   const [selectedCategories, setSelectedCategories] = useState<{
     label: string,
     value: string,
-  }[]>([]);
+  }[]>(defaultValues && defaultValues.categories.map((category) => ({
+    label: category.attributes.name,
+    value: category.id,
+  })));
 
-  const [url, setURL] = useState<string>(movie.attributes.);
-  const [content, setContent] = useState<string>(movie.attributes.);
-  const [title, setTitle] = useState<string>();
+  const [url, setURL] = useState<string>(defaultValues && defaultValues.video_url);
+  const [content, setContent] = useState<string>(defaultValues && defaultValues.content);
+  const [title, setTitle] = useState<string>(defaultValues && defaultValues.title);
 
   const handleCategorySelect = (newItems: {
     label: string,
@@ -73,10 +76,11 @@ const MovieForm = ({
 
   return (
     <FormWrapper>
-      <h2>Neuen Film erstellen:</h2>
+      {!defaultValues && <h2>Neuen Film erstellen:</h2>}
       <VideoInformationWrapper>
         <Title>
           <FormInput
+            disabled={defaultValues}
             type="text"
             value={title}
             onChange={(newValue) => setTitle(newValue)}
@@ -86,6 +90,7 @@ const MovieForm = ({
         </Title>
         <InputWrapper>
           <FormInput
+            disabled={defaultValues}
             type="text"
             value={url}
             onChange={(newValue) => setURL(newValue)}
@@ -95,6 +100,7 @@ const MovieForm = ({
         </InputWrapper>
         <InputWrapper>
           <MultiSelectComponent
+            disabled={defaultValues}
             isMulti
             options={categories.map((category) => ({
               label: category.attributes.name,

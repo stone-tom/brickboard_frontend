@@ -26,11 +26,21 @@ export const MultiSelect = styled(Select)<{
       background: ${(props) => props.theme.white};
       border-radius: 0;
       border: 1px solid ${(props) => props.theme.black};
+
+      ${(props) => props.disabled && css`
+        background: ${props.theme.gray};
+        opacity: .6;
+      `}
     }
 
     &__value-container {
       padding: 4px 10px;
     }
+  }
+
+  .multiselect__control--is-disabled {
+    background: ${(props) => props.theme.gray};
+    opacity: .6;
   }
 
   .multiselect__control--is-focused {

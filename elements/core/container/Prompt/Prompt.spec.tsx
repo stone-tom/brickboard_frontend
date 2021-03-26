@@ -29,7 +29,6 @@ describe('Render Prompt Component', () => {
       </ThemeProvider>
     ));
 
-
     expect(prompt.find(OverlayHeadline).length).toBe(1);
     expect(prompt.find(PromptButton).length).toBe(2);
     expect(prompt.find(Overlay).length).toBe(1);

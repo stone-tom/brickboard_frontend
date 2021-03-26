@@ -20,7 +20,6 @@ const FilterItem = ({
   active,
 }: FilterItemProps) => (
   <FilterCard
-    role="test"
     data-testid="filter_item"
     onClick={onClick}
     active={active}

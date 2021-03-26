@@ -9,7 +9,7 @@ import { get } from '../../../../util/methods';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { Wrapper } from '../../../profile/container/PersonalMovies/PersonalMovies.styles';
 import FilterBar from '../FilterBar/FilterBar';
-import { MoviePresentationWrapper } from './MoviePresentations.styles';
+import { MoviePresentationWrapper, Empty } from './MoviePresentations.styles';
 
 interface MoviePresentationProps {
   movies: ITopic[],
@@ -59,6 +59,9 @@ const MoviePresentations = ({
             </Wrapper>
           );
         })}
+        {currentMovies.length === 0 && (
+          <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
+        )}
       </MoviePresentationWrapper>
     </>
   );
