@@ -24,7 +24,6 @@ import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import {
   answerTopic,
-  backendURL,
   banPost,
   followTopic,
   getMessageBoardGroups,
@@ -67,15 +66,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { id, slug } = params;
   const { content, fetchURL } = await getTopic(id);
-  const { content: allCategories, fetchURL: categoryURL } = await getCategories();
+  const { content: categoryData, fetchURL: categoryURL } = await getCategories();
   const topicData = content;
 
   return {
     props: {
-      categories: {
-        allCategories,
-        categoryURL,
-      },
+      categoryData,
+      categoryURL,
       fetchURL,
       topicData,
       slug,
@@ -90,7 +87,8 @@ interface SubforumProps {
   topicData: any,
   slug: string,
   id: number,
-  categories: any,
+  categoryData: any,
+  categoryURL: string,
 }
 
 function Subforum({
@@ -98,7 +96,8 @@ function Subforum({
   topicData,
   slug,
   id,
-  categories,
+  categoryData,
+  categoryURL,
 }: SubforumProps) {
   const { data, mutate } = useSWR(
     fetchURL,
@@ -107,9 +106,9 @@ function Subforum({
   );
 
   const { data: allCategories } = useSWR(
-    categories.categoryURL || `${backendURL}/categories/`,
+    categoryURL,
     get,
-    { revalidateOnMount: true, initialData: categories.allCategories },
+    { revalidateOnMount: true, initialData: categoryData },
   );
   const router = useRouter();
   if (router.isFallback) {
@@ -465,7 +464,7 @@ function Subforum({
             slug={slug}
             videoURL={topic.attributes.video_url}
             categories={filter(data, 'category')}
-            allCategories={allCategories.data}
+            allCategories={allCategories && allCategories.data}
           />
         ))}
 

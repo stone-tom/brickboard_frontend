@@ -26,11 +26,13 @@ import {
 } from './ProfileInformation.styles';
 import ITopic from '../../../../models/ITopic';
 import PersonalMovies from '../PersonalMovies/PersonalMovies';
+import ICategory from '../../../../models/ICategory';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
   movies: ITopic[],
+  movieCategories: ICategory[],
   onEditAvatar: () => void,
   onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
@@ -39,10 +41,12 @@ const ProfileInformation = ({
   user,
   userDetail,
   movies,
+  movieCategories,
   onEditAvatar,
   onUpdateUser,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
+  console.log(movieCategories);
   const contentItems: {
     name: string,
     content: ReactNode,
@@ -62,6 +66,7 @@ const ProfileInformation = ({
       <PersonalMovies
         creator={user.attributes.display_name}
         movies={movies}
+        movieCategories={movieCategories}
       />
 
     ),

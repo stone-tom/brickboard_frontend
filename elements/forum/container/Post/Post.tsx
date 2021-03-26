@@ -154,9 +154,10 @@ const PostComponent = ({
               frameBorder="0"
             />
             <CategoryWrapper>
+              <CategoryLabel>Kategorien:</CategoryLabel>
               {categories.map((category) => (
                 <>
-                  <CategoryLabel>Kategorien:</CategoryLabel>
+
                   <Tag name={category.attributes.name} />
                 </>
               ))}

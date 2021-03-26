@@ -10,10 +10,10 @@ import MoviePresentations from './MoviePresentations';
 import filter from '../../../../util/filter';
 import mockTopics from '../../../../__tests__/mock-data/topic_index.json';
 import mockCategories from '../../../../__tests__/mock-data/category_index.json';
-// import mockMoviesFilter1 from '../../../../__tests__/mock-data/movies_filter_1.json';
+import mockMoviesFilter1 from '../../../../__tests__/mock-data/movies_filter_1.json';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import FilterItem from '../../components/FilterItem/FilterItem';
-// import mockMoviesFilter1and4 from '../../../../__tests__/mock-data/movies_filter_1_4.json';
+import mockMoviesFilter1and4 from '../../../../__tests__/mock-data/movies_filter_1_4.json';
 
 // afterEach(() => {
 //   cleanup();
@@ -61,7 +61,9 @@ test('renders and filters movie-presentations view correctly', async () => {
   const topicList = filter(mockTopics, 'topic');
   const userList = filter(mockTopics, 'user');
   fetch
-    .once(JSON.stringify(mockCategories));
+    .once(JSON.stringify(mockCategories))
+    .once(JSON.stringify(mockMoviesFilter1))
+    .once(JSON.stringify(mockMoviesFilter1and4));
 
   const container = mount(
     <ThemeProvider theme={main}>

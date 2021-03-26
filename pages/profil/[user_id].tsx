@@ -21,6 +21,7 @@ import { ViewWrapper } from '../../styles/global.styles';
 import Loader from '../../elements/core/components/Loader/Loader';
 import Restrictions from '../../config/file_upload_restrictions.json';
 import ITopic from '../../models/ITopic';
+import ICategory from '../../models/ICategory';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -71,6 +72,7 @@ const Profile = ({
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
   const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
+  const movieCategories: ICategory[] = filter(data, 'category');
 
   const editBanner = (id: string) => {
     addComponent((
@@ -186,6 +188,7 @@ const Profile = ({
             userDetail={userDetail}
             user={user}
             movies={movies}
+            movieCategories={movieCategories}
           />
         </ViewWrapper>
       )}

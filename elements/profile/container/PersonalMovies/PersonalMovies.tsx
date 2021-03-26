@@ -1,4 +1,5 @@
 import React from 'react';
+import ICategory from '../../../../models/ICategory';
 import ITopic from '../../../../models/ITopic';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { PersonalInformationWrapper } from '../PersonalInformation/PersonalInformation.styles';
@@ -10,27 +11,35 @@ import {
 interface PersonalFilmsProps {
   movies: ITopic[],
   creator: string,
+  movieCategories: ICategory[],
 }
 
 const PersonalMovies = ({
   movies,
   creator,
+  movieCategories,
 }: PersonalFilmsProps) => (
   <PersonalInformationWrapper>
     <MovieWrapper>
-      {movies.map((movie) => (
-        <Wrapper>
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.attributes.title}
-            videoURL={movie.attributes.video_url}
-            creator={creator}
-            created_at={movie.attributes.created_at}
-            categories={[]}
-          />
-        </Wrapper>
-      ))}
+      {movies.map((movie) => {
+        const categoryIds = movie.relationships.categories.data
+          .map((elem: ICategory) => elem.id);
+        const category = movieCategories
+          .filter((item: ICategory) => categoryIds.includes(item.id));
+        return (
+          <Wrapper>
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.attributes.title}
+              videoURL={movie.attributes.video_url}
+              creator={creator}
+              created_at={movie.attributes.created_at}
+              categories={category}
+            />
+          </Wrapper>
+        );
+      })}
     </MovieWrapper>
   </PersonalInformationWrapper>
 );

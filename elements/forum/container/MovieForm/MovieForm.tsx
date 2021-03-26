@@ -107,7 +107,7 @@ const MovieForm = ({
             onChange={(newCategories) => handleCategorySelect(newCategories)}
             value={selectedCategories}
           >
-            Test
+            Kategorien:
           </MultiSelectComponent>
         </InputWrapper>
       </VideoInformationWrapper>
