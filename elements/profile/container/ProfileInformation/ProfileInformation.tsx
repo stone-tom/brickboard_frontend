@@ -46,7 +46,6 @@ const ProfileInformation = ({
   onUpdateUser,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser } = useStoreState();
-  console.log(movieCategories);
   const contentItems: {
     name: string,
     content: ReactNode,
