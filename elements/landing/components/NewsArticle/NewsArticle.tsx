@@ -23,7 +23,7 @@ import Restrictions from '../../../../config/file_upload_restrictions.json';
 interface NewsArticleProps {
   author: IUser;
   news: INewsItem;
-  onDelete?: () => void;
+  onDelete?: ({ id }) => void;
   onUpdated?: ({ content }) => void;
 }
 

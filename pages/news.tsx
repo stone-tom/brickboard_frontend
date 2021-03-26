@@ -109,7 +109,7 @@ const NewsPage = ({ content }: NewsProps) => {
     }
   };
 
-  const onTryDeleting = async (id) => {
+  const onTryDeleting = (id) => {
     addComponent((
       <Prompt
         headline="Löschen bestätigen?"
