@@ -1,11 +1,8 @@
-import React, { useMemo, useState } from 'react';
-import useSWR from 'swr';
+import React from 'react';
 import ICategory from '../../../../models/ICategory';
 import ITopic from '../../../../models/ITopic';
 import IUser from '../../../../models/IUser';
-import { backendURL } from '../../../../util/api';
 import findObject from '../../../../util/finder';
-import { get } from '../../../../util/methods';
 import Loader from '../../../core/components/Loader/Loader';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { Wrapper } from '../../../profile/container/PersonalMovies/PersonalMovies.styles';
