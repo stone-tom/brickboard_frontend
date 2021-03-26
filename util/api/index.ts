@@ -23,8 +23,8 @@ import getLandingPage from './landingpage/get-landing-page';
 import createEvent from './events/create-event';
 import deleteEvent from './events/delete-events';
 
-export const backendURL = 'https://brickboard.herokuapp.com';
-// export const backendURL = 'https://dev.brickboard.de';
+// export const backendURL = 'https://brickboard.herokuapp.com';
+export const backendURL = 'https://dev.brickboard.de';
 
 export {
   getMessageBoardGroups,
