@@ -11,7 +11,7 @@ import INewsItem from '../models/INewsItem';
 import NewsCreator from '../elements/news/container/NewsCreator/NewsCreator';
 import { NewsArticleContainer } from '../elements/landing/components/NewsArticle/NewsArticle.styles';
 import { useStoreDispatch, useStoreState } from '../context/custom_store';
-import { Button } from '../elements/core/components/Button/Button.styles';
+import Button from '../elements/core/components/Button/Button';
 import Restrictions from '../config/file_upload_restrictions.json';
 import { get } from '../util/methods';
 import Prompt from '../elements/core/container/Prompt/Prompt';
@@ -156,14 +156,14 @@ const NewsPage = ({ content }: NewsProps) => {
           })}
         </NewsArticleContainer>
         {pageIndex > 1 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
             Vorige Seite
-          </button>
+          </Button>
         )}
         {newsList.length >= 10 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
             Nächste Seite
-          </button>
+          </Button>
         )}
       </ViewWrapper>
     </Layout>

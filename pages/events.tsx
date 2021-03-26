@@ -6,7 +6,7 @@ import Layout from '../elements/core/container/Layout/Layout';
 import { FlexRight, ViewWrapper } from '../styles/global.styles';
 import { backendURL, deleteEvent, getEvents } from '../util/api';
 import { useStoreDispatch, useStoreState } from '../context/custom_store';
-import { Button } from '../elements/core/components/Button/Button.styles';
+import Button from '../elements/core/components/Button/Button';
 import { get } from '../util/methods';
 import IEvent from '../models/IEvent';
 import EventItem from '../elements/landing/components/EventItem/EventItem';
@@ -120,7 +120,7 @@ const NewsPage = ({ content }: NewsProps) => {
             onCreateEvent={({ content: freshEvent }) => mutateEvents(freshEvent.data)}
           />
         )}
-        <EventList>
+        <EventList space>
           <EventItem
             infoItem
             icon={faCalendar}
@@ -165,14 +165,14 @@ const NewsPage = ({ content }: NewsProps) => {
           })}
         </EventList>
         {pageIndex > 1 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
             Vorige Seite
-          </button>
+          </Button>
         )}
         {eventList.length >= 10 && (
-          <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+          <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
             Nächste Seite
-          </button>
+          </Button>
         )}
       </ViewWrapper>
     </Layout>
