@@ -133,6 +133,8 @@ export const ViewWrapper = styled.div <{
   center?: boolean,
   fullHeight?: boolean,
   column?: boolean,
+  small?: boolean,
+  dark?: boolean,
 }>`
   
   ${(props) => props.center && css`
@@ -141,11 +143,19 @@ export const ViewWrapper = styled.div <{
     align-items: center;
   `}
 
+  ${(props) => props.dark && css`
+    background-color: ${props.theme.gray};
+  `}
+
   ${(props) => props.column && css`
   flex-direction: column;
 `}
 
-  min-height: calc(100vh - 252px);
+  min-height: calc(100vh - 252px); 
+
+  ${(props) => props.small && css`
+    min-height: unset;
+  `}
 
   ${(props) => !props.fullWidth && css`
     max-width: ${props.theme.max_container_width};
@@ -165,9 +175,22 @@ export const Hint = styled.p`
   padding: .5rem;
 `;
 
-export const FlexRight = styled.div`
+export const FlexRight = styled.div<{
+  fullHeight?: boolean,
+}>`
   display: flex;
   justify-content: flex-end;
+`;
+
+export const FlexLeft = styled.div<{
+  fullHeight?: boolean,
+}>`
+  display: flex;
+  justify-content: flex-start;
+
+  ${(props) => props.fullHeight && css`
+  height: 100%;
+`}
 `;
 
 export const FlexBetween = styled.div`
@@ -191,4 +214,8 @@ export const FlexCenter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const Greeting = styled.h1`
+  margin-top: 2rem;
 `;

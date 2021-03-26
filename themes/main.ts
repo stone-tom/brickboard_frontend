@@ -3,6 +3,7 @@ export default {
   brickredDark: '#AD0606',
   green: 'green',
   darkgray: '#333333',
+  darkgrayRGB: 'rgb(51,51,51)',
   lightgray: '#f7f7f7',
   gray: '#e7e7e7',
   grayfont: '#979696',

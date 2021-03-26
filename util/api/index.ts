@@ -14,8 +14,17 @@ import initiatePasswordReset from './authentication/initiate-pw-reset';
 import resetPassword from './authentication/reset-password';
 import updateTopic from './topic/update-topic';
 import banPost from './post/ban-post';
+import getNews from './news/get-news';
+import createNews from './news/create-news';
+import deleteNews from './news/delete-news';
+import updateNews from './news/update-news';
+import getEvents from './events/get-events';
+import getLandingPage from './landingpage/get-landing-page';
+import createEvent from './events/create-event';
+import deleteEvent from './events/delete-events';
 
 export const backendURL = 'https://brickboard.herokuapp.com';
+// export const backendURL = 'https://dev.brickboard.de';
 
 export {
   getMessageBoardGroups,
@@ -34,4 +43,12 @@ export {
   resetPassword,
   updateTopic,
   banPost,
+  getNews,
+  createNews,
+  deleteNews,
+  updateNews,
+  getEvents,
+  getLandingPage,
+  createEvent,
+  deleteEvent,
 };
