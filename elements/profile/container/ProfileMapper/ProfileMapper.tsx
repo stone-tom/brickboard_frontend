@@ -94,7 +94,7 @@ const ProfileMapper = ({
         >
           {Object.keys(section).map((key) => {
             const mapInfo = section[key];
-            const value = content[key] || '-';
+            const value = content[key] || '';
             let Component = null;
 
             if (mapInfo.type === 'text') {

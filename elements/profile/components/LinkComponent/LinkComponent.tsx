@@ -35,8 +35,8 @@ const LinkComponent = ({
       />
     )
       : (
-        <Link empty={value === '-'} href={value === '-' ? null : value}>
-          {value === '-' ? value : `https://${value}`}
+        <Link empty={value === ''} href={value === '' ? null : `https://${value}`}>
+          {value === '' ? '' : value}
         </Link>
       )}
   </LinkComponentWrapper>

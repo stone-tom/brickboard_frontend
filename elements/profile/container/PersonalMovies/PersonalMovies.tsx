@@ -40,6 +40,9 @@ const PersonalMovies = ({
           </Wrapper>
         );
       })}
+      {movies.length === 0 && (
+        <p>Der Benutzer hat noch keine Videos veröffentlicht.</p>
+      )}
     </MovieWrapper>
   </PersonalInformationWrapper>
 );
