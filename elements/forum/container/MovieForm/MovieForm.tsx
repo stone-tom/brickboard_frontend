@@ -15,7 +15,7 @@ import {
 } from './MovieForm.styles';
 
 export interface ICreateTopic {
-  title: string,
+  title?: string,
   content: string,
   video_url?: string,
   category_ids?: string[]

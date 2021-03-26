@@ -131,7 +131,11 @@ const PostComponent = ({
                 />
               ) : (
                 <PostForm
-                  onEditorSubmit={({ editorContent }) => submitPost(editorContent)}
+                  onEditorSubmit={(editorContent) => submitPost(
+                    {
+                      content: editorContent.editorContent,
+                    },
+                  )}
                   answer
                   initialContent={postContent}
                 />

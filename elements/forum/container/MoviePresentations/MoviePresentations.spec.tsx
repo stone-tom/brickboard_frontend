@@ -60,6 +60,7 @@ test('renders and filters movie-presentations view correctly', async () => {
 test('renders and filters movie-presentations view correctly', async () => {
   const topicList = filter(mockTopics, 'topic');
   const userList = filter(mockTopics, 'user');
+
   fetch
     .once(JSON.stringify(mockCategories))
     .once(JSON.stringify(mockMoviesFilter1))

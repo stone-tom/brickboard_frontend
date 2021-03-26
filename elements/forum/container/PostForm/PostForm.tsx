@@ -7,7 +7,10 @@ import Button from '../../../core/components/Button/Button';
 import { EditorContainer, EditorWrapper, TitleInput } from './PostForm.styles';
 
 interface EditorProps {
-  onEditorSubmit: (content: any) => void;
+  onEditorSubmit: (content: {
+    title: string,
+    editorContent: string,
+  }) => void;
   answer?: boolean;
   initialContent?: string;
 }
