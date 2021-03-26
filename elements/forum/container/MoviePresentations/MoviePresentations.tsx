@@ -15,57 +15,50 @@ import { MoviePresentationWrapper, Empty } from './MoviePresentations.styles';
 interface MoviePresentationProps {
   movies: ITopic[],
   users: IUser[],
+  categories: ICategory[],
+  onCategorySelect: (selected: number[]) => void,
 }
 
 const MoviePresentations = ({
   movies,
   users,
-}: MoviePresentationProps) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const { data: allCategories } = useSWR(`${backendURL}/categories`, get);
-  const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
-
-  const currentMovies = useMemo(() => {
-    if (filteredMovies && selected.length > 0) return filteredMovies.data;
-    return movies;
-  }, [selected, movies, filteredMovies]);
-
-  return (
-    <Loader isLoading={!currentMovies}>
-      {allCategories && (
-        <FilterBar
-          onChange={(selectedItems) => setSelected(selectedItems)}
-          options={allCategories.data}
-        />
+  categories,
+  onCategorySelect,
+}: MoviePresentationProps) => (
+  <Loader isLoading={!movies}>
+    {categories && (
+      <FilterBar
+        onChange={(selectedItems) => onCategorySelect(selectedItems)}
+        options={categories}
+      />
+    )}
+    <MoviePresentationWrapper>
+      {categories && movies.map((movie: ITopic) => {
+        const creator = findObject(users, movie.relationships.user.data.id)
+          .attributes.display_name;
+        const categoryIds = movie.relationships.categories.data
+          .map((elem: ICategory) => elem.id);
+        const category = categories
+          .filter((item: ICategory) => categoryIds.includes(item.id));
+        return (
+          <Wrapper>
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.attributes.title}
+              videoURL={movie.attributes.video_url}
+              creator={creator}
+              created_at={movie.attributes.created_at}
+              categories={category}
+            />
+          </Wrapper>
+        );
+      })}
+      {movies.length === 0 && (
+        <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
       )}
-      <MoviePresentationWrapper>
-        {allCategories && currentMovies.map((movie: ITopic) => {
-          const creator = findObject(users, movie.relationships.user.data.id)
-            .attributes.display_name;
-          const categoryIds = movie.relationships.categories.data
-            .map((elem: ICategory) => elem.id);
-          const category = allCategories.data
-            .filter((item: ICategory) => categoryIds.includes(item.id));
-          return (
-            <Wrapper>
-              <MovieCard
-                key={movie.id}
-                id={movie.id}
-                title={movie.attributes.title}
-                videoURL={movie.attributes.video_url}
-                creator={creator}
-                created_at={movie.attributes.created_at}
-                categories={category}
-              />
-            </Wrapper>
-          );
-        })}
-        {currentMovies.length === 0 && (
-          <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
-        )}
-      </MoviePresentationWrapper>
-    </Loader>
-  );
-};
+    </MoviePresentationWrapper>
+  </Loader>
+);
 
 export default MoviePresentations;
