@@ -1,5 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
+import useSWR from 'swr';
 import Layout from '../elements/core/container/Layout/Layout';
 import { Greeting, ViewWrapper } from '../styles/global.styles';
 import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
@@ -10,7 +11,6 @@ import filter from '../util/filter';
 import NewMemberSection from '../elements/landing/container/NewMemberSection/NewMemberSection';
 import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShowcase';
 import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
-import useSWR from 'swr';
 import { get } from '../util/methods';
 
 export const getStaticProps: GetStaticProps = async () => {
