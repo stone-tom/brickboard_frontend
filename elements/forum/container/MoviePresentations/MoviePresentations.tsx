@@ -31,7 +31,7 @@ const MoviePresentations = ({
   }, [selected, movies, filteredMovies]);
 
   return (
-    <Loader isLoading={!currentMovies || !allCategories}>
+    <Loader isLoading={!currentMovies}>
       {allCategories && (
         <FilterBar
           onChange={(selectedItems) => setSelected(selectedItems)}
