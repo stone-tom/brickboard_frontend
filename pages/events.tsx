@@ -54,7 +54,7 @@ const NewsPage = ({ content }: NewsProps) => {
   let eventList = data.data;
 
   const upcomingEvents = eventList.filter((eventItem: IEvent) => (
-    new Date(eventItem.attributes.event_date) >= new Date(Date.now())
+    new Date(eventItem.attributes.event_date) >= new Date()
   ));
   const pastEvents = eventList.filter((eventItem: IEvent) => (
     new Date(eventItem.attributes.event_date) < new Date(Date.now())

@@ -20,10 +20,10 @@ import {
 interface NewsCreatorProps {
   allowedTypes: string[];
   maxSize: number,
-  onCreateNews?: any;
+  onCreateNews?: ({ content }) => void;
   newsItem?: INewsItem;
   onCancel?: () => void;
-  onUpdateNews?: any;
+  onUpdateNews?: ({ content }) => void;
 }
 const NewsCreator = ({
   allowedTypes,

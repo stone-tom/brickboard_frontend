@@ -23,8 +23,8 @@ import Restrictions from '../../../../config/file_upload_restrictions.json';
 interface NewsArticleProps {
   author: IUser;
   news: INewsItem;
-  onDelete?: any;
-  onUpdated?: any;
+  onDelete?: () => void;
+  onUpdated?: ({ content }) => void;
 }
 
 const NewsArticle = ({
@@ -33,10 +33,10 @@ const NewsArticle = ({
   onDelete,
   onUpdated,
 }: NewsArticleProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const { isAuthenticated, user } = useStoreState();
 
-  const passMutation = (content) => {
+  const passMutation = (content: INewsItem) => {
     setIsEditing(false);
     onUpdated({ content });
   };

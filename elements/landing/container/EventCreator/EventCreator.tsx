@@ -21,7 +21,7 @@ import {
 
 interface EventCreatorProps {
   eventItem?: IEvent;
-  onCreateEvent?: any;
+  onCreateEvent?: ({ content }) => void;
 }
 
 const EventCreator = ({

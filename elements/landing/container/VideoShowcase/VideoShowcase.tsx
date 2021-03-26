@@ -24,7 +24,7 @@ const VideoShowcase = ({ movieList, authorList, categories }: VideoShowcaseProps
     infinite: true,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     variableHeight: true,
     variableWidth: true,
     arrows: false,
