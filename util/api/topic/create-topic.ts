@@ -1,11 +1,10 @@
 import { backendURL } from '../index';
 import { post } from '../../methods';
 
-const createTopic = async (slug: string, title: string, customContent: string) => {
+const createTopic = async (slug: string, values: {[key: string]: any}) => {
   const data = {
     topic: {
-      title,
-      content: customContent,
+      ...values,
     },
   };
   const fetchURL = `${backendURL}/${slug}/topics/`;

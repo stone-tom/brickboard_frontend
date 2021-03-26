@@ -35,7 +35,7 @@ const Prompt = ({
   };
 
   return (
-    <Overlay>
+    <Overlay data-testid="overlay">
       <OverlayBody>
         <OverlayHeadline>
           {headline}

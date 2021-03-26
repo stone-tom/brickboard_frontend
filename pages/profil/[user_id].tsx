@@ -20,6 +20,7 @@ import { MessageType } from '../../models/IMessage';
 import { ViewWrapper } from '../../styles/global.styles';
 import Loader from '../../elements/core/components/Loader/Loader';
 import Restrictions from '../../config/file_upload_restrictions.json';
+import ITopic from '../../models/ITopic';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -67,9 +68,9 @@ const Profile = ({
   }
   const { data, mutate } = useSWR(fetchURL, get, { initialData: content, revalidateOnMount: true });
   const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
-
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
+  const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
 
   const editBanner = (id: string) => {
     addComponent((
@@ -184,6 +185,7 @@ const Profile = ({
             onEditAvatar={() => onEditAvatar()}
             userDetail={userDetail}
             user={user}
+            movies={movies}
           />
         </ViewWrapper>
       )}

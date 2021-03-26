@@ -11,6 +11,7 @@ export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   error?: boolean,
   chlidren?: ReactNode,
   onChange?: (event: string) => void,
+  disabled?: boolean,
 }
 
 const FormInputComponent = ({
@@ -21,12 +22,14 @@ const FormInputComponent = ({
   error = false,
   value,
   onChange,
+  disabled,
   ...rest
 }: TextInputProps) => (
   <InputLabel htmlFor={name}>
-    {children ? `${children}:` : null }
+    {children ? `${children}:` : null}
     {required ? ' *' : null}
     <FormInput
+      disabled={disabled}
       error={error}
       type={type}
       id={name}
