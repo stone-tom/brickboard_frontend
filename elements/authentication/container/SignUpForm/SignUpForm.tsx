@@ -120,6 +120,7 @@ const SignUp = ({ onFailedRegistering, onSuccess }: SignUpProps) => {
       <LoginButton type="submit">
         Registrieren
       </LoginButton>
+      <br />
       <FlexCenter>
         <ColoredLink href="/login" text="Du hast bereits ein Konto?" />
       </FlexCenter>

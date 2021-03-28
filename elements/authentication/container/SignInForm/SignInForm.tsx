@@ -65,9 +65,11 @@ const SignIn = () => {
       <LoginButton type="submit">
         Einloggen
       </LoginButton>
+      <br />
       <FlexCenter>
         <ColoredLink href="/registrieren" text="Du hast noch kein Konto?" />
       </FlexCenter>
+      <br />
       <FlexCenter>
         <ColoredLink href="/account/passwort-vergessen" text="Passwort vergessen?" />
       </FlexCenter>
