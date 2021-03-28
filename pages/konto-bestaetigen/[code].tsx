@@ -46,7 +46,7 @@ export const CodeConfirmation = ({
     tryConfirmation(code);
   }, []);
   return (
-    <Layout title="Konto bestätigen">
+    <Layout title="Konto bestätigen - Brickboard 2.0">
       <ViewWrapper>
         <FlexEvenly>
           <AuthInfo>
@@ -66,8 +66,14 @@ export const CodeConfirmation = ({
               : (
                 <>
                   <h2>Whoops</h2>
-                  <p>das hat leider nicht geklappt!</p>
+                  <br />
+                  <p>Das hat leider nicht geklappt!</p>
+                  <br />
                   <p>{displayedError}</p>
+                  <br />
+                  <p>Dein Code ist abgelaufen oder nicht gültig?</p>
+                  <br />
+                  <Link href="./erneut-senden" passHref><Button small>Fordere einen neuen Code an</Button></Link>
                 </>
               )}
             {isSuccess && <Link href="/login" passHref><Button small>Zum Login</Button></Link>}

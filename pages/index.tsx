@@ -52,7 +52,7 @@ function Home({ content, fetchUrl }: LandingPageProps) {
   return (
     <>
       <Layout title="Startseite - Willkommen am Brickboard 2.0" fullWidth>
-        <ViewWrapper dark fullWidth>
+        <ViewWrapper dark fullWidth small>
           <NewsSection newsList={newsList} authors={newsAuthors} />
         </ViewWrapper>
         <ViewWrapper small>

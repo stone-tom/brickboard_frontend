@@ -28,13 +28,14 @@ export const TopicItem = styled.div<{
   }
 `;
 
-export const TopicHeading = styled.h3<{
+export const TopicHeading = styled.h2<{
   updated?: boolean
 }>`
 
   &:hover {
     color: ${(props) => props.theme.brickred};
   }
+  font-size: 1.2rem;
 `;
 
 export const TopicIcon = styled.div<{

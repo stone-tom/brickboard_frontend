@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import Link from 'next/link';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FlexRight, ViewWrapper } from '../../styles/global.styles';
 import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
 import { useStoreState } from '../../context/custom_store';
@@ -216,7 +217,7 @@ function Subforum({
         {isAuthenticated && (
           <FlexRight>
             <Link href={`./${slug}/neues-thema`} passHref>
-              <Button disabled={moderation_state === 'blocked'}>
+              <Button icon={faPlus} disabled={moderation_state === 'blocked'}>
                 {moderation_state !== 'approved' ? (
                   <Hint hint="Dein Konto ist nicht freigeschalten">
                     Thema erstellen

@@ -50,7 +50,7 @@ const PostForm = ({ onEditorSubmit, answer = false, initialContent }: EditorProp
       {!answer && (
         <>
           <h2>Der Titel</h2>
-          <TitleInput placeholder="Hallo Brickfilmwelt!" name="title" onChange={(e) => changeTitle(e.target.value)} />
+          <TitleInput autoFocus placeholder="Hallo Brickfilmwelt!" name="title" onChange={(e) => changeTitle(e.target.value)} />
         </>
       )}
       {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2>}
@@ -76,7 +76,7 @@ const PostForm = ({ onEditorSubmit, answer = false, initialContent }: EditorProp
         />
       </EditorWrapper>
       <FlexRight>
-        <Button type="button" onClick={() => submitTopic()}>Absenden</Button>
+        <Button disabled={(!answer && !title) || !editorContent} type="button" onClick={() => submitTopic()}>Absenden</Button>
       </FlexRight>
 
     </EditorContainer>

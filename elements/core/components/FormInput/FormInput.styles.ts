@@ -28,7 +28,7 @@ export const FormInput = styled.input<{
   }
 
   ::placeholder {
-    color: ${(props) => props.theme.gray};
+    color: ${(props) => props.theme.darkgray};
   }
 
   &:focus {

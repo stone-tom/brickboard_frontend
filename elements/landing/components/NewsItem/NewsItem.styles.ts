@@ -11,6 +11,11 @@ export const NewsItemWrapper = styled.li`
     width: 33%;
     height: 10rem;
   }
+  @media (max-width: 500px) {
+    width: 48%;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
 `;
 export const BigNewsItemWrapper = styled.div`
   position: relative;
@@ -25,8 +30,9 @@ export const NewsInfos = styled.div`
   position: absolute;
   bottom: 0;
   left:0;
-  max-width: 80%;
-  padding: 1rem;
+  right: 0;
+  padding-left: 15px;
+  padding: 15px;
   color: ${(props) => props.theme.white};
   background-color: rgba(51,51,51,0.6);
 `;
@@ -37,6 +43,7 @@ export const BigNewsItemHeading = styled.h2`
 
 export const BigNewsItemDescription = styled.p`
   margin-bottom: 1rem;
+  max-width: 80%;
 `;
 
 export const NewsItemHeading = styled.h3`

@@ -9,8 +9,6 @@ import {
   ErrorHint, LoginButton, SignInForm, SignInHeading, SignInInput, SignInLabel,
 } from './SignInForm.styles';
 
-// cool hovers: https://codepen.io/Takumari85/pen/RaYwpJ
-
 interface LoginInputs {
   email: string;
   password: string;
@@ -29,7 +27,7 @@ const SignIn = () => {
         content: 'Erfolgreich eingeloggt',
         type: MessageType.success,
       });
-      router.back();
+      router.push('/');
     } catch (e) {
       setError('email', {
         type: 'manual',

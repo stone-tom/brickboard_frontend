@@ -38,7 +38,6 @@ const NewsCreator = ({
   const [url, setUrl] = useState(newsItem ? newsItem.attributes.url : '');
   const [topic_url, setTopicUrl] = useState<string>(newsItem ? newsItem.attributes.topic_url : '');
   const [short_description, setShortDescription] = useState<string>(newsItem ? newsItem.attributes.short_description : '');
-  const [allFields, setAllFields] = useState(false);
 
   const { setMessage } = useStoreDispatch();
 
@@ -99,7 +98,6 @@ const NewsCreator = ({
       });
     } else {
       setFile(newFile);
-      setAllFields(true);
     }
   };
   return (
@@ -116,18 +114,25 @@ const NewsCreator = ({
           <WideArea onChange={(value) => setShortDescription(value.target.value)} name="short_description" defaultValue={newsItem ? newsItem.attributes.short_description : ''} />
           <UrlWrapper>
             <UrlInfo>
-              <p>Optional: Link zu Webseite</p>
+              <p>Optional: Link zu externer Webseite</p>
               <FormInput type="text" name="url" placeholder="https://www.brickboard.de/" onChange={(value) => setUrl(value)} defaultValue={newsItem ? newsItem.attributes.url : ''} />
             </UrlInfo>
             <UrlInfo>
-              <p>Optional: Teil-Url zum Thema</p>
+              <p>Optional: Teil-Url zum Thema im Forum</p>
               <FormInput type="text" name="topic_url" placeholder="https://www.brickboard.de/" onChange={(value) => setTopicUrl(value)} defaultValue={newsItem ? newsItem.attributes.topic_url : ''} />
             </UrlInfo>
           </UrlWrapper>
         </NewsArticleInfos>
       </NewsCreatorWrapper>
       <FlexRight>
-        <Button disabled={!allFields && !newsItem} onClick={() => submitNews()}>
+        <Button
+          disabled={
+            !title
+            || !short_description
+            || (!file && !newsItem)
+          }
+          onClick={() => submitNews()}
+        >
           Abschicken
         </Button>
         {newsItem && (

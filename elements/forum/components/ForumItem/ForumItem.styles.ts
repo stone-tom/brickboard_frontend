@@ -35,6 +35,7 @@ export const ForumItemContent = styled.div`
   align-items: center;
   padding-left: .5rem;
   border-left: lightgray 1px solid;
+  cursor: pointer;
 `;
 
 export const ForumHeading = styled.h3`

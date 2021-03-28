@@ -48,3 +48,7 @@ export const NewsArticleButtonFloat = styled.div`
   right: 1rem;
   bottom: 1rem;
 `;
+
+export const NewsArticleContent = styled.div`
+  width: 80%;
+`;

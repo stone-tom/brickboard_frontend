@@ -25,7 +25,6 @@ const VideoShowcase = ({ movieList, authorList, categories }: VideoShowcaseProps
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    variableHeight: true,
     variableWidth: true,
     arrows: false,
     dots: false,
@@ -72,13 +71,12 @@ const VideoShowcase = ({ movieList, authorList, categories }: VideoShowcaseProps
                 short_description="Hier werden zufällig Brickfilme aus der Community präsentiert! Schau sie dir an und lass ein Kommentar da!"
               />
               {movieList.map((movie) => (
-                <VideoMargin>
+                <VideoMargin key={`movie_${movie.id}`}>
                   <MovieCard
                     id={movie.id}
                     title={movie.attributes.title}
                     videoURL={movie.attributes.video_url}
                     categories={filterCategories(movie)}
-                    key={`movie_${movie.id}`}
                     creator={
                       findObject(authorList,
                         movie.relationships.user.data.id)

@@ -8,6 +8,14 @@
     "path": "/moderation/post-moderation"
   },
   {
+    "text": "News",
+    "path": "/news"
+  },
+  {
+    "text": "Events",
+    "path": "/events"
+  },
+  {
     "text": "Film vorstellen",
     "path": "/forum/filmvorstellungen/neues-thema"
   }

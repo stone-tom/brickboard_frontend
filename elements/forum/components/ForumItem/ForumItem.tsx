@@ -20,12 +20,14 @@ import Hint from '../../../core/components/Hint/Hint';
 import Icon from '../../../core/components/Icon/Icon';
 import TextIcon from '../TextIcon/TextIcon';
 import IMessageboard from '../../../../models/IMessageboard';
+import ColoredNextLink from '../../../core/components/ColoredNextLink/ColoredNextLink';
 
 interface ForumItemProps {
   messageboard: IMessageboard;
   lastTopic?: ITopic;
   lastAuthor?: IUser;
   slug: string;
+  onClick?: (event) => void;
 }
 
 const PostItemComponent = ({
@@ -33,6 +35,7 @@ const PostItemComponent = ({
   lastTopic,
   lastAuthor,
   slug,
+  onClick,
 }: ForumItemProps) => (
   <>
     <ForumItem>
@@ -46,7 +49,7 @@ const PostItemComponent = ({
         />
       </ForumItemImageContainer>
 
-      <ForumItemContent>
+      <ForumItemContent onClick={() => onClick(slug)}>
         <div>
           <ForumHeading>
             <Link href={`/forum/${slug}`}>{messageboard.attributes.name}</Link>
@@ -59,7 +62,12 @@ const PostItemComponent = ({
         <ForumItemDetails>
           <ForumIconWrapper>
             <Hint hint="Beiträge">
-              <TextIcon text={messageboard.attributes.topics_count.toString()}>
+              <TextIcon
+                text={
+                  (messageboard.attributes.topics_count
+                    + messageboard.attributes.movies_count).toString()
+                }
+              >
                 <Icon icon={faClipboardList} />
               </TextIcon>
             </Hint>
@@ -79,12 +87,9 @@ const PostItemComponent = ({
           <LastPostHeading>Letzter Post</LastPostHeading>
           {lastTopic ? (
             <>
-              <Link href={`/forum/${slug}/${lastTopic.id}`}>{lastTopic.attributes.title}</Link>
+              <ColoredNextLink href={`/forum/${slug}/${lastTopic.id}`} text={lastTopic.attributes.title} />
               {lastAuthor && (
-                <p>
-                  von:
-                  <Link href={`/profil/${lastAuthor.id}`}>{` ${lastAuthor.attributes.display_name}`}</Link>
-                </p>
+                <ColoredNextLink href={`/profil/${lastAuthor.id}`} text={`von: ${lastAuthor.attributes.display_name}`} />
               )}
             </>
           )

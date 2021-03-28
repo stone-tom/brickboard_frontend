@@ -78,6 +78,7 @@ const MovieForm = ({
       <VideoInformationWrapper>
         <Title>
           <FormInput
+            autoFocus={!defaultValues}
             disabled={defaultValues}
             type="text"
             value={title}
@@ -107,7 +108,7 @@ const MovieForm = ({
             onChange={(newCategories) => handleCategorySelect(newCategories)}
             value={selectedCategories}
           >
-            Kategorien
+            Kategorien (max. 3)
           </MultiSelectComponent>
         </InputWrapper>
       </VideoInformationWrapper>

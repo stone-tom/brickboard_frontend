@@ -13,5 +13,5 @@ export const Value = styled.p`
 `;
 
 export const Text = styled.p`
-  color: ${(props) => props.theme.brickred};
+  color: ${(props) => props.theme.darkgray};
 `;
