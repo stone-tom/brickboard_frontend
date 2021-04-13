@@ -51,7 +51,8 @@
     "suneditor-react": "^2.14.10",
     "svg-react-loader": "^0.4.6",
     "swr": "^0.4.1",
-    "use-persisted-state": "^0.3.3"
+    "use-persisted-state": "^0.3.3",
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.1",
@@ -72,6 +73,7 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "fetch-mock": "^9.11.0",
     "husky": "^4.3.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
