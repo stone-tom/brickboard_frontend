@@ -40,12 +40,12 @@ const NewsItem = ({
         <NewsInfos>
           <BigNewsItemHeading>{newsitem.attributes.title}</BigNewsItemHeading>
           <BigNewsItemDescription>{newsitem.attributes.short_description}</BigNewsItemDescription>
-          <p>{`von ${author.attributes.display_name}, am ${format(new Date(author.attributes.created_at), 'dd.MM.yyyy')}`}</p>
+          <p>{`von ${author.attributes.display_name}, am ${format(new Date(newsitem.attributes.created_at), 'dd.MM.yyyy')}`}</p>
 
         </NewsInfos>
         <NewsItemButtonFloat>
           {newsitem.attributes.url && !newsitem.attributes.topic_url && (
-          <ExternalLink href="">Zur Seite</ExternalLink>)}
+          <ExternalLink href={newsitem.attributes.url}>Zur Seite</ExternalLink>)}
           {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`}><Button>Zum Beitrag</Button></Link>}
         </NewsItemButtonFloat>
       </BigNewsItemWrapper>

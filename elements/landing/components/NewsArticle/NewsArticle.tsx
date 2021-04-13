@@ -7,6 +7,7 @@ import INewsItem from '../../../../models/INewsItem';
 import IUser from '../../../../models/IUser';
 import {
   NewsArticleButtonFloat,
+  NewsArticleContent,
   NewsArticleHeader,
   NewsArticleHeading,
   NewsArticleImageWrapper,
@@ -82,13 +83,15 @@ const NewsArticle = ({
                   </div>
                 )}
               </NewsArticleHeader>
-              <p>{news.attributes.short_description}</p>
-              {news.attributes.description && <p>{news.attributes.description}</p>}
+              <NewsArticleContent>
+                <p>{news.attributes.short_description}</p>
+                {news.attributes.description && <p>{news.attributes.description}</p>}
+              </NewsArticleContent>
             </NewsArticleInfos>
             <NewsArticleButtonFloat>
               {news.attributes.url && (
-                <ExternalLink href="">Zur Seite</ExternalLink>)}
-              {news.attributes.topic_url && <Link href={`.${news.attributes.topic_url}`} passHref><Button>Zum Beitrag</Button></Link>}
+                <ExternalLink small href={news.attributes.url}>Zur Seite</ExternalLink>)}
+              {news.attributes.topic_url && <Link href={`.${news.attributes.topic_url}`} passHref><Button small>Zum Beitrag</Button></Link>}
             </NewsArticleButtonFloat>
           </NewsArticleWrapper>
 

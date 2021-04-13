@@ -184,13 +184,18 @@ export const FlexRight = styled.div<{
 
 export const FlexLeft = styled.div<{
   fullHeight?: boolean,
+  alignCenter?: boolean,
 }>`
   display: flex;
   justify-content: flex-start;
 
   ${(props) => props.fullHeight && css`
   height: 100%;
-`}
+  `}
+
+  ${(props) => props.alignCenter && css`
+  align-items: center;
+  `}
 `;
 
 export const FlexBetween = styled.div`
@@ -218,4 +223,9 @@ export const FlexCenter = styled.div`
 
 export const Greeting = styled.h1`
   margin-top: 2rem;
+`;
+
+export const MarginX = styled.div`
+  margin-left: 2rem;
+  margin-right: 2rem;
 `;

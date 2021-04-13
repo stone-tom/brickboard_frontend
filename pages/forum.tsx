@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
 import useSWR from 'swr';
+import { useRouter } from 'next/router';
 import ForumItem from '../elements/forum/components/ForumItem/ForumItem';
 import { ViewWrapper } from '../styles/global.styles';
 import ForumHeading from '../elements/forum/components/ForumHeading/ForumHeading';
@@ -38,8 +39,13 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
     initialData: content,
     revalidateOnMount: true,
   });
+  const router = useRouter();
   const users = filterContent(data, 'user');
   const messageBoards = filterContent(data, 'messageboard');
+
+  const openTarget = (slugToOpen) => {
+    if (slugToOpen !== '')router.push(`/forum/${slugToOpen}`);
+  };
 
   const messageboadGroups = data.data;
   if (messageboadGroups.length === 0) {
@@ -64,7 +70,8 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
                 }
                 return (
                   <ForumItem
-                    key={board.attributes.slug}
+                    onClick={(event) => openTarget(event)}
+                    key={`mb_${board.attributes.slug}`}
                     messageboard={board}
                     lastTopic={lastTopic}
                     lastAuthor={lastUser}

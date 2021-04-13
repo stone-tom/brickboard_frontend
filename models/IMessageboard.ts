@@ -5,6 +5,7 @@ export interface IMessageboardtAttributes {
   description: string,
   slug: string,
   topics_count: number,
+  movies_count?: number,
   posts_count: number,
   position?: number,
   locked: boolean,

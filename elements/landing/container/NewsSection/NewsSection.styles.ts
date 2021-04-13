@@ -43,6 +43,8 @@ export const AllNewsItem = styled.li`
 
   @media (max-width: 880px){
     width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
 `;

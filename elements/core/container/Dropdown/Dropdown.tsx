@@ -67,11 +67,10 @@ const SubMenu = () => {
             </NavLink>
 
             {navigation.map((item) => (
-              <Link href={item.path}>
+              <Link key={`dp_${item.path}`} href={item.path} passHref>
                 <DropItem>
                   {item.text}
                 </DropItem>
-
               </Link>
             ))}
             <DropItem

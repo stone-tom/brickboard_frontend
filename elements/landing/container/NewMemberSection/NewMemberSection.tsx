@@ -6,6 +6,7 @@ import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
 import { FlexLeft } from '../../../../styles/global.styles';
 import { backendURL } from '../../../../util/api';
+import { Button } from '../../../core/components/Button/Button.styles';
 import { ProfileAsideHeading } from '../../../forum/components/ProfileAside/ProfileAside.style';
 import {
   MemberFact,
@@ -71,6 +72,11 @@ const NewMemberSection = ({ member, memberdetails }: NewMemberProps) => (
                 )}
               </>
             )}
+            <Link href={`/profil/${member.id}`} passHref>
+              <Button small>
+                Zum Profil
+              </Button>
+            </Link>
           </NewMemberInfos>
         </NewMemberBody>
       </NewestMemberContent>

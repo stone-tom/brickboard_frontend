@@ -1,5 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import React from 'react';
+import Counter from '../../../core/components/Counter/Counter';
 import Icon from '../../../core/components/Icon/Icon';
 import {
   StatisticItemWrapper,
@@ -21,7 +22,7 @@ const StatisticItem = ({
   <StatisticItemWrapper>
     <Icon icon={icon} />
     <Value>
-      {value}
+      <Counter end={value} />
     </Value>
     <Text>
       {text}

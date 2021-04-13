@@ -22,6 +22,7 @@ import getEvents from './events/get-events';
 import getLandingPage from './landingpage/get-landing-page';
 import createEvent from './events/create-event';
 import deleteEvent from './events/delete-events';
+import resendCode from './authentication/resend-code';
 
 // export const backendURL = 'https://brickboard.herokuapp.com';
 export const backendURL = 'https://dev.brickboard.de';
@@ -51,4 +52,5 @@ export {
   getLandingPage,
   createEvent,
   deleteEvent,
+  resendCode,
 };

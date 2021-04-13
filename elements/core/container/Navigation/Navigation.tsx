@@ -14,6 +14,7 @@ import {
   MenuImageContainer,
   FontImageWrapper,
 } from './Navigation.styles';
+import Logo from '../../components/Logo/Logo';
 
 const Navigation = ({
   user,
@@ -26,7 +27,7 @@ const Navigation = ({
             <Image src="/assets/images/bb_font.png" alt="Brickboard" height="32px" width="60px" />
           </FontImageWrapper>
           <MenuImageWrapper>
-            <Image src="/assets/images/bb_logo.png" alt="Brickboard Logo" layout="fill" objectFit="contain" />
+            <Logo />
           </MenuImageWrapper>
         </MenuImageContainer>
       </Link>

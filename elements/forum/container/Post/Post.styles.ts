@@ -37,7 +37,13 @@ export const PostContent = styled.div`
   padding: 1rem;
 
   ul {
-    list-style-type: circle;
+      display: block;
+      list-style-type: disc;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 40px;
   }
 `;
 

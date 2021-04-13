@@ -127,7 +127,7 @@ const NewsPage = ({ content }: NewsProps) => {
         <h1>Alle Neuigkeiten</h1>
         {isAuthenticated && user.attributes.admin && (
           <FlexRight>
-            <Button onClick={() => toggleEditor()}>
+            <Button reset={editorActive} onClick={() => toggleEditor()}>
               {editorActive ? 'Abbrechen' : 'News erstellen'}
             </Button>
           </FlexRight>

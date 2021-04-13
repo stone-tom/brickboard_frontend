@@ -38,7 +38,7 @@ const CommunitySection = ({ users, userDetails }: CommunitySectionProps) => {
           {users.length > 0 && (
             <>
               {users.map((user) => (
-                <UserShowCase user={user} userDetails={findUserDetail(user)} />
+                <UserShowCase key={`user_${user.id}`} user={user} userDetails={findUserDetail(user)} />
               ))}
             </>
           )}

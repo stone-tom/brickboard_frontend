@@ -7,6 +7,8 @@ import {
   faBan,
   faBell,
   faBellSlash,
+  faCaretLeft,
+  faCaretRight,
   faClipboardCheck,
   faLock,
   faLockOpen,
@@ -18,6 +20,8 @@ import {
   Hint,
   FlexRight,
   FlexBetween,
+  FlexLeft,
+  MarginX,
 } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
@@ -99,8 +103,9 @@ function Subforum({
   categoryData,
   categoryURL,
 }: SubforumProps) {
+  const [pageIndex, setPageIndex] = useState(1);
   const { data, mutate } = useSWR(
-    fetchURL,
+    `${fetchURL}/page-${pageIndex}`,
     get,
     { revalidateOnMount: true, initialData: topicData },
   );
@@ -471,7 +476,7 @@ function Subforum({
         {isAuthenticated && !isLocked && topic.attributes.moderation_state !== 'blocked' && (
           <EditorContainer>
             <FlexRight>
-              <Button disabled={moderation_state !== 'approved'} type="button" onClick={() => toggleEditor()}>
+              <Button small={editorActive} disabled={moderation_state !== 'approved'} type="button" onClick={() => toggleEditor()}>
                 {editorActive ? 'Abbrechen' : 'Antworten'}
               </Button>
             </FlexRight>
@@ -480,6 +485,22 @@ function Subforum({
             )}
           </EditorContainer>
         )}
+        <FlexLeft alignCenter>
+
+          {pageIndex > 1 && (
+            <Button icon={faCaretLeft} small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
+              Vorige Seite
+            </Button>
+          )}
+          <MarginX>
+            <p>{`Seite ${pageIndex} von ${Math.ceil(topic.attributes.posts_count / 20)}`}</p>
+          </MarginX>
+          {posts.length >= 20 && (
+            <Button icon={faCaretRight} small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+              Nächste Seite
+            </Button>
+          )}
+        </FlexLeft>
       </ViewWrapper>
     </Layout>
   );
