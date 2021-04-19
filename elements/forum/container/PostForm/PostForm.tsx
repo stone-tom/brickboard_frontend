@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
 import { FlexRight } from '../../../../styles/global.styles';
 // import getRandomInt from '../../../../util/randomizer';
 import Button from '../../../core/components/Button/Button';
