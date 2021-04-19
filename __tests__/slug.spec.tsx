@@ -2,16 +2,15 @@ import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
-import { backendURL } from '../../util/api';
-import categoryResponse from '../../__tests__/mock-data/category_index.json';
-import categoryFilterResponse1 from '../../__tests__/mock-data/movies_filter_1.json';
-import categoryFilterResponse2 from '../../__tests__/mock-data/movies_filter_1_4.json';
-import topicResponse from '../../__tests__/mock-data/topic_index.json';
-import main from '../../themes/main';
-import SubForum from './[slug]';
+import categoryResponse from './mock-data/category_index.json';
+import categoryFilterResponse1 from './mock-data/movies_filter_1.json';
+import categoryFilterResponse2 from './mock-data/movies_filter_1_4.json';
+import topicResponse from './mock-data/topic_index.json';
+import main from '../themes/main';
+import SubForum from '../pages/forum/[slug]';
 import 'whatwg-fetch';
+import { backendURL } from '../util/api';
 
-beforeAll(() => jest.spyOn(window, 'fetch'));
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
   useRouter: jest.fn(() => false),
