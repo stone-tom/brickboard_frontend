@@ -100,7 +100,7 @@ function Subforum({
     }
   };
 
-  if (data.data.length === 0 || data.included === []) {
+  if (data && (data.data.length === 0 || data.included === [])) {
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
