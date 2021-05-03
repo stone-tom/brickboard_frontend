@@ -9,7 +9,6 @@ import { get } from '../../util/methods';
 import UserCard from '../../elements/user/container/UserCard/UserCard';
 import FormInput from '../../elements/core/components/FormInput/FormInput';
 import { backendURL } from '../../util/api';
-import LoaderComponent from '../../elements/core/components/Loader/Loader';
 
 const UserCardWrapper = styled.div`
   display: flex;
