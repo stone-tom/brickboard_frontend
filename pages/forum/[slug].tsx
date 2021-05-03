@@ -263,6 +263,7 @@ function Subforum({
         <Pagination
           totalLength={messageboard.attributes.topics_count}
           pageIndex={pageIndex}
+          paginationSize={20}
           onClick={(index: number) => setPageIndex(index)}
         />
         {isAuthenticated && (
