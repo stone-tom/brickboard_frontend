@@ -20,6 +20,7 @@ import {
 } from './ProfileBar.styles';
 import { MessageType } from '../../../../models/IMessage';
 import { backendURL } from '../../../../util/api';
+import { isBlocked } from '../../../../pages/profil/[user_id]';
 
 interface ProfileBarProps {
   user: IUser,
@@ -73,7 +74,8 @@ const ProfileBar = ({
   return (
     <ProfileBarWrapper>
       <Username>
-        {user.attributes.display_name}
+        {`${user.attributes.display_name} ${isBlocked(authUser, user, userDetail) && '(Blockiert)'}`}
+
       </Username>
       <Statistics>
         <StatisticItem

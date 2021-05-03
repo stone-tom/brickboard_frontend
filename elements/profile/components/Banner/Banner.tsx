@@ -10,6 +10,7 @@ import {
 } from './Banner.styles';
 
 interface BannerProps {
+  blocked: boolean,
   image: string | null,
   defaultImage?: string,
   alt_text: string
@@ -18,6 +19,7 @@ interface BannerProps {
 }
 
 const BannerComponent = ({
+  blocked,
   image,
   defaultImage = '/assets/images/default_banner.jpg',
   alt_text,
@@ -31,7 +33,7 @@ const BannerComponent = ({
         layout="fill"
         objectFit="cover"
         alt={alt_text}
-        src={image ? `${backendURL}${image}` : defaultImage}
+        src={!image || blocked ? defaultImage : `${backendURL}${image}`}
       />
       {isAuthenticated && user.id === userId && (
         <EditButton

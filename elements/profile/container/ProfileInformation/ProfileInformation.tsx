@@ -27,6 +27,7 @@ import {
 import ITopic from '../../../../models/ITopic';
 import PersonalMovies from '../PersonalMovies/PersonalMovies';
 import ICategory from '../../../../models/ICategory';
+import { isBlocked } from '../../../../pages/profil/[user_id]';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -82,7 +83,7 @@ const ProfileInformation = ({
               layout="fill"
               objectFit="cover"
               alt="Profilbild (von Heroku gelöscht)"
-              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'}
+              src={!user.attributes.avatar || isBlocked(authUser, user, userDetail) ? '/assets/images/default_profile.svg' : `${backendURL}${user.attributes.avatar}`}
             />
             {isAuthenticated && user.id === authUser.id && (
               <EditButton
@@ -121,11 +122,15 @@ const ProfileInformation = ({
           user={user}
           userDetail={userDetail}
         />
-        <ProfileNavigation
-          tabs={contentItems}
-          onContentChange={(index) => setActiveContent(index)}
-        />
-        {contentItems[activeContent].content}
+        {!isBlocked(authUser, user, userDetail) && (
+          <>
+            <ProfileNavigation
+              tabs={contentItems}
+              onContentChange={(index) => setActiveContent(index)}
+            />
+            {contentItems[activeContent].content}
+          </>
+        )}
       </ProfileInformationWrapper>
     </Wrapper>
   );

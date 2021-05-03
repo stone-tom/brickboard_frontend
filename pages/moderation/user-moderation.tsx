@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
+import Link from 'next/link';
 import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import { Icon } from '../../elements/core/components/Icon/Icon.styles';
 import Indicator from '../../elements/core/components/Indicator/Indicator';
@@ -88,7 +89,7 @@ const UserModeration = () => {
 
   const userDataReducer: (user: IUser) =>
     Row[] = (user: IUser) => ([
-      user.attributes.display_name,
+      [<Link href={`/profil/${user.id}`}>{user.attributes.display_name}</Link>, user.attributes.display_name],
       [<Indicator text={user.attributes.admin ? 'Admin' : 'User'} color={theme.userTypes[user.attributes.admin ? 'admin' : 'user']} />, user.attributes.admin ? 'admin' : 'user'],
       [<Indicator
         text={getStatus(getModerationState(data, user))}

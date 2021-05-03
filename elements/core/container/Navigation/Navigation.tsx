@@ -39,8 +39,13 @@ const Navigation = ({
           </Link>
         </NavigationItem>
         <NavigationItem>
+          <Link href="/forum/filmvorstellungen">
+            Filme
+          </Link>
+        </NavigationItem>
+        <NavigationItem>
           <Link href="/benutzer">
-            Benutzer
+            Mitglieder
           </Link>
         </NavigationItem>
 

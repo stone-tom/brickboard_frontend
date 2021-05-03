@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import React from 'react';
 import useSWR from 'swr';
-import { useStoreDispatch } from '../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Banner from '../../elements/profile/components/Banner/Banner';
 import ProfileInformation from '../../elements/profile/container/ProfileInformation/ProfileInformation';
@@ -53,6 +53,18 @@ interface ProfileProps {
   fetchURL: string,
 }
 
+export const isBlocked = (
+  accessingUser: IUser,
+  currentUser: IUser,
+  currentUserDetail: IUserDetail,
+) => {
+  if (accessingUser && accessingUser.id === currentUser.id) return false;
+  if (accessingUser && accessingUser.attributes.admin) return false;
+  if (currentUserDetail.attributes.moderation_state === 'pending_moderation'
+    || currentUserDetail.attributes.moderation_state === 'blocked') return true;
+  return true;
+};
+
 const Profile = ({
   content,
   fetchURL,
@@ -73,6 +85,7 @@ const Profile = ({
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
   const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
   const movieCategories: ICategory[] = filter(data, 'category');
+  const { user: currentUser } = useStoreState();
 
   const editBanner = (id: string) => {
     addComponent((
@@ -177,6 +190,7 @@ const Profile = ({
       {user && (
         <ViewWrapper fullHeight>
           <Banner
+            blocked={isBlocked(currentUser, user, userDetail)}
             onEditBanner={() => editBanner(user.id)}
             alt_text="Profil Banner"
             image={userDetail.attributes.profile_banner}
