@@ -49,6 +49,7 @@ export const PostContent = styled.div`
 
 export const PostSettings = styled.ul`
   display: flex;
+  align-items: center;
 `;
 
 export const CategoryLabel = styled.div`

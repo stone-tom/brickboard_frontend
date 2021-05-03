@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-export const BreadcrumbsWrapper = styled.ul`
+export const PaginationWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
 `;

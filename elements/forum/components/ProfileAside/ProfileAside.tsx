@@ -31,6 +31,7 @@ const ProfileAsideComponent = ({
           src={author.attributes.avatar ? `${backendURL}${author.attributes.avatar}` : '/assets/images/default_profile.svg'}
           alt="Profilbild (von Heroku gelöscht)"
           layout="fill"
+          objectFit="cover"
         />
       </ProfileImageWrapper>
     </ProfileCondensedInfo>

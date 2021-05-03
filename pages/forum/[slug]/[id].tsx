@@ -4,16 +4,13 @@ import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import useSWR from 'swr';
 import {
-  faBan,
   faBell,
   faBellSlash,
-  faCaretLeft,
-  faCaretRight,
-  faClipboardCheck,
   faLock,
   faLockOpen,
   faMapPin,
   faSlash,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   ViewWrapper,
@@ -21,14 +18,13 @@ import {
   FlexRight,
   FlexBetween,
   FlexLeft,
-  MarginX,
 } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import {
   answerTopic,
-  banPost,
+  deleteTopic,
   followTopic,
   getMessageBoardGroups,
   getTopic,
@@ -50,6 +46,7 @@ import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/
 import Prompt from '../../../elements/core/container/Prompt/Prompt';
 import PostForm from '../../../elements/forum/container/PostForm/PostForm';
 import getCategories from '../../../util/api/topic/get-categories';
+import Pagination from '../../../elements/core/container/Pagination/Pagination';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -314,13 +311,12 @@ function Subforum({
       mutate(updateData, false);
     }
   };
-  const blockTopic = async (blocking: boolean) => {
-    const updatedModeration = blocking ? 'blocked' : 'approved';
-    const { error } = await banPost(posts[0].id, updatedModeration);
+  const deleteTopicWithId = async () => {
+    const { error } = await deleteTopic(topic.id);
     if (!error) {
       setMessage({
-        content: `Thema wurde erfolgreich ${blocking ? 'blockiert' : 'freigeschalten'}`,
-        type: blocking ? MessageType.success : MessageType.warning,
+        content: 'Thema wurde erfolgreich gelöscht',
+        type: MessageType.success,
       });
       router.push(`/forum/${slug}`);
     } else {
@@ -345,23 +341,30 @@ function Subforum({
           )}
       </Prompt>));
   };
-  const onTryBlocking = async (blocking: boolean) => {
+  const onTryDeleting = async () => {
     addComponent((
       <Prompt
-        headline={blocking ? 'Blockieren bestätigen' : 'Freigeben bestätigen'}
-        onAccept={() => blockTopic(blocking)}
+        headline="Löschen bestätigen"
+        onAccept={() => deleteTopicWithId()}
       >
-        {blocking ? (
-          <div>
-            <p>Wenn du das Thema blockiest, wird es aus dem Forum entfernt!</p>
-            <p>Admins können es noch sehen.</p>
-          </div>
-        )
-          : (
-            'Wenn du das Thema feischaltest, ist es wieder voll im Forum verfügbar.'
-          )}
+        <div>
+          <p>Diese Aktion kann nicht rückgängig gemacht werden!</p>
+        </div>
       </Prompt>));
   };
+
+  const removePost = (postId) => {
+    const updateData = {
+      ...data,
+      included:
+        data.included.filter((item) => {
+          if (item.id === postId && (item.type === 'post' || item.type === 'post_view')) return null;
+          return item;
+        }),
+    };
+    mutate(updateData, false);
+  };
+
   if (topic.attributes.moderation_state === 'blocked' && !user.attributes.admin) {
     return (
       <Layout title="Blockiertes Thema - Brickboard 2.0">
@@ -424,12 +427,10 @@ function Subforum({
                     <TopicSettingsBarItem>
                       <Button
                         reset
-                        icon={topic.attributes.moderation_state !== 'blocked' ? faBan : faClipboardCheck}
-                        onClick={() => onTryBlocking(topic.attributes.moderation_state !== 'blocked')}
+                        icon={faTrash}
+                        onClick={() => onTryDeleting()}
                       >
-                        {topic.attributes.moderation_state !== 'blocked'
-                          ? 'Thema blockieren'
-                          : 'Thema freischalten'}
+                        Thema löschen
                       </Button>
                     </TopicSettingsBarItem>
                   </>
@@ -470,6 +471,7 @@ function Subforum({
             videoURL={topic.attributes.video_url}
             categories={filter(data, 'category')}
             allCategories={allCategories && allCategories.data}
+            onPostDeleted={(postId: number) => removePost(postId)}
           />
         ))}
 
@@ -486,20 +488,12 @@ function Subforum({
           </EditorContainer>
         )}
         <FlexLeft alignCenter>
-
-          {pageIndex > 1 && (
-            <Button icon={faCaretLeft} small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
-              Vorige Seite
-            </Button>
-          )}
-          <MarginX>
-            <p>{`Seite ${pageIndex} von ${Math.ceil(topic.attributes.posts_count / 20)}`}</p>
-          </MarginX>
-          {posts.length >= 20 && (
-            <Button icon={faCaretRight} small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
-              Nächste Seite
-            </Button>
-          )}
+          <Pagination
+            paginationSize={20}
+            pageIndex={pageIndex}
+            totalLength={topic.attributes.posts_count}
+            onClick={(index: number) => setPageIndex(index)}
+          />
         </FlexLeft>
       </ViewWrapper>
     </Layout>

@@ -9,6 +9,7 @@ module.exports = {
       'https://brickboard.herokuapp.com',
       'https://dev.brickboard.de',
       'dev.brickboard.de',
+      'brickboard.de',
       'img.youtube.com',
       'https://img.youtube.com',
     ],

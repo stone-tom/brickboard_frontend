@@ -23,6 +23,9 @@ import getLandingPage from './landingpage/get-landing-page';
 import createEvent from './events/create-event';
 import deleteEvent from './events/delete-events';
 import resendCode from './authentication/resend-code';
+import markAllAsReadMessageboard from './topic/mark-all-as-read-messageboard';
+import deletePost from './post/delete-post';
+import deleteTopic from './topic/delete-topic';
 
 // export const backendURL = 'https://brickboard.herokuapp.com';
 export const backendURL = 'https://dev.brickboard.de';
@@ -53,4 +56,7 @@ export {
   createEvent,
   deleteEvent,
   resendCode,
+  markAllAsReadMessageboard,
+  deletePost,
+  deleteTopic,
 };

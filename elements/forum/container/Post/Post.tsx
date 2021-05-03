@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
   Post, PostContent, PostDate, PostDetails, PostHeader, PostHeading, PostSettings, CategoryLabel,
 } from './Post.styles';
@@ -19,6 +19,9 @@ import MovieForm, { ICreateTopic } from '../MovieForm/MovieForm';
 import ICategory from '../../../../models/ICategory';
 import Tag from '../../../core/components/Tag/Tag';
 import { CategoryWrapper } from '../../../core/container/MovieCard/MovieCard.styles';
+import { deletePost } from '../../../../util/api';
+import Prompt from '../../../core/container/Prompt/Prompt';
+import { MarginLeft } from '../../../../styles/global.styles';
 
 // enum IconType {
 //   Standard,
@@ -43,11 +46,12 @@ interface PostProps {
   messageBoardSlug?: string,
   topicTitle?: string,
   author: IUser,
-  onPostUpdated?: any;
+  onPostUpdated?: any,
   slug?: string,
   videoURL?: string,
   categories?: ICategory[],
   allCategories?: ICategory[],
+  onPostDeleted?: (postId: number) => void,
 }
 
 const PostComponent = ({
@@ -61,11 +65,12 @@ const PostComponent = ({
   videoURL,
   categories,
   allCategories,
+  onPostDeleted,
 }: PostProps) => {
   const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
   const postContent = post.attributes.content;
-  const { setMessage } = useStoreDispatch();
+  const { setMessage, addComponent } = useStoreDispatch();
 
   const submitPost = async (values: ICreateTopic) => {
     if (messageBoardSlug && post.relationships.postable.data.id) {
@@ -89,6 +94,33 @@ const PostComponent = ({
       }
     }
   };
+  const deletePostWithId = async (postId) => {
+    const { error } = await deletePost(postId);
+    if (!error) {
+      setMessage({
+        content: 'Post wurde gelöscht',
+        type: MessageType.success,
+      });
+      onPostDeleted(postId);
+    } else {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+  };
+
+  const onTryDeleting = (postId) => {
+    addComponent((
+      <Prompt
+        headline="Löschen bestätigen?"
+        onAccept={() => deletePostWithId(postId)}
+      >
+        <div>
+          <p>Dieser Vorgang kann nicht rückgängig gemacht werden!</p>
+        </div>
+      </Prompt>));
+  };
 
   return (
     <Post role="article">
@@ -110,11 +142,28 @@ const PostComponent = ({
                         : <Hint place="bottom" hint="Abbrechen"><Icon icon={faTimes} /></Hint>}
                     </Button>
                 )}
+                {user.attributes.admin && !first && (
+                  <MarginLeft>
+                    <Button reset gray type="button" onClick={() => onTryDeleting(post.id)}>
+                      <Hint place="bottom" hint="Post löschen"><Icon icon={faTrash} /></Hint>
+                    </Button>
+                  </MarginLeft>
+                )}
               </>
             )}
           </PostSettings>
         </PostHeader>
-        <PostDate>{format(new Date(post.attributes.created_at), 'dd.MM.yyyy, HH:mm ')}</PostDate>
+        <PostDate>
+          {post.attributes.created_at !== post.attributes.updated_at ? (
+            <span>
+              {`Bearbeitet am ${format(new Date(post.attributes.updated_at), 'dd.MM.yyyy, HH:mm ')}`}
+            </span>
+          ) : (
+            <span>
+              {format(new Date(post.attributes.created_at), 'dd.MM.yyyy, HH:mm ')}
+            </span>
+          )}
+        </PostDate>
         {isEditing
           ? (
             <>
@@ -161,7 +210,6 @@ const PostComponent = ({
               <CategoryLabel>Kategorien:</CategoryLabel>
               {categories.map((category) => (
                 <>
-
                   <Tag name={category.attributes.name} />
                 </>
               ))}
