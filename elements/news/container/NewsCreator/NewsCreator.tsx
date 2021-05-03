@@ -10,6 +10,7 @@ import FormInput from '../../../core/components/FormInput/FormInput';
 import { NewsArticleImageWrapper, NewsArticleInfos } from '../../../landing/components/NewsArticle/NewsArticle.styles';
 import {
   BtnCancelWrapper,
+  CheckboxWrapper,
   CreatorContainer,
   NewsCreatorWrapper,
   UrlInfo,
@@ -36,6 +37,7 @@ const NewsCreator = ({
   const [file, setFile] = useState<File | null>();
   const [title, setTitle] = useState(newsItem ? newsItem.attributes.title : '');
   const [url, setUrl] = useState(newsItem ? newsItem.attributes.url : '');
+  const [visibile, setVisible] = useState(newsItem ? newsItem.attributes.is_active : false);
   const [topic_url, setTopicUrl] = useState<string>(newsItem ? newsItem.attributes.topic_url : '');
   const [short_description, setShortDescription] = useState<string>(newsItem ? newsItem.attributes.short_description : '');
 
@@ -47,6 +49,7 @@ const NewsCreator = ({
       newsData.append('news[news_banner]', file);
     }
     newsData.append('news[title]', title);
+    newsData.append('news[is_active]', title);
     newsData.append('news[short_description]', short_description);
 
     if (topic_url !== '' && topic_url !== null && topic_url !== undefined) {
@@ -119,9 +122,15 @@ const NewsCreator = ({
             </UrlInfo>
             <UrlInfo>
               <p>Optional: Teil-Url zum Thema im Forum</p>
-              <FormInput type="text" name="topic_url" placeholder="https://www.brickboard.de/" onChange={(value) => setTopicUrl(value)} defaultValue={newsItem ? newsItem.attributes.topic_url : ''} />
+              <FormInput type="text" name="topic_url" placeholder="/forum/neuigkeiten/11" onChange={(value) => setTopicUrl(value)} defaultValue={newsItem ? newsItem.attributes.topic_url : ''} />
             </UrlInfo>
           </UrlWrapper>
+          <CheckboxWrapper>
+            <label htmlFor="visible">
+              <input type="checkbox" name="visible" id="visible" checked={visibile} onChange={() => setVisible(!visibile)} />
+              Diese News veröffentlichen
+            </label>
+          </CheckboxWrapper>
         </NewsArticleInfos>
       </NewsCreatorWrapper>
       <FlexRight>

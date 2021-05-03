@@ -1,12 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const NewsArticleWrapper = styled.article`
+export const NewsArticleWrapper = styled.article<{
+  isActive?: boolean,
+}>`
   display: flex;
   position: relative;
   box-shadow: 0 0 10px ${(props) => props.theme.gray};
   min-height: 10rem;
   margin-bottom: 1rem;
   background-color: ${(props) => props.theme.white};
+
+  ${(props) => !props.isActive && css`
+    img {
+      filter: grayscale(100%);
+    }
+    opacity: 0.6;
+  `}
+
 `;
 
 export const NewsDeleteButtonWrapper = styled.div`

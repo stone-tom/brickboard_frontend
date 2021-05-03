@@ -31,3 +31,8 @@ export const WideArea = styled.textarea`
 export const BtnCancelWrapper = styled.div`
   margin-left: 1rem;
 `;
+
+export const CheckboxWrapper = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
