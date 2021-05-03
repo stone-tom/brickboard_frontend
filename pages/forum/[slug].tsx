@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
@@ -28,6 +28,7 @@ import Hint from '../../elements/core/components/Hint/Hint';
 import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import { MessageType } from '../../models/IMessage';
+import getCategories from '../../util/api/topic/get-categories';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -47,11 +48,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { content, fetchURL } = await getTopicViews(params.slug);
+  const { content: categoryData, fetchURL: categoryURL } = await getCategories();
 
   const topicsData = content;
   return {
     props: {
       topicsData,
+      categoryData,
+      categoryURL,
       slug: params.slug,
       fetchURL,
     },
@@ -62,11 +66,15 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 interface SubforumProps {
   topicsData: any,
   slug: string,
+  categoryData: any,
+  categoryURL: string,
 }
 
 function Subforum({
   topicsData,
   slug,
+  categoryData,
+  categoryURL,
 }: SubforumProps) {
   const router = useRouter();
   if (router.isFallback) {
@@ -135,14 +143,29 @@ function Subforum({
   }
 
   if (slug === 'filmvorstellungen') {
+    const [selected, setSelected] = useState<number[]>([]);
+    const { data: allCategories } = useSWR(
+      categoryURL,
+      get,
+      { revalidateOnMount: true, initialData: categoryData },
+    );
+    const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
+
+    const currentMovies = useMemo(() => {
+      if (filteredMovies && selected.length > 0) return filteredMovies.data;
+      return topicList;
+    }, [selected, topicList, filteredMovies]);
+
     return (
       <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
         <ViewWrapper>
           <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
           <ForumHeading title={`${messageboard.attributes.name}`} />
           <MoviePresentations
-            movies={topicList}
+            movies={currentMovies}
             users={userList}
+            categories={allCategories.data}
+            onCategorySelect={(newCategories) => setSelected(newCategories)}
           />
           {isAuthenticated && (
             <FlexRight>

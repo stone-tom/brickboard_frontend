@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
 import { FlexRight } from '../../../../styles/global.styles';
 // import getRandomInt from '../../../../util/randomizer';
 import Button from '../../../core/components/Button/Button';
+import Editor from '../../../core/container/Editor/Editor';
 import { EditorContainer, EditorWrapper, TitleInput } from './PostForm.styles';
 
 interface EditorProps {
@@ -55,24 +54,11 @@ const PostForm = ({ onEditorSubmit, answer = false, initialContent }: EditorProp
       )}
       {!answer ? <h2> Verfasse deinen Beitrag </h2> : <h2> Verfasse deine Antwort </h2>}
       <EditorWrapper>
-        <SunEditor
+        <Editor
           onChange={handleChange}
-          lang="de"
+          content={initialContent}
+          placeholder="Ich darf stolz verkünden, dass.."
           name="editor"
-          placeholder="Ich darf stolz verkünden, dass..."
-          setContents={initialContent}
-          setOptions={{
-            buttonList: [
-              ['undo', 'redo'],
-              ['bold', 'underline', 'italic', 'strike'],
-              ['fontColor', 'hiliteColor'],
-              ['outdent', 'indent', 'align', 'list'],
-              ['link', 'image', 'video'],
-            ],
-            imageFileInput: false,
-            minHeight: '300px',
-            height: 'auto',
-          }}
         />
       </EditorWrapper>
       <FlexRight>

@@ -28,6 +28,7 @@ import deletePost from './post/delete-post';
 import deleteTopic from './topic/delete-topic';
 
 // export const backendURL = 'https://brickboard.herokuapp.com';
+// export const backendURL = process.env.BACKEND_URL;
 export const backendURL = 'https://dev.brickboard.de';
 
 export {
