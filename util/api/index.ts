@@ -25,6 +25,7 @@ import deleteEvent from './events/delete-events';
 import resendCode from './authentication/resend-code';
 
 // export const backendURL = 'https://brickboard.herokuapp.com';
+// export const backendURL = process.env.BACKEND_URL;
 export const backendURL = 'https://dev.brickboard.de';
 
 export {
