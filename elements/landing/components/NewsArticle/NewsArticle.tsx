@@ -54,14 +54,14 @@ const NewsArticle = ({
             onUpdateNews={({ content }) => passMutation(content)}
           />
         ) : (
-          <NewsArticleWrapper>
+          <NewsArticleWrapper isActive={news.attributes.is_active}>
             <NewsArticleImageWrapper>
               <Image src={news.attributes.news_banner ? `${backendURL}${news.attributes.news_banner}` : '/assets/images/default_news_image.jpg'} alt={news.attributes.title} objectFit="cover" layout="fill" />
             </NewsArticleImageWrapper>
             <NewsArticleInfos>
               <NewsArticleHeader>
                 <div>
-                  <NewsArticleHeading>{news.attributes.title}</NewsArticleHeading>
+                  <NewsArticleHeading>{news.attributes.is_active ? news.attributes.title : `[inaktiv] ${news.attributes.title}`}</NewsArticleHeading>
                   <p>{`Von ${author.attributes.display_name}, am ${format(new Date(news.attributes.created_at), 'dd.MM.yyyy')}`}</p>
                 </div>
                 {isAuthenticated && user.attributes.admin && (
@@ -94,7 +94,6 @@ const NewsArticle = ({
               {news.attributes.topic_url && <Link href={`.${news.attributes.topic_url}`} passHref><Button small>Zum Beitrag</Button></Link>}
             </NewsArticleButtonFloat>
           </NewsArticleWrapper>
-
         )
       }
     </>

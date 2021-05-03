@@ -28,6 +28,7 @@ import ITopic from '../../../../models/ITopic';
 import PersonalMovies from '../PersonalMovies/PersonalMovies';
 import ICategory from '../../../../models/ICategory';
 import { isBlocked } from '../../../../pages/profil/[user_id]';
+import Badges from '../Badges/Badges';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -68,7 +69,12 @@ const ProfileInformation = ({
         movies={movies}
         movieCategories={movieCategories}
       />
-
+    ),
+  },
+  {
+    name: 'Badges',
+    content: (
+      <Badges />
     ),
   }];
 

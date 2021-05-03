@@ -1,5 +1,3 @@
 import styled from 'styled-components';
 
-export const HintSpan = styled.span`
-
-`;
+export const HintSpan = styled.span``;

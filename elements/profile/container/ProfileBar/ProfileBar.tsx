@@ -74,7 +74,7 @@ const ProfileBar = ({
   return (
     <ProfileBarWrapper>
       <Username>
-        {`${user.attributes.display_name} ${isBlocked(authUser, user, userDetail) && '(Blockiert)'}`}
+        {`${user.attributes.display_name} ${isBlocked(authUser, user, userDetail) ? '(Blockiert)' : ''}`}
 
       </Username>
       <Statistics>

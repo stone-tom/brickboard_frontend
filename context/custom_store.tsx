@@ -75,6 +75,11 @@ function reducer(state, { payload, type }) {
         ...state,
         user: payload,
       };
+    case 'UPDATE_BADGE':
+      return {
+        ...state,
+        user: payload,
+      };
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -162,6 +167,22 @@ function StoreProvider({
       dispatch({ type: 'UPDATE_AVATAR', payload: newUser });
     };
 
+    const updateMainBadge = (badgeId: string) => {
+      const newUser = {
+        ...state.user,
+        relationships: {
+          ...state.user.relationships,
+          thredded_main_badge: {
+            data: {
+              id: badgeId,
+              type: 'badge',
+            },
+          },
+        },
+      };
+      dispatch({ type: 'UPDATE_BADGE', payload: newUser });
+    };
+
     const setMessage = (message: IMessage) => {
       dispatch({ type: 'SET_MESSAGE', payload: message });
       setTimeout(() => {
@@ -204,6 +225,7 @@ function StoreProvider({
           performPasswordResetStart,
           performPasswordReset,
           updateUserAvatar,
+          updateMainBadge,
         }}
       >
         <StoreStateContext.Provider value={state}>
