@@ -38,6 +38,11 @@ const Navigation = ({
             Forum
           </Link>
         </NavigationItem>
+        <NavigationItem>
+          <Link href="/benutzer">
+            Benutzer
+          </Link>
+        </NavigationItem>
 
         {user ? (
           <Dropdown />)
