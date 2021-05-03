@@ -229,3 +229,11 @@ export const MarginX = styled.div`
   margin-left: 2rem;
   margin-right: 2rem;
 `;
+
+export const MarginBottom = styled.div`
+  margin-bottom: 1rem;
+`;
+
+export const MarginLeft = styled.div`
+  margin-left: 1rem;
+`;

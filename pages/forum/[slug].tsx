@@ -2,16 +2,21 @@ import React, { useMemo, useState } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import Link from 'next/link';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FlexRight, ViewWrapper } from '../../styles/global.styles';
+import { FlexRight, MarginBottom, ViewWrapper } from '../../styles/global.styles';
 import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
-import { useStoreState } from '../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
-import { backendURL, getMessageBoardGroups, getTopicViews } from '../../util/api';
+import {
+  backendURL,
+  getMessageBoardGroups,
+  getTopicViews,
+  markAllAsReadMessageboard,
+} from '../../util/api';
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
 import findObject from '../../util/finder';
@@ -21,6 +26,8 @@ import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
 import Hint from '../../elements/core/components/Hint/Hint';
 import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
+import Pagination from '../../elements/core/container/Pagination/Pagination';
+import { MessageType } from '../../models/IMessage';
 import getCategories from '../../util/api/topic/get-categories';
 
 // Welche Pfade prerendered werden können
@@ -82,6 +89,7 @@ function Subforum({
 
   const [pageIndex, setPageIndex] = useState(1);
   const { isAuthenticated, user, moderation_state } = useStoreState();
+  const { setMessage } = useStoreDispatch();
   const {
     data,
   } = useSWR(
@@ -100,7 +108,23 @@ function Subforum({
     }
   };
 
-  if (data && (data.data.length === 0 || data.included === [])) {
+  const markAllAsRead = async () => {
+    const { error } = await markAllAsReadMessageboard(messageboard.id);
+    if (!error) {
+      setMessage({
+        content: 'Themen als gelesen markiert',
+        type: MessageType.success,
+      });
+      mutate(`${backendURL}/${slug}/topics/page-${pageIndex}`, data, true);
+    } else {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+  };
+
+  if (data.data.length === 0 || data.included === []) {
     return (
       <Layout title="Themen - Brickboard 2.0">
         <ViewWrapper>
@@ -168,7 +192,16 @@ function Subforum({
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
         <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
-
+        {isAuthenticated && (
+          <MarginBottom>
+            <Button
+              reset
+              onClick={() => markAllAsRead()}
+            >
+              Themen als gelesen markieren
+            </Button>
+          </MarginBottom>
+        )}
         <ForumHeading title={`${messageboard.attributes.name}`} />
         {topicViews.map((topicView) => {
           const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
@@ -227,16 +260,11 @@ function Subforum({
           }
           return null;
         })}
-        {pageIndex > 1 && (
-          <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
-            Vorige Seite
-          </Button>
-        )}
-        {topicList.length >= 20 && (
-          <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
-            Nächste Seite
-          </Button>
-        )}
+        <Pagination
+          totalLength={messageboard.attributes.topics_count}
+          pageIndex={pageIndex}
+          onClick={(index: number) => setPageIndex(index)}
+        />
         {isAuthenticated && (
           <FlexRight>
             <Link href={`./${slug}/neues-thema`} passHref>
