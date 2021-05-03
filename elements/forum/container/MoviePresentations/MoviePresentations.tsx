@@ -31,6 +31,7 @@ const MoviePresentations = ({
     )}
     <MoviePresentationWrapper>
       {categories && movies.map((movie: ITopic) => {
+        // TODO: fix filter bug
         const creator = findObject(users, movie.relationships.user.data.id)
           .attributes.display_name;
         const categoryIds = movie.relationships.categories.data
