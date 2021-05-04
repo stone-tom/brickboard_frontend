@@ -21,13 +21,14 @@ import Icon from '../../../core/components/Icon/Icon';
 import TextIcon from '../TextIcon/TextIcon';
 import IMessageboard from '../../../../models/IMessageboard';
 import ColoredNextLink from '../../../core/components/ColoredNextLink/ColoredNextLink';
+import { useStoreState } from '../../../../context/custom_store';
 
 interface ForumItemProps {
-  messageboard: IMessageboard;
-  lastTopic?: ITopic;
-  lastAuthor?: IUser;
-  slug: string;
-  onClick?: (event) => void;
+  messageboard: IMessageboard,
+  lastTopic?: ITopic,
+  lastAuthor?: IUser,
+  slug: string,
+  onClick?: (event) => void,
 }
 
 const PostItemComponent = ({
@@ -36,17 +37,19 @@ const PostItemComponent = ({
   lastAuthor,
   slug,
   onClick,
-}: ForumItemProps) => (
-  <>
+}: ForumItemProps) => {
+  const { isAuthenticated } = useStoreState();
+  return (
     <ForumItem>
-      <ForumItemImageContainer>
-        {' '}
-        <Image
-          src="/assets/images/redbrick.jpg"
-          width="200"
-          height="200"
-          alt="Red Brick"
-        />
+      <ForumItemImageContainer unreadItems={messageboard.attributes.unread_topics_count > 0}>
+        <Hint hint={messageboard.attributes.unread_topics_count > 0 && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
+          <Image
+            src="/assets/images/redbrick.jpg"
+            width="200"
+            height="200"
+            alt="Red Brick"
+          />
+        </Hint>
       </ForumItemImageContainer>
 
       <ForumItemContent onClick={() => onClick(slug)}>
@@ -58,8 +61,8 @@ const PostItemComponent = ({
         </div>
       </ForumItemContent>
 
-      <ForumInfoWrapper>
-        <ForumItemDetails>
+      <ForumInfoWrapper unreadItems={messageboard.attributes.unread_topics_count > 0}>
+        <ForumItemDetails unreadItems={messageboard.attributes.unread_topics_count > 0}>
           <ForumIconWrapper>
             <Hint hint="Beiträge">
               <TextIcon
@@ -99,7 +102,7 @@ const PostItemComponent = ({
         </ForumInfo>
       </ForumInfoWrapper>
     </ForumItem>
-  </>
-);
+  );
+};
 
 export default PostItemComponent;

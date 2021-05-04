@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ForumItem = styled.div`
   min-height: 50px;
@@ -18,12 +18,22 @@ export const ForumItem = styled.div`
     transform: scale(1.01);
   }
 `;
-export const ForumItemImageContainer = styled.div`
+export const ForumItemImageContainer = styled.div<{
+  unreadItems?: boolean,
+}>`
   width: 10%;
   padding: .5rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  ${(props) => !props.unreadItems && css`
+      img{
+        filter: grayscale(100%);
+        opacity: 0.5;
+      }
+  `}
+
 `;
 
 export const ForumItemContent = styled.div`
@@ -55,21 +65,35 @@ export const ForumIconWrapper = styled.div`
   }  
 `;
 
-export const ForumInfoWrapper = styled.div`
+export const ForumInfoWrapper = styled.div<{
+  unreadItems?: boolean,
+}>`
   width: 45%;
   display: flex;
   flex-wrap: wrap;
   padding: .5rem;
   border-left: ${(props) => props.theme.gray} 2px solid;
+
+  ${(props) => props.unreadItems && css`
+      border-color: ${props.theme.brickred}
+  `}
+
 `;
 
-export const ForumItemDetails = styled.div`
+export const ForumItemDetails = styled.div<{
+  unreadItems?: boolean,
+}>`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: ${(props) => props.theme.gray} 2px solid;
   padding-bottom: .5rem;
+
+  ${(props) => props.unreadItems && css`
+      border-color: ${props.theme.brickred}
+  `}
+
 `;
 
 export const ForumInfo = styled.div`

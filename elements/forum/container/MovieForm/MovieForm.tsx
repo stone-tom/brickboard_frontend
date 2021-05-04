@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
 import { MessageType } from '../../../../models/IMessage';
+import { TopicType } from '../../../../models/ITopic';
 import { FlexRight } from '../../../../styles/global.styles';
 import Button from '../../../core/components/Button/Button';
 import FormInput from '../../../core/components/FormInput/FormInput';
@@ -18,7 +19,8 @@ export interface ICreateTopic {
   title?: string,
   content: string,
   video_url?: string,
-  category_ids?: string[]
+  category_ids?: string[],
+  category?: TopicType,
   type?: 'Thredded::TopicMovie' | 'Thredded::TopicDefault',
 }
 
