@@ -100,18 +100,6 @@ function Subforum({
   categoryData,
   categoryURL,
 }: SubforumProps) {
-  const [pageIndex, setPageIndex] = useState(1);
-  const { data, mutate } = useSWR(
-    `${fetchURL}/page-${pageIndex}`,
-    get,
-    { revalidateOnMount: true, initialData: topicData },
-  );
-
-  const { data: allCategories } = useSWR(
-    categoryURL,
-    get,
-    { revalidateOnMount: true, initialData: categoryData },
-  );
   const router = useRouter();
   if (router.isFallback) {
     return (
@@ -124,6 +112,19 @@ function Subforum({
       </Layout>
     );
   }
+  const [pageIndex, setPageIndex] = useState(1);
+  const { data, mutate } = useSWR(
+    `${fetchURL}/page-${pageIndex}`,
+    get,
+    { revalidateOnMount: true, initialData: topicData },
+  );
+
+  const { data: allCategories } = useSWR(
+    categoryURL,
+    get,
+    { revalidateOnMount: true, initialData: categoryData },
+  );
+
   const { isAuthenticated, user, moderation_state } = useStoreState();
   const { setMessage, addComponent } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
@@ -131,6 +132,7 @@ function Subforum({
   const posts = filter(data, 'post');
   const badges = filter(data, 'badge');
   const userList = filter(data, 'user');
+  const messageboard: IMessageboard = filter(data, 'messageboard')[0];
   const isLocked = topic.attributes.locked;
   let isFollowing = false;
   if (topicView.relationships.follow) {
@@ -379,8 +381,9 @@ function Subforum({
     >
       <ViewWrapper>
         <Breadcrumbsbar
-          slug={slug}
+          slug={messageboard.attributes.slug}
           id={topic.id}
+          messageboardname={messageboard.attributes.name}
           topic={topic.attributes.title}
         />
         <FlexBetween>
