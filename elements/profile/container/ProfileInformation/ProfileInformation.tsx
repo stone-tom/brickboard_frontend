@@ -1,7 +1,12 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faCertificate, faGlobe, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGlobe,
+  faPencilAlt,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useStoreState } from '../../../../context/custom_store';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
@@ -18,24 +23,32 @@ import {
   Avatar,
   AvatarWrapper,
   BadgeWrapper,
-  Badge,
-  BadgeTitle,
   SocialNetworkWrapper,
   SocialNetworkLink,
   Username,
+  ButtonWrapper,
 } from './ProfileInformation.styles';
 import ITopic from '../../../../models/ITopic';
 import PersonalMovies from '../PersonalMovies/PersonalMovies';
 import ICategory from '../../../../models/ICategory';
+import { isBlocked } from '../../../../pages/profil/[user_id]';
+import Badges from '../Badges/Badges';
+import Badge from '../../components/Badge/Badge';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
   movies: ITopic[],
   movieCategories: ICategory[],
-  onEditAvatar: () => void,
+  onEditAvatar: (shouldDelete?: boolean) => void,
   onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
+
+export const getValidLink = (link: string) => {
+  if (link.startsWith('www')) return `https://${link}`;
+  if (link.startsWith('http')) return link;
+  return `https://${link}`;
+};
 
 const ProfileInformation = ({
   user,
@@ -45,7 +58,26 @@ const ProfileInformation = ({
   onEditAvatar,
   onUpdateUser,
 }: ProfileCardProps) => {
-  const { isAuthenticated, user: authUser } = useStoreState();
+  const { isAuthenticated, user: authUser, badge } = useStoreState();
+  const profileLinks: {
+    link: string,
+    icon: IconProp,
+  }[] = [{
+    link: userDetail.attributes.facebook_url,
+    icon: faFacebook,
+  },
+  {
+    link: userDetail.attributes.twitter_url,
+    icon: faTwitter,
+  },
+  {
+    link: userDetail.attributes.youtube_url,
+    icon: faYoutube,
+  },
+  {
+    link: userDetail.attributes.website_url,
+    icon: faGlobe,
+  }];
   const contentItems: {
     name: string,
     content: ReactNode,
@@ -67,7 +99,12 @@ const ProfileInformation = ({
         movies={movies}
         movieCategories={movieCategories}
       />
-
+    ),
+  },
+  {
+    name: 'Badges',
+    content: (
+      <Badges />
     ),
   }];
 
@@ -82,15 +119,23 @@ const ProfileInformation = ({
               layout="fill"
               objectFit="cover"
               alt="Profilbild (von Heroku gelöscht)"
-              src={user.attributes.avatar ? `${backendURL}${user.attributes.avatar}` : '/assets/images/default_profile.svg'}
+              src={!user.attributes.avatar || isBlocked(authUser, user, userDetail) ? '/assets/images/default_profile.svg' : `${backendURL}${user.attributes.avatar}`}
             />
             {isAuthenticated && user.id === authUser.id && (
-              <EditButton
-                reset
-                onClick={() => onEditAvatar()}
-              >
-                <Icon icon={faPencilAlt} />
-              </EditButton>
+              <ButtonWrapper>
+                <EditButton
+                  reset
+                  onClick={() => onEditAvatar()}
+                >
+                  <Icon icon={faPencilAlt} />
+                </EditButton>
+                <EditButton
+                  reset
+                  onClick={() => onEditAvatar(true)}
+                >
+                  <Icon icon={faTrash} />
+                </EditButton>
+              </ButtonWrapper>
             )}
           </Avatar>
         </AvatarWrapper>
@@ -98,22 +143,21 @@ const ProfileInformation = ({
           {user.attributes.display_name}
         </Username>
         <BadgeWrapper>
-          <Badge icon={faCertificate} />
-          <BadgeTitle>Alter Hase</BadgeTitle>
+          <Badge
+            badge={badge}
+          />
         </BadgeWrapper>
         <SocialNetworkWrapper>
-          <SocialNetworkLink href={userDetail.attributes.facebook_url}>
-            <Icon icon={faFacebook} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.twitter_url}>
-            <Icon icon={faTwitter} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.youtube_url}>
-            <Icon icon={faYoutube} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.website_url}>
-            <Icon icon={faGlobe} />
-          </SocialNetworkLink>
+          {profileLinks.map((profileLink) => {
+            if (profileLink.link && profileLink.link !== '' && profileLink.link !== ' ') {
+              return (
+                <SocialNetworkLink target="_blank" href={getValidLink(profileLink.link)}>
+                  <Icon icon={profileLink.icon} />
+                </SocialNetworkLink>
+              );
+            }
+            return null;
+          })}
         </SocialNetworkWrapper>
       </ProfileCardWrapper>
       <ProfileInformationWrapper>
@@ -121,11 +165,15 @@ const ProfileInformation = ({
           user={user}
           userDetail={userDetail}
         />
-        <ProfileNavigation
-          tabs={contentItems}
-          onContentChange={(index) => setActiveContent(index)}
-        />
-        {contentItems[activeContent].content}
+        {!isBlocked(authUser, user, userDetail) && (
+          <>
+            <ProfileNavigation
+              tabs={contentItems}
+              onContentChange={(index) => setActiveContent(index)}
+            />
+            {contentItems[activeContent].content}
+          </>
+        )}
       </ProfileInformationWrapper>
     </Wrapper>
   );

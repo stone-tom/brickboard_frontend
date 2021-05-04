@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
 import React from 'react';
 import useSWR from 'swr';
-import { useStoreDispatch } from '../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Banner from '../../elements/profile/components/Banner/Banner';
 import ProfileInformation from '../../elements/profile/container/ProfileInformation/ProfileInformation';
@@ -53,6 +53,18 @@ interface ProfileProps {
   fetchURL: string,
 }
 
+export const isBlocked = (
+  accessingUser: IUser,
+  currentUser: IUser,
+  currentUserDetail: IUserDetail,
+) => {
+  if (accessingUser && accessingUser.id === currentUser.id) return false;
+  if (accessingUser && accessingUser.attributes.admin) return false;
+  if (currentUserDetail.attributes.moderation_state === 'pending_moderation'
+    || currentUserDetail.attributes.moderation_state === 'blocked') return true;
+  return false;
+};
+
 const Profile = ({
   content,
   fetchURL,
@@ -73,16 +85,19 @@ const Profile = ({
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
   const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
   const movieCategories: ICategory[] = filter(data, 'category');
+  const { user: currentUser } = useStoreState();
 
-  const editBanner = (id: string) => {
+  const editBanner = (id: string, shouldDelete?: boolean) => {
     addComponent((
       <UploadOverlay
+        shouldDelete={shouldDelete}
+        deleteMessage="Wollen Sie das Banner wirklich löschen?"
         headline="Profil Banner upload"
         allowedTypes={Restrictions.allowed_file_types_banner}
         maxSize={Restrictions.max_size_banner}
         onAccept={async (file) => {
           const bannerData = new FormData();
-          bannerData.append('user_details[profile_banner]', file);
+          bannerData.append('user_details[profile_banner]', shouldDelete ? '' : file);
           const { content: updatedUser, error } = await updateUserDetail(id, bannerData, true);
           if (updatedUser) {
             const updateData = {
@@ -106,17 +121,17 @@ const Profile = ({
     ));
   };
 
-  const onEditAvatar = () => {
+  const onEditAvatar = (shouldDelete?: boolean) => {
     addComponent((
       <UploadOverlay
-        withPassword
+        shouldDelete={shouldDelete}
+        deleteMessage="Wollen Sie den Avatar wirklich löschen?"
         allowedTypes={Restrictions.allowed_file_types_avatar}
         maxSize={Restrictions.max_size_avatar}
         headline="Avatar upload"
-        onAccept={async (file, password) => {
+        onAccept={async (file) => {
           const avatarData = new FormData();
-          avatarData.append('user[avatar]', file);
-          avatarData.append('user[current_password]', password);
+          avatarData.append('user[avatar]', shouldDelete ? '' : file);
           const { content: updatedUser, error } = await updateUser(avatarData);
           if (updatedUser) {
             const updateData = {
@@ -177,14 +192,15 @@ const Profile = ({
       {user && (
         <ViewWrapper fullHeight>
           <Banner
-            onEditBanner={() => editBanner(user.id)}
+            blocked={isBlocked(currentUser, user, userDetail)}
+            onEditBanner={(shouldDelete) => editBanner(user.id, shouldDelete)}
             alt_text="Profil Banner"
             image={userDetail.attributes.profile_banner}
             userId={user.id}
           />
           <ProfileInformation
             onUpdateUser={(newUserDetail) => onUpdateUserDetail(newUserDetail)}
-            onEditAvatar={() => onEditAvatar()}
+            onEditAvatar={(shouldDelete) => onEditAvatar(shouldDelete)}
             userDetail={userDetail}
             user={user}
             movies={movies}

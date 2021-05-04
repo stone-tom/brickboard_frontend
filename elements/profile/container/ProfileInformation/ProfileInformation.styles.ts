@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -31,11 +30,6 @@ export const SocialNetworkWrapper = styled.div`
   padding: 20px;
 `;
 
-export const Badge = styled(FontAwesomeIcon)`
-  width: 60px;
-  height: 60px;
-`;
-
 export const SocialNetworkLink = styled.a`
   margin: 10px;
 `;
@@ -45,10 +39,6 @@ export const BadgeWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-
-export const BadgeTitle = styled.p`
-  padding: 20px 0;
 `;
 
 export const ProfileCardWrapper = styled.div`
@@ -72,4 +62,12 @@ export const Username = styled.p`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
 `;
