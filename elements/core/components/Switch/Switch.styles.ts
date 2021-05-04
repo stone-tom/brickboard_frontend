@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Switch from 'react-switch';
 
 export const Label = styled.label`
   display: flex;

@@ -43,5 +43,4 @@ const LinkComponent = ({
   </LinkComponentWrapper>
 );
 
-
 export default LinkComponent;
