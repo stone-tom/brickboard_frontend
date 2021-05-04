@@ -34,6 +34,7 @@ import ICategory from '../../../../models/ICategory';
 import { isBlocked } from '../../../../pages/profil/[user_id]';
 import Badges from '../Badges/Badges';
 import Badge from '../../components/Badge/Badge';
+import Settings from '../Settings/Settings';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -105,6 +106,12 @@ const ProfileInformation = ({
     name: 'Badges',
     content: (
       <Badges />
+    ),
+  },
+  {
+    name: 'Einstellungen',
+    content: (
+      <Settings />
     ),
   }];
 

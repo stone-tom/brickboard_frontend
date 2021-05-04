@@ -9,6 +9,7 @@ import { get } from '../../../../util/methods';
 import LoaderComponent from '../../../core/components/Loader/Loader';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import Badge from '../../components/Badge/Badge';
+import { PersonalInformationWrapper } from '../PersonalInformation/PersonalInformation.styles';
 import {
   BadgesWrapper,
 } from './Badges.styles';
@@ -46,28 +47,31 @@ const Badges = () => {
       </Prompt>));
   };
   return (
-    <LoaderComponent isLoading={!data}>
-      {data && (
-        <BadgesWrapper>
-          {data.data.map((badge: IBadge) => {
-            if (!badge.attributes.secret
-              || (user && (badge.relationships.users.data.some((owner) => owner.id === user.id)))) {
-              return (
-                <Badge
-                  onClick={() => handleSetMainBadge(badge.id)}
-                  key={badge.id}
-                  badge={badge}
-                  active={mainBadge && mainBadge.id === badge.id}
-                  owned={user
-                    && (badge.relationships.users.data.some((owner) => owner.id === user.id))}
-                />
-              );
-            }
-            return null;
-          })}
-        </BadgesWrapper>
-      )}
-    </LoaderComponent>
+    <PersonalInformationWrapper>
+      <LoaderComponent isLoading={!data}>
+        {data && data.data && (
+          <BadgesWrapper>
+            {data.data.map((badge: IBadge) => {
+              if (!badge.attributes.secret
+                || (user && (badge.relationships.users.data
+                  .some((owner) => owner.id === user.id)))) {
+                return (
+                  <Badge
+                    onClick={() => handleSetMainBadge(badge.id)}
+                    key={badge.id}
+                    badge={badge}
+                    active={mainBadge && mainBadge.id === badge.id}
+                    owned={user
+                      && (badge.relationships.users.data.some((owner) => owner.id === user.id))}
+                  />
+                );
+              }
+              return null;
+            })}
+          </BadgesWrapper>
+        )}
+      </LoaderComponent>
+    </PersonalInformationWrapper>
   );
 };
 
