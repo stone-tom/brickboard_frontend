@@ -63,11 +63,11 @@ const AllUsers = ({
         }
       ));
     }
-    if (searchData && searchData.results.length > 0) {
-      return searchData.results.map((item) => ({
+    if (searchData && searchData.data.length > 0) {
+      return searchData.data.map((item: IUser) => ({
         id: item.id,
-        name: item.display_name,
-        avatar: item.avatar,
+        name: item.attributes.display_name,
+        avatar: item.attributes.avatar,
       }));
     }
     return [];

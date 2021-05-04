@@ -34,11 +34,15 @@ import ICategory from '../../../../models/ICategory';
 import { isBlocked } from '../../../../pages/profil/[user_id]';
 import Badges from '../Badges/Badges';
 import Badge from '../../components/Badge/Badge';
+import Settings from '../Settings/Settings';
+import IBadge from '../../../../models/IBadge';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
   user: IUser,
   movies: ITopic[],
+  userBadges: IBadge[],
+  userMainBadge: IBadge,
   movieCategories: ICategory[],
   onEditAvatar: (shouldDelete?: boolean) => void,
   onUpdateUser: (newUserDetail: IUserDetail) => void,
@@ -57,8 +61,10 @@ const ProfileInformation = ({
   movieCategories,
   onEditAvatar,
   onUpdateUser,
+  userBadges,
+  userMainBadge,
 }: ProfileCardProps) => {
-  const { isAuthenticated, user: authUser, badge } = useStoreState();
+  const { isAuthenticated, user: authUser } = useStoreState();
   const profileLinks: {
     link: string,
     icon: IconProp,
@@ -81,6 +87,7 @@ const ProfileInformation = ({
   const contentItems: {
     name: string,
     content: ReactNode,
+    needsAuth?: boolean,
   }[] = [{
     name: 'Infos',
     content: (
@@ -104,12 +111,21 @@ const ProfileInformation = ({
   {
     name: 'Badges',
     content: (
-      <Badges />
+      <Badges
+        user={user}
+        userBadges={userBadges}
+      />
+    ),
+  },
+  {
+    name: 'Einstellungen',
+    needsAuth: true,
+    content: (
+      <Settings />
     ),
   }];
 
   const [activeContent, setActiveContent] = useState<number>(0);
-
   return (
     <Wrapper>
       <ProfileCardWrapper>
@@ -144,7 +160,7 @@ const ProfileInformation = ({
         </Username>
         <BadgeWrapper>
           <Badge
-            badge={badge}
+            badge={userMainBadge}
           />
         </BadgeWrapper>
         <SocialNetworkWrapper>

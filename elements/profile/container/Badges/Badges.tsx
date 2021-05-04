@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import IBadge from '../../../../models/IBadge';
 import { MessageType } from '../../../../models/IMessage';
+import IUser from '../../../../models/IUser';
 import { backendURL } from '../../../../util/api';
 import chooseMainBadge from '../../../../util/api/user/choose-main-badge';
 import { get } from '../../../../util/methods';
 import LoaderComponent from '../../../core/components/Loader/Loader';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import Badge from '../../components/Badge/Badge';
+import { PersonalInformationWrapper } from '../PersonalInformation/PersonalInformation.styles';
 import {
   BadgesWrapper,
 } from './Badges.styles';
 
-const Badges = () => {
+const Badges = ({
+  userBadges,
+  user,
+}: {
+  userBadges: IBadge[],
+  user: IUser
+}) => {
   const { data } = useSWR(`${backendURL}/badges`, get);
   const { addComponent, setMessage, updateMainBadge } = useStoreDispatch();
-  const { user, badge: mainBadge } = useStoreState();
+  const { user: authUser, badge: mainBadge, isAuthenticated } = useStoreState();
 
   const handleSetMainBadge = async (badgeId: string) => {
     addComponent((
@@ -45,29 +53,39 @@ const Badges = () => {
         </div>
       </Prompt>));
   };
+
+  const badges = useMemo(() => {
+    if (!isAuthenticated && userBadges) {
+      return userBadges;
+    }
+    if (isAuthenticated && authUser && authUser.id !== user.id) {
+      return userBadges;
+    }
+    // eingeloggt & eigenes Profil
+    if (isAuthenticated && authUser.id === user.id) {
+      if (authUser.attributes.admin && data) return data.data;
+      if (data) return data.data.filter((item: IBadge) => !item.attributes.secret);
+    }
+    return [];
+  }, [data, userBadges]);
+
   return (
-    <LoaderComponent isLoading={!data}>
-      {data && (
+    <PersonalInformationWrapper>
+      <LoaderComponent isLoading={!data}>
         <BadgesWrapper>
-          {data.data.map((badge: IBadge) => {
-            if (!badge.attributes.secret
-              || (user && (badge.relationships.users.data.some((owner) => owner.id === user.id)))) {
-              return (
-                <Badge
-                  onClick={() => handleSetMainBadge(badge.id)}
-                  key={badge.id}
-                  badge={badge}
-                  active={mainBadge && mainBadge.id === badge.id}
-                  owned={user
-                    && (badge.relationships.users.data.some((owner) => owner.id === user.id))}
-                />
-              );
-            }
-            return null;
-          })}
+          {badges && badges.map((badge: IBadge) => (
+            <Badge
+              onClick={() => handleSetMainBadge(badge.id)}
+              key={badge.id}
+              badge={badge}
+              active={mainBadge && mainBadge.id === badge.id}
+              owned={!isAuthenticated || badge.relationships.users.data
+                .some((owner) => owner.id === authUser.id)}
+            />
+          ))}
         </BadgesWrapper>
-      )}
-    </LoaderComponent>
+      </LoaderComponent>
+    </PersonalInformationWrapper>
   );
 };
 

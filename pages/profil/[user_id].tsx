@@ -22,6 +22,7 @@ import Loader from '../../elements/core/components/Loader/Loader';
 import Restrictions from '../../config/file_upload_restrictions.json';
 import ITopic from '../../models/ITopic';
 import ICategory from '../../models/ICategory';
+import IBadge from '../../models/IBadge';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
@@ -83,9 +84,19 @@ const Profile = ({
   const { setMessage, addComponent, updateUserAvatar } = useStoreDispatch();
   const user: IUser = data.data;
   const userDetail: IUserDetail = filter(data, 'thredded_user_show_detail')[0];
+  const userBadges: IBadge[] = filter(data, 'badge');
   const movies: ITopic[] = data.included.filter((item) => item.type === 'topic' && item.attributes.type === 'Thredded::TopicMovie');
   const movieCategories: ICategory[] = filter(data, 'category');
   const { user: currentUser } = useStoreState();
+  const getMainBadge = () => {
+    if (data.data.relationships.thredded_main_badge.data) {
+      const mainBadgeId = data.data.relationships.thredded_main_badge.data.id;
+      const mainBadge = filter(data, 'badge').find((elem) => elem.id === mainBadgeId);
+      return mainBadge;
+    }
+    return null;
+  };
+  const userMainBadge = getMainBadge();
 
   const editBanner = (id: string, shouldDelete?: boolean) => {
     addComponent((
@@ -204,6 +215,8 @@ const Profile = ({
             userDetail={userDetail}
             user={user}
             movies={movies}
+            userBadges={userBadges}
+            userMainBadge={userMainBadge}
             movieCategories={movieCategories}
           />
         </ViewWrapper>
