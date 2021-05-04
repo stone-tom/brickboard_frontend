@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormInput } from '../../../core/components/FormInput/FormInput.styles';
 import Icon from '../../../core/components/Icon/Icon';
+import { getValidLink } from '../../container/ProfileInformation/ProfileInformation';
 import { MappingComponentProps } from '../../container/ProfileMapper/ProfileMapper';
 import {
   LinkComponentWrapper,
@@ -35,11 +36,12 @@ const LinkComponent = ({
       />
     )
       : (
-        <Link empty={value === ''} href={value === '' ? null : `https://${value}`}>
+        <Link empty={value === ''} href={getValidLink(value)}>
           {value === '' ? '' : value}
         </Link>
       )}
   </LinkComponentWrapper>
 );
+
 
 export default LinkComponent;
