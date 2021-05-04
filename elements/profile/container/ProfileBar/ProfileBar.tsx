@@ -71,6 +71,8 @@ const ProfileBar = ({
       </Prompt>));
   };
 
+  console.log(userDetail);
+
   return (
     <ProfileBarWrapper>
       <Username>

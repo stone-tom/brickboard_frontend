@@ -1,6 +1,5 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
-  faCertificate,
   faGlobe,
   faPencilAlt,
   faTrash,
@@ -34,7 +33,6 @@ import ICategory from '../../../../models/ICategory';
 import { isBlocked } from '../../../../pages/profil/[user_id]';
 import Badges from '../Badges/Badges';
 import Badge from '../../components/Badge/Badge';
-import StateManager from 'react-select';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
