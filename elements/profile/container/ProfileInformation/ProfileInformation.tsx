@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useStoreState } from '../../../../context/custom_store';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
@@ -43,6 +44,12 @@ interface ProfileCardProps {
   onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
 
+export const getValidLink = (link: string) => {
+  if (link.startsWith('www')) return `https://${link}`;
+  if (link.startsWith('http')) return link;
+  return `https://${link}`;
+};
+
 const ProfileInformation = ({
   user,
   userDetail,
@@ -52,6 +59,25 @@ const ProfileInformation = ({
   onUpdateUser,
 }: ProfileCardProps) => {
   const { isAuthenticated, user: authUser, badge } = useStoreState();
+  const profileLinks: {
+    link: string,
+    icon: IconProp,
+  }[] = [{
+    link: userDetail.attributes.facebook_url,
+    icon: faFacebook,
+  },
+  {
+    link: userDetail.attributes.twitter_url,
+    icon: faTwitter,
+  },
+  {
+    link: userDetail.attributes.youtube_url,
+    icon: faYoutube,
+  },
+  {
+    link: userDetail.attributes.website_url,
+    icon: faGlobe,
+  }];
   const contentItems: {
     name: string,
     content: ReactNode,
@@ -122,18 +148,16 @@ const ProfileInformation = ({
           />
         </BadgeWrapper>
         <SocialNetworkWrapper>
-          <SocialNetworkLink href={userDetail.attributes.facebook_url}>
-            <Icon icon={faFacebook} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.twitter_url}>
-            <Icon icon={faTwitter} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.youtube_url}>
-            <Icon icon={faYoutube} />
-          </SocialNetworkLink>
-          <SocialNetworkLink href={userDetail.attributes.website_url}>
-            <Icon icon={faGlobe} />
-          </SocialNetworkLink>
+          {profileLinks.map((profileLink) => {
+            if (profileLink.link && profileLink.link !== '' && profileLink.link !== ' ') {
+              return (
+                <SocialNetworkLink target="_blank" href={getValidLink(profileLink.link)}>
+                  <Icon icon={profileLink.icon} />
+                </SocialNetworkLink>
+              );
+            }
+            return null;
+          })}
         </SocialNetworkWrapper>
       </ProfileCardWrapper>
       <ProfileInformationWrapper>

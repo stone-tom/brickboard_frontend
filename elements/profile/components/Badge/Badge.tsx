@@ -21,7 +21,7 @@ const Badge = ({
   active,
   onClick,
 }: BadgeProps) => (
-  <Hint hint={badge.attributes.description}>
+  <Hint hint={badge ? badge.attributes.description : 'Dieser Benutzer hat noch kein Badge'}>
     <Wrapper>
       <BadgeWrapper
         owned={owned}
@@ -31,11 +31,11 @@ const Badge = ({
         <Image
           height="120px"
           width="120px"
-          alt={badge.attributes.title}
-          src={!badge.attributes.badge_icon ? '/assets/images/default_badge.svg' : `${backendURL}${badge.attributes.badge_icon}`}
+          alt={badge ? badge.attributes.title : 'Default Badge'}
+          src={!badge ? '/assets/images/default_badge.svg' : `${backendURL}${badge.attributes.badge_icon}`}
         />
       </BadgeWrapper>
-      {badge.attributes.title}
+      {badge ? badge.attributes.title : 'Badgelos'}
     </Wrapper>
   </Hint>
 );
