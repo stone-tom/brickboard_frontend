@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useStoreDispatch } from '../../../../context/custom_store';
 import File from '../../../core/components/File/File';
-import FormInput from '../../../core/components/FormInput/FormInput';
 import { Overlay } from '../../../core/components/Overlay/Overlay.styles';
 import { OverlayBody, OverlayHeadline } from '../../../core/components/OverlayBody/OverlayBody.styles';
 import { ButtonWrapper, PromptButton } from '../../../core/container/Prompt/Prompt.styles';
@@ -10,27 +9,28 @@ import { MessageType } from '../../../../models/IMessage';
 interface UploadOverlayProps {
   headline: string,
   onDecline?: () => void,
-  onAccept: (file: File, password?: string) => void,
-  withPassword?: boolean,
+  onAccept: (file: File) => void,
   maxSize: number,
   allowedTypes: string[],
+  shouldDelete?: boolean,
+  deleteMessage?: string,
 }
 
 const UploadOverlay = ({
   headline,
   onDecline,
   onAccept,
-  withPassword,
   allowedTypes,
   maxSize,
+  shouldDelete,
+  deleteMessage,
 }: UploadOverlayProps) => {
   const [file, setFile] = useState<File | null>();
-  const [password, setPassword] = useState<string>();
   const { removeComponent, setMessage } = useStoreDispatch();
 
   const accept = () => {
-    if (file) {
-      onAccept(file, password);
+    if (file || shouldDelete) {
+      onAccept(file);
     }
     removeComponent();
   };
@@ -62,20 +62,20 @@ const UploadOverlay = ({
         <OverlayHeadline>
           {headline}
         </OverlayHeadline>
-        {withPassword && (
-          <FormInput
-            type="password"
-            onChange={(value) => setPassword(value)}
-          >
-            Passwort
-          </FormInput>
+        {shouldDelete ? (
+          <>
+            {deleteMessage}
+          </>
+        ) : (
+          <>
+            {`Erlaubte Dateiformate: ${allowedTypes.join(' ')}`}
+            <br />
+            {`maximale Dateigröße: ${maxSize / 1000}KB`}
+            <File
+              onFileUpload={(newFile) => handleFileUpload(newFile)}
+            />
+          </>
         )}
-        {`Erlaubte Dateiformate: ${allowedTypes.join(' ')}`}
-        <br />
-        {`maximale Dateigröße: ${maxSize / 1000}KB`}
-        <File
-          onFileUpload={(newFile) => handleFileUpload(newFile)}
-        />
         <ButtonWrapper>
           <PromptButton
             onClick={decline}
@@ -85,7 +85,7 @@ const UploadOverlay = ({
             Abbrechen
           </PromptButton>
           <PromptButton
-            disabled={!file}
+            disabled={!file && !shouldDelete}
             onClick={accept}
             small
           >

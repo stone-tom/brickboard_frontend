@@ -45,6 +45,7 @@
     "react-hook-form": "^6.13.1",
     "react-select": "^4.3.0",
     "react-slick": "^0.28.1",
+    "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.15",
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
