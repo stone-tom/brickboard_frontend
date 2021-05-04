@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useReducer,
 } from 'react';
+import IBadge from '../models/IBadge';
 import IMessage from '../models/IMessage';
 import IUser from '../models/IUser';
 import {
@@ -22,17 +23,21 @@ interface IState {
   moderation_state: 'blocked' | 'approved' | 'pending_moderation' | null;
   message: IMessage | null,
   component: ReactNode,
+  badge: IBadge | null,
 }
 
 export const StoreDispatchContext = createContext(({} as any));
 export const StoreStateContext = createContext(({} as any));
 
+/* if a state is added here it has to be added
+ in vars "savedInitialState" and "savedstate" (in a useEffect) too! */
 const initialState: IState = {
   isAuthenticated: false,
   user: null,
   moderation_state: null,
   message: null,
   component: null,
+  badge: null,
 };
 
 function reducer(state, { payload, type }) {
@@ -75,10 +80,15 @@ function reducer(state, { payload, type }) {
         ...state,
         user: payload,
       };
-    case 'UPDATE_BADGE':
+    case 'UPDATE_USER_BADGE':
       return {
         ...state,
         user: payload,
+      };
+    case 'UPDATE_BADGE':
+      return {
+        ...state,
+        badge: payload,
       };
     default:
       throw new Error(`Unhandled action type ${type}`);
@@ -92,6 +102,7 @@ function StoreProvider({
     user: initialState.user,
     isAuthenticated: initialState.isAuthenticated,
     moderation_state: initialState.moderation_state,
+    badge: initialState.badge,
   };
   if (typeof window !== 'undefined') {
     const savedlocalState = JSON.parse(localStorage.getItem('brickboardUser'));
@@ -105,13 +116,15 @@ function StoreProvider({
       const { content, error } = await login(email, password);
       let user = {};
       let moderation_state = 'pending';
+      let badge = '/assets/images/default_badge.svg';
       if (error) {
         throw new Error(error);
       }
       if (content) {
         user = content.data;
         moderation_state = content.included[0].attributes.moderation_state;
-        dispatch({ type: 'LOGIN_SUCCESS', payload: { user, moderation_state } });
+        badge = content.included.find((item) => item.type === 'badge');
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { user, moderation_state, badge } });
       }
     };
 
@@ -120,8 +133,8 @@ function StoreProvider({
       if (error) {
         throw new Error(error);
       }
-      localStorage.clear();
       dispatch({ type: 'LOGOUT', payload: null });
+      localStorage.clear();
     };
 
     const performSignup = async (email, displayName, password) => {
@@ -167,20 +180,22 @@ function StoreProvider({
       dispatch({ type: 'UPDATE_AVATAR', payload: newUser });
     };
 
-    const updateMainBadge = (badgeId: string) => {
+    const updateMainBadge = (newBadge: IBadge) => {
       const newUser = {
         ...state.user,
         relationships: {
           ...state.user.relationships,
           thredded_main_badge: {
             data: {
-              id: badgeId,
+              id: newBadge.id,
               type: 'badge',
             },
           },
         },
       };
-      dispatch({ type: 'UPDATE_BADGE', payload: newUser });
+
+      dispatch({ type: 'UPDATE_USER_BADGE', payload: newUser });
+      dispatch({ type: 'UPDATE_BADGE', payload: newBadge });
     };
 
     const setMessage = (message: IMessage) => {
@@ -207,6 +222,7 @@ function StoreProvider({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         moderation_state: state.moderation_state,
+        badge: state.badge,
       };
       localStorage.setItem('brickboardUser', JSON.stringify(savedstate));
     }, [performLogin, performLogout, updateUserAvatar]);

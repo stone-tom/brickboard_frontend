@@ -31,11 +31,6 @@ export const SocialNetworkWrapper = styled.div`
   padding: 20px;
 `;
 
-export const Badge = styled(FontAwesomeIcon)`
-  width: 60px;
-  height: 60px;
-`;
-
 export const SocialNetworkLink = styled.a`
   margin: 10px;
 `;
@@ -45,10 +40,6 @@ export const BadgeWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-
-export const BadgeTitle = styled.p`
-  padding: 20px 0;
 `;
 
 export const ProfileCardWrapper = styled.div`

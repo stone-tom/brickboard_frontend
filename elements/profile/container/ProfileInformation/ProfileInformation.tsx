@@ -23,8 +23,6 @@ import {
   Avatar,
   AvatarWrapper,
   BadgeWrapper,
-  Badge,
-  BadgeTitle,
   SocialNetworkWrapper,
   SocialNetworkLink,
   Username,
@@ -35,6 +33,8 @@ import PersonalMovies from '../PersonalMovies/PersonalMovies';
 import ICategory from '../../../../models/ICategory';
 import { isBlocked } from '../../../../pages/profil/[user_id]';
 import Badges from '../Badges/Badges';
+import Badge from '../../components/Badge/Badge';
+import StateManager from 'react-select';
 
 interface ProfileCardProps {
   userDetail: IUserDetail,
@@ -53,7 +53,7 @@ const ProfileInformation = ({
   onEditAvatar,
   onUpdateUser,
 }: ProfileCardProps) => {
-  const { isAuthenticated, user: authUser } = useStoreState();
+  const { isAuthenticated, user: authUser, badge } = useStoreState();
   const contentItems: {
     name: string,
     content: ReactNode,
@@ -119,8 +119,9 @@ const ProfileInformation = ({
           {user.attributes.display_name}
         </Username>
         <BadgeWrapper>
-          <Badge icon={faCertificate} />
-          <BadgeTitle>Alter Hase</BadgeTitle>
+          <Badge
+            badge={badge}
+          />
         </BadgeWrapper>
         <SocialNetworkWrapper>
           <SocialNetworkLink href={userDetail.attributes.facebook_url}>

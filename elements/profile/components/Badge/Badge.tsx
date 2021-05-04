@@ -12,7 +12,7 @@ interface BadgeProps {
   badge: IBadge,
   owned?: boolean,
   active?: boolean,
-  onClick: () => void,
+  onClick?: () => void,
 }
 
 const Badge = ({

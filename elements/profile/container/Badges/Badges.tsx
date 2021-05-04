@@ -16,7 +16,7 @@ import {
 const Badges = () => {
   const { data } = useSWR(`${backendURL}/badges`, get);
   const { addComponent, setMessage, updateMainBadge } = useStoreDispatch();
-  const { user } = useStoreState();
+  const { user, badge: mainBadge } = useStoreState();
 
   const handleSetMainBadge = async (badgeId: string) => {
     addComponent((
@@ -26,7 +26,7 @@ const Badges = () => {
           try {
             const { content } = await chooseMainBadge(badgeId);
             if (content) {
-              updateMainBadge(content.data.id);
+              updateMainBadge(content.data);
               setMessage({
                 content: 'Anzeigebadge erfolgreich geändert',
                 type: MessageType.success,
@@ -51,15 +51,15 @@ const Badges = () => {
         <BadgesWrapper>
           {data.data.map((badge: IBadge) => {
             if (!badge.attributes.secret
-              || badge.relationships.users.data.some((owner) => owner.id === user.id)) {
+              || (user && (badge.relationships.users.data.some((owner) => owner.id === user.id)))) {
               return (
                 <Badge
                   onClick={() => handleSetMainBadge(badge.id)}
                   key={badge.id}
                   badge={badge}
-                  active={user.relationships.thredded_main_badge.data
-                    && user.relationships.thredded_main_badge.data.id === badge.id}
-                  owned={badge.relationships.users.data.some((owner) => owner.id === user.id)}
+                  active={mainBadge && mainBadge.id === badge.id}
+                  owned={user
+                    && (badge.relationships.users.data.some((owner) => owner.id === user.id))}
                 />
               );
             }
