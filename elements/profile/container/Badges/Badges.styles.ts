@@ -9,6 +9,7 @@ export const BadgesWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.gray};
   background: ${(props) => props.theme.white};
   border-top: 0;
+  width: 100%;
 
   & > div {
     margin-right: 20px;
