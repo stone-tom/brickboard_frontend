@@ -10,23 +10,23 @@ import {
 
 interface BadgeProps {
   badge: IBadge,
-  unowned?: boolean,
+  owned?: boolean,
   active?: boolean,
   onClick: () => void,
 }
 
 const Badge = ({
   badge,
-  unowned,
+  owned,
   active,
   onClick,
 }: BadgeProps) => (
   <Hint hint={badge.attributes.description}>
     <Wrapper>
       <BadgeWrapper
-        unowned={unowned}
+        owned={owned}
         active={active}
-        onClick={unowned ? onClick : null}
+        onClick={owned ? onClick : null}
       >
         <Image
           height="120px"

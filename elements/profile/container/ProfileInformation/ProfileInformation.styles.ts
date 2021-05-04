@@ -73,3 +73,11 @@ export const Username = styled.p`
   justify-content: center;
   width: 100%;
 `;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+`;

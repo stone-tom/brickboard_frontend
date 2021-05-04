@@ -15,9 +15,8 @@ export const EditButton = styled(Button)`
   width: 40px;
   background: #fff;
   border-radius: 50%;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  margin: 5px;
+  
   color: ${(props) => props.theme.black};
   background: rgba(255,255,255,0.80);
 

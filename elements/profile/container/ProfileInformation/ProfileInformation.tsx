@@ -1,5 +1,10 @@
 import { faFacebook, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faCertificate, faGlobe, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCertificate,
+  faGlobe,
+  faPencilAlt,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import { useStoreState } from '../../../../context/custom_store';
@@ -23,6 +28,7 @@ import {
   SocialNetworkWrapper,
   SocialNetworkLink,
   Username,
+  ButtonWrapper,
 } from './ProfileInformation.styles';
 import ITopic from '../../../../models/ITopic';
 import PersonalMovies from '../PersonalMovies/PersonalMovies';
@@ -35,7 +41,7 @@ interface ProfileCardProps {
   user: IUser,
   movies: ITopic[],
   movieCategories: ICategory[],
-  onEditAvatar: () => void,
+  onEditAvatar: (shouldDelete?: boolean) => void,
   onUpdateUser: (newUserDetail: IUserDetail) => void,
 }
 
@@ -92,12 +98,20 @@ const ProfileInformation = ({
               src={!user.attributes.avatar || isBlocked(authUser, user, userDetail) ? '/assets/images/default_profile.svg' : `${backendURL}${user.attributes.avatar}`}
             />
             {isAuthenticated && user.id === authUser.id && (
-              <EditButton
-                reset
-                onClick={() => onEditAvatar()}
-              >
-                <Icon icon={faPencilAlt} />
-              </EditButton>
+              <ButtonWrapper>
+                <EditButton
+                  reset
+                  onClick={() => onEditAvatar()}
+                >
+                  <Icon icon={faPencilAlt} />
+                </EditButton>
+                <EditButton
+                  reset
+                  onClick={() => onEditAvatar(true)}
+                >
+                  <Icon icon={faTrash} />
+                </EditButton>
+              </ButtonWrapper>
             )}
           </Avatar>
         </AvatarWrapper>

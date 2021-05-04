@@ -49,16 +49,22 @@ const Badges = () => {
     <LoaderComponent isLoading={!data}>
       {data && (
         <BadgesWrapper>
-          {data.data.map((badge: IBadge) => (
-            <Badge
-              onClick={() => handleSetMainBadge(badge.id)}
-              key={badge.id}
-              badge={badge}
-              active={user.relationships.thredded_main_badge.data
-                && user.relationships.thredded_main_badge.data.id === badge.id}
-              unowned={badge.relationships.users.data.some((owner) => owner.id === user.id)}
-            />
-          ))}
+          {data.data.map((badge: IBadge) => {
+            if (!badge.attributes.secret
+              || badge.relationships.users.data.some((owner) => owner.id === user.id)) {
+              return (
+                <Badge
+                  onClick={() => handleSetMainBadge(badge.id)}
+                  key={badge.id}
+                  badge={badge}
+                  active={user.relationships.thredded_main_badge.data
+                    && user.relationships.thredded_main_badge.data.id === badge.id}
+                  owned={badge.relationships.users.data.some((owner) => owner.id === user.id)}
+                />
+              );
+            }
+            return null;
+          })}
         </BadgesWrapper>
       )}
     </LoaderComponent>

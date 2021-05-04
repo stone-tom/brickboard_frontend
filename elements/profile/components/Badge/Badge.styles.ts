@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const BadgeWrapper = styled.div<{
   active?: boolean,
-  unowned?: boolean,
+  owned?: boolean,
 }>`
   opacity: 0.3;
   margin-bottom: 10px;
@@ -12,7 +12,7 @@ export const BadgeWrapper = styled.div<{
   ${(props) => props.active && css`
     border: 2px solid ${props.theme.brickred};
   `};
-  ${(props) => props.unowned && css`
+  ${(props) => props.owned && css`
     opacity: 1;
     cursor: pointer;
   `};

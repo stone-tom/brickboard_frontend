@@ -1,9 +1,10 @@
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import React from 'react';
 import { useStoreState } from '../../../../context/custom_store';
 import { backendURL } from '../../../../util/api';
 import Icon from '../../../core/components/Icon/Icon';
+import { ButtonWrapper } from '../../container/ProfileInformation/ProfileInformation.styles';
 import {
   BannerWrapper,
   EditButton,
@@ -15,7 +16,7 @@ interface BannerProps {
   defaultImage?: string,
   alt_text: string
   userId?: string,
-  onEditBanner?: () => void,
+  onEditBanner?: (shouldDelete?: boolean) => void,
 }
 
 const BannerComponent = ({
@@ -36,12 +37,20 @@ const BannerComponent = ({
         src={!image || blocked ? defaultImage : `${backendURL}${image}`}
       />
       {isAuthenticated && user.id === userId && (
-        <EditButton
-          reset
-          onClick={() => onEditBanner()}
-        >
-          <Icon icon={faPencilAlt} />
-        </EditButton>
+        <ButtonWrapper>
+          <EditButton
+            reset
+            onClick={() => onEditBanner()}
+          >
+            <Icon icon={faPencilAlt} />
+          </EditButton>
+          <EditButton
+            reset
+            onClick={() => onEditBanner(true)}
+          >
+            <Icon icon={faTrash} />
+          </EditButton>
+        </ButtonWrapper>
       )}
     </BannerWrapper>
   );
