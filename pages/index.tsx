@@ -1,8 +1,9 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
 import useSWR from 'swr';
+import styled from 'styled-components';
 import Layout from '../elements/core/container/Layout/Layout';
-import { Greeting, ViewWrapper } from '../styles/global.styles';
+import { FlexEvenly, Greeting, ViewWrapper } from '../styles/global.styles';
 import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
 import EventCalendar from '../elements/landing/container/EventCalendar/EventCalendar';
 import { getLandingPage } from '../util/api';
@@ -13,6 +14,16 @@ import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShow
 import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
 import { get } from '../util/methods';
 import findObject from '../util/finder';
+
+const DefinitionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const DefinitionBlock = styled.div`
+  width: 40%;
+  display: block;
+`;
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getLandingPage();
@@ -58,6 +69,28 @@ function Home({ content, fetchUrl }: LandingPageProps) {
           <NewsSection newsList={newsList} authors={newsAuthors} />
         </ViewWrapper>
         <ViewWrapper small>
+
+          <DefinitionWrapper>
+            <DefinitionBlock>
+              <strong>Brick|film</strong>
+              [&#39;brɪkfɪlm], der; -s, -e &lt;engl. &raquo;Klötzchenfilm&laquo;&gt;:
+              <br />
+              <em>
+                Animationsfilm in Stop-Motion-Technik,
+                der überwiegend mit Lego® und anderem Klicksteinmaterial gedreht wurde..
+              </em>
+            </DefinitionBlock>
+            <DefinitionBlock>
+              <strong>Brick|board</strong>
+              [&#39;brɪkbɔːd], das; -s, - &lt;engl. &raquo;Klötzchenbrett&laquo;&gt;:
+              <br />
+              <em>
+                DIE deutschsprachige Community-Seite für
+                alle Brickfilmer und Brickfilm-Interessierte!
+              </em>
+
+            </DefinitionBlock>
+          </DefinitionWrapper>
 
           <Greeting>Willkommen auf der Baustelle des Brickboard`s (2.0).</Greeting>
 

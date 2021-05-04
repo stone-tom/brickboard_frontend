@@ -165,6 +165,8 @@ function Subforum({
             movies={currentMovies}
             users={userList}
             categories={allCategories.data}
+            topicViews={topicViews}
+            readStates={readTopics}
             onCategorySelect={(newCategories) => setSelected(newCategories)}
           />
           {isAuthenticated && (

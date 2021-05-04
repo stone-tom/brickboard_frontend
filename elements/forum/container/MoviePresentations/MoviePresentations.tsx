@@ -1,6 +1,8 @@
 import React from 'react';
 import ICategory from '../../../../models/ICategory';
+import IReadState from '../../../../models/IReadState';
 import ITopic from '../../../../models/ITopic';
+import ITopicView from '../../../../models/ITopicView';
 import IUser from '../../../../models/IUser';
 import findObject from '../../../../util/finder';
 import Loader from '../../../core/components/Loader/Loader';
@@ -13,6 +15,8 @@ interface MoviePresentationProps {
   movies: ITopic[],
   users: IUser[],
   categories: ICategory[],
+  readStates: IReadState[],
+  topicViews: ITopicView[],
   onCategorySelect: (selected: number[]) => void,
 }
 
@@ -20,6 +24,8 @@ const MoviePresentations = ({
   movies,
   users,
   categories,
+  readStates,
+  topicViews,
   onCategorySelect,
 }: MoviePresentationProps) => (
   <Loader isLoading={!movies}>
