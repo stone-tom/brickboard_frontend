@@ -19,7 +19,7 @@ const ProfileNavigation = ({
   onContentChange,
 }: ProfileNavigationProps) => {
   const [active, setActive] = useState<number>(defaultContent);
-  const { isAuthenticated, user } = useStoreState();
+  const { user } = useStoreState();
 
   const handleActiveChange = (index: number) => {
     if (onContentChange) {

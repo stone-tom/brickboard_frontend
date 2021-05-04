@@ -3,7 +3,6 @@ import ICategory from '../../../../models/ICategory';
 import ITopic from '../../../../models/ITopic';
 import IUser from '../../../../models/IUser';
 import findObject from '../../../../util/finder';
-import LoaderComponent from '../../../core/components/Loader/Loader';
 import Loader from '../../../core/components/Loader/Loader';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
 import { Wrapper } from '../../../profile/container/PersonalMovies/PersonalMovies.styles';
@@ -33,9 +32,8 @@ const MoviePresentations = ({
       />
     )}
     <MoviePresentationWrapper>
-      <LoaderComponent isLoading={filterLoading}>
+      <Loader isLoading={filterLoading}>
         {categories && movies.map((movie: ITopic) => {
-          // TODO: fix filter bug
           const creator = findObject(users, movie.relationships.user.data.id)
             .attributes.display_name;
           const categoryIds = movie.relationships.categories.data
@@ -59,7 +57,7 @@ const MoviePresentations = ({
         {movies.length === 0 && (
           <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
         )}
-      </LoaderComponent>
+      </Loader>
     </MoviePresentationWrapper>
   </Loader>
 );
