@@ -87,7 +87,7 @@ const ProfileInformation = ({
   const contentItems: {
     name: string,
     content: ReactNode,
-    needsAuth?: boolean,
+    needsAuth?: string,
   }[] = [{
     name: 'Infos',
     content: (
@@ -119,7 +119,7 @@ const ProfileInformation = ({
   },
   {
     name: 'Einstellungen',
-    needsAuth: true,
+    needsAuth: user.id,
     content: (
       <Settings />
     ),
