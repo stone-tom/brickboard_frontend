@@ -56,7 +56,7 @@ const Settings = () => {
           checked={checked}
           onChange={(newValue) => handleGlobalPreferencesChange(newValue, 'auto_follow_topics')}
         >
-          Email-Benachrichtigungen für Themen:
+          Email-Benachrichtigungen für Themen
         </SwitchComponent>
       </SettingsWrapper>
     </PersonalInformationWrapper>
