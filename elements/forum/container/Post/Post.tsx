@@ -22,6 +22,8 @@ import { CategoryWrapper } from '../../../core/container/MovieCard/MovieCard.sty
 import { deletePost } from '../../../../util/api';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import { MarginLeft } from '../../../../styles/global.styles';
+import IBadge from '../../../../models/IBadge';
+import findObject from '../../../../util/finder';
 
 // enum IconType {
 //   Standard,
@@ -51,6 +53,7 @@ interface PostProps {
   videoURL?: string,
   categories?: ICategory[],
   allCategories?: ICategory[],
+  allBadges?: IBadge[],
   onPostDeleted?: (postId: number) => void,
 }
 
@@ -65,13 +68,17 @@ const PostComponent = ({
   videoURL,
   categories,
   allCategories,
+  allBadges,
   onPostDeleted,
 }: PostProps) => {
   const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
   const postContent = post.attributes.content;
   const { setMessage, addComponent } = useStoreDispatch();
-
+  let badge = null;
+  if (author.relationships.thredded_main_badge.data) {
+    badge = findObject(allBadges, author.relationships.thredded_main_badge.data.id);
+  }
   const submitPost = async (values: ICreateTopic) => {
     if (messageBoardSlug && post.relationships.postable.data.id) {
       const { content, error } = await updatePost(
@@ -124,7 +131,7 @@ const PostComponent = ({
 
   return (
     <Post role="article">
-      <ProfileAside author={author} />
+      <ProfileAside author={author} badge={badge} />
       <PostDetails>
         <PostHeader>
           <PostHeading>

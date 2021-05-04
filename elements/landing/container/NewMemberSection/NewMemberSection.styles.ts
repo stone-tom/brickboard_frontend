@@ -80,6 +80,18 @@ export const NewMemberProfile = styled.div`
   width: 200px;
 `;
 
+export const ImageWrapper = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+`;
+
+export const NewMemberImageWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+  position: relative;
+`;
+
 export const NewMemberImage = styled.div`
   position: relative;
 `;
@@ -89,7 +101,7 @@ export const NewMemberInfos = styled.div`
 
 `;
 
-export const MemberFact = styled.p`
+export const MemberFact = styled.div`
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
 `;

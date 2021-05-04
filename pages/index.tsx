@@ -12,6 +12,7 @@ import NewMemberSection from '../elements/landing/container/NewMemberSection/New
 import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShowcase';
 import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
 import { get } from '../util/methods';
+import findObject from '../util/finder';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getLandingPage();
@@ -48,6 +49,7 @@ function Home({ content, fetchUrl }: LandingPageProps) {
   const movieAuthors = filter(data.random_movies, 'user');
   const movieCategories = filter(data.random_movies, 'category');
   const randomUsers = data.random_users.data;
+  const allBadges = filter(data.random_users, 'badge');
   const randomUsersDetails = filter(data.random_users, 'thredded_user_show_detail');
   return (
     <>
@@ -65,6 +67,12 @@ function Home({ content, fetchUrl }: LandingPageProps) {
           <NewMemberSection
             member={data.latest_user.data}
             memberdetails={data.latest_user.included[0]}
+            badge={
+              data.latest_user.data.relationships.thredded_main_badge.data
+                ? findObject(allBadges,
+                  data.latest_user.data.relationships.thredded_main_badge.data.id)
+                : null
+            }
           />
         )}
         <ViewWrapper small>
@@ -74,7 +82,7 @@ function Home({ content, fetchUrl }: LandingPageProps) {
             categories={movieCategories}
           />
         </ViewWrapper>
-        <CommunitySection users={randomUsers} userDetails={randomUsersDetails} />
+        <CommunitySection badges={allBadges} users={randomUsers} userDetails={randomUsersDetails} />
         <StatisticSection
           movie_count={content.movie_count}
           topic_count={content.topic_count}

@@ -129,6 +129,7 @@ function Subforum({
   const topic: ITopic = filter(data, 'topic')[0];
   const topicView = filter(data, 'topic_view')[0];
   const posts = filter(data, 'post');
+  const badges = filter(data, 'badge');
   const userList = filter(data, 'user');
   const isLocked = topic.attributes.locked;
   let isFollowing = false;
@@ -137,7 +138,6 @@ function Subforum({
   }
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
-
   const submitTopic = async (editorContent) => {
     const { content, error } = await answerTopic(slug, id, editorContent);
     if (error) {
@@ -364,7 +364,6 @@ function Subforum({
     };
     mutate(updateData, false);
   };
-
   if (topic.attributes.moderation_state === 'blocked' && !user.attributes.admin) {
     return (
       <Layout title="Blockiertes Thema - Brickboard 2.0">
@@ -464,6 +463,7 @@ function Subforum({
             post={post}
             topicTitle={topic.attributes.title}
             first={index === 0}
+            allBadges={badges}
             messageBoardSlug={slug}
             author={findObject(userList, post.relationships.user.data.id)}
             key={post.id}

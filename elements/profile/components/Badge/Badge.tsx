@@ -12,6 +12,7 @@ interface BadgeProps {
   badge: IBadge,
   owned?: boolean,
   active?: boolean,
+  small?: boolean,
   onClick?: () => void,
 }
 
@@ -19,6 +20,7 @@ const Badge = ({
   badge,
   owned,
   active,
+  small,
   onClick,
 }: BadgeProps) => (
   <Hint hint={badge ? badge.attributes.description : 'Dieser Benutzer hat noch kein Badge'}>
@@ -29,8 +31,8 @@ const Badge = ({
         onClick={owned ? onClick : null}
       >
         <Image
-          height="120px"
-          width="120px"
+          height={small ? '60px' : '120px'}
+          width={small ? '60px' : '120px'}
           alt={badge ? badge.attributes.title : 'Default Badge'}
           src={!badge ? '/assets/images/default_badge.svg' : `${backendURL}${badge.attributes.badge_icon}`}
         />
