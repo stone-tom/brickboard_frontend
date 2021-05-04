@@ -89,9 +89,12 @@ const Profile = ({
   const movieCategories: ICategory[] = filter(data, 'category');
   const { user: currentUser } = useStoreState();
   const getMainBadge = () => {
-    const mainBadgeId = data.data.relationships.thredded_main_badge.data.id;
-    const mainBadge = filter(data, 'badge').find((elem) => elem.id === mainBadgeId);
-    return mainBadge;
+    if (data.data.relationships.thredded_main_badge.data) {
+      const mainBadgeId = data.data.relationships.thredded_main_badge.data.id;
+      const mainBadge = filter(data, 'badge').find((elem) => elem.id === mainBadgeId);
+      return mainBadge;
+    }
+    return null;
   };
   const userMainBadge = getMainBadge();
 
