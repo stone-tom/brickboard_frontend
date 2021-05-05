@@ -1,11 +1,31 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Card = styled.div`
+export const Card = styled.div<{
+  unread?: boolean;
+}>`
   position: relative;
   height: 169px;
   width: 300px;
   color: #fff;
   cursor: pointer;
+
+  ${(props) => props.unread && css`
+   
+    &::before{
+      position: absolute;
+      display: block;
+      content: "";
+      width: 80px;
+      height: 80px;
+      right: -15px;
+      top: -15px;
+      background-image: url('/assets/images/bookmark.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      z-index: 10;
+    }
+  `}
+
 `;
 export const Thumbnail = styled.div`
   position: relative;
@@ -20,8 +40,7 @@ export const CreatorInformation = styled.div`
   flex-direction: column;
   padding: 10px 5px 10px 10px;
   width: 100%;
-  background: linear-gradient(to top, #000, rgba(0,0,0,0));
-
+  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
 `;
 export const Creator = styled.p``;
 
@@ -34,7 +53,7 @@ export const VideoTitle = styled.p`
   top: 0;
   padding: 10px 5px 10px 10px;
   width: 100%;
-  background: linear-gradient(to bottom, #000, rgba(0,0,0,0));
+  background: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0));
 `;
 
 export const CategoryWrapper = styled.div`

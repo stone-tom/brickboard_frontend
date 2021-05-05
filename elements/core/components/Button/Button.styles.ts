@@ -47,6 +47,7 @@ export const Button = styled.button<{
   `}
 
   ${(props) => props.iconRight && css`
+    flex-direction: row-reverse;
     svg {
       margin-right: 0px;
       margin-left: 8px;

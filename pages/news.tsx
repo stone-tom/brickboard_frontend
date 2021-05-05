@@ -156,16 +156,7 @@ const NewsPage = ({ content }: NewsProps) => {
             return null;
           })}
         </NewsArticleContainer>
-        {/* {pageIndex > 1 && (
-          <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
-            Vorige Seite
-          </Button>
-        )}
-        {newsList.length >= 10 && (
-          <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
-            Nächste Seite
-          </Button>
-        )} */}
+
         <Pagination
           lengthUnknown
           pageIndex={pageIndex}

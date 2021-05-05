@@ -73,7 +73,11 @@ export const TopicUnreadMarker = styled.div<{
     width: 5px;
     border-top-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    background-color: ${(props) => (props.unread ? props.theme.brickred : props.theme.gray)};
+    background-color: ${(props) => props.theme.gray};
+
+    ${(props) => props.unread && css`
+      background-color: ${props.theme.brickred};
+    `}
 `;
 
 export const TopicInfo = styled.div`
