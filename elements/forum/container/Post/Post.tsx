@@ -20,8 +20,7 @@ import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
 import PostForm from '../../container/PostForm/PostForm';
-import MovieForm, { ICreateTopic } from '../MovieForm/MovieForm';
-import ICategory from '../../../../models/ICategory';
+import { ICreateTopic } from '../MovieForm/MovieForm';
 import { deletePost } from '../../../../util/api';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import { MarginLeft } from '../../../../styles/global.styles';
@@ -52,12 +51,9 @@ interface PostProps {
   topicTitle?: string,
   author: IUser,
   onPostUpdated?: any,
-  slug?: string,
-  videoURL?: string,
-  categories?: ICategory[],
-  allCategories?: ICategory[],
   allBadges?: IBadge[],
   onPostDeleted?: (postId: number) => void,
+  preview?: boolean,
 }
 
 const PostComponent = ({
@@ -67,19 +63,16 @@ const PostComponent = ({
   author,
   topicTitle,
   onPostUpdated,
-  slug,
-  videoURL,
-  categories,
-  allCategories,
   allBadges,
   onPostDeleted,
+  preview,
 }: PostProps) => {
   const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
   const postContent = post.attributes.content;
   const { setMessage, addComponent } = useStoreDispatch();
   let badge = null;
-  if (author.relationships.thredded_main_badge.data) {
+  if (!preview && author.relationships.thredded_main_badge.data) {
     badge = findObject(allBadges, author.relationships.thredded_main_badge.data.id);
   }
   const submitPost = async (values: ICreateTopic) => {
@@ -177,28 +170,16 @@ const PostComponent = ({
         {isEditing
           ? (
             <>
-              {slug === 'filmvorstellungen' && first ? (
-                <MovieForm
-                  categories={allCategories}
-                  onSubmit={(movieValues) => submitPost(movieValues)}
-                  defaultValues={{
-                    video_url: videoURL,
-                    title: topicTitle,
-                    content: post.attributes.content,
-                    categories,
-                  }}
-                />
-              ) : (
-                <PostForm
-                  onEditorSubmit={(editorContent) => submitPost(
-                    {
-                      content: editorContent.editorContent,
-                    },
-                  )}
-                  answer
-                  initialContent={postContent}
-                />
-              )}
+              <PostForm
+                onEditorSubmit={(editorContent) => submitPost(
+                  {
+                    content: editorContent.editorContent,
+                  },
+                )}
+                answer
+                initialContent={postContent}
+              />
+
             </>
           )
           : (
@@ -206,26 +187,6 @@ const PostComponent = ({
               <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />
             </>
           )}
-        {/* {slug === 'filmvorstellungen' && !isEditing && first && (
-          <>
-            <iframe
-              title="Youtube Video"
-              id="ytplayer"
-              width="640"
-              height="360"
-              src={`https://www.youtube.com/embed/${getYouTubeId(videoURL)}`}
-              frameBorder="0"
-            />
-            <CategoryWrapper>
-              <CategoryLabel>Kategorien:</CategoryLabel>
-              {categories.map((category) => (
-                <>
-                  <Tag name={category.attributes.name} />
-                </>
-              ))}
-            </CategoryWrapper>
-          </>
-        )} */}
       </PostDetails>
     </Post>
   );

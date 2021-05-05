@@ -89,8 +89,6 @@ interface SubforumProps {
   topicData: any,
   slug: string,
   id: number,
-  categoryData: any,
-  categoryURL: string,
 }
 
 function Subforum({
@@ -98,8 +96,6 @@ function Subforum({
   topicData,
   slug,
   id,
-  categoryData,
-  categoryURL,
 }: SubforumProps) {
   const router = useRouter();
   if (router.isFallback) {
@@ -118,12 +114,6 @@ function Subforum({
     `${fetchURL}/page-${pageIndex}`,
     get,
     { revalidateOnMount: true, initialData: topicData },
-  );
-
-  const { data: allCategories } = useSWR(
-    categoryURL,
-    get,
-    { revalidateOnMount: true, initialData: categoryData },
   );
 
   const { isAuthenticated, user, moderation_state } = useStoreState();
@@ -479,10 +469,6 @@ function Subforum({
             messageBoardSlug={slug}
             author={findObject(userList, post.relationships.user.data.id)}
             key={post.id}
-            slug={slug}
-            videoURL={topic.attributes.video_url}
-            categories={filter(data, 'category')}
-            allCategories={allCategories && allCategories.data}
             onPostDeleted={(postId: number) => removePost(postId)}
           />
         ))}

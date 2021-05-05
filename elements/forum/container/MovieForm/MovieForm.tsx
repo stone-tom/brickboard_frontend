@@ -4,10 +4,12 @@ import ICategory from '../../../../models/ICategory';
 import { MessageType } from '../../../../models/IMessage';
 import { TopicType } from '../../../../models/ITopic';
 import { FlexRight } from '../../../../styles/global.styles';
+import filter from '../../../../util/filter';
 import Button from '../../../core/components/Button/Button';
 import FormInput from '../../../core/components/FormInput/FormInput';
 import MultiSelectComponent from '../../../core/components/MultiSelect/MultiSelect';
 import Editor from '../../../core/container/Editor/Editor';
+import Post from '../Post/Post';
 // import PostComponent from '../Post/Post';
 import TopicMovie from '../TopicMovie/TopicMovie';
 import {
@@ -24,6 +26,7 @@ export interface ICreateTopic {
   content: string,
   video_url?: string,
   category_ids?: string[],
+  movie_created_at?: string,
   category?: TopicType,
   type?: 'Thredded::TopicMovie' | 'Thredded::TopicDefault',
 }
@@ -51,11 +54,11 @@ const MovieForm = ({
   const [url, setURL] = useState<string>(defaultValues && defaultValues.video_url);
   const [content, setContent] = useState<string>(defaultValues && defaultValues.content);
   const [title, setTitle] = useState<string>(defaultValues && defaultValues.title);
-  const [createdAt] = useState<string>(
+  const [createdAt, setCreatedAt] = useState<string>(
     defaultValues && defaultValues.movie_created_at,
   );
 
-  const { user } = useStoreState();
+  const { user, badge } = useStoreState();
 
   const handleCategorySelect = (newItems: {
     label: string,
@@ -76,6 +79,7 @@ const MovieForm = ({
       title,
       content,
       video_url: url,
+      movie_created_at: createdAt,
       category_ids: selectedCategories.map((category) => category.value, 10),
       type: 'Thredded::TopicMovie',
     };
@@ -83,6 +87,7 @@ const MovieForm = ({
     onSubmit(body);
   };
 
+  console.log(badge);
   return (
     <>
       <FormWrapper>
@@ -109,6 +114,18 @@ const MovieForm = ({
               Youtube Video-URL
             </FormInput>
           </InputWrapper>
+        </VideoInformationWrapper>
+        <VideoInformationWrapper>
+          <InputWrapper>
+            <FormInput
+              disabled={defaultValues}
+              type="date"
+              value={createdAt}
+              onChange={(newValue) => setCreatedAt(newValue)}
+            >
+              Erscheinungsdatum
+            </FormInput>
+          </InputWrapper>
           <InputWrapper>
             <MultiSelectComponent
               disabled={defaultValues}
@@ -130,7 +147,7 @@ const MovieForm = ({
         />
         <FlexRight>
           <Button
-            disabled={!content || !title || !url}
+            disabled={!content || !title || !url || !createdAt}
             type="submit"
             onClick={handleSubmit}
           >
@@ -146,6 +163,31 @@ const MovieForm = ({
           author={user}
           createdAt={createdAt || new Date().toDateString()}
           previewCategories={selectedCategories || []}
+        />
+        <Post
+          post={{
+            id: 'test_post',
+            type: 'thredded_post',
+            attributes: {
+              content,
+              source: 'web',
+              moderation_state: 'approved',
+              created_at: new Date().toDateString(),
+              updated_at: new Date().toDateString(),
+            },
+            relationships: {
+              postable: {
+                data: [{
+                  id: 'test',
+                  type: 'test',
+                }],
+              },
+            },
+          }}
+          topicTitle={title}
+          first
+          author={user}
+          allBadges={[badge]}
         />
       </PreviewWrapper>
     </>
