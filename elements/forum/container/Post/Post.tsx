@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { faEdit, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
-  Post, PostContent, PostDate, PostDetails, PostHeader, PostHeading, PostSettings, CategoryLabel,
+  Post,
+  PostContent,
+  PostDate,
+  PostDetails,
+  PostHeader,
+  PostHeading,
+  PostSettings,
 } from './Post.styles';
 import ProfileAside from '../../components/ProfileAside/ProfileAside';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
@@ -13,12 +19,12 @@ import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
-import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
+// import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
 import PostForm from '../../container/PostForm/PostForm';
 import MovieForm, { ICreateTopic } from '../MovieForm/MovieForm';
 import ICategory from '../../../../models/ICategory';
-import Tag from '../../../core/components/Tag/Tag';
-import { CategoryWrapper } from '../../../core/container/MovieCard/MovieCard.styles';
+// import Tag from '../../../core/components/Tag/Tag';
+// import { CategoryWrapper } from '../../../core/container/MovieCard/MovieCard.styles';
 import { deletePost } from '../../../../util/api';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import { MarginLeft } from '../../../../styles/global.styles';
@@ -203,7 +209,7 @@ const PostComponent = ({
               <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />
             </>
           )}
-        {slug === 'filmvorstellungen' && !isEditing && first && (
+        {/* {slug === 'filmvorstellungen' && !isEditing && first && (
           <>
             <iframe
               title="Youtube Video"
@@ -222,7 +228,7 @@ const PostComponent = ({
               ))}
             </CategoryWrapper>
           </>
-        )}
+        )} */}
       </PostDetails>
     </Post>
   );

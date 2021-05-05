@@ -21,6 +21,7 @@ export interface ITopicAttributes {
   view_count: number,
   created_at: string,
   updated_at: string,
+  movie_created_at?: string,
   category?: TopicType,
 }
 

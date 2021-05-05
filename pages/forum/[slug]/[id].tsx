@@ -47,6 +47,7 @@ import Prompt from '../../../elements/core/container/Prompt/Prompt';
 import PostForm from '../../../elements/forum/container/PostForm/PostForm';
 import getCategories from '../../../util/api/topic/get-categories';
 import Pagination from '../../../elements/core/container/Pagination/Pagination';
+import TopicMovie from '../../../elements/forum/container/TopicMovie/TopicMovie';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -439,7 +440,6 @@ function Subforum({
                 )}
             </TopicSettingsBar>
           )}
-
         </FlexBetween>
         {isLocked && (
           <Hint>
@@ -458,6 +458,14 @@ function Subforum({
           <Hint>
             Dieses Thema ist blockiert, nur Admins können es sehen.
           </Hint>
+        )}
+
+        {slug === 'filmvorstellungen' && (
+          <TopicMovie
+            topic={topic}
+            categories={filter(data, 'category')}
+            author={findObject(userList, topic.relationships.user.data.id)}
+          />
         )}
 
         {posts.map((post: IPost, index: number) => (
