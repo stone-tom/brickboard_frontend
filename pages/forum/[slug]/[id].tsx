@@ -40,6 +40,7 @@ import { useStoreDispatch, useStoreState } from '../../../context/custom_store';
 import findObject from '../../../util/finder';
 import { get } from '../../../util/methods';
 import IPost from '../../../models/IPost';
+import ICategory from '../../../models/ICategory';
 import ITopic from '../../../models/ITopic';
 import IMessageboard from '../../../models/IMessageboard';
 import { TopicSettingsBar, TopicSettingsBarItem } from '../../../elements/forum/components/TopicItem/TopicItem.styles';
@@ -48,6 +49,7 @@ import PostForm from '../../../elements/forum/container/PostForm/PostForm';
 import getCategories from '../../../util/api/topic/get-categories';
 import Pagination from '../../../elements/core/container/Pagination/Pagination';
 import TopicMovie from '../../../elements/forum/container/TopicMovie/TopicMovie';
+import { IUpdateTopic } from '../../../elements/forum/container/MovieForm/MovieForm';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -86,6 +88,8 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 
 interface SubforumProps {
   fetchURL: string,
+  categoryData: ICategory[],
+  categoryURL: string,
   topicData: any,
   slug: string,
   id: number,
@@ -96,6 +100,8 @@ function Subforum({
   topicData,
   slug,
   id,
+  categoryData,
+  categoryURL,
 }: SubforumProps) {
   const router = useRouter();
   if (router.isFallback) {
@@ -116,6 +122,12 @@ function Subforum({
     { revalidateOnMount: true, initialData: topicData },
   );
 
+  const { data: allCategories } = useSWR(
+    categoryURL,
+    get,
+    { revalidateOnMount: true, initialData: categoryData },
+  );
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const { isAuthenticated, user, moderation_state } = useStoreState();
   const { setMessage, addComponent } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
@@ -167,6 +179,8 @@ function Subforum({
     }
   };
 
+  console.log(topic);
+
   const subscribeTopic = async (follow: boolean) => {
     const { content, error } = await followTopic(topic.id, follow);
     if (!error) {
@@ -211,6 +225,40 @@ function Subforum({
     }
   };
 
+  const handleTopicUpdate = async (topicId: string, topicBody: IUpdateTopic) => {
+    const updateBody = { topic: { ...topicBody } };
+
+    const { content, error } = await updateTopic(topicId, updateBody);
+    if (error) {
+      setMessage({
+        content: `Fehler beim absenden: ${error.message}`,
+        type: MessageType.error,
+      });
+    }
+    if (content) {
+      const updateData = {
+        ...data,
+        included: data.included.map((item) => {
+          if (item.id === topic.id && item.type === 'topic') {
+            return {
+              ...item,
+              attributes: {
+                ...item.attributes,
+                ...topicBody,
+              },
+            };
+          }
+          return item;
+        }),
+      };
+      mutate(updateData, false);
+      setMessage({
+        content: 'Deine Antwort wurde gepostet!',
+        type: MessageType.success,
+      });
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       markTopicAsRead(topic.id);
@@ -240,7 +288,6 @@ function Subforum({
   };
   const submitLock = async (lock: boolean) => {
     const updatedTopic = { topic: { locked: lock } };
-
     const { content, error } = await updateTopic(topic.id, updatedTopic);
     if (error) {
       setMessage({
@@ -455,11 +502,17 @@ function Subforum({
             videoURL={topic.attributes.video_url}
             createdAt={topic.attributes.movie_created_at || topic.attributes.created_at}
             categories={filter(data, 'category')}
+            allCategories={allCategories.data}
             author={findObject(userList, topic.relationships.user.data.id)}
+            title={topic.attributes.title}
+            onUpdate={(topicBody) => handleTopicUpdate(topic.id, topicBody)}
+            isEditing={isEditing}
+            setIsEditing={(value) => setIsEditing(value)}
+            content={posts[0].attributes.content}
           />
         )}
 
-        {posts.map((post: IPost, index: number) => (
+        {!isEditing && posts.map((post: IPost, index: number) => (
           <Post
             onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
             post={post}

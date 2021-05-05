@@ -138,7 +138,7 @@ const PostComponent = ({
             {user && (
               <>
                 {user.attributes.display_name === author.attributes.display_name
-                  && moderation_state === 'approved' && (
+                  && moderation_state === 'approved' && !preview && (
                     <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                       {!isEditing
                         ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>

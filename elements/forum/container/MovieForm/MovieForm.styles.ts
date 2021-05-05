@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const FormWrapper = styled.div`
+  position: relative;
   z-index: 200;
 `;
 
