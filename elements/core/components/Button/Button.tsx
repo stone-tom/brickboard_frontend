@@ -27,24 +27,10 @@ const ButtonComponent = ({
     disabled={disabled}
     {...rest}
   >
-    {
-      !iconRight ? (
-        <>
-          {icon && (
-          <Icon icon={icon} />
-          )}
-          {children}
-        </>
-      ) : (
-        <>
-          {children}
-          {icon && (
-          <Icon icon={icon} />
-          )}
-        </>
-      )
-    }
-
+    {icon && (
+      <Icon icon={icon} />
+    )}
+    {children}
   </Button>
 );
 

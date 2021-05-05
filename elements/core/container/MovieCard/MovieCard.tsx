@@ -25,6 +25,7 @@ interface MovieCardProps {
   created_at: string,
   categories: ICategory[]
   id: string,
+  unread?: boolean,
 }
 
 const MovieCard = ({
@@ -34,9 +35,10 @@ const MovieCard = ({
   created_at,
   categories,
   id,
+  unread,
 }: MovieCardProps) => (
   <Link href={`/forum/filmvorstellungen/${id}`}>
-    <Card data-testid="movie_card">
+    <Card data-testid="movie_card" unread={unread}>
       <Image
         layout="fill"
         objectFit="cover"

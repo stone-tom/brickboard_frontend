@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
@@ -98,10 +98,10 @@ function Subforum({
     { initialData: topicsData, revalidateOnMount: true },
   );
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
-  const topicViews = data.data;
+  let topicViews = data.data;
   const topicList = filterContent(data, 'topic');
-  const userList = filterContent(data, 'user');
-  const readTopics = filterContent(data, 'user_topic_read_state');
+  let userList = filterContent(data, 'user');
+  let readTopics = filterContent(data, 'user_topic_read_state');
   const openTopic = (clickedTopic: ITopic) => {
     if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
       router.push(`./${slug}/${clickedTopic.id}`);
@@ -151,13 +151,13 @@ function Subforum({
     );
     const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
     const [filterLoading, setFilterLoading] = useState<boolean>(false);
-
-    const currentMovies = useMemo(() => {
-      if (filteredMovies && selected.length > 0) {
-        return filteredMovies.data;
-      }
-      return topicList;
-    }, [selected, topicList, filteredMovies]);
+    let currentMovies = topicList;
+    if (filteredMovies && selected.length > 0) {
+      currentMovies = filterContent(filteredMovies, 'topic');
+      topicViews = filteredMovies.data;
+      readTopics = filterContent(filteredMovies, 'user_topic_read_state');
+      userList = filterContent(filteredMovies, 'user');
+    }
 
     useEffect(() => {
       if (!filteredMovies && selected.length > 0) {
@@ -169,12 +169,24 @@ function Subforum({
       <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
         <ViewWrapper>
           <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+          {isAuthenticated && (
+            <MarginBottom>
+              <Button
+                reset
+                onClick={() => markAllAsRead()}
+              >
+                Themen als gelesen markieren
+              </Button>
+            </MarginBottom>
+          )}
           <ForumHeading title={`${messageboard.attributes.name}`} />
           <MoviePresentations
             filterLoading={filterLoading}
             movies={currentMovies}
             users={userList}
             categories={allCategories.data}
+            readStates={readTopics}
+            topicViews={topicViews}
             onCategorySelect={(newCategories) => setSelected(newCategories)}
           />
           <Pagination
@@ -229,23 +241,13 @@ function Subforum({
             readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
           }
           let unread = false;
-          if ((readstate === null && isAuthenticated)
-            || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
+          if ((data !== topicsData
+            && (!topicView.relationships.read_state && isAuthenticated))
+            || (topicView.relationships.read_state
+              && readstate.attributes.unread_posts_count > 0)) {
             unread = true;
           }
           if (topic.attributes.moderation_state === 'approved') {
-            if (!isAuthenticated) {
-              return (
-                <TopicItem
-                  key={topic.attributes.slug}
-                  slug={slug}
-                  topic={topic}
-                  author={author}
-                  lastCommentor={lastCommentor}
-                  onClick={() => openTopic(topic)}
-                />
-              );
-            }
             return (
               <TopicItem
                 key={topic.attributes.slug}
@@ -254,7 +256,7 @@ function Subforum({
                 author={author}
                 lastCommentor={lastCommentor}
                 markUnread={unread}
-                isAuthenticated
+                isAuthenticated={isAuthenticated}
                 onClick={() => openTopic(topic)}
               />
             );
