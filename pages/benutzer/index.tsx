@@ -10,6 +10,8 @@ import UserCard from '../../elements/user/container/UserCard/UserCard';
 import FormInput from '../../elements/core/components/FormInput/FormInput';
 import { backendURL } from '../../util/api';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
+import filter from '../../util/filter';
+import { FlexCenter } from '../../styles/global.styles';
 
 const UserCardWrapper = styled.div`
   display: flex;
@@ -52,10 +54,11 @@ const AllUsers = ({
     { initialData: content, revalidateOnMount: true },
   );
   const { data: searchData } = useSWR(`${backendURL}/autocomplete-users?q=${searchTerm}`, get);
-
+  const userList = filter(data, 'user');
+  const totalUsers = data.data.attributes.users_count;
   const users = useMemo(() => {
     if (searchTerm.length < 2) {
-      return data.data.map((item: IUser) => (
+      return userList.map((item: IUser) => (
         {
           id: item.id,
           name: item.attributes.display_name,
@@ -96,8 +99,7 @@ const AllUsers = ({
       </UserCardWrapper>
       <Pagination
         pageIndex={pageIndex}
-        lengthUnknown
-        totalLength={data.data.length}
+        totalLength={totalUsers}
         paginationSize={20}
         onClick={(index: number) => setPageIndex(index)}
       />
