@@ -1,3 +1,4 @@
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { MarginX } from '../../../../styles/global.styles';
 import Button from '../../components/Button/Button';
@@ -23,14 +24,14 @@ const Pagination = ({
       <PaginationWrapper>
         {
           pageIndex > 1 && (
-            <Button small type="button" onClick={() => onClick(pageIndex - 1)}>
+            <Button icon={faChevronLeft} small type="button" onClick={() => onClick(pageIndex - 1)}>
               Vorige Seite
             </Button>
           )
         }
         {
         totalLength === paginationSize && (
-          <Button small type="button" onClick={() => onClick(pageIndex + 1)}>
+          <Button icon={faChevronRight} iconRight small type="button" onClick={() => onClick(pageIndex + 1)}>
             Nächste Seite
           </Button>
         )
@@ -44,7 +45,7 @@ const Pagination = ({
     <PaginationWrapper>
       {
         pageIndex > 1 && (
-          <Button small type="button" onClick={() => onClick(pageIndex - 1)}>
+          <Button icon={faChevronLeft} small type="button" onClick={() => onClick(pageIndex - 1)}>
             Vorige Seite
           </Button>
         )
@@ -60,7 +61,7 @@ const Pagination = ({
       </MarginX>
       {
         pageIndex < pageCount && (
-          <Button small type="button" onClick={() => onClick(pageIndex + 1)}>
+          <Button icon={faChevronRight} iconRight small type="button" onClick={() => onClick(pageIndex + 1)}>
             Nächste Seite
           </Button>
         )

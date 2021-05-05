@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   small?: boolean,
   reset?: boolean,
   icon?: IconProp,
+  iconRight?: boolean,
 }
 
 const ButtonComponent = ({
@@ -16,18 +17,34 @@ const ButtonComponent = ({
   disabled,
   type = 'button',
   icon,
+  iconRight,
   ...rest
 }: ButtonProps) => (
   <Button
     icon={icon !== undefined}
     type={type}
+    iconRight={iconRight}
     disabled={disabled}
     {...rest}
   >
-    {icon && (
-      <Icon icon={icon} />
-    )}
-    { children}
+    {
+      !iconRight ? (
+        <>
+          {icon && (
+          <Icon icon={icon} />
+          )}
+          {children}
+        </>
+      ) : (
+        <>
+          {children}
+          {icon && (
+          <Icon icon={icon} />
+          )}
+        </>
+      )
+    }
+
   </Button>
 );
 

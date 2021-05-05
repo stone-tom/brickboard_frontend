@@ -5,6 +5,7 @@ export const Button = styled.button<{
   gray?: boolean,
   reset?: boolean,
   icon?: boolean,
+  iconRight?: boolean,
 }>`
   background: ${(props) => props.theme.brickred};
   color: #fff;
@@ -44,6 +45,14 @@ export const Button = styled.button<{
       margin-right: 8px;
     }
   `}
+
+  ${(props) => props.iconRight && css`
+    svg {
+      margin-right: 0px;
+      margin-left: 8px;
+    }
+  `}
+
 
   &:hover {
     background: ${(props) => props.theme.brickredDark};

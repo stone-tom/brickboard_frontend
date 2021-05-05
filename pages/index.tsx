@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import useSWR from 'swr';
 import styled from 'styled-components';
 import Layout from '../elements/core/container/Layout/Layout';
-import { FlexEvenly, Greeting, ViewWrapper } from '../styles/global.styles';
+import { Greeting, ViewWrapper } from '../styles/global.styles';
 import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
 import EventCalendar from '../elements/landing/container/EventCalendar/EventCalendar';
 import { getLandingPage } from '../util/api';
