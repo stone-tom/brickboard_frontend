@@ -5,6 +5,7 @@ import GlobalStyle from '../styles/global.styles';
 import { StoreProvider } from '../context/custom_store';
 import Message from '../elements/core/components/Message/Message';
 import AppendBody from '../elements/core/components/AppendBody/AppendBody';
+import SessionCheck from '../elements/core/components/SessionCheck/SessionCheck';
 
 function MyApp({
   Component,
@@ -17,6 +18,7 @@ function MyApp({
       <ThemeProvider theme={theme[currentTheme]}>
         <GlobalStyle />
         <AppendBody />
+        <SessionCheck />
         <Message />
         <Component {...pageProps} />
       </ThemeProvider>
