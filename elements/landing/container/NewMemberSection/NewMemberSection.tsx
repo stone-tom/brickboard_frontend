@@ -2,12 +2,14 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import IBadge from '../../../../models/IBadge';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
 import { FlexLeft } from '../../../../styles/global.styles';
 import { backendURL } from '../../../../util/api';
 import { Button } from '../../../core/components/Button/Button.styles';
 import { ProfileAsideHeading } from '../../../forum/components/ProfileAside/ProfileAside.style';
+import Badge from '../../../profile/components/Badge/Badge';
 import {
   MemberFact,
   NewestMemberContent,
@@ -21,11 +23,12 @@ import {
 } from './NewMemberSection.styles';
 
 interface NewMemberProps {
-  member: IUser;
-  memberdetails?: IUserDetail;
+  member: IUser,
+  memberdetails?: IUserDetail,
+  badge: IBadge,
 }
 
-const NewMemberSection = ({ member, memberdetails }: NewMemberProps) => (
+const NewMemberSection = ({ member, memberdetails, badge }: NewMemberProps) => (
   <NewMemberWrapper>
     <NewMemberContentContainer>
       <NewMemberLeftHalf />
@@ -35,11 +38,13 @@ const NewMemberSection = ({ member, memberdetails }: NewMemberProps) => (
         </FlexLeft>
         <NewMemberBody>
           <NewMemberProfile>
+
             <Image
               src={member.attributes.avatar ? `${backendURL}${member.attributes.avatar}` : '/assets/images/default_profile.svg'}
-              height="300"
-              width="300"
+              width="200px"
+              height="200px"
             />
+
             <Link href={`/profil/${member.id}`} passHref>
               <ProfileAsideHeading>
                 {member.attributes.display_name}
@@ -47,6 +52,9 @@ const NewMemberSection = ({ member, memberdetails }: NewMemberProps) => (
             </Link>
           </NewMemberProfile>
           <NewMemberInfos>
+            <MemberFact>
+              <Badge small badge={badge} />
+            </MemberFact>
             <MemberFact>
               <strong>Mitglied seit: </strong>
               {format(new Date(member.attributes.created_at), 'dd.MM.yyyy')}

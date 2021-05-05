@@ -104,9 +104,10 @@ function NeuesThema({
       <ViewWrapper>
         {slug !== 'filmvorstellungen' ? (
           <PostForm
-            onEditorSubmit={({ title, editorContent }) => submitTopic({
+            onEditorSubmit={({ title, editorContent, category }) => submitTopic({
               title,
               content: editorContent,
+              category,
             })}
           />
         ) : (

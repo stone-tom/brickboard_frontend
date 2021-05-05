@@ -26,7 +26,7 @@ import IBadge from '../../models/IBadge';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getUsers();
-  const users = content.data || null;
+  const users = filter(content, 'user') || null;
 
   return {
     paths: users.map((user) => ({

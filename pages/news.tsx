@@ -16,6 +16,7 @@ import Restrictions from '../config/file_upload_restrictions.json';
 import { get } from '../util/methods';
 import Prompt from '../elements/core/container/Prompt/Prompt';
 import { MessageType } from '../models/IMessage';
+import Pagination from '../elements/core/container/Pagination/Pagination';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getNews();
@@ -155,7 +156,7 @@ const NewsPage = ({ content }: NewsProps) => {
             return null;
           })}
         </NewsArticleContainer>
-        {pageIndex > 1 && (
+        {/* {pageIndex > 1 && (
           <Button small type="button" onClick={() => setPageIndex(pageIndex - 1)}>
             Vorige Seite
           </Button>
@@ -164,7 +165,14 @@ const NewsPage = ({ content }: NewsProps) => {
           <Button small type="button" onClick={() => setPageIndex(pageIndex + 1)}>
             Nächste Seite
           </Button>
-        )}
+        )} */}
+        <Pagination
+          lengthUnknown
+          pageIndex={pageIndex}
+          paginationSize={10}
+          totalLength={newsList.length}
+          onClick={(index: number) => setPageIndex(index)}
+        />
       </ViewWrapper>
     </Layout>
   );

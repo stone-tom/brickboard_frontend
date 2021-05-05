@@ -12,6 +12,7 @@ export interface IMessageboardtAttributes {
   topic_types: any,
   created_at: string,
   updated_at: string,
+  unread_topics_count: number,
 }
 
 export default interface IMessageboard {

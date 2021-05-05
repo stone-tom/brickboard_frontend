@@ -9,6 +9,8 @@ import { get } from '../../util/methods';
 import UserCard from '../../elements/user/container/UserCard/UserCard';
 import FormInput from '../../elements/core/components/FormInput/FormInput';
 import { backendURL } from '../../util/api';
+import Pagination from '../../elements/core/container/Pagination/Pagination';
+import filter from '../../util/filter';
 
 const UserCardWrapper = styled.div`
   display: flex;
@@ -35,27 +37,27 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 interface AllUserProps {
-  fetchURL: string,
   content: any,
 }
 
 const AllUsers = ({
-  fetchURL,
   content,
 }: AllUserProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [pageIndex, setPageIndex] = useState(1);
   const {
     data,
   } = useSWR(
-    fetchURL,
+    `${backendURL}/users/page-${pageIndex}`,
     get,
     { initialData: content, revalidateOnMount: true },
   );
   const { data: searchData } = useSWR(`${backendURL}/autocomplete-users?q=${searchTerm}`, get);
-
+  const userList = filter(data, 'user');
+  const totalUsers = data.data.attributes.users_count;
   const users = useMemo(() => {
     if (searchTerm.length < 2) {
-      return data.data.map((item: IUser) => (
+      return userList.map((item: IUser) => (
         {
           id: item.id,
           name: item.attributes.display_name,
@@ -72,9 +74,8 @@ const AllUsers = ({
     }
     return [];
   }, [searchTerm, data, searchData]);
-
   return (
-    <Layout title="Forum - Brickboard 2.0">
+    <Layout title="Brickfilmer - Brickboard 2.0">
 
       <SearchWrapper>
         <FormInput
@@ -95,6 +96,12 @@ const AllUsers = ({
           />
         )) : <>Es wurden keine Benutzer gefunden.</>}
       </UserCardWrapper>
+      <Pagination
+        pageIndex={pageIndex}
+        totalLength={totalUsers}
+        paginationSize={20}
+        onClick={(index: number) => setPageIndex(index)}
+      />
     </Layout>
   );
 };
