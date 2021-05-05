@@ -25,7 +25,6 @@ import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
 import IUser from '../../models/IUser';
 import Hint from '../../elements/core/components/Hint/Hint';
-import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import { MessageType } from '../../models/IMessage';
 import getCategories from '../../util/api/topic/get-categories';
@@ -34,7 +33,9 @@ import getCategories from '../../util/api/topic/get-categories';
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
 
-  const messageboards = filterContent(content, 'messageboard');
+  let messageboards = filterContent(content, 'messageboard');
+
+  messageboards = messageboards.filter((board: IMessageboard) => board.attributes.slug !== 'filmvorstellungen');
 
   return {
     paths: messageboards.map((board) => ({
@@ -66,15 +67,11 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 interface SubforumProps {
   topicsData: any,
   slug: string,
-  categoryData: any,
-  categoryURL: string,
 }
 
 function Subforum({
   topicsData,
   slug,
-  categoryData,
-  categoryURL,
 }: SubforumProps) {
   const router = useRouter();
   if (router.isFallback) {
@@ -98,10 +95,10 @@ function Subforum({
     { initialData: topicsData, revalidateOnMount: true },
   );
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
-  let topicViews = data.data;
+  const topicViews = data.data;
   const topicList = filterContent(data, 'topic');
-  let userList = filterContent(data, 'user');
-  let readTopics = filterContent(data, 'user_topic_read_state');
+  const userList = filterContent(data, 'user');
+  const readTopics = filterContent(data, 'user_topic_read_state');
   const openTopic = (clickedTopic: ITopic) => {
     if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
       router.push(`./${slug}/${clickedTopic.id}`);
@@ -141,81 +138,6 @@ function Subforum({
       </Layout>
     );
   }
-
-  if (slug === 'filmvorstellungen') {
-    const [selected, setSelected] = useState<number[]>([]);
-    const { data: allCategories } = useSWR(
-      categoryURL,
-      get,
-      { revalidateOnMount: true, initialData: categoryData },
-    );
-    const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
-    const [filterLoading, setFilterLoading] = useState<boolean>(false);
-    let currentMovies = topicList;
-    if (filteredMovies && selected.length > 0) {
-      currentMovies = filterContent(filteredMovies, 'topic');
-      topicViews = filteredMovies.data;
-      readTopics = filterContent(filteredMovies, 'user_topic_read_state');
-      userList = filterContent(filteredMovies, 'user');
-    }
-
-    useEffect(() => {
-      if (!filteredMovies && selected.length > 0) {
-        setFilterLoading(true);
-      }
-      if (filteredMovies) setFilterLoading(false);
-    }, [selected, filteredMovies]);
-    return (
-      <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
-        <ViewWrapper>
-          <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
-          {isAuthenticated && (
-            <MarginBottom>
-              <Button
-                reset
-                onClick={() => markAllAsRead()}
-              >
-                Themen als gelesen markieren
-              </Button>
-            </MarginBottom>
-          )}
-          <ForumHeading title={`${messageboard.attributes.name}`} />
-          <MoviePresentations
-            filterLoading={filterLoading}
-            movies={currentMovies}
-            users={userList}
-            categories={allCategories.data}
-            readStates={readTopics}
-            topicViews={topicViews}
-            onCategorySelect={(newCategories) => setSelected(newCategories)}
-          />
-          <Pagination
-            totalLength={messageboard.attributes.movies_count}
-            pageIndex={pageIndex}
-            paginationSize={20}
-            onClick={(index: number) => setPageIndex(index)}
-          />
-          {isAuthenticated && (
-            <FlexRight>
-              <Link href={`./${slug}/neues-thema`} passHref>
-                <Button disabled={moderation_state === 'blocked'}>
-                  {moderation_state !== 'approved' ? (
-                    <Hint hint="Dein Konto ist nicht freigeschalten">
-                      Thema erstellen
-                    </Hint>
-                  )
-                    : (
-                      'Thema erstellen'
-                    )}
-                </Button>
-              </Link>
-            </FlexRight>
-          )}
-        </ViewWrapper>
-      </Layout>
-    );
-  }
-
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
