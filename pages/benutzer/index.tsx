@@ -11,7 +11,6 @@ import FormInput from '../../elements/core/components/FormInput/FormInput';
 import { backendURL } from '../../util/api';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import filter from '../../util/filter';
-import { FlexCenter } from '../../styles/global.styles';
 
 const UserCardWrapper = styled.div`
   display: flex;

@@ -21,6 +21,7 @@ import updateModerationUser from '../../util/api/moderation/update-moderation-us
 import { get } from '../../util/methods';
 import { getModerationState } from './post-moderation';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
+import filter from '../../util/filter';
 
 export const getStatus = (status: string | null) => {
   switch (status) {
@@ -42,7 +43,6 @@ const UserModeration = () => {
 
   const { data, mutate } = useSWR(`${backendURL}/users/page-${pageIndex}`, get);
   const theme = useContext(ThemeContext);
-
   const headerItems = [
     'Name:',
     'Benutzertyp:',
@@ -113,7 +113,7 @@ const UserModeration = () => {
 
   const values = useMemo(() => {
     if (!data || !data.data) return null;
-    return data.data.map((value) => userDataReducer(value));
+    return filter(data, 'user').map((value) => userDataReducer(value));
   }, [data]);
 
   return (
@@ -130,9 +130,8 @@ const UserModeration = () => {
           {values && values.length > 0 && (
             <Pagination
               pageIndex={pageIndex}
-              totalLength={values.length}
+              totalLength={data.data.attributes.users_count}
               paginationSize={20}
-              lengthUnknown
               onClick={(index: number) => setPageIndex(index)}
             />
           )}
