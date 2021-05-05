@@ -4,6 +4,10 @@ export const FormWrapper = styled.div`
   z-index: 200;
 `;
 
+export const PreviewWrapper = styled.div`
+  margin: 20px 0;
+`;
+
 export const InputWrapper = styled.div`
   flex-basis: 30%;
 `;
@@ -26,4 +30,8 @@ export const VideoInformationWrapper = styled.div`
   &:first-child {
     flex-basis: 35%;
   }
+`;
+
+export const PreviewHeadline = styled.h2`
+  margin: 20px 0;
 `;

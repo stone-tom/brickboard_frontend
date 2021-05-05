@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStoreDispatch } from '../../../../context/custom_store';
+import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
 import { MessageType } from '../../../../models/IMessage';
 import { TopicType } from '../../../../models/ITopic';
@@ -8,11 +8,15 @@ import Button from '../../../core/components/Button/Button';
 import FormInput from '../../../core/components/FormInput/FormInput';
 import MultiSelectComponent from '../../../core/components/MultiSelect/MultiSelect';
 import Editor from '../../../core/container/Editor/Editor';
+// import PostComponent from '../Post/Post';
+import TopicMovie from '../TopicMovie/TopicMovie';
 import {
   FormWrapper,
   VideoInformationWrapper,
   InputWrapper,
   Title,
+  PreviewWrapper,
+  PreviewHeadline,
 } from './MovieForm.styles';
 
 export interface ICreateTopic {
@@ -47,6 +51,11 @@ const MovieForm = ({
   const [url, setURL] = useState<string>(defaultValues && defaultValues.video_url);
   const [content, setContent] = useState<string>(defaultValues && defaultValues.content);
   const [title, setTitle] = useState<string>(defaultValues && defaultValues.title);
+  const [createdAt] = useState<string>(
+    defaultValues && defaultValues.movie_created_at,
+  );
+
+  const { user } = useStoreState();
 
   const handleCategorySelect = (newItems: {
     label: string,
@@ -75,59 +84,71 @@ const MovieForm = ({
   };
 
   return (
-    <FormWrapper>
-      {!defaultValues && <h2>Neuen Film erstellen:</h2>}
-      <VideoInformationWrapper>
-        <Title>
-          <FormInput
-            autoFocus={!defaultValues}
-            disabled={defaultValues}
-            type="text"
-            value={title}
-            onChange={(newValue) => setTitle(newValue)}
+    <>
+      <FormWrapper>
+        {!defaultValues && <h2>Neuen Film erstellen:</h2>}
+        <VideoInformationWrapper>
+          <Title>
+            <FormInput
+              autoFocus={!defaultValues}
+              disabled={defaultValues}
+              type="text"
+              value={title}
+              onChange={(newValue) => setTitle(newValue)}
+            >
+              Titel
+            </FormInput>
+          </Title>
+          <InputWrapper>
+            <FormInput
+              disabled={defaultValues}
+              type="text"
+              value={url}
+              onChange={(newValue) => setURL(newValue)}
+            >
+              Youtube Video-URL
+            </FormInput>
+          </InputWrapper>
+          <InputWrapper>
+            <MultiSelectComponent
+              disabled={defaultValues}
+              isMulti
+              options={categories.map((category) => ({
+                label: category.attributes.name,
+                value: category.id,
+              }))}
+              onChange={(newCategories) => handleCategorySelect(newCategories)}
+              value={selectedCategories}
+            >
+              Kategorien (max. 3)
+            </MultiSelectComponent>
+          </InputWrapper>
+        </VideoInformationWrapper>
+        <Editor
+          content={content}
+          onChange={(newContent) => setContent(newContent)}
+        />
+        <FlexRight>
+          <Button
+            disabled={!content || !title || !url}
+            type="submit"
+            onClick={handleSubmit}
           >
-            Titel
-          </FormInput>
-        </Title>
-        <InputWrapper>
-          <FormInput
-            disabled={defaultValues}
-            type="text"
-            value={url}
-            onChange={(newValue) => setURL(newValue)}
-          >
-            Youtube Video-URL
-          </FormInput>
-        </InputWrapper>
-        <InputWrapper>
-          <MultiSelectComponent
-            disabled={defaultValues}
-            isMulti
-            options={categories.map((category) => ({
-              label: category.attributes.name,
-              value: category.id,
-            }))}
-            onChange={(newCategories) => handleCategorySelect(newCategories)}
-            value={selectedCategories}
-          >
-            Kategorien (max. 3)
-          </MultiSelectComponent>
-        </InputWrapper>
-      </VideoInformationWrapper>
-      <Editor
-        content={content}
-        onChange={(newContent) => setContent(newContent)}
-      />
-      <FlexRight>
-        <Button
-          disabled={!content || !title || !url}
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Absenden
-        </Button>
-      </FlexRight>
-    </FormWrapper>
+            Absenden
+          </Button>
+        </FlexRight>
+      </FormWrapper>
+      <PreviewWrapper>
+        <PreviewHeadline>Preview - So wird deine Präsentation aussehen</PreviewHeadline>
+        <h1>{title || 'Dein Filmtitel'}</h1>
+        <TopicMovie
+          videoURL={url || ' '}
+          author={user}
+          createdAt={createdAt || new Date().toDateString()}
+          previewCategories={selectedCategories || []}
+        />
+      </PreviewWrapper>
+    </>
   );
 };
 

@@ -17,9 +17,14 @@ import {
   Element,
   EditButton,
 } from './TopicMovie.styles';
+import { useStoreState } from '../../../../context/custom_store';
 
 interface TopicMovieProps {
-  categories: ICategory[],
+  categories?: ICategory[],
+  previewCategories?: {
+    label: string,
+    value: string,
+  }[]
   createdAt: string
   videoURL: string
   author: IUser,
@@ -30,17 +35,20 @@ const TopicMovie = ({
   createdAt,
   videoURL,
   author,
+  previewCategories,
 }: TopicMovieProps) => {
-  console.log(createdAt, videoURL, categories);
+  const { isAuthenticated, user } = useStoreState();
   return (
     <TopicMovieWrapper>
-      <Loader isLoading={!createdAt || !videoURL || !categories}>
-        <EditButton
-          reset
-        >
-          <Icon icon={faEdit} />
-        </EditButton>
-        {categories && createdAt && videoURL && (
+      <Loader isLoading={!createdAt || !videoURL || (!categories && !previewCategories)}>
+        {isAuthenticated && author.id === user.id && !previewCategories && (
+          <EditButton
+            reset
+          >
+            <Icon icon={faEdit} />
+          </EditButton>
+        )}
+        {(categories || previewCategories) && createdAt && videoURL && (
           <>
             <InformationWrapper>
               <Element>
@@ -48,11 +56,24 @@ const TopicMovie = ({
                   Kategorien:
                 </Key>
                 <Values>
-                  {categories.map((category) => (
+                  {previewCategories ? (
                     <>
-                      <Tag name={category.attributes.name} />
+                      {previewCategories.map((category) => (
+                        <>
+                          <Tag name={category.label} />
+                        </>
+                      ))}
                     </>
-                  ))}
+                  ) : (
+                    <>
+                      {categories.map((category) => (
+                        <>
+                          <Tag name={category.attributes.name} />
+                        </>
+                      ))}
+                    </>
+                  )}
+
                 </Values>
               </Element>
               <Element>
@@ -75,14 +96,16 @@ const TopicMovie = ({
               </Element>
             </InformationWrapper>
             <VideoWrapper>
-              <iframe
-                title="Youtube Video"
-                id="ytplayer"
-                width="640"
-                height="360"
-                src={`https://www.youtube.com/embed/${getYouTubeId(videoURL)}`}
-                frameBorder="0"
-              />
+              {videoURL && (
+                <iframe
+                  title="Youtube Video"
+                  id="ytplayer"
+                  width="640"
+                  height="360"
+                  src={`https://www.youtube.com/embed/${getYouTubeId(videoURL)}`}
+                  frameBorder="0"
+                />
+              )}
             </VideoWrapper>
           </>
         )}
