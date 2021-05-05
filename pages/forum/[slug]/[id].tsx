@@ -462,7 +462,8 @@ function Subforum({
 
         {slug === 'filmvorstellungen' && (
           <TopicMovie
-            topic={topic}
+            videoURL={topic.attributes.video_url}
+            createdAt={topic.attributes.movie_created_at || topic.attributes.created_at}
             categories={filter(data, 'category')}
             author={findObject(userList, topic.relationships.user.data.id)}
           />

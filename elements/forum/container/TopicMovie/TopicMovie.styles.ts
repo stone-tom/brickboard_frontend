@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import ButtonComponent from '../../../core/components/Button/Button';
 
 export const TopicMovieWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
+  position: relative;
 `;
 
 export const Key = styled.div`
@@ -32,7 +35,13 @@ export const InformationWrapper = styled.div`
 `;
 
 export const Element = styled.div`
-  margin-right: 20px;
+  margin: 10px 10px 10px 0;
   display: flex;
   flex-direction: column;
+`;
+
+export const EditButton = styled(ButtonComponent)`
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
