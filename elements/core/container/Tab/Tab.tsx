@@ -7,7 +7,7 @@ interface ProfileNavigationProps {
   tabs: {
     name: string,
     content: ReactNode,
-    needsAuth?: boolean,
+    needsAuth?: string,
   }[],
   defaultContent?: number,
   onContentChange: (index: number) => void,
@@ -19,7 +19,7 @@ const ProfileNavigation = ({
   onContentChange,
 }: ProfileNavigationProps) => {
   const [active, setActive] = useState<number>(defaultContent);
-  const { isAuthenticated } = useStoreState();
+  const { user } = useStoreState();
 
   const handleActiveChange = (index: number) => {
     if (onContentChange) {
@@ -31,7 +31,8 @@ const ProfileNavigation = ({
     <Wrapper>
       <Tabs>
         {tabs.map((item, index) => {
-          if ((item.needsAuth && isAuthenticated) || !item.needsAuth) {
+          if ((user && item.needsAuth && item.needsAuth === user.id)
+            || !item.needsAuth) {
             return (
               <TabItem
                 name={item.name}

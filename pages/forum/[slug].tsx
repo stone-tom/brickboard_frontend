@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import { Params } from 'next/dist/next-server/server/router';
@@ -150,24 +150,38 @@ function Subforum({
       { revalidateOnMount: true, initialData: categoryData },
     );
     const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
+    const [filterLoading, setFilterLoading] = useState<boolean>(false);
 
     const currentMovies = useMemo(() => {
-      if (filteredMovies && selected.length > 0) return filteredMovies.data;
+      if (filteredMovies && selected.length > 0) {
+        return filteredMovies.data;
+      }
       return topicList;
     }, [selected, topicList, filteredMovies]);
 
+    useEffect(() => {
+      if (!filteredMovies && selected.length > 0) {
+        setFilterLoading(true);
+      }
+      if (filteredMovies) setFilterLoading(false);
+    }, [selected, filteredMovies]);
     return (
       <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
         <ViewWrapper>
           <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
           <ForumHeading title={`${messageboard.attributes.name}`} />
           <MoviePresentations
+            filterLoading={filterLoading}
             movies={currentMovies}
             users={userList}
             categories={allCategories.data}
-            topicViews={topicViews}
-            readStates={readTopics}
             onCategorySelect={(newCategories) => setSelected(newCategories)}
+          />
+          <Pagination
+            totalLength={messageboard.attributes.movies_count}
+            pageIndex={pageIndex}
+            paginationSize={20}
+            onClick={(index: number) => setPageIndex(index)}
           />
           {isAuthenticated && (
             <FlexRight>

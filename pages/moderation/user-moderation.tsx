@@ -1,7 +1,7 @@
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
 import Link from 'next/link';
@@ -20,6 +20,7 @@ import { backendURL } from '../../util/api';
 import updateModerationUser from '../../util/api/moderation/update-moderation-user';
 import { get } from '../../util/methods';
 import { getModerationState } from './post-moderation';
+import Pagination from '../../elements/core/container/Pagination/Pagination';
 
 export const getStatus = (status: string | null) => {
   switch (status) {
@@ -34,11 +35,12 @@ export const getStatus = (status: string | null) => {
 
 const UserModeration = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(1);
   const { addComponent, setMessage } = useStoreDispatch();
   const { user: authUser } = useStoreState();
   if (authUser && !authUser.attributes.admin) router.push('/404');
 
-  const { data, mutate } = useSWR(`${backendURL}/users`, get);
+  const { data, mutate } = useSWR(`${backendURL}/users/page-${pageIndex}`, get);
   const theme = useContext(ThemeContext);
 
   const headerItems = [
@@ -125,6 +127,15 @@ const UserModeration = () => {
             values={values}
             empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}
           />
+          {values && values.length > 0 && (
+            <Pagination
+              pageIndex={pageIndex}
+              totalLength={values.length}
+              paginationSize={20}
+              lengthUnknown
+              onClick={(index: number) => setPageIndex(index)}
+            />
+          )}
         </Loader>
       </Wrapper>
     </Layout>
