@@ -4,14 +4,14 @@ import useSWR from 'swr';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import { backendURL } from '../../../../util/api';
-import { sessionGet } from '../../../../util/methods';
+import { get } from '../../../../util/methods';
 
 const SessionCheck = () => {
   const router = useRouter();
   const { performLogout, setMessage } = useStoreDispatch();
   const { isAuthenticated } = useStoreState();
   if (isAuthenticated) {
-    const { data } = useSWR(`${backendURL}/sessions`, sessionGet, {
+    const { data } = useSWR(`${backendURL}/sessions`, get, {
       refreshInterval: 60000 * 30,
       revalidateOnMount: true,
       revalidateOnFocus: true,
