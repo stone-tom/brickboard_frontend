@@ -49,7 +49,7 @@ const NewsCreator = ({
       newsData.append('news[news_banner]', file);
     }
     newsData.append('news[title]', title);
-    newsData.append('news[is_active]', title);
+    newsData.append('news[is_active]', visibile ? 'true' : 'false');
     newsData.append('news[short_description]', short_description);
 
     if (topic_url !== '' && topic_url !== null && topic_url !== undefined) {

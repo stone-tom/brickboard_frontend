@@ -24,21 +24,16 @@ import {
 import Hint from '../../../core/components/Hint/Hint';
 import Icon from '../../../core/components/Icon/Icon';
 import TextIcon from '../TextIcon/TextIcon';
-import ITopic from '../../../../models/ITopic';
+import ITopic, { TopicType } from '../../../../models/ITopic';
 import IUser from '../../../../models/IUser';
 
-enum IconType {
-  Standard,
-  Question,
-  Announcement,
-}
-function whichIcon(type: IconType): IconProp {
+function whichIcon(type: TopicType): IconProp {
   switch (type) {
-    case IconType.Standard:
+    case TopicType.general:
       return faAlignJustify;
-    case IconType.Question:
+    case TopicType.question:
       return faQuestion;
-    case IconType.Announcement:
+    case TopicType.announcement:
       return faExclamation;
     default:
       return faAlignJustify;
@@ -90,7 +85,7 @@ const TopicItemComponent = ({
     <TopicUnreadMarker unread={markUnread && isAuthenticated} />
     <TopicIcon pinned={topic.attributes.sticky}>
       <Hint hint={markUnread && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
-        <Icon icon={whichIcon(IconType.Standard)} />
+        <Icon icon={whichIcon(topic.attributes.category)} />
       </Hint>
     </TopicIcon>
 

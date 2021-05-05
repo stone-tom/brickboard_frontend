@@ -11,17 +11,17 @@ import {
 } from './ProfileAside.style';
 import IUser from '../../../../models/IUser';
 import { backendURL } from '../../../../util/api';
+import IBadge from '../../../../models/IBadge';
+import Badge from '../../../profile/components/Badge/Badge';
 
 interface ProfileAsideProps {
-  author?: IUser;
-  // authorRegistered?: Date;
-  // postsCount?: number;
-  // authorBadge?: string;
-  // authorCity?: string;
+  author?: IUser,
+  badge?: IBadge | null,
 }
 
 const ProfileAsideComponent = ({
   author,
+  badge,
 }: ProfileAsideProps) => (
   <ProfileAside>
     <ProfileCondensedInfo>
@@ -43,6 +43,9 @@ const ProfileAsideComponent = ({
     <div>
       {author.attributes.admin
         && <ProfileAsideFact>Administrator</ProfileAsideFact>}
+      <ProfileAsideFact>
+        <Badge small badge={badge} />
+      </ProfileAsideFact>
       <ProfileAsideFact>
         Mitglied seit:
         <br />

@@ -165,7 +165,6 @@ function Subforum({
       }
       if (filteredMovies) setFilterLoading(false);
     }, [selected, filteredMovies]);
-
     return (
       <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
         <ViewWrapper>
@@ -177,6 +176,12 @@ function Subforum({
             users={userList}
             categories={allCategories.data}
             onCategorySelect={(newCategories) => setSelected(newCategories)}
+          />
+          <Pagination
+            totalLength={messageboard.attributes.movies_count}
+            pageIndex={pageIndex}
+            paginationSize={20}
+            onClick={(index: number) => setPageIndex(index)}
           />
           {isAuthenticated && (
             <FlexRight>

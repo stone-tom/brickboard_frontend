@@ -41,9 +41,8 @@ const MoviePresentations = ({
           const category = categories
             .filter((item: ICategory) => categoryIds.includes(item.id));
           return (
-            <Wrapper>
+            <Wrapper key={`movie_${movie.id}`}>
               <MovieCard
-                key={movie.id}
                 id={movie.id}
                 title={movie.attributes.title}
                 videoURL={movie.attributes.video_url}

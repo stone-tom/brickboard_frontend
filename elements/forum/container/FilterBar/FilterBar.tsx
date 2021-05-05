@@ -32,7 +32,7 @@ const FilterBar = ({
     <FilterButtons>
       {options.map((option) => (
         <FilterItem
-          key={option.id}
+          key={`option_${option.id}`}
           active={selected.includes(parseInt(option.id, 10))}
           name={option.attributes.name}
           icon={option.attributes.category_icon}

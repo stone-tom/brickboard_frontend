@@ -2,7 +2,7 @@ import { backendURL } from '../index';
 import { get } from '../../methods';
 
 const getUsers = async () => {
-  const fetchURL = `${backendURL}/users`;
+  const fetchURL = `${backendURL}/users/page-1`;
   let content: any;
   let error: any;
 

@@ -100,18 +100,6 @@ function Subforum({
   categoryData,
   categoryURL,
 }: SubforumProps) {
-  const [pageIndex, setPageIndex] = useState(1);
-  const { data, mutate } = useSWR(
-    `${fetchURL}/page-${pageIndex}`,
-    get,
-    { revalidateOnMount: true, initialData: topicData },
-  );
-
-  const { data: allCategories } = useSWR(
-    categoryURL,
-    get,
-    { revalidateOnMount: true, initialData: categoryData },
-  );
   const router = useRouter();
   if (router.isFallback) {
     return (
@@ -124,12 +112,27 @@ function Subforum({
       </Layout>
     );
   }
+  const [pageIndex, setPageIndex] = useState(1);
+  const { data, mutate } = useSWR(
+    `${fetchURL}/page-${pageIndex}`,
+    get,
+    { revalidateOnMount: true, initialData: topicData },
+  );
+
+  const { data: allCategories } = useSWR(
+    categoryURL,
+    get,
+    { revalidateOnMount: true, initialData: categoryData },
+  );
+
   const { isAuthenticated, user, moderation_state } = useStoreState();
   const { setMessage, addComponent } = useStoreDispatch();
   const topic: ITopic = filter(data, 'topic')[0];
   const topicView = filter(data, 'topic_view')[0];
   const posts = filter(data, 'post');
+  const badges = filter(data, 'badge');
   const userList = filter(data, 'user');
+  const messageboard: IMessageboard = filter(data, 'messageboard')[0];
   const isLocked = topic.attributes.locked;
   let isFollowing = false;
   if (topicView.relationships.follow) {
@@ -137,7 +140,6 @@ function Subforum({
   }
   const [editorActive, setEditorActive] = useState(false);
   const toggleEditor = () => setEditorActive(!editorActive);
-
   const submitTopic = async (editorContent) => {
     const { content, error } = await answerTopic(slug, id, editorContent);
     if (error) {
@@ -364,7 +366,6 @@ function Subforum({
     };
     mutate(updateData, false);
   };
-
   if (topic.attributes.moderation_state === 'blocked' && !user.attributes.admin) {
     return (
       <Layout title="Blockiertes Thema - Brickboard 2.0">
@@ -380,8 +381,9 @@ function Subforum({
     >
       <ViewWrapper>
         <Breadcrumbsbar
-          slug={slug}
+          slug={messageboard.attributes.slug}
           id={topic.id}
+          messageboardname={messageboard.attributes.name}
           topic={topic.attributes.title}
         />
         <FlexBetween>
@@ -464,6 +466,7 @@ function Subforum({
             post={post}
             topicTitle={topic.attributes.title}
             first={index === 0}
+            allBadges={badges}
             messageBoardSlug={slug}
             author={findObject(userList, post.relationships.user.data.id)}
             key={post.id}

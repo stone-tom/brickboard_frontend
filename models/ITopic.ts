@@ -1,5 +1,11 @@
 import IRelationship from './IRelationship';
 
+export enum TopicType {
+  general = 'general',
+  question = 'question',
+  announcement = 'announcement',
+}
+
 export interface ITopicAttributes {
   title: string,
   slug: string,
@@ -15,6 +21,7 @@ export interface ITopicAttributes {
   view_count: number,
   created_at: string,
   updated_at: string,
+  category?: TopicType,
 }
 
 export default interface ITopic {
