@@ -27,7 +27,8 @@ import markAllAsReadMessageboard from './topic/mark-all-as-read-messageboard';
 import deletePost from './post/delete-post';
 import deleteTopic from './topic/delete-topic';
 
-export const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+// export const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const backendURL = 'https://dev.brickboard.de';
 
 export {
   getMessageBoardGroups,

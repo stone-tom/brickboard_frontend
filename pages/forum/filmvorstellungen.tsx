@@ -1,54 +1,31 @@
-import React, { useState } from 'react';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import React, { useEffect, useState } from 'react';
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import { Params } from 'next/dist/next-server/server/router';
 import useSWR, { mutate } from 'swr';
 import Link from 'next/link';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FlexRight, MarginBottom, ViewWrapper } from '../../styles/global.styles';
-import TopicItem from '../../elements/forum/components/TopicItem/TopicItem';
 import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
 import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
 import {
   backendURL,
-  getMessageBoardGroups,
   getTopicViews,
   markAllAsReadMessageboard,
 } from '../../util/api';
 import filterContent from '../../util/filter';
 import { get } from '../../util/methods';
-import findObject from '../../util/finder';
 import Button from '../../elements/core/components/Button/Button';
-import ITopic from '../../models/ITopic';
 import IMessageboard from '../../models/IMessageboard';
-import IUser from '../../models/IUser';
 import Hint from '../../elements/core/components/Hint/Hint';
+import MoviePresentations from '../../elements/forum/container/MoviePresentations/MoviePresentations';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import { MessageType } from '../../models/IMessage';
 import getCategories from '../../util/api/topic/get-categories';
 
-// Welche Pfade prerendered werden können
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { content } = await getMessageBoardGroups();
-
-  let messageboards = filterContent(content, 'messageboard');
-
-  messageboards = messageboards.filter((board: IMessageboard) => board.attributes.slug !== 'filmvorstellungen');
-
-  return {
-    paths: messageboards.map((board) => ({
-      params: {
-        slug: board.attributes.slug,
-      },
-    })),
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
-  const { content, fetchURL } = await getTopicViews(params.slug);
+export const getStaticProps: GetStaticProps = async () => {
+  const { content, fetchURL } = await getTopicViews('filmvorstellungen');
   const { content: categoryData, fetchURL: categoryURL } = await getCategories();
 
   const topicsData = content;
@@ -57,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
       topicsData,
       categoryData,
       categoryURL,
-      slug: params.slug,
+      slug: 'filmvorstellungen',
       fetchURL,
     },
     revalidate: 1,
@@ -67,11 +44,15 @@ export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
 interface SubforumProps {
   topicsData: any,
   slug: string,
+  categoryData: any,
+  categoryURL: string,
 }
 
-function Subforum({
+function Filmvorstellungen({
   topicsData,
   slug,
+  categoryData,
+  categoryURL,
 }: SubforumProps) {
   const router = useRouter();
   if (router.isFallback) {
@@ -85,7 +66,7 @@ function Subforum({
   }
 
   const [pageIndex, setPageIndex] = useState(1);
-  const { isAuthenticated, user, moderation_state } = useStoreState();
+  const { isAuthenticated, moderation_state } = useStoreState();
   const { setMessage } = useStoreDispatch();
   const {
     data,
@@ -95,15 +76,26 @@ function Subforum({
     { initialData: topicsData, revalidateOnMount: true },
   );
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
-  const topicViews = data.data;
+  let topicViews = data.data;
   const topicList = filterContent(data, 'topic');
-  const userList = filterContent(data, 'user');
-  const readTopics = filterContent(data, 'user_topic_read_state');
-  const openTopic = (clickedTopic: ITopic) => {
-    if (clickedTopic.attributes.moderation_state !== 'blocked' || user.attributes.admin) {
-      router.push(`./${slug}/${clickedTopic.id}`);
-    }
-  };
+  let userList = filterContent(data, 'user');
+  let readTopics = filterContent(data, 'user_topic_read_state');
+
+  const [selected, setSelected] = useState<number[]>([]);
+  const { data: allCategories } = useSWR(
+    categoryURL,
+    get,
+    { revalidateOnMount: true, initialData: categoryData },
+  );
+  const { data: filteredMovies } = useSWR(`${backendURL}/topics/filter-movies?category_ids=[${selected}]`, get);
+  const [filterLoading, setFilterLoading] = useState<boolean>(false);
+  let currentMovies = topicList;
+  if (filteredMovies && selected.length > 0) {
+    currentMovies = filterContent(filteredMovies, 'topic');
+    topicViews = filteredMovies.data;
+    readTopics = filterContent(filteredMovies, 'user_topic_read_state');
+    userList = filterContent(filteredMovies, 'user');
+  }
 
   const markAllAsRead = async () => {
     const { error } = await markAllAsReadMessageboard(messageboard.id);
@@ -138,6 +130,13 @@ function Subforum({
       </Layout>
     );
   }
+
+  useEffect(() => {
+    if (!filteredMovies && selected.length > 0) {
+      setFilterLoading(true);
+    }
+    if (filteredMovies) setFilterLoading(false);
+  }, [selected, filteredMovies]);
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
       <ViewWrapper>
@@ -153,55 +152,18 @@ function Subforum({
           </MarginBottom>
         )}
         <ForumHeading title={`${messageboard.attributes.name}`} />
-        {topicViews.map((topicView) => {
-          const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
-          const author: IUser = findObject(userList, topic.relationships.user.data.id);
-          const lastCommentor: IUser = findObject(userList, topic.relationships.last_user.data.id);
-          let readstate = null;
-
-          if (topicView.relationships.read_state !== undefined) {
-            readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
-          }
-          let unread = false;
-          if ((data !== topicsData
-            && (!topicView.relationships.read_state && isAuthenticated))
-            || (topicView.relationships.read_state
-              && readstate.attributes.unread_posts_count > 0)) {
-            unread = true;
-          }
-          if (topic.attributes.moderation_state === 'approved') {
-            return (
-              <TopicItem
-                key={topic.attributes.slug}
-                slug={slug}
-                topic={topic}
-                author={author}
-                lastCommentor={lastCommentor}
-                markUnread={unread}
-                isAuthenticated={isAuthenticated}
-                onClick={() => openTopic(topic)}
-              />
-            );
-          } if (isAuthenticated
-            && (user.attributes.display_name === author.attributes.display_name
-              || user.attributes.admin)) {
-            return (
-              <TopicItem
-                key={topic.attributes.slug}
-                slug={slug}
-                topic={topic}
-                author={author}
-                lastCommentor={lastCommentor}
-                markUnread={unread}
-                isAuthenticated
-                onClick={() => openTopic(topic)}
-              />
-            );
-          }
-          return null;
-        })}
+        <MoviePresentations
+          filterLoading={filterLoading}
+          movies={currentMovies}
+          users={userList}
+          categories={allCategories.data}
+          readStates={readTopics}
+          topicViews={topicViews}
+          displayReadstates={data !== topicsData}
+          onCategorySelect={(newCategories) => setSelected(newCategories)}
+        />
         <Pagination
-          totalLength={messageboard.attributes.topics_count}
+          totalLength={messageboard.attributes.movies_count}
           pageIndex={pageIndex}
           paginationSize={20}
           onClick={(index: number) => setPageIndex(index)}
@@ -227,4 +189,4 @@ function Subforum({
   );
 }
 
-export default Subforum;
+export default Filmvorstellungen;
