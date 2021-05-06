@@ -65,6 +65,7 @@ const UserModeration = () => {
                   return {
                     ...item,
                     attributes: {
+                      ...item.attributes,
                       moderation_state: modStatus,
                     },
                   };
@@ -97,7 +98,6 @@ const UserModeration = () => {
         text={getStatus(getModerationState(data, user))}
         color={theme.userStatus[getModerationState(data, user)]}
       />, getModerationState(data, user)],
-
       format(new Date(user.attributes.created_at), 'dd.MM.yyyy'),
       [(
         <EditMapping
@@ -112,8 +112,12 @@ const UserModeration = () => {
     ]);
 
   const values = useMemo(() => {
+    console.log(data);
     if (!data || !data.data) return null;
-    return filter(data, 'user').map((value) => userDataReducer(value));
+    return filter(data, 'user').map((value) => {
+      console.log('val', value);
+      return userDataReducer(value);
+    });
   }, [data]);
 
   return (
