@@ -512,19 +512,22 @@ function Subforum({
           />
         )}
 
-        {!isEditing && posts.map((post: IPost, index: number) => (
-          <Post
-            onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
-            post={post}
-            topicTitle={topic.attributes.title}
-            first={index === 0}
-            allBadges={badges}
-            messageBoardSlug={slug}
-            author={findObject(userList, post.relationships.user.data.id)}
-            key={post.id}
-            onPostDeleted={(postId: number) => removePost(postId)}
-          />
-        ))}
+        {posts.map((post: IPost, index: number) => {
+          if (isEditing && index === 0) return null;
+          return (
+            <Post
+              onPostUpdated={(updatedPost) => handlePostUpdate(updatedPost)}
+              post={post}
+              topicTitle={topic.attributes.title}
+              first={index === 0}
+              allBadges={badges}
+              messageBoardSlug={slug}
+              author={findObject(userList, post.relationships.user.data.id)}
+              key={post.id}
+              onPostDeleted={(postId: number) => removePost(postId)}
+            />
+          );
+        })}
 
         {isAuthenticated && !isLocked && topic.attributes.moderation_state !== 'blocked' && (
           <EditorContainer>

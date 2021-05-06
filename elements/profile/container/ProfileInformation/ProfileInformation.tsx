@@ -64,7 +64,7 @@ const ProfileInformation = ({
   userBadges,
   userMainBadge,
 }: ProfileCardProps) => {
-  const { isAuthenticated, user: authUser } = useStoreState();
+  const { isAuthenticated, user: authUser, badge, } = useStoreState();
   const profileLinks: {
     link: string,
     icon: IconProp,
@@ -160,7 +160,7 @@ const ProfileInformation = ({
         </Username>
         <BadgeWrapper>
           <Badge
-            badge={userMainBadge}
+            badge={authUser && authUser.id === user.id ? badge : userMainBadge}
           />
         </BadgeWrapper>
         <SocialNetworkWrapper>

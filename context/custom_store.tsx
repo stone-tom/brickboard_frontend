@@ -193,7 +193,7 @@ function StoreProvider({
           },
         },
       };
-
+      console.log('newUSer', newUser);
       dispatch({ type: 'UPDATE_USER_BADGE', payload: newUser });
       dispatch({ type: 'UPDATE_BADGE', payload: newBadge });
     };
