@@ -22,6 +22,10 @@ const UserCardWrapper = styled.div`
 export const SearchWrapper = styled.div`
   margin-top: 20px;
   width: 30%;
+
+  @media ${(props) => props.theme.breakpoints.xs} {
+    width: 80%;
+  }
 `;
 
 export const getStaticProps: GetStaticProps = async () => {
