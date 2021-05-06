@@ -103,15 +103,13 @@ function NeuesThema({
     <Layout title={`Neues Thema: ${slug} - Brickboard 2.0`}>
       <ViewWrapper>
         {slug !== 'filmvorstellungen' ? (
-          <>
-          </>
-          // <PostForm
-          //   onEditorSubmit={({ title, editorContent, category }) => submitTopic({
-          //     title,
-          //     content: editorContent,
-          //     category,
-          //   })}
-          // />
+          <PostForm
+            onEditorSubmit={({ title, editorContent, category }) => submitTopic({
+              title,
+              content: editorContent,
+              category,
+            })}
+          />
         ) : (
           <MovieForm
             categories={data.data.map((item: ICategory) => item)}

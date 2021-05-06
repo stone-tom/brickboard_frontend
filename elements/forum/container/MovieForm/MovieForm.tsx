@@ -18,7 +18,6 @@ import {
   FormWrapper,
   VideoInformationWrapper,
   InputWrapper,
-  Title,
   PreviewWrapper,
   PreviewHeadline,
 } from './MovieForm.styles';

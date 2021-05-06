@@ -19,10 +19,6 @@ export const InputWrapper = styled.div`
   }
 `;
 
-export const Title = styled.div`
-  flex-basis: 40%;
-`;
-
 export const VideoInformationWrapper = styled.div`
   display: flex;
   flex-direction: row;
