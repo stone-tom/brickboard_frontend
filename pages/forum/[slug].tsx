@@ -94,6 +94,7 @@ function Subforum({
     get,
     { initialData: topicsData, revalidateOnMount: true },
   );
+
   const messageboard: IMessageboard = filterContent(data, 'messageboard')[0];
   const topicViews = data.data;
   const topicList = filterContent(data, 'topic');

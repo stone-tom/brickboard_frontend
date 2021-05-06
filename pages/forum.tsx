@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { GetStaticProps } from 'next';
 import useSWR from 'swr';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import ForumItem from '../elements/forum/components/ForumItem/ForumItem';
 import { ViewWrapper } from '../styles/global.styles';
@@ -13,6 +15,23 @@ import ITopic from '../models/ITopic';
 import findObject from '../util/finder';
 import IUser from '../models/IUser';
 import IMessageboard from '../models/IMessageboard';
+import FormInput from '../elements/core/components/FormInput/FormInput';
+import Button from '../elements/core/components/Button/Button';
+
+export const SearchWrapper = styled.form`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 20px 0;
+`;
+
+export const SearchButton = styled(Button)`
+  padding: 9px 21px;
+  align-self: flex-end;
+  margin-bottom: 10px;
+  margin-left: 20px;
+`;
 
 export const getStaticProps: GetStaticProps = async () => {
   const { content, fetchURL } = await getMessageBoardGroups();
@@ -44,15 +63,36 @@ const Forum = ({ content, topics, fetchURL }: ForumProps) => {
   const messageBoards = filterContent(data, 'messageboard');
 
   const openTarget = (slugToOpen) => {
-    if (slugToOpen !== '')router.push(`/forum/${slugToOpen}`);
+    if (slugToOpen !== '') router.push(`/forum/${slugToOpen}`);
   };
 
   const messageboadGroups = data.data;
   if (messageboadGroups.length === 0) {
     return <ViewWrapper>Es gibt noch keine Beiträge!</ViewWrapper>;
   }
+
+  const [searchTerm, setSearchTerm] = useState<string>();
   return (
     <Layout title="Forum - Brickboard 2.0">
+      <SearchWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
+          router.push(`/suche?q=${searchTerm}`);
+        }}
+      >
+        <FormInput
+          value={searchTerm}
+          onChange={(newValue) => setSearchTerm(newValue)}
+        >
+          Suche
+        </FormInput>
+        <SearchButton
+          type="submit"
+          icon={faSearch}
+        >
+          Suche
+        </SearchButton>
+      </SearchWrapper>
       {messageboadGroups.map((group) => (
         <div key={group.attributes.name}>
           <ForumHeading title={group.attributes.name} />

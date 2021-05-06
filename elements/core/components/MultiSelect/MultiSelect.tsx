@@ -3,6 +3,7 @@ import makeAnimated from 'react-select/animated';
 import {
   InputLabel,
   MultiSelect,
+  Wrapper,
 } from './MultiSelect.styles';
 
 const animatedComponents = makeAnimated();
@@ -19,13 +20,17 @@ interface MultiSelectProps {
   value: {
     value: string,
     label: string
-  }[],
+  }[] | {
+    value: string,
+    label: string
+  },
   disabled?: boolean,
   onChange: (value: any) => void,
   autoFocus?: boolean,
   placeholder?: string,
   withLabel?: boolean,
   isMulti?: boolean,
+  col?: boolean,
 }
 
 const MultiSelectComponent = ({
@@ -41,8 +46,9 @@ const MultiSelectComponent = ({
   autoFocus,
   placeholder,
   withLabel = true,
+  col,
 }: MultiSelectProps) => (
-  <>
+  <Wrapper col={col}>
     { withLabel && (
       <InputLabel htmlFor={name}>
         {`${children}:`}
@@ -63,7 +69,7 @@ const MultiSelectComponent = ({
       value={value}
       placeholder={placeholder}
     />
-  </>
+  </Wrapper>
 );
 
 export default MultiSelectComponent;

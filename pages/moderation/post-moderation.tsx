@@ -83,20 +83,25 @@ const PostModeration = () => {
       </p>
       <Wrapper>
         <Loader isLoading={!data}>
-          {data && data.data && data.data.map((currentUser: IUser) => (
-            <Accordion
-              toggleIcon={faCaretDown}
-              header={(
-                <AccordionUserHeader
-                  onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
-                  user={currentUser}
-                  status={getModerationState(data, currentUser)}
-                />
-              )}
-            >
-              <PostListComponent user={currentUser} />
-            </Accordion>
-          ))}
+          {data && data.data && data.data.map((currentUser: IUser) => {
+            if (['pending_moderation', 'blocked'].includes(getModerationState(data, currentUser))) {
+              return (
+                <Accordion
+                  toggleIcon={faCaretDown}
+                  header={(
+                    <AccordionUserHeader
+                      onUpdateStatus={(user, status) => onUpdateStatus(user, status)}
+                      user={currentUser}
+                      status={getModerationState(data, currentUser)}
+                    />
+                  )}
+                >
+                  <PostListComponent user={currentUser} />
+                </Accordion>
+              );
+            }
+            return null;
+          })}
         </Loader>
       </Wrapper>
     </Layout>
