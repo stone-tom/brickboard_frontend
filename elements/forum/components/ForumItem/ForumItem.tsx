@@ -10,7 +10,6 @@ import {
   ForumInfo,
   ForumItemImageContainer,
   ForumItemContent,
-  ForumInfoWrapper,
   LastPostHeading,
   ForumIconWrapper,
 } from './ForumItem.styles';
@@ -47,14 +46,17 @@ const PostItemComponent = ({
         <Hint hint={messageboard.attributes.unread_topics_count > 0 && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
           <Image
             src="/assets/images/redbrick.jpg"
-            width="200"
-            height="200"
+            layout="fill"
+            objectFit="contain"
             alt="Red Brick"
           />
         </Hint>
       </ForumItemImageContainer>
 
-      <ForumItemContent onClick={() => onClick(slug)}>
+      <ForumItemContent
+        onClick={() => onClick(slug)}
+        unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
+      >
         <div>
           <ForumHeading>
             <Link href={`/forum/${slug}`}>{messageboard.attributes.name}</Link>
@@ -62,51 +64,46 @@ const PostItemComponent = ({
           <p>{messageboard.attributes.description}</p>
         </div>
       </ForumItemContent>
-
-      <ForumInfoWrapper
+      <ForumItemDetails
         unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
       >
-        <ForumItemDetails
-          unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
-        >
-          <ForumIconWrapper>
-            <Hint hint="Beiträge">
-              <TextIcon
-                text={
-                  (messageboard.attributes.topics_count
-                    + messageboard.attributes.movies_count).toString()
-                }
-              >
-                <Icon icon={faClipboardList} />
-              </TextIcon>
-            </Hint>
-          </ForumIconWrapper>
-          <ForumIconWrapper>
-            <Hint hint="Letzte Aktivität">
-              <TextIcon text={lastTopic
-                ? format(new Date(lastTopic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm ')
-                : 'Nichts Aktuelles'}
-              >
-                <Icon icon={faUserClock} />
-              </TextIcon>
-            </Hint>
-          </ForumIconWrapper>
-        </ForumItemDetails>
-        <ForumInfo>
-          <LastPostHeading>Letzter Post</LastPostHeading>
-          {lastTopic ? (
-            <>
-              <ColoredNextLink href={`/forum/${slug}/${lastTopic.id}`} text={lastTopic.attributes.title} />
-              {lastAuthor && (
-                <ColoredNextLink href={`/profil/${lastAuthor.id}`} text={`von: ${lastAuthor.attributes.display_name}`} />
-              )}
-            </>
-          )
-            : (
-              'Es gibt noch keine Themen.'
+        <ForumIconWrapper>
+          <Hint hint="Beiträge">
+            <TextIcon
+              text={
+                (messageboard.attributes.topics_count
+                  + messageboard.attributes.movies_count).toString()
+              }
+            >
+              <Icon icon={faClipboardList} />
+            </TextIcon>
+          </Hint>
+        </ForumIconWrapper>
+        <ForumIconWrapper>
+          <Hint hint="Letzte Aktivität">
+            <TextIcon text={lastTopic
+              ? format(new Date(lastTopic.attributes.last_post_at), 'dd.MM.yyyy, HH:mm ')
+              : 'Nichts Aktuelles'}
+            >
+              <Icon icon={faUserClock} />
+            </TextIcon>
+          </Hint>
+        </ForumIconWrapper>
+      </ForumItemDetails>
+      <ForumInfo>
+        <LastPostHeading>Letzter Post</LastPostHeading>
+        {lastTopic ? (
+          <>
+            <ColoredNextLink href={`/forum/${slug}/${lastTopic.id}`} text={lastTopic.attributes.title} />
+            {lastAuthor && (
+              <ColoredNextLink href={`/profil/${lastAuthor.id}`} text={`von: ${lastAuthor.attributes.display_name}`} />
             )}
-        </ForumInfo>
-      </ForumInfoWrapper>
+          </>
+        )
+          : (
+            'Es gibt noch keine Themen.'
+          )}
+      </ForumInfo>
     </ForumItem>
   );
 };
