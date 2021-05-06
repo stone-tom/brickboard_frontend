@@ -29,4 +29,12 @@ export default {
   },
   burger_break: '815px',
   burger_break_number: '815',
+  breakpoints: {
+    xs: '(max-width: 400px)',
+    sm: '(max-width: 576px)',
+    md: '(max-width: 768px)',
+    lg: '(max-width: 992px)',
+    xl: '(max-width: 1200px)',
+    xxl: '(max-width: 1400px)',
+  },
 };
