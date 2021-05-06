@@ -5,6 +5,7 @@ export const Tabs = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: wrap;
 `;
 
 export const Wrapper = styled.div`

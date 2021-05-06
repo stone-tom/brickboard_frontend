@@ -5,6 +5,7 @@ export const TopicMovieWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 10px;
   position: relative;
 `;

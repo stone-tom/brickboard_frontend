@@ -12,6 +12,7 @@ export const FormInput = styled.input<{
   transition: all .4s ease 0s;
   font-size: 1em;
   width: 100%;
+  min-width: 200px;
   
   ${(props) => props.error && css`
     border: 1px solid ${props.theme.brickred};

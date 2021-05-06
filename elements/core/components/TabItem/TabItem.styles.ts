@@ -5,7 +5,7 @@ export const TabItem = styled.div<{
   active?: boolean,
 }>`
   font-size: 18px;
-  min-width: 170px;
+  min-width: 150px;
   height: 50px;
   display: flex;
   justify-content: center;

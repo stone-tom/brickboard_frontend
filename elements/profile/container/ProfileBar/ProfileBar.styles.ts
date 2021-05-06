@@ -3,10 +3,11 @@ import Button from '../../../core/components/Button/Button';
 
 export const ProfileBarWrapper = styled.div`
   background: ${(props) => props.theme.lightgray};
-  height: 80px;
+  min-height: 80px;
   width: 100%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;

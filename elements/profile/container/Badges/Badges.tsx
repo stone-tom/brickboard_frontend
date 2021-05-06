@@ -9,6 +9,7 @@ import chooseMainBadge from '../../../../util/api/user/choose-main-badge';
 import { get } from '../../../../util/methods';
 import LoaderComponent from '../../../core/components/Loader/Loader';
 import Prompt from '../../../core/container/Prompt/Prompt';
+import { Empty } from '../../../forum/container/MoviePresentations/MoviePresentations.styles';
 import Badge from '../../components/Badge/Badge';
 import { PersonalInformationWrapper } from '../PersonalInformation/PersonalInformation.styles';
 import {
@@ -84,16 +85,22 @@ const Badges = ({
     <PersonalInformationWrapper>
       <LoaderComponent isLoading={!data}>
         <BadgesWrapper>
-          {badges && badges.map((badge: IBadge) => (
-            <Badge
-              onClick={() => handleSetMainBadge(badge.id)}
-              key={badge.id}
-              badge={badge}
-              active={authUser && mainBadge && mainBadge.id === badge.id && authUser.id === user.id}
-              owned={!isAuthenticated || badge.relationships.users.data
-                .some((owner) => owner.id === authUser.id)}
-            />
-          ))}
+          {badges && badges.length > 0 ? (
+            badges.map((badge: IBadge) => (
+              <Badge
+                onClick={() => handleSetMainBadge(badge.id)}
+                key={badge.id}
+                badge={badge}
+                active={
+                  authUser && mainBadge && mainBadge.id === badge.id && authUser.id === user.id
+                }
+                owned={!isAuthenticated || badge.relationships.users.data
+                  .some((owner) => owner.id === authUser.id)}
+              />
+            ))
+          ) : (
+            <Empty>Dieser Benutzer hat noch keine Badges</Empty>
+          )}
         </BadgesWrapper>
       </LoaderComponent>
     </PersonalInformationWrapper>
