@@ -15,10 +15,10 @@ export const Card = styled.div<{
       position: absolute;
       display: block;
       content: "";
-      width: 80px;
-      height: 80px;
-      right: -15px;
-      top: -15px;
+      width: 60px;
+      height: 60px;
+      right: -5px;
+      top: -2px;
       background-image: url('/assets/images/bookmark.png');
       background-repeat: no-repeat;
       background-size: contain;
