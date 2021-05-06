@@ -41,7 +41,9 @@ const PostItemComponent = ({
   const { isAuthenticated } = useStoreState();
   return (
     <ForumItem>
-      <ForumItemImageContainer unreadItems={messageboard.attributes.unread_topics_count > 0}>
+      <ForumItemImageContainer
+        unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
+      >
         <Hint hint={messageboard.attributes.unread_topics_count > 0 && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
           <Image
             src="/assets/images/redbrick.jpg"
@@ -61,8 +63,12 @@ const PostItemComponent = ({
         </div>
       </ForumItemContent>
 
-      <ForumInfoWrapper unreadItems={messageboard.attributes.unread_topics_count > 0}>
-        <ForumItemDetails unreadItems={messageboard.attributes.unread_topics_count > 0}>
+      <ForumInfoWrapper
+        unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
+      >
+        <ForumItemDetails
+          unreadItems={messageboard.attributes.unread_topics_count > 0 && isAuthenticated}
+        >
           <ForumIconWrapper>
             <Hint hint="Beiträge">
               <TextIcon

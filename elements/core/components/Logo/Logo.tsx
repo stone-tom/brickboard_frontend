@@ -1,13 +1,16 @@
 import React from 'react';
 import { LogoWrapper } from './Logo.styles';
 
-const Logo = (props) => (
-  <LogoWrapper>
+interface LogoProps {
+  enlargeLogo ?: boolean,
+}
+
+const Logo = ({ enlargeLogo }: LogoProps) => (
+  <LogoWrapper enlargeLogo={enlargeLogo}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 166.47 117.96"
-      {...props}
     >
       <path d="M6.61 36.8c-1.26 1.23-1.23 4.13.24 6.2 1.47 2.08-.58-1.88.29-4.35.87-2.48 1.96-3.8 1.96-3.8-.74.33-1.23.72-2.49 1.95zM11.7 45.78l1.12-.49 9.92 21.33-1.13.48z" />
       <path

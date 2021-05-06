@@ -24,6 +24,7 @@ const Layout = ({ title, children, fullWidth }: LayoutProps) => {
         <Menubar user={user} />
         <ViewWrapper
           fullWidth={fullWidth}
+          navMargin
         >
           {children}
         </ViewWrapper>
