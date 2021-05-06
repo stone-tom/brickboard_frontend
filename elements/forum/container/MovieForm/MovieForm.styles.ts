@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
 export const FormWrapper = styled.div`
+  position: relative;
   z-index: 200;
+`;
+
+export const PreviewWrapper = styled.div`
+  margin: 20px 0;
 `;
 
 export const InputWrapper = styled.div`
@@ -26,4 +31,8 @@ export const VideoInformationWrapper = styled.div`
   &:first-child {
     flex-basis: 35%;
   }
+`;
+
+export const PreviewHeadline = styled.h2`
+  margin: 20px 0;
 `;

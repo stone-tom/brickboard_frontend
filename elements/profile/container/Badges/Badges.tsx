@@ -27,31 +27,33 @@ const Badges = ({
   const { user: authUser, badge: mainBadge, isAuthenticated } = useStoreState();
 
   const handleSetMainBadge = async (badgeId: string) => {
-    addComponent((
-      <Prompt
-        headline="Badge auswählen?"
-        onAccept={async () => {
-          try {
-            const { content } = await chooseMainBadge(badgeId);
-            if (content) {
-              updateMainBadge(content.data);
+    if (authUser && authUser.id === user.id) {
+      addComponent((
+        <Prompt
+          headline="Badge auswählen?"
+          onAccept={async () => {
+            try {
+              const { content } = await chooseMainBadge(badgeId);
+              if (content) {
+                updateMainBadge(content.data);
+                setMessage({
+                  content: 'Anzeigebadge erfolgreich geändert',
+                  type: MessageType.success,
+                });
+              }
+            } catch (e) {
               setMessage({
-                content: 'Anzeigebadge erfolgreich geändert',
-                type: MessageType.success,
+                content: 'Es ist ein Fehler aufgetreten',
+                type: MessageType.error,
               });
             }
-          } catch (e) {
-            setMessage({
-              content: 'Es ist ein Fehler aufgetreten',
-              type: MessageType.error,
-            });
-          }
-        }}
-      >
-        <div>
-          <p>Wollen Sie dieses Badge wirklich als Anzeigebadge verwenden?</p>
-        </div>
-      </Prompt>));
+          }}
+        >
+          <div>
+            <p>Wollen Sie dieses Badge wirklich als Anzeigebadge verwenden?</p>
+          </div>
+        </Prompt>));
+    }
   };
 
   const badges = useMemo(() => {
@@ -64,7 +66,16 @@ const Badges = ({
     // eingeloggt & eigenes Profil
     if (isAuthenticated && authUser.id === user.id) {
       if (authUser.attributes.admin && data) return data.data;
-      if (data) return data.data.filter((item: IBadge) => !item.attributes.secret);
+      if (data) {
+        return data.data.filter((item: IBadge) => {
+          if (!item.attributes.secret
+            || item.relationships.users.data
+              .some((owner) => owner.id === authUser.id)) {
+            return item;
+          }
+          return null;
+        });
+      }
     }
     return [];
   }, [data, userBadges]);
@@ -78,7 +89,7 @@ const Badges = ({
               onClick={() => handleSetMainBadge(badge.id)}
               key={badge.id}
               badge={badge}
-              active={mainBadge && mainBadge.id === badge.id}
+              active={authUser && mainBadge && mainBadge.id === badge.id && authUser.id === user.id}
               owned={!isAuthenticated || badge.relationships.users.data
                 .some((owner) => owner.id === authUser.id)}
             />

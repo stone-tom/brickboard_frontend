@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { faEdit, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
-  Post, PostContent, PostDate, PostDetails, PostHeader, PostHeading, PostSettings, CategoryLabel,
+  Post,
+  PostContent,
+  PostDate,
+  PostDetails,
+  PostHeader,
+  PostHeading,
+  PostSettings,
 } from './Post.styles';
 import ProfileAside from '../../components/ProfileAside/ProfileAside';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
@@ -13,12 +19,8 @@ import { Button } from '../../../core/components/Button/Button.styles';
 import Hint from '../../../core/components/Hint/Hint';
 import IPost from '../../../../models/IPost';
 import IUser from '../../../../models/IUser';
-import { getYouTubeId } from '../../../core/container/MovieCard/MovieCard';
 import PostForm from '../../container/PostForm/PostForm';
-import MovieForm, { ICreateTopic } from '../MovieForm/MovieForm';
-import ICategory from '../../../../models/ICategory';
-import Tag from '../../../core/components/Tag/Tag';
-import { CategoryWrapper } from '../../../core/container/MovieCard/MovieCard.styles';
+import { ICreateTopic } from '../MovieForm/MovieForm';
 import { deletePost } from '../../../../util/api';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import { MarginLeft } from '../../../../styles/global.styles';
@@ -49,12 +51,9 @@ interface PostProps {
   topicTitle?: string,
   author: IUser,
   onPostUpdated?: any,
-  slug?: string,
-  videoURL?: string,
-  categories?: ICategory[],
-  allCategories?: ICategory[],
   allBadges?: IBadge[],
   onPostDeleted?: (postId: number) => void,
+  preview?: boolean,
 }
 
 const PostComponent = ({
@@ -64,19 +63,16 @@ const PostComponent = ({
   author,
   topicTitle,
   onPostUpdated,
-  slug,
-  videoURL,
-  categories,
-  allCategories,
   allBadges,
   onPostDeleted,
+  preview,
 }: PostProps) => {
   const { user, moderation_state } = useStoreState();
   const [isEditing, toggleEditing] = useState(false);
   const postContent = post.attributes.content;
   const { setMessage, addComponent } = useStoreDispatch();
   let badge = null;
-  if (author.relationships.thredded_main_badge.data) {
+  if (!preview && author.relationships.thredded_main_badge.data) {
     badge = findObject(allBadges, author.relationships.thredded_main_badge.data.id);
   }
   const submitPost = async (values: ICreateTopic) => {
@@ -142,7 +138,7 @@ const PostComponent = ({
             {user && (
               <>
                 {user.attributes.display_name === author.attributes.display_name
-                  && moderation_state === 'approved' && (
+                  && moderation_state === 'approved' && !preview && (
                     <Button reset gray type="button" onClick={() => toggleEditing(!isEditing)}>
                       {!isEditing
                         ? <Hint place="bottom" hint="Bearbeiten"><Icon icon={faEdit} /></Hint>
@@ -174,28 +170,16 @@ const PostComponent = ({
         {isEditing
           ? (
             <>
-              {slug === 'filmvorstellungen' && first ? (
-                <MovieForm
-                  categories={allCategories}
-                  onSubmit={(movieValues) => submitPost(movieValues)}
-                  defaultValues={{
-                    video_url: videoURL,
-                    title: topicTitle,
-                    content: post.attributes.content,
-                    categories,
-                  }}
-                />
-              ) : (
-                <PostForm
-                  onEditorSubmit={(editorContent) => submitPost(
-                    {
-                      content: editorContent.editorContent,
-                    },
-                  )}
-                  answer
-                  initialContent={postContent}
-                />
-              )}
+              <PostForm
+                onEditorSubmit={(editorContent) => submitPost(
+                  {
+                    content: editorContent.editorContent,
+                  },
+                )}
+                answer
+                initialContent={postContent}
+              />
+
             </>
           )
           : (
@@ -203,26 +187,6 @@ const PostComponent = ({
               <PostContent dangerouslySetInnerHTML={{ __html: postContent }} />
             </>
           )}
-        {slug === 'filmvorstellungen' && !isEditing && first && (
-          <>
-            <iframe
-              title="Youtube Video"
-              id="ytplayer"
-              width="640"
-              height="360"
-              src={`https://www.youtube.com/embed/${getYouTubeId(videoURL)}`}
-              frameBorder="0"
-            />
-            <CategoryWrapper>
-              <CategoryLabel>Kategorien:</CategoryLabel>
-              {categories.map((category) => (
-                <>
-                  <Tag name={category.attributes.name} />
-                </>
-              ))}
-            </CategoryWrapper>
-          </>
-        )}
       </PostDetails>
     </Post>
   );

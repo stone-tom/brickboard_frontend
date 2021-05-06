@@ -10,6 +10,7 @@ interface EditorProps {
   content: string,
   placeholder?: string,
   name?: string,
+  options?: { [key: string]: any },
 }
 
 const Editor = ({
@@ -17,6 +18,18 @@ const Editor = ({
   content,
   placeholder = 'Ich darf stolz verkünden, dass...',
   name = 'editor',
+  options = {
+    buttonList: [
+      ['undo', 'redo'],
+      ['bold', 'underline', 'italic', 'strike'],
+      ['fontColor', 'hiliteColor'],
+      ['outdent', 'indent', 'align', 'list'],
+      ['link', 'image', 'video'],
+    ],
+    imageFileInput: false,
+    minHeight: '300px',
+    height: 'auto',
+  },
 }: EditorProps) => (
   <EditorContainer>
     <SunEditor
@@ -25,18 +38,7 @@ const Editor = ({
       name={name}
       placeholder={placeholder}
       setContents={content}
-      setOptions={{
-        buttonList: [
-          ['undo', 'redo'],
-          ['bold', 'underline', 'italic', 'strike'],
-          ['fontColor', 'hiliteColor'],
-          ['outdent', 'indent', 'align', 'list'],
-          ['link', 'image', 'video'],
-        ],
-        imageFileInput: false,
-        minHeight: '300px',
-        height: 'auto',
-      }}
+      setOptions={options}
     />
   </EditorContainer>
 );

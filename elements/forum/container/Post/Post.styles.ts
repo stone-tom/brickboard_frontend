@@ -51,7 +51,3 @@ export const PostSettings = styled.ul`
   display: flex;
   align-items: center;
 `;
-
-export const CategoryLabel = styled.div`
-  margin-right: 10px;
-`;
