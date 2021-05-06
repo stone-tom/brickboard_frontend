@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import useSWR from 'swr';
-import { isTemplateTail } from 'typescript';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import IBadge from '../../../../models/IBadge';
 import { MessageType } from '../../../../models/IMessage';

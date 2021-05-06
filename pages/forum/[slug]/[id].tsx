@@ -179,8 +179,6 @@ function Subforum({
     }
   };
 
-  console.log(topic);
-
   const subscribeTopic = async (follow: boolean) => {
     const { content, error } = await followTopic(topic.id, follow);
     if (!error) {
