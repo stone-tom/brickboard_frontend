@@ -135,6 +135,7 @@ export const ViewWrapper = styled.div <{
   column?: boolean,
   small?: boolean,
   dark?: boolean,
+  navMargin?: boolean,
 }>`
   
   ${(props) => props.center && css`
@@ -167,6 +168,11 @@ export const ViewWrapper = styled.div <{
   `}
 
   margin: 0 auto;
+
+  ${(props) => props.navMargin && css`
+    margin-top: ${props.theme.nav_height};
+  `}
+
 `;
 
 export const Hint = styled.p`

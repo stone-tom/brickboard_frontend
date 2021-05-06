@@ -27,4 +27,6 @@ export default {
     approved: 'green',
     blocked: 'red',
   },
+  burger_break: '815px',
+  burger_break_number: '815',
 };

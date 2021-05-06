@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import { ThemeContext } from 'styled-components';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
 import { backendURL } from '../../../../util/api';
@@ -21,13 +22,12 @@ import adminNav from '../Navigation/submenu/admin.json';
 
 const SubMenu = () => {
   const [open, setOpen] = useState(false);
-
   const { user } = useStoreState();
   const { performLogout, setMessage } = useStoreDispatch();
   const router = useRouter();
+  const theme = useContext(ThemeContext);
 
   const navigation = user.attributes.admin ? adminNav : userNav;
-
   const handleLogout = () => {
     router.push('/');
     performLogout();
@@ -51,13 +51,17 @@ const SubMenu = () => {
         </Avatar>
       </UserWrapper>
 
-      {open && (
-        <Wrapper onMouseLeave={() => setTimeout(() => {
-          setOpen(false);
-        }, 250)}
+      {(open || window.innerWidth < theme.burger_break_number) && (
+        <Wrapper
+          onMouseLeave={() => setTimeout(() => {
+            setOpen(false);
+          }, 250)}
+          adminNav={user.attributes.admin}
+          open={open}
         >
           <Transparent />
           <Dropdown>
+
             <NavLink href={`/profil/${user.id}`} passHref>
               <DropItem
                 onClick={() => setOpen(false)}
@@ -67,17 +71,21 @@ const SubMenu = () => {
             </NavLink>
 
             {navigation.map((item) => (
+
               <Link key={`dp_${item.path}`} href={item.path} passHref>
                 <DropItem>
                   {item.text}
                 </DropItem>
               </Link>
+
             ))}
+
             <DropItem
               onClick={() => handleLogout()}
             >
               Logout
             </DropItem>
+
           </Dropdown>
         </Wrapper>
       )}
