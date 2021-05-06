@@ -169,6 +169,18 @@ const MovieForm = ({
         </VideoInformationWrapper>
         {!defaultValues && (
           <Editor
+            options={{
+              buttonList: [
+                ['undo', 'redo'],
+                ['bold', 'underline', 'italic', 'strike'],
+                ['fontColor', 'hiliteColor'],
+                ['outdent', 'indent', 'align', 'list'],
+                ['link', 'image'],
+              ],
+              imageFileInput: false,
+              minHeight: '300px',
+              height: 'auto',
+            }}
             content={content}
             onChange={(newContent) => setContent(newContent)}
           />
