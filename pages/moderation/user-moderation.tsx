@@ -1,11 +1,16 @@
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
-import React, { useContext, useMemo, useState } from 'react';
+import React, {
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { ThemeContext } from 'styled-components';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { useStoreDispatch, useStoreState } from '../../context/custom_store';
+import { SearchWrapper } from '../benutzer/index';
 import { Icon } from '../../elements/core/components/Icon/Icon.styles';
 import Indicator from '../../elements/core/components/Indicator/Indicator';
 import Loader from '../../elements/core/components/Loader/Loader';
@@ -22,6 +27,7 @@ import { get } from '../../util/methods';
 import { getModerationState } from './post-moderation';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import filter from '../../util/filter';
+import FormInput from '../../elements/core/components/FormInput/FormInput';
 
 export const getStatus = (status: string | null) => {
   switch (status) {
@@ -39,9 +45,11 @@ const UserModeration = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const { addComponent, setMessage } = useStoreDispatch();
   const { user: authUser } = useStoreState();
+  const [searchTerm, setSearchTerm] = useState<string>();
   if (authUser && !authUser.attributes.admin) router.push('/404');
 
   const { data, mutate } = useSWR(`${backendURL}/users/page-${pageIndex}`, get);
+  const { data: searchData } = useSWR(`${backendURL}/autocomplete-users?q=${searchTerm}`, get);
   const theme = useContext(ThemeContext);
   const headerItems = [
     'Name:',
@@ -112,17 +120,22 @@ const UserModeration = () => {
     ]);
 
   const values = useMemo(() => {
-    console.log(data);
     if (!data || !data.data) return null;
-    return filter(data, 'user').map((value) => {
-      console.log('val', value);
-      return userDataReducer(value);
-    });
-  }, [data]);
+    if (searchTerm && searchData) return searchData.data.map((item) => userDataReducer(item));
+    return filter(data, 'user').map((value) => userDataReducer(value));
+  }, [data, searchData]);
 
   return (
     <Layout title="User Moderation">
       <h1>User Moderation</h1>
+      <SearchWrapper>
+        <FormInput
+          value={searchTerm}
+          onChange={(newValue) => setSearchTerm(newValue)}
+        >
+          Benutzersuche
+        </FormInput>
+      </SearchWrapper>
       <Wrapper>
         <Loader isLoading={!data}>
           <Table
@@ -131,7 +144,7 @@ const UserModeration = () => {
             values={values}
             empty={(!values || values.length === 0) ? 'Es sind keine Nutzer vorhanden' : undefined}
           />
-          {values && values.length > 0 && (
+          {!searchTerm && values && values.length > 0 && (
             <Pagination
               pageIndex={pageIndex}
               totalLength={data.data.attributes.users_count}
