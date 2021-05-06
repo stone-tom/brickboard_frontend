@@ -4,6 +4,11 @@ export const PersonalInformationWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${(props) => props.theme.lightgray};
+  
+  @media ${(props) => props.theme.breakpoints.xs} {
+    width: 100%;
+  }
+  
 `;
 
 export const Wrapper = styled.div`
@@ -14,4 +19,8 @@ export const Wrapper = styled.div`
   width: 100%;
   border: 1px solid ${(props) => props.theme.gray};
   border-top: 0;
+  
+  @media ${(props) => props.theme.breakpoints.xs} {
+    margin: 0 10px 10px 10px;
+  }
 `;
