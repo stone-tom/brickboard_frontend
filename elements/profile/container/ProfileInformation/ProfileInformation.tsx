@@ -64,7 +64,7 @@ const ProfileInformation = ({
   userBadges,
   userMainBadge,
 }: ProfileCardProps) => {
-  const { isAuthenticated, user: authUser, badge, } = useStoreState();
+  const { isAuthenticated, user: authUser, badge } = useStoreState();
   const profileLinks: {
     link: string,
     icon: IconProp,

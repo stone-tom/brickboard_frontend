@@ -21,7 +21,7 @@ const SessionCheck = () => {
       if (data && data.error) {
         performLogout();
         setMessage({
-          content: 'Du wurdest ausgeloggt',
+          content: `${data.error}`,
           type: MessageType.warning,
         });
         router.push('/login');
