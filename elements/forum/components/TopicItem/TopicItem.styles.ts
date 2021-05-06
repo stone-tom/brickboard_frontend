@@ -7,8 +7,9 @@ export const TopicItem = styled.div<{
 }>`
   min-height: 50px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 5px 5% auto auto 25%;
   color: ${(props) => props.theme.darkgray};
   border: lightgray 1px solid;
   border-radius: 2px;
@@ -25,6 +26,11 @@ export const TopicItem = styled.div<{
   `}
   &:hover {
     background-color: ${(props) => props.theme.lightgray};
+  }
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    grid-template-rows: 80px auto auto;
+    grid-template-columns: 100px 1fr;
   }
 `;
 
@@ -43,28 +49,33 @@ export const TopicIcon = styled.div<{
   pinned?: boolean,
 }>`
   display: flex;
-  width: 5%;
+  grid-column-start: 2;
+  grid-column-end: 3;
   align-items: center;
   padding: .2rem;
   justify-content: center;
-  color: ${(props) => (props.updated ? props.theme.brickred : props.theme.darkgray)};
 
   svg {
     height: 40px !important;
     width: 40px !important;
   }
 
-  @media screen and (max-width: 850px){
-    svg {
-    height: 30px !important;
-    width: 30px !important;
-  }
-  }
-
   ${(props) => props.pinned && css`
   background-color: ${props.theme.darkgray};
   color: ${props.theme.white};
   `}
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    border-right: ${(props) => props.theme.gray} 2px solid;
+    ${(props) => props.updated && css`
+      color: ${props.theme.brickred};
+  `}
+  }
 
 `;
 export const TopicUnreadMarker = styled.div<{
@@ -81,25 +92,46 @@ export const TopicUnreadMarker = styled.div<{
 `;
 
 export const TopicInfo = styled.div`
-  width: 70%;
+  grid-column-start: 3;
+  grid-column-end: 4;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: .2rem;
   padding-left: .5rem;
-  border-left: lightgray 1px solid;
+  border-left: ${(props) => props.theme.gray} 1px solid;
 
-  @media screen and (max-width: 850px){
+  @media ${(props) => props.theme.breakpoints.sm}{
     flex-wrap: wrap;
-    padding: 0.8rem;
+    padding: 1rem 0.8rem;
+    
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    border-left: none;
+    border-top: ${(props) => props.theme.gray} 2px solid;
+    border-bottom: ${(props) => props.theme.gray} 2px solid;
+ 
   }
 `;
 
 export const TopicInfoDetails = styled.div`
+  grid-column-start: 4;
+  grid-column-end: 5;
   display: flex;
   align-items: center;
-  @media screen and (max-width: 850px){
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
     margin-top: 10px 0;
+    
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
   }
 `;
 export const TopicInfoDetailsItem = styled.div`
@@ -113,10 +145,23 @@ export const TopicInfoDetailsItem = styled.div`
 `;
 
 export const TopicActivity = styled.div`
-  width: 20%;
+  grid-column-start: 5;
+  grid-column-end: 6;
   padding: .2rem;
   padding-left: .5rem;
   border-left: lightgray 1px solid;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    border-left: none;
+    font-size: 0.8rem;
+    padding: 0.8rem;
+  }
+
 `;
 
 export const TopicSettingsBar = styled.ul`

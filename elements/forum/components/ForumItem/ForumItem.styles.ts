@@ -73,7 +73,7 @@ export const ForumItemContent = styled.div<{
   margin-right: 0.5rem;
 
   ${(props) => props.unreadItems && css`
-      border-color: ${props.theme.brickred}
+      border-color: ${props.theme.brickred};
   `}
 
   @media ${(props) => props.theme.breakpoints.sm}{
