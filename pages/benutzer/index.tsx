@@ -19,7 +19,7 @@ const UserCardWrapper = styled.div`
   margin: 20px 0;
 `;
 
-const SearchWrapper = styled.div`
+export const SearchWrapper = styled.div`
   margin-top: 20px;
   width: 30%;
 `;
@@ -96,12 +96,14 @@ const AllUsers = ({
           />
         )) : <>Es wurden keine Benutzer gefunden.</>}
       </UserCardWrapper>
-      <Pagination
-        pageIndex={pageIndex}
-        totalLength={totalUsers}
-        paginationSize={20}
-        onClick={(index: number) => setPageIndex(index)}
-      />
+      {!searchTerm && (
+        <Pagination
+          pageIndex={pageIndex}
+          totalLength={totalUsers}
+          paginationSize={20}
+          onClick={(index: number) => setPageIndex(index)}
+        />
+      )}
     </Layout>
   );
 };

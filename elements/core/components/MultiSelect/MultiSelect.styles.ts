@@ -76,3 +76,12 @@ export const MultiSelect = styled(Select)<{
     margin: 0;
   }
 `;
+
+export const Wrapper = styled.div<{
+  col?: boolean,
+}>`
+  ${(props) => props.col && css`
+    display: flex;
+    flex-direction: column;
+  `};
+`;
