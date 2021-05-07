@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
+import ButtonComponent from '../../components/Button/Button';
 
 export const Card = styled.div<{
   unread?: boolean;
+  disabled?: boolean;
 }>`
   position: relative;
   height: 169px;
@@ -26,6 +28,10 @@ export const Card = styled.div<{
     }
   `}
 
+  ${(props) => props.disabled && css`
+    cursor: not-allowed;
+  `};
+
 `;
 export const Thumbnail = styled.div`
   position: relative;
@@ -36,6 +42,7 @@ export const Thumbnail = styled.div`
 export const CreatorInformation = styled.div`
   position: absolute;
   bottom: 0;
+  text-align: left;
   display: flex;
   flex-direction: column;
   padding: 10px 5px 10px 10px;
@@ -50,7 +57,9 @@ export const CreatedAt = styled.p`
 
 export const VideoTitle = styled.p`
   position: absolute;
+  text-align: left;
   top: 0;
+  left: 0;
   padding: 10px 5px 10px 10px;
   width: 100%;
   background: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0));
@@ -60,4 +69,9 @@ export const CategoryWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+export const LinkButton = styled(ButtonComponent)`
+  z-index: 100;
+  background: red;
 `;

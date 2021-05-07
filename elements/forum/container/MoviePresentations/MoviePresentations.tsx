@@ -67,6 +67,7 @@ const MoviePresentations = ({
               <Wrapper key={`movie_${movie.id}`}>
                 <MovieCard
                   id={movie.id}
+                  disabled={movie.attributes.moderation_state !== 'approved'}
                   title={movie.attributes.title}
                   videoURL={movie.attributes.video_url}
                   creator={creator.attributes.display_name}

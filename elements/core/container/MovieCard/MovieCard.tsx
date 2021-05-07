@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Card,
   VideoTitle,
@@ -9,6 +9,7 @@ import {
   CreatedAt,
   CreatorInformation,
   CategoryWrapper,
+  LinkButton,
 } from './MovieCard.styles';
 import Tag from '../../components/Tag/Tag';
 import ICategory from '../../../../models/ICategory';
@@ -26,6 +27,7 @@ interface MovieCardProps {
   categories: ICategory[]
   id: string,
   unread?: boolean,
+  disabled?: boolean,
 }
 
 const MovieCard = ({
@@ -36,36 +38,48 @@ const MovieCard = ({
   categories,
   id,
   unread,
-}: MovieCardProps) => (
-  <Link href={`/forum/filmvorstellungen/${id}`}>
-    <Card data-testid="movie_card" unread={unread}>
-      <Image
-        layout="fill"
-        objectFit="cover"
-        src={videoURL ? `https://img.youtube.com/vi/${getYouTubeId(videoURL)}/0.jpg` : '/assets/images/default_thumbnail.png'}
-      />
-      <VideoTitle>
-        {title}
-      </VideoTitle>
-      <CreatorInformation>
-        <Creator>
-          {creator}
-        </Creator>
-        <CreatedAt>
-          {format(new Date(created_at), 'dd.MM.yyyy')}
-        </CreatedAt>
-        <CategoryWrapper>
-          {categories.map((category) => (
-            <Tag
-              key={category.attributes.name}
-              name={category.attributes.name}
-              icon={category.attributes.category_icon}
-            />
-          ))}
-        </CategoryWrapper>
-      </CreatorInformation>
-    </Card>
-  </Link>
-);
+  disabled,
+}: MovieCardProps) => {
+  const router = useRouter();
+  return (
+    <LinkButton
+      reset
+      disabled={disabled}
+      onClick={() => router.push(`/forum/filmvorstellungen/${id}`)}
+    >
+      <Card
+        data-testid="movie_card"
+        unread={unread}
+        disabled={disabled}
+      >
+        <Image
+          layout="fill"
+          objectFit="cover"
+          src={videoURL ? `https://img.youtube.com/vi/${getYouTubeId(videoURL)}/0.jpg` : '/assets/images/default_thumbnail.png'}
+        />
+        <VideoTitle>
+          {title}
+        </VideoTitle>
+        <CreatorInformation>
+          <Creator>
+            {creator}
+          </Creator>
+          <CreatedAt>
+            {format(new Date(created_at), 'dd.MM.yyyy')}
+          </CreatedAt>
+          <CategoryWrapper>
+            {categories.map((category) => (
+              <Tag
+                key={category.attributes.name}
+                name={category.attributes.name}
+                icon={category.attributes.category_icon}
+              />
+            ))}
+          </CategoryWrapper>
+        </CreatorInformation>
+      </Card>
+    </LinkButton>
+  );
+};
 
 export default MovieCard;
