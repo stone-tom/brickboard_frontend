@@ -44,6 +44,10 @@ export const BigNewsItemHeading = styled.h2`
 export const BigNewsItemDescription = styled.p`
   margin-bottom: 1rem;
   max-width: 80%;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    display: none;
+  }
 `;
 
 export const NewsItemHeading = styled.h3`
@@ -63,6 +67,13 @@ export const NewsItemButtonFloat = styled.div`
   right: 0;
   bottom: 0;
   padding: 1rem;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    top: 0;
+    left: 0;
+    right: unset;
+    bottom: unset;
+  }
 `;
 
 export const NewsItemBorder = styled.div<{

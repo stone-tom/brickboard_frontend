@@ -210,6 +210,17 @@ export const FlexBetween = styled.div`
   align-items: center;
 `;
 
+export const ForumFlexBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    flex-direction: column;   
+    align-items: flex-start; 
+  }
+`;
+
 export const Wrapper = styled.div`
   margin: 20px 0;
 `;
