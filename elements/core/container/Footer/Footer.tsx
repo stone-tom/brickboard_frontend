@@ -10,6 +10,7 @@ import {
   FooterListItem,
   FooterRightList,
   FooterWrapper,
+  LinksInformation,
 } from './Footer.styles';
 
 const FooterComponent = () => {
@@ -26,7 +27,7 @@ const FooterComponent = () => {
         </div>
         <div>
           <FooterBar />
-          <p>Besuche uns auf</p>
+          <LinksInformation>Besuche uns auf</LinksInformation>
           <FooterIconsWrapper>
             <a target="blank" href="https://www.facebook.com/Brickboard.Community">
               <Icon width={30} height={30} icon={faFacebookF} />

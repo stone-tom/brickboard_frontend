@@ -40,7 +40,7 @@ const SubMenu = () => {
   return (
     <DropdownWrapper>
       <UserWrapper
-        onMouseOver={() => setOpen(true)}
+        onMouseOver={window.innerWidth > theme.burger_break_number ? () => setOpen(true) : null}
         onClick={() => setOpen(!open)}
       >
         <Name>

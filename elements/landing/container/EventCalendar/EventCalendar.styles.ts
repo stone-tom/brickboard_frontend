@@ -8,6 +8,10 @@ export const EventCalendarWrapper = styled.section`
 export const EventCalendarHeading = styled.h2`
   width: 23rem;
   border-bottom: 5px solid ${(props) => props.theme.brickred};
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    width: auto;
+  }
 `;
 
 export const EventList = styled.ul<{

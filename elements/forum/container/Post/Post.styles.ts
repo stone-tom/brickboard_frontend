@@ -4,6 +4,11 @@ export const Post = styled.section`
   display: grid;
   grid-template-columns: 200px auto;
   margin: 1rem 0;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    grid-template-columns: 1fr;
+    grid-template-rows: 140px auto;
+  }
 `;
 
 export const PostHeader = styled.header`
@@ -31,6 +36,10 @@ export const PostDate = styled.p`
 export const PostDetails = styled.div`
   background-color: ${(props) => props.theme.lightgray};
   padding: 1rem;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    min-height: 200px;
+  }
 `;
 
 export const PostContent = styled.div`

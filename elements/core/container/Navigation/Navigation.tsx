@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import { faClipboardList, faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
 import IUser from '../../../../models/IUser';
 import Dropdown from '../Dropdown/Dropdown';
 import {
@@ -9,13 +10,13 @@ import {
   NavigationWrapper,
   NavigationItem,
   Seperator,
-  UnauthorizedWrapper,
   NavigationBar,
   MenuImageContainer,
   FontImageWrapper,
 } from './Navigation.styles';
 import Logo from '../../components/Logo/Logo';
 import Burger from '../../components/Burger/Burger';
+import Button from '../../components/Button/Button';
 
 const Navigation = ({
   user,
@@ -58,33 +59,46 @@ const Navigation = ({
 
         <NavigationList open={openBurger}>
           <NavigationItem>
-            <Link href="/forum">
-              Forum
+            <Link href="/forum" passHref>
+              <Button reset icon={faClipboardList} noHover>
+                Forum
+              </Button>
             </Link>
           </NavigationItem>
           <NavigationItem>
-            <Link href="/forum/filmvorstellungen">
-              Filme
+            <Link href="/forum/filmvorstellungen" passHref>
+              <Button reset icon={faVideo} noHover>
+                Filme
+              </Button>
             </Link>
           </NavigationItem>
           <NavigationItem>
-            <Link href="/benutzer">
-              Mitglieder
+            <Link href="/benutzer" passHref>
+              <Button reset icon={faUserFriends} noHover>
+                Mitglieder
+              </Button>
             </Link>
           </NavigationItem>
 
-          <NavigationItem>
-            {user ? (
+          {user ? (
+            <NavigationItem>
               <Dropdown />
-            )
-              : (
-                <UnauthorizedWrapper>
-                  <Link href="/login">Login</Link>
-                  <Seperator />
-                  <Link href="/registrieren">Registrieren</Link>
-                </UnauthorizedWrapper>
-              )}
-          </NavigationItem>
+            </NavigationItem>
+          )
+            : (
+              <>
+                <NavigationItem>
+                  <Link href="/login" passHref>
+                    <Button reset>Login</Button>
+                  </Link>
+                </NavigationItem>
+                <Seperator />
+                <NavigationItem>
+                  <Link href="/registrieren"><Button reset>Registrieren</Button></Link>
+                </NavigationItem>
+              </>
+            )}
+
         </NavigationList>
         <Burger onClick={() => setOpenBurger(!openBurger)} open={openBurger} />
       </NavigationWrapper>
