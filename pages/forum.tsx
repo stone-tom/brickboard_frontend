@@ -23,6 +23,7 @@ export const SearchWrapper = styled.form`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   margin: 20px 0;
 `;
 
@@ -31,6 +32,10 @@ export const SearchButton = styled(Button)`
   align-self: flex-end;
   margin-bottom: 10px;
   margin-left: 20px;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    margin-left: 0px;
+  }
 `;
 
 export const getStaticProps: GetStaticProps = async () => {

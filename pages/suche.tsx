@@ -16,6 +16,10 @@ import {
 
 const InputWrapper = styled.div`
   margin-right: 20px;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    margin-bottom: 20px;
+  }
 `;
 
 const Suche = () => {
