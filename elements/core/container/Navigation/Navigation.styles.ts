@@ -77,7 +77,7 @@ export const NavigationList = styled.ul<{
     opacity: 0;
 
     ${(props) => props.open && css`
-      transform: translateX(0);
+      transform: translateX(-1px);
       opacity: 0.98;
     `};
   }
