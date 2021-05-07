@@ -34,7 +34,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     margin-top: 10px;
   }
 `;

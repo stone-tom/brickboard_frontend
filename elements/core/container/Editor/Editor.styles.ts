@@ -5,7 +5,7 @@ export const EditorContainer = styled.div`
   transition: all 1s;
   margin-bottom: 2rem;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     .sun-editor {
       width: 300px !important;
     }

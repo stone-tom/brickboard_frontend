@@ -11,7 +11,7 @@ export const MovieWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.gray};
   border-top: 0;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     margin: 0 10px 10px 10px;
     padding: 30px;
   }
@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
   margin-right: 20px;
   margin-bottom: 20px;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     margin-right: 0;
   }
 `;

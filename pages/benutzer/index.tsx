@@ -23,7 +23,7 @@ export const SearchWrapper = styled.div`
   margin-top: 20px;
   width: 30%;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     width: 80%;
   }
 `;

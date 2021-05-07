@@ -39,6 +39,15 @@ const FilterBar = ({
           onClick={() => handleSelect(option.id)}
         />
       ))}
+      <FilterItem
+        key="reset_button"
+        name="Filter löschen"
+        icon="/assets/icons/remove_filter.svg"
+        onClick={() => {
+          setSelected([]);
+          onChange([]);
+        }}
+      />
     </FilterButtons>
   );
 };

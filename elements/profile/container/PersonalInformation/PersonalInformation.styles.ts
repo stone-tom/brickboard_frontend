@@ -5,7 +5,7 @@ export const PersonalInformationWrapper = styled.div`
   flex-wrap: wrap;
   background: ${(props) => props.theme.lightgray};
   
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     width: 100%;
   }
   
@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.gray};
   border-top: 0;
   
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     margin: 0 10px 10px 10px;
   }
 `;

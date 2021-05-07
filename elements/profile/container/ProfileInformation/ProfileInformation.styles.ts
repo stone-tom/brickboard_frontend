@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   min-height: 100%;
   margin: 0 auto;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     flex-direction: column;
   }
 `;
@@ -59,7 +59,7 @@ export const ProfileInformationWrapper = styled.div`
   width: 80%;
   min-height: 100%;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     width: 100%;
   }
 `;
