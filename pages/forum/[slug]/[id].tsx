@@ -234,10 +234,11 @@ function Subforum({
       });
     }
     if (content) {
+      console.log('content', content);
       const updateData = {
         ...data,
         included: data.included.map((item) => {
-          if (item.id === topic.id && item.type === 'topic') {
+          if (item.id === topicId && item.type === 'topic') {
             return {
               ...item,
               attributes: {
@@ -249,6 +250,9 @@ function Subforum({
           return item;
         }),
       };
+      console.log('update', updateData);
+
+      setIsEditing(false);
       mutate(updateData, false);
       setMessage({
         content: 'Deine Antwort wurde gepostet!',

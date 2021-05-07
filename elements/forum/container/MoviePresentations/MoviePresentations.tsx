@@ -33,7 +33,7 @@ const MoviePresentations = ({
   displayReadstates = false,
   topicViews,
 }: MoviePresentationProps) => {
-  const { isAuthenticated } = useStoreState();
+  const { isAuthenticated, user } = useStoreState();
   return (
     <Loader isLoading={!movies}>
       {categories && (
@@ -62,21 +62,23 @@ const MoviePresentations = ({
               || (readstate !== null && readstate.attributes.unread_posts_count > 0)) {
               unread = true;
             }
-
-            return (
-              <Wrapper key={`movie_${movie.id}`}>
-                <MovieCard
-                  id={movie.id}
-                  disabled={movie.attributes.moderation_state !== 'approved'}
-                  title={movie.attributes.title}
-                  videoURL={movie.attributes.video_url}
-                  creator={creator.attributes.display_name}
-                  created_at={movie.attributes.created_at}
-                  categories={category}
-                  unread={unread}
-                />
-              </Wrapper>
-            );
+            if (movie.attributes.moderation_state === 'approved'
+              || (isAuthenticated && ((creator.id === user.id) || user.attributes.admin))) {
+              return (
+                <Wrapper key={`movie_${movie.id}`}>
+                  <MovieCard
+                    id={movie.id}
+                    title={movie.attributes.title}
+                    videoURL={movie.attributes.video_url}
+                    creator={creator.attributes.display_name}
+                    created_at={movie.attributes.created_at}
+                    categories={category}
+                    unread={unread}
+                  />
+                </Wrapper>
+              );
+            }
+            return null;
           })}
           {movies.length === 0 && (
             <Empty>Es wurden keine Filme mit dieser Kategorie gefunden.</Empty>
