@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
   max-width: ${(props) => props.theme.max_container_width};
   min-height: 100%;
   margin: 0 auto;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    flex-direction: column;
+  }
 `;
 
 export const Avatar = styled.div`
@@ -54,6 +58,10 @@ export const ProfileInformationWrapper = styled.div`
   background: ${(props) => props.theme.white};
   width: 80%;
   min-height: 100%;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    width: 100%;
+  }
 `;
 
 export const Username = styled.p`

@@ -18,7 +18,6 @@ import {
   FormWrapper,
   VideoInformationWrapper,
   InputWrapper,
-  Title,
   PreviewWrapper,
   PreviewHeadline,
 } from './MovieForm.styles';
@@ -121,7 +120,7 @@ const MovieForm = ({
           </EditButton>
         )}
         <VideoInformationWrapper>
-          <Title>
+          <InputWrapper>
             <FormInput
               autoFocus={!defaultValues}
               disabled={defaultValues}
@@ -131,7 +130,7 @@ const MovieForm = ({
             >
               Titel
             </FormInput>
-          </Title>
+          </InputWrapper>
           <InputWrapper>
             <FormInput
               type="text"

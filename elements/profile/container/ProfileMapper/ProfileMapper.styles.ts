@@ -4,6 +4,14 @@ import { Button } from '../../../core/components/Button/Button.styles';
 export const Wrapper = styled.div`
   padding: 60px;
   flex: 0 0 40%;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 0 0 100%;
+  }
 `;
 
 export const MapperHeadline = styled.h3`
@@ -12,6 +20,10 @@ export const MapperHeadline = styled.h3`
   font-size: 24px;
   display: flex;
   justify-content: space-between;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    width: 100%;
+  }
 `;
 
 export const ProfileMapperLine = styled.div`

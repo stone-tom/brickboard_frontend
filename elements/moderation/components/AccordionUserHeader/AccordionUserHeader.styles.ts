@@ -15,6 +15,7 @@ export const Status = styled(Indicator)``;
 export const Header = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 90%;
@@ -32,4 +33,8 @@ export const AcceptButton = styled(Button)`
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    margin-top: 10px;
+  }
 `;
