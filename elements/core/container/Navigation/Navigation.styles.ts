@@ -63,6 +63,7 @@ export const NavigationList = styled.ul<{
 }>`
   display: flex;
   transition: all 0.5s ease-in-out;
+  align-items: center;
 
   @media (max-width: ${(props) => props.theme.burger_break}){
     position: absolute;
@@ -101,9 +102,13 @@ export const NavigationItem = styled.li`
 
 export const Seperator = styled.div`
   height: 20px;
-  margin: 0 15px;
   width: 3px;
   background: ${(props) => props.theme.brickred};
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    height: 3px;
+    width: 100px;
+  }
 `;
 
 export const UnauthorizedWrapper = styled.div`

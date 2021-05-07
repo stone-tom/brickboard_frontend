@@ -73,18 +73,23 @@ const Navigation = ({
             </Link>
           </NavigationItem>
 
-          <NavigationItem>
-            {user ? (
+          {user ? (
+            <NavigationItem>
               <Dropdown />
-            )
-              : (
-                <UnauthorizedWrapper>
+            </NavigationItem>
+          )
+            : (
+              <>
+                <NavigationItem>
                   <Link href="/login">Login</Link>
-                  <Seperator />
+                </NavigationItem>
+                <Seperator />
+                <NavigationItem>
                   <Link href="/registrieren">Registrieren</Link>
-                </UnauthorizedWrapper>
-              )}
-          </NavigationItem>
+                </NavigationItem>
+              </>
+            )}
+
         </NavigationList>
         <Burger onClick={() => setOpenBurger(!openBurger)} open={openBurger} />
       </NavigationWrapper>
