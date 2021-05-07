@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import { faClipboardList, faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
 import IUser from '../../../../models/IUser';
 import Dropdown from '../Dropdown/Dropdown';
 import {
@@ -16,7 +17,6 @@ import {
 import Logo from '../../components/Logo/Logo';
 import Burger from '../../components/Burger/Burger';
 import Button from '../../components/Button/Button';
-import { faClipboardList, faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation = ({
   user,
