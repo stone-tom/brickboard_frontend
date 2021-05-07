@@ -9,7 +9,6 @@ import {
   NavigationWrapper,
   NavigationItem,
   Seperator,
-  UnauthorizedWrapper,
   NavigationBar,
   MenuImageContainer,
   FontImageWrapper,
