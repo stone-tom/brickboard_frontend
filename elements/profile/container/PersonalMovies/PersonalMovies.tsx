@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStoreState } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
 import ITopic from '../../../../models/ITopic';
 import MovieCard from '../../../core/container/MovieCard/MovieCard';
