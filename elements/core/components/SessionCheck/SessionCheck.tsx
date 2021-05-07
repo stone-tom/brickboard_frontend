@@ -13,7 +13,6 @@ const SessionCheck = () => {
   if (isAuthenticated) {
     const { data } = useSWR(`${backendURL}/sessions`, get, {
       refreshInterval: 60000 * 30,
-      revalidateOnMount: true,
       revalidateOnFocus: true,
     });
 
