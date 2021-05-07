@@ -1,4 +1,3 @@
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import ICategory from '../../../../models/ICategory';
 import FilterItem from '../../components/FilterItem/FilterItem';
