@@ -16,7 +16,7 @@ export const BadgesWrapper = styled.div`
     margin-bottom: 20px;
   }
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     padding: 10px;
     margin: 0 10px 10px 10px;
     justify-content: center;

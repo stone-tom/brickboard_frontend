@@ -13,7 +13,7 @@ export const PreviewWrapper = styled.div`
 export const InputWrapper = styled.div`
   flex-basis: 30%;
 
-  @media ${(props) => props.theme.breakpoints.xs} {
+  @media ${(props) => props.theme.breakpoints.sm} {
     flex-basis: 100%;
     margin-bottom: 20px;
   }
