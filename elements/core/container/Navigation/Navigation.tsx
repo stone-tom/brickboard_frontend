@@ -15,6 +15,8 @@ import {
 } from './Navigation.styles';
 import Logo from '../../components/Logo/Logo';
 import Burger from '../../components/Burger/Burger';
+import Button from '../../components/Button/Button';
+import { faClipboardList, faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation = ({
   user,
@@ -57,18 +59,24 @@ const Navigation = ({
 
         <NavigationList open={openBurger}>
           <NavigationItem>
-            <Link href="/forum">
-              Forum
+            <Link href="/forum" passHref>
+              <Button reset icon={faClipboardList} noHover>
+                Forum
+              </Button>
             </Link>
           </NavigationItem>
           <NavigationItem>
-            <Link href="/forum/filmvorstellungen">
-              Filme
+            <Link href="/forum/filmvorstellungen" passHref>
+              <Button reset icon={faVideo} noHover>
+                Filme
+              </Button>
             </Link>
           </NavigationItem>
           <NavigationItem>
-            <Link href="/benutzer">
-              Mitglieder
+            <Link href="/benutzer" passHref>
+              <Button reset icon={faUserFriends} noHover>
+                Mitglieder
+              </Button>
             </Link>
           </NavigationItem>
 
@@ -80,11 +88,13 @@ const Navigation = ({
             : (
               <>
                 <NavigationItem>
-                  <Link href="/login">Login</Link>
+                  <Link href="/login" passHref>
+                    <Button reset>Login</Button>
+                  </Link>
                 </NavigationItem>
                 <Seperator />
                 <NavigationItem>
-                  <Link href="/registrieren">Registrieren</Link>
+                  <Link href="/registrieren"><Button reset>Registrieren</Button></Link>
                 </NavigationItem>
               </>
             )}

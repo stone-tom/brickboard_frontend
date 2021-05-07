@@ -97,6 +97,10 @@ export const NavigationItem = styled.li`
     font-size: 1.5rem;
     padding: 1.5rem;
     justify-content: center;
+
+    button{
+      font-size: 1.5rem;
+    }
   }
 `;
 
