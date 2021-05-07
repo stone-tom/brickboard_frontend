@@ -1,3 +1,4 @@
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import ICategory from '../../../../models/ICategory';
 import FilterItem from '../../components/FilterItem/FilterItem';
@@ -39,6 +40,15 @@ const FilterBar = ({
           onClick={() => handleSelect(option.id)}
         />
       ))}
+      <FilterItem
+        key="reset_button"
+        name="Filter löschen"
+        icon="/assets/icons/remove_filter.svg"
+        onClick={() => {
+          setSelected([]);
+          onChange([]);
+        }}
+      />
     </FilterButtons>
   );
 };
