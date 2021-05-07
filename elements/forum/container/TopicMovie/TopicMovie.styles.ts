@@ -24,7 +24,11 @@ export const VideoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
+  width: 80%;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    width: 100%;
+  }
 `;
 
 export const InformationWrapper = styled.div`
