@@ -234,7 +234,6 @@ function Subforum({
       });
     }
     if (content) {
-      console.log('content', content);
       const updateData = {
         ...data,
         included: data.included.map((item) => {
@@ -245,13 +244,19 @@ function Subforum({
                 ...item.attributes,
                 ...topicBody,
               },
+              relationships: {
+                ...item.relationships,
+                categories: {
+                  data: {
+                    ...content.data.relationships.categories.data,
+                  },
+                },
+              },
             };
           }
           return item;
         }),
       };
-      console.log('update', updateData);
-
       setIsEditing(false);
       mutate(updateData, false);
       setMessage({
