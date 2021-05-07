@@ -28,6 +28,12 @@ export const Message = styled.div < {
     transform: translateY(0);
     opacity: 1;
   `}
+
+  @media ${(props) => props.theme.breakpoints.sm} {
+    right: 0px;
+    top: 0px;
+    width: 100%;
+  }
 `;
 
 export const MessageWrapper = styled.div`
