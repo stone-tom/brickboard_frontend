@@ -8,6 +8,7 @@ import {
   ProfileAsideHeading,
   ProfileCondensedInfo,
   ProfileImageWrapper,
+  BadgeInfoWrapper,
 } from './ProfileAside.style';
 import IUser from '../../../../models/IUser';
 import { backendURL } from '../../../../util/api';
@@ -40,18 +41,18 @@ const ProfileAsideComponent = ({
         {author.attributes.display_name}
       </ProfileAsideHeading>
     </Link>
-    <div>
+    <BadgeInfoWrapper>
       {author.attributes.admin
-        && <ProfileAsideFact>Administrator</ProfileAsideFact>}
+        && <ProfileAsideFact hideOnMobile>Administrator</ProfileAsideFact>}
       <ProfileAsideFact>
         <Badge small badge={badge} />
       </ProfileAsideFact>
-      <ProfileAsideFact>
+      <ProfileAsideFact hideOnMobile>
         Mitglied seit:
         <br />
         {format(new Date(author.attributes.created_at), 'dd.MM.yyyy')}
       </ProfileAsideFact>
-    </div>
+    </BadgeInfoWrapper>
   </ProfileAside>
 );
 

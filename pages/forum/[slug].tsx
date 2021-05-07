@@ -141,89 +141,87 @@ function Subforum({
   }
   return (
     <Layout title={`${messageboard.attributes.name} - Brickboard 2.0`}>
-      <ViewWrapper>
-        <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
-        {isAuthenticated && (
-          <MarginBottom>
-            <Button
-              reset
-              onClick={() => markAllAsRead()}
-            >
-              Themen als gelesen markieren
-            </Button>
-          </MarginBottom>
-        )}
-        <ForumHeading title={`${messageboard.attributes.name}`} />
-        {topicViews.map((topicView) => {
-          const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
-          const author: IUser = findObject(userList, topic.relationships.user.data.id);
-          const lastCommentor: IUser = findObject(userList, topic.relationships.last_user.data.id);
-          let readstate = null;
+      <Breadcrumbsbar slug={slug} messageboardname={messageboard.attributes.name} />
+      {isAuthenticated && (
+        <MarginBottom>
+          <Button
+            reset
+            onClick={() => markAllAsRead()}
+          >
+            Themen als gelesen markieren
+          </Button>
+        </MarginBottom>
+      )}
+      <ForumHeading title={`${messageboard.attributes.name}`} />
+      {topicViews.map((topicView) => {
+        const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
+        const author: IUser = findObject(userList, topic.relationships.user.data.id);
+        const lastCommentor: IUser = findObject(userList, topic.relationships.last_user.data.id);
+        let readstate = null;
 
-          if (topicView.relationships.read_state !== undefined) {
-            readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
-          }
-          let unread = false;
-          if ((data !== topicsData
-            && (!topicView.relationships.read_state && isAuthenticated))
-            || (topicView.relationships.read_state
-              && readstate.attributes.unread_posts_count > 0)) {
-            unread = true;
-          }
-          if (topic.attributes.moderation_state === 'approved') {
-            return (
-              <TopicItem
-                key={topic.attributes.slug}
-                slug={slug}
-                topic={topic}
-                author={author}
-                lastCommentor={lastCommentor}
-                markUnread={unread}
-                isAuthenticated={isAuthenticated}
-                onClick={() => openTopic(topic)}
-              />
-            );
-          } if (isAuthenticated
-            && (user.attributes.display_name === author.attributes.display_name
-              || user.attributes.admin)) {
-            return (
-              <TopicItem
-                key={topic.attributes.slug}
-                slug={slug}
-                topic={topic}
-                author={author}
-                lastCommentor={lastCommentor}
-                markUnread={unread}
-                isAuthenticated
-                onClick={() => openTopic(topic)}
-              />
-            );
-          }
-          return null;
-        })}
-        <Pagination
-          totalLength={messageboard.attributes.topics_count}
-          pageIndex={pageIndex}
-          paginationSize={20}
-          onClick={(index: number) => setPageIndex(index)}
-        />
-        {isAuthenticated && (
-          <FlexRight>
-            <Link href={`./${slug}/neues-thema`} passHref>
-              <Button icon={faPlus} disabled={moderation_state === 'blocked'}>
-                {moderation_state !== 'approved' ? (
-                  <Hint hint="Dein Konto ist nicht freigeschalten">
-                    Thema erstellen
-                  </Hint>
-                )
-                  : (
-                    'Thema erstellen'
-                  )}
-              </Button>
-            </Link>
-          </FlexRight>
-        )}
-      </ViewWrapper>
+        if (topicView.relationships.read_state !== undefined) {
+          readstate = findObject(readTopics, topicView.relationships.read_state.data.id);
+        }
+        let unread = false;
+        if ((data !== topicsData
+          && (!topicView.relationships.read_state && isAuthenticated))
+          || (topicView.relationships.read_state
+            && readstate.attributes.unread_posts_count > 0)) {
+          unread = true;
+        }
+        if (topic.attributes.moderation_state === 'approved') {
+          return (
+            <TopicItem
+              key={topic.attributes.slug}
+              slug={slug}
+              topic={topic}
+              author={author}
+              lastCommentor={lastCommentor}
+              markUnread={unread}
+              isAuthenticated={isAuthenticated}
+              onClick={() => openTopic(topic)}
+            />
+          );
+        } if (isAuthenticated
+          && (user.attributes.display_name === author.attributes.display_name
+            || user.attributes.admin)) {
+          return (
+            <TopicItem
+              key={topic.attributes.slug}
+              slug={slug}
+              topic={topic}
+              author={author}
+              lastCommentor={lastCommentor}
+              markUnread={unread}
+              isAuthenticated
+              onClick={() => openTopic(topic)}
+            />
+          );
+        }
+        return null;
+      })}
+      <Pagination
+        totalLength={messageboard.attributes.topics_count}
+        pageIndex={pageIndex}
+        paginationSize={20}
+        onClick={(index: number) => setPageIndex(index)}
+      />
+      {isAuthenticated && (
+        <FlexRight>
+          <Link href={`./${slug}/neues-thema`} passHref>
+            <Button icon={faPlus} disabled={moderation_state === 'blocked'}>
+              {moderation_state !== 'approved' ? (
+                <Hint hint="Dein Konto ist nicht freigeschalten">
+                  Thema erstellen
+                </Hint>
+              )
+                : (
+                  'Thema erstellen'
+                )}
+            </Button>
+          </Link>
+        </FlexRight>
+      )}
     </Layout>
   );
 }

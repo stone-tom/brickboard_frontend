@@ -12,6 +12,11 @@ export const UserCardWrapper = styled.div`
     transform: scale(1.1);
     transition: transform .3s;
   }
+  @media ${(props) => props.theme.breakpoints.sm}{
+    width: 150px;
+    height: 150px;
+  }
+  
 `;
 export const Name = styled.p`
   position: absolute;

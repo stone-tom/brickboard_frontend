@@ -63,6 +63,7 @@ export const NavigationList = styled.ul<{
 }>`
   display: flex;
   transition: all 0.5s ease-in-out;
+  align-items: center;
 
   @media (max-width: ${(props) => props.theme.burger_break}){
     position: absolute;
@@ -76,7 +77,7 @@ export const NavigationList = styled.ul<{
     opacity: 0;
 
     ${(props) => props.open && css`
-      transform: translateX(0);
+      transform: translateX(-1px);
       opacity: 0.98;
     `};
   }
@@ -96,14 +97,22 @@ export const NavigationItem = styled.li`
     font-size: 1.5rem;
     padding: 1.5rem;
     justify-content: center;
+
+    button{
+      font-size: 1.5rem;
+    }
   }
 `;
 
 export const Seperator = styled.div`
   height: 20px;
-  margin: 0 15px;
   width: 3px;
   background: ${(props) => props.theme.brickred};
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    height: 3px;
+    width: 100px;
+  }
 `;
 
 export const UnauthorizedWrapper = styled.div`

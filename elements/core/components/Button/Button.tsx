@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   small?: boolean,
   reset?: boolean,
   icon?: IconProp,
+  noHover?: boolean,
   iconRight?: boolean,
 }
 
@@ -18,12 +19,14 @@ const ButtonComponent = ({
   type = 'button',
   icon,
   iconRight,
+  noHover,
   ...rest
 }: ButtonProps) => (
   <Button
     icon={icon !== undefined}
     type={type}
     iconRight={iconRight}
+    noHover={noHover}
     disabled={disabled}
     {...rest}
   >

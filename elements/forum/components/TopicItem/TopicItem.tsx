@@ -83,7 +83,7 @@ const TopicItemComponent = ({
   >
 
     <TopicUnreadMarker unread={markUnread && isAuthenticated} />
-    <TopicIcon pinned={topic.attributes.sticky}>
+    <TopicIcon pinned={topic.attributes.sticky} updated={markUnread && isAuthenticated}>
       <Hint hint={markUnread && isAuthenticated ? 'Ungelesene Beiträge' : 'Keine ungelesenen Beiträge'}>
         <Icon icon={whichIcon(topic.attributes.category)} />
       </Hint>
@@ -125,37 +125,37 @@ const TopicItemComponent = ({
           <span>{format(new Date(topic.attributes.created_at), 'dd.MM.yyyy, HH:mm')}</span>
         </p>
       </div>
-      <TopicInfoDetails>
-        {topic.attributes.locked && (
-          <TopicInfoDetailsItem>
-            <Hint hint="Gesperrt">
-              <Icon icon={faLock} />
-            </Hint>
-          </TopicInfoDetailsItem>
-        )}
-        {topic.attributes.sticky && (
-          <TopicInfoDetailsItem>
-            <Hint hint="Gepinnt">
-              <Icon icon={faMapPin} />
-            </Hint>
-          </TopicInfoDetailsItem>
-        )}
-        <TopicInfoDetailsItem>
-          <Hint hint="Aufrufe">
-            <TextIcon text={topic.attributes.view_count.toString()}>
-              <Icon icon={faEye} />
-            </TextIcon>
-          </Hint>
-        </TopicInfoDetailsItem>
-        <TopicInfoDetailsItem>
-          <Hint hint="Antworten">
-            <TextIcon text={`${topic.attributes.posts_count}`}>
-              <Icon icon={faCommentAlt} />
-            </TextIcon>
-          </Hint>
-        </TopicInfoDetailsItem>
-      </TopicInfoDetails>
     </TopicInfo>
+    <TopicInfoDetails>
+      {topic.attributes.locked && (
+        <TopicInfoDetailsItem>
+          <Hint hint="Gesperrt">
+            <Icon icon={faLock} />
+          </Hint>
+        </TopicInfoDetailsItem>
+      )}
+      {topic.attributes.sticky && (
+        <TopicInfoDetailsItem>
+          <Hint hint="Gepinnt">
+            <Icon icon={faMapPin} />
+          </Hint>
+        </TopicInfoDetailsItem>
+      )}
+      <TopicInfoDetailsItem>
+        <Hint hint="Aufrufe">
+          <TextIcon text={topic.attributes.view_count.toString()}>
+            <Icon icon={faEye} />
+          </TextIcon>
+        </Hint>
+      </TopicInfoDetailsItem>
+      <TopicInfoDetailsItem>
+        <Hint hint="Antworten">
+          <TextIcon text={`${topic.attributes.posts_count}`}>
+            <Icon icon={faCommentAlt} />
+          </TextIcon>
+        </Hint>
+      </TopicInfoDetailsItem>
+    </TopicInfoDetails>
     <TopicActivity>
       Letzte Antwort:
       {lastCommentor && (

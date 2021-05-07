@@ -37,7 +37,7 @@ const Badge = ({
           src={!badge ? '/assets/images/default_badge.svg' : `${backendURL}${badge.attributes.badge_icon}`}
         />
       </BadgeWrapper>
-      {badge ? badge.attributes.title : 'Badgelos'}
+      <p>{badge ? badge.attributes.title : 'Badgelos'}</p>
     </Wrapper>
   </Hint>
 );

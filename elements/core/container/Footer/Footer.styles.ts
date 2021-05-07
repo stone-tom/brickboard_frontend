@@ -12,6 +12,13 @@ export const FooterWrapper = styled.div`
   max-width: ${(props) => props.theme.max_container_width};
   margin: 0 auto;
   padding: 20px 15px;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+   >div{
+     width: 100%;
+     padding-bottom: 2rem; 
+   }
+  }
 `;
 
 export const FooterBar = styled.div`
@@ -21,16 +28,34 @@ export const FooterBar = styled.div`
   margin-bottom: 10px;
   display: block;
   background-color: ${(props) => props.theme.white};
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    margin-bottom: 2rem;
+  }
 `;
 
 export const FooterRightList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    align-items: center;
+  }
+`;
+
+export const LinksInformation = styled.p`
+    @media ${(props) => props.theme.breakpoints.sm}{
+    text-align: center;
+  }
 `;
 
 export const FooterListItem = styled.li`
   margin: 5px 0;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    text-align: center;
+  }
 `;
 
 export const FooterIconsWrapper = styled.ul`

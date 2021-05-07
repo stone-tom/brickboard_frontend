@@ -16,8 +16,8 @@ import {
   ViewWrapper,
   Hint,
   FlexRight,
-  FlexBetween,
   FlexLeft,
+  ForumFlexBetween,
 } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
@@ -431,7 +431,7 @@ function Subforum({
           messageboardname={messageboard.attributes.name}
           topic={topic.attributes.title}
         />
-        <FlexBetween>
+        <ForumFlexBetween>
           <h1>{topic.attributes.title}</h1>
           {isAuthenticated && (
             <TopicSettingsBar>
@@ -484,7 +484,7 @@ function Subforum({
                 )}
             </TopicSettingsBar>
           )}
-        </FlexBetween>
+        </ForumFlexBetween>
         {isLocked && (
           <Hint>
             Dieses Thema wurde von einem der Admins gesperrt. Du kannst keine

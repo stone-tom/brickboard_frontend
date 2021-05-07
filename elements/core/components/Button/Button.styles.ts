@@ -5,6 +5,7 @@ export const Button = styled.button<{
   gray?: boolean,
   reset?: boolean,
   icon?: boolean,
+  noHover?: boolean;
   iconRight?: boolean,
 }>`
   background: ${(props) => props.theme.brickred};
@@ -54,21 +55,27 @@ export const Button = styled.button<{
     }
   `}
 
+  ${(props) => !props.noHover && css`
+    &:hover {
+      background: ${props.theme.brickredDark};
+      transition: .3s;
+      ${props.gray && css`
+        background: ${props.theme.gray};
+      `}
+      ${props.reset && css`
+        background: none;
+      `}
 
-  &:hover {
-    background: ${(props) => props.theme.brickredDark};
-    transition: .3s;
-    ${(props) => props.gray && css`
-      background: ${props.theme.gray};
-    `}
-    ${(props) => props.reset && css`
-      background: none;
-    `}
+      ${(props.reset && props.icon) && css`
+        background: ${props.theme.gray};
+      `}
+    }
+  `}
 
-    ${(props) => (props.reset && props.icon) && css`
-      background: ${props.theme.gray};
-    `}
-  }
+  ${(props) => props.noHover && css`
+      font-weight: normal;
+  `}
+  
 
   &:focus {
     outline: 0;

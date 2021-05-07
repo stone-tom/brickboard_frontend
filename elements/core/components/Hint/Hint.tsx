@@ -21,12 +21,12 @@ const Hint = (({
   const id = nanoid();
   return (
     <>
-      <p data-tip={hint} aria-label={hint} data-for={id}>
+      <div data-tip={hint} aria-label={hint} data-for={id}>
         <>
           {children}
         </>
         <ReactTooltip place={place} type={type} effect={effect} {...rest} id={id} />
-      </p>
+      </div>
     </>
   );
 });
