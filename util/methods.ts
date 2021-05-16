@@ -10,6 +10,21 @@ export const get = async (url: string, options?: any) => {
   return res.json();
 };
 
+export const sessionget = async (url: string, options?: any) => {
+  const res = await fetch(url, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    ...options,
+  });
+  if (!res.ok) {
+    throw new Error('Session abgelaugfen');
+  }
+  return res.json();
+};
+
 export const post = async (
   url: string,
   data?: any,

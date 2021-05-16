@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, {
   createContext,
   ReactNode,
@@ -6,7 +7,7 @@ import React, {
   useReducer,
 } from 'react';
 import IBadge from '../models/IBadge';
-import IMessage from '../models/IMessage';
+import IMessage, { MessageType } from '../models/IMessage';
 import IUser from '../models/IUser';
 import {
   confirmAccount,
@@ -112,6 +113,7 @@ function StoreProvider({
     }
 
     const [state, dispatch] = useReducer(reducer, { ...JSON.parse(localStorage.getItem('brickboardUser')), message: null });
+    const router = useRouter();
 
     const performLogin = async (email, password) => {
       const { content, error } = await login(email, password);
@@ -217,6 +219,18 @@ function StoreProvider({
       dispatch({ type: 'REMOVE_COMPONENT', payload: null });
     };
 
+    const sessionCheckLogout = () => {
+      const storageData = JSON.parse(localStorage.getItem('brickboardUser'));
+      if (storageData && storageData.isAuthenticated) {
+        dispatch({ type: 'LOGOUT', payload: null });
+        setMessage({
+          content: 'Du wurdest ausgeloggt',
+          type: MessageType.warning,
+        });
+        router.push('/login');
+      }
+    };
+
     useEffect(() => {
       const savedstate = {
         user: state.user,
@@ -242,7 +256,7 @@ function StoreProvider({
           performPasswordReset,
           updateUserAvatar,
           updateMainBadge,
-          dispatch,
+          sessionCheckLogout,
         }}
       >
         <StoreStateContext.Provider value={state}>

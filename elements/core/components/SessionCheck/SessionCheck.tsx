@@ -1,36 +1,23 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
-import { MessageType } from '../../../../models/IMessage';
 import { backendURL } from '../../../../util/api';
-import { get } from '../../../../util/methods';
+import { sessionget } from '../../../../util/methods';
 
 const SessionCheck = () => {
-  const router = useRouter();
-  const { setMessage } = useStoreDispatch();
-  const { isAuthenticated, dispatch } = useStoreState();
-  console.log('Before auth check');
+  const { sessionCheckLogout } = useStoreDispatch();
+  const { isAuthenticated } = useStoreState();
+
   if (isAuthenticated) {
-    console.log('SWR FETCH IF TRIGGERED');
-    const { data } = useSWR(`${backendURL}/sessions`, get, {
+    const { data } = useSWR(isAuthenticated ? `${backendURL}/sessions` : null, sessionget, {
       refreshInterval: 60000 * 30,
       revalidateOnFocus: true,
       revalidateOnMount: true,
+      errorRetryCount: 0,
+      onError: () => {
+        sessionCheckLogout();
+      },
     });
-
-    useEffect(() => {
-      console.log('use effect triggered');
-      if (data && data.error && isAuthenticated) {
-        console.log('performing logout');
-        dispatch({ type: 'LOGOUT', payload: null });
-        setMessage({
-          content: `${data.error}`,
-          type: MessageType.warning,
-        });
-        router.push('/login');
-      }
-    }, [data]);
 
     if (data && data.data) {
       return (
