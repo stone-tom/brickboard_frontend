@@ -11,13 +11,14 @@ const SessionCheck = () => {
   const { performLogout, setMessage } = useStoreDispatch();
   const { isAuthenticated } = useStoreState();
   if (isAuthenticated) {
-    const { data } = useSWR(`${backendURL}/sessions`, get, {
+    const { data, mutate } = useSWR(`${backendURL}/sessions`, get, {
       refreshInterval: 60000 * 30,
       revalidateOnFocus: true,
+      revalidateOnMount: true,
     });
 
     useEffect(() => {
-      if (data && data.error) {
+      if (data && data.error && isAuthenticated) {
         performLogout();
         setMessage({
           content: `${data.error}`,

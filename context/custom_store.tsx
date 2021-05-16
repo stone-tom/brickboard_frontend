@@ -54,6 +54,7 @@ function reducer(state, { payload, type }) {
         isAuthenticated: false,
         user: null,
         moderation_state: null,
+        badge: null,
       };
     case 'SET_MESSAGE':
       return {
