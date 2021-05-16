@@ -45,7 +45,6 @@ const FooterComponent = () => {
           <FooterRightList>
             <FooterListItem><Link href="/impressum">Impressum</Link></FooterListItem>
             <FooterListItem><Link href="/datenschutz">Datenschutz</Link></FooterListItem>
-            <FooterListItem><Link href="/Nutzungsbedingungen">Nutzungsbedingungen</Link></FooterListItem>
           </FooterRightList>
         </div>
       </FooterWrapper>
