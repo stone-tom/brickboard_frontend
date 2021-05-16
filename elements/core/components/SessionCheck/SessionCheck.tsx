@@ -10,7 +10,9 @@ const SessionCheck = () => {
   const router = useRouter();
   const { performLogout, setMessage } = useStoreDispatch();
   const { isAuthenticated } = useStoreState();
+  console.log('Before auth check');
   if (isAuthenticated) {
+    console.log('SWR FETCH IF TRIGGERED');
     const { data } = useSWR(`${backendURL}/sessions`, get, {
       refreshInterval: 60000 * 30,
       revalidateOnFocus: true,
@@ -18,7 +20,9 @@ const SessionCheck = () => {
     });
 
     useEffect(() => {
+      console.log('use effect triggered');
       if (data && data.error && isAuthenticated) {
+        console.log('performing logout');
         performLogout();
         setMessage({
           content: `${data.error}`,
