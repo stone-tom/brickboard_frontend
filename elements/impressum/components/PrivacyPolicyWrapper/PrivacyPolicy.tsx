@@ -422,13 +422,16 @@ const PrivacyPolicyWrapper = () => (
           Browsers gelöscht werden. Der Ausschluss von Cookies
           kann zu Funktionseinschränkungen dieses Onlineangebotes führen.
         </p>
-        <p
-        >Ein genereller Widerspruch gegen den Einsatz der
+        <p>
+          Ein genereller Widerspruch gegen den Einsatz der
           zu Zwecken des Onlinemarketing eingesetzten Cookies
           kann bei einer Vielzahl der Dienste,
           vor allem im Fall des Trackings, über die US-amerikanische Seite
           <a href="http://www.aboutads.info/choices/">http://www.aboutads.info/choices/</a>
-          oder die EU-Seite <a href="http://www.youronlinechoices.com/">http://www.youronlinechoices.com/</a>
+          oder die EU-Seite
+          <a href="http://www.youronlinechoices.com/">
+            http://www.youronlinechoices.com/
+          </a>
           erklärt werden. Des Weiteren kann die Speicherung von Cookies
           mittels deren Abschaltung in den Einstellungen des Browsers erreicht werden.
           Bitte beachten Sie, dass dann gegebenenfalls nicht
@@ -511,22 +514,22 @@ const PrivacyPolicyWrapper = () => (
           Mountain View, CA
           <br />
           94043, USA, ein. Datenschutzerklärung:
-          <a href="https://www.google.com/policies/privacy/" target="_blank">
+          <a href="https://www.google.com/policies/privacy/" rel="noreferrer" target="_blank">
             https://www.google.com/policies/privacy/
           </a>
           , Opt-Out:
-          <a href="https://adssettings.google.com/authenticated" target="_blank">
+          <a href="https://adssettings.google.com/authenticated" rel="noreferrer" target="_blank">
             https://adssettings.google.com/authenticated
           </a>
           .
         </p>
         <p>
           Diese Datenschutzerklärung verwendet Texte von
-          <a href="https://datenschutz-generator.de/" target="_blank">
+          <a href="https://datenschutz-generator.de/" rel="noreferrer" target="_blank">
             https://datenschutz-generator.de/
           </a>
           und
-          <a href="https://www.wbs-law.de/it-recht/datenschutzrecht/datenschutzerklaerung-generator/" target="_blank">
+          <a href="https://www.wbs-law.de/it-recht/datenschutzrecht/datenschutzerklaerung-generator/" rel="noreferrer" target="_blank">
             https://www.wbs-law.de/it-recht/datenschutzrecht/datenschutzerklaerung-generator/
           </a>
         </p>
@@ -536,7 +539,7 @@ const PrivacyPolicyWrapper = () => (
     <PrivacyPolicyImageWrapper>
       <Image src="/assets/images/signup.webp" objectFit="contain" layout="fill" />
     </PrivacyPolicyImageWrapper>
-  </PrivacyPolicyContainer >
+  </PrivacyPolicyContainer>
 );
 
 export default PrivacyPolicyWrapper;
