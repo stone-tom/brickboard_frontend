@@ -1,13 +1,11 @@
 import {
-  faClipboardList, faEnvelope, faLock, faLockOpen, faVideo,
+  faClipboardList, faLock, faLockOpen, faVideo,
 } from '@fortawesome/free-solid-svg-icons';
 import { mutate } from 'swr';
-import Link from 'next/link';
 import React from 'react';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
-import Button from '../../../core/components/Button/Button';
 import Prompt from '../../../core/container/Prompt/Prompt';
 import StatisticItem from '../../components/StatisticItem/StatisticItem';
 import updateModerationUser from '../../../../util/api/moderation/update-moderation-user';
