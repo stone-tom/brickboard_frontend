@@ -178,7 +178,7 @@ function Filmvorstellungen({
                   </Hint>
                 )
                   : (
-                    'Thema erstellen'
+                    'Film vorstellen'
                   )}
               </Button>
             </Link>
