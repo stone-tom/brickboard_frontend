@@ -37,8 +37,8 @@ const ProfileBar = ({
   const handleUserStatus = (modStatus: string) => {
     addComponent((
       <Prompt
-        headline={`Benutzer ${modStatus === 'approved' ? 'entsperren' : 'sperren'}`}
-        acceptText={modStatus === 'approved' ? 'Bestätigen' : 'Sperren'}
+        headline={`Benutzer ${(modStatus === 'approved' || modStatus === 'pending_moderation') ? 'blockieren' : 'entsperren'}`}
+        acceptText={modStatus === 'approved' ? 'Blockieren' : 'Entsperren'}
         onAccept={async () => {
           try {
             await updateModerationUser(parseInt(user.id, 10), modStatus === 'approved' ? 'blocked' : 'approved');
@@ -90,18 +90,6 @@ const ProfileBar = ({
         />
       </Statistics>
       <ButtonWrapper>
-        {isAuthenticated && user.id !== authUser.id ? (
-          <Link href="/messages" passHref>
-
-            <Button
-              disabled
-              small
-              icon={faEnvelope}
-            >
-              Nachricht
-            </Button>
-          </Link>
-        ) : null}
         {isAuthenticated && authUser.attributes.admin && (
           userDetail.attributes.moderation_state === 'approved' ? (
             <StatusChangeButton
@@ -110,7 +98,7 @@ const ProfileBar = ({
               icon={faLock}
               onClick={() => handleUserStatus(userDetail.attributes.moderation_state)}
             >
-              Sperren
+              Blockieren
             </StatusChangeButton>
           ) : (
             <StatusChangeButton

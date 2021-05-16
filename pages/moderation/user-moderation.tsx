@@ -61,8 +61,8 @@ const UserModeration = () => {
   const handleUserStatus = (user: IUser, modStatus: string) => {
     addComponent((
       <Prompt
-        headline={`Benutzer ${modStatus === 'approved' ? 'bestätigen' : 'sperren'}`}
-        acceptText={modStatus === 'approved' ? 'Bestätigen' : 'Sperren'}
+        headline={`Benutzer ${modStatus === 'approved' ? 'entsperren' : 'blockieren'}`}
+        acceptText={modStatus === 'approved' ? 'Entsperren' : 'Blockieren'}
         onAccept={async () => {
           try {
             await updateModerationUser(parseInt(user.id, 10), modStatus);
