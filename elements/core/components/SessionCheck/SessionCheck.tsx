@@ -8,7 +8,7 @@ import { get } from '../../../../util/methods';
 
 const SessionCheck = () => {
   const router = useRouter();
-  const { performLogout, setMessage } = useStoreDispatch();
+  const { setMessage } = useStoreDispatch();
   const { isAuthenticated, dispatch } = useStoreState();
   console.log('Before auth check');
   if (isAuthenticated) {
