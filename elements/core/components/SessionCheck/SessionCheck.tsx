@@ -9,7 +9,7 @@ import { get } from '../../../../util/methods';
 const SessionCheck = () => {
   const router = useRouter();
   const { performLogout, setMessage } = useStoreDispatch();
-  const { isAuthenticated } = useStoreState();
+  const { isAuthenticated, dispatch } = useStoreState();
   console.log('Before auth check');
   if (isAuthenticated) {
     console.log('SWR FETCH IF TRIGGERED');
@@ -23,7 +23,7 @@ const SessionCheck = () => {
       console.log('use effect triggered');
       if (data && data.error && isAuthenticated) {
         console.log('performing logout');
-        performLogout();
+        dispatch({ type: 'LOGOUT', payload: null });
         setMessage({
           content: `${data.error}`,
           type: MessageType.warning,

@@ -242,6 +242,7 @@ function StoreProvider({
           performPasswordReset,
           updateUserAvatar,
           updateMainBadge,
+          dispatch,
         }}
       >
         <StoreStateContext.Provider value={state}>
