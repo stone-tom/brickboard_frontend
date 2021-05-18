@@ -24,7 +24,8 @@ const Settings = () => {
   const handleGlobalPreferencesChange = async (newChecked: boolean, preference: 'auto_follow_topics' | 'follow_topics_on_mention') => {
     addComponent((
       <Prompt
-        headline="Email-Benauchrichtigungen ausschalten?"
+        headline={`Email-Benauchrichtigungen ${checked ? 'deaktivieren' : 'aktivieren'}?`}
+        acceptText={`${checked ? 'Deaktivieren' : 'Aktivieren'}`}
         onAccept={async () => {
           try {
             const { content } = await updateGlobalPreferences(newChecked, preference);
@@ -44,7 +45,7 @@ const Settings = () => {
         }}
       >
         <div>
-          <p>Wollen Sie die Email-Benachrichtigungen wirklich ausschalten?</p>
+          <p>{`Wollen Sie die Email-Benachrichtigungen wirklich ${checked ? 'deaktivieren' : 'aktivieren'}?`}</p>
         </div>
       </Prompt>));
   };
