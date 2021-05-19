@@ -13,6 +13,13 @@ interface FilterItemProps {
   active?: boolean,
 }
 
+const getAssetPath = (title: string) => {
+  if (title === 'Komödie') {
+    return '/assets/icons/comedy.svg';
+  }
+  return `/assets/icons/${title.toLowerCase()}.svg`;
+};
+
 const FilterItem = ({
   name,
   icon,
@@ -27,7 +34,7 @@ const FilterItem = ({
     <FilterIcon>
       <Image
         alt="filter icon"
-        src={icon || '/assets/icons/default_filter.svg'}
+        src={icon || getAssetPath(name)}
         layout="fill"
         objectFit="cover"
       />
