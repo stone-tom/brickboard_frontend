@@ -24,6 +24,10 @@ export const BadgeWrapper = styled.div<{
   `};
 `;
 
+export const BadgeText = styled.p`
+  text-align: center;
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

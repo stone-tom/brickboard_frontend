@@ -6,6 +6,7 @@ import Hint from '../../../core/components/Hint/Hint';
 import {
   BadgeWrapper,
   Wrapper,
+  BadgeText,
 } from './Badge.styles';
 
 interface BadgeProps {
@@ -37,7 +38,7 @@ const Badge = ({
           src={!badge ? '/assets/images/default_badge.svg' : `${backendURL}${badge.attributes.badge_icon}`}
         />
       </BadgeWrapper>
-      <p>{badge ? badge.attributes.title : 'Badgelos'}</p>
+      <BadgeText>{badge ? badge.attributes.title : 'Badgelos'}</BadgeText>
     </Wrapper>
   </Hint>
 );

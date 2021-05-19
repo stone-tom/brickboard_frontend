@@ -94,12 +94,12 @@ export const NavigationItem = styled.li`
     background: ${(props) => props.theme.lightgray};
   }
   @media (max-width: ${(props) => props.theme.burger_break}){
-    font-size: 1.5rem;
-    padding: 1.5rem;
+    font-size: 1.2rem;
+    padding: 1rem;
     justify-content: center;
 
     button{
-      font-size: 1.5rem;
+      font-size: 1.2rem;
     }
   }
 `;
