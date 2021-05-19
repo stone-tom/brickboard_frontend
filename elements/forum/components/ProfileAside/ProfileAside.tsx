@@ -45,7 +45,7 @@ const ProfileAsideComponent = ({
       {author.attributes.admin
         && <ProfileAsideFact hideOnMobile>Administrator</ProfileAsideFact>}
       <ProfileAsideFact>
-        <Badge small badge={badge} />
+        <Badge owned small badge={badge} />
       </ProfileAsideFact>
       <ProfileAsideFact hideOnMobile>
         Mitglied seit:

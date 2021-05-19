@@ -160,6 +160,7 @@ const ProfileInformation = ({
         </Username>
         <BadgeWrapper>
           <Badge
+            owned
             badge={authUser && authUser.id === user.id ? badge : userMainBadge}
           />
         </BadgeWrapper>
