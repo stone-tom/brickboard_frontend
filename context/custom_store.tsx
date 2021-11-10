@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import IBadge from '../models/IBadge';
 import IMessage, { MessageType } from '../models/IMessage';
+import INotification from '../models/INotification';
 import IUser from '../models/IUser';
 import {
   confirmAccount,
@@ -25,6 +26,7 @@ interface IState {
   message: IMessage | null,
   component: ReactNode,
   badge: IBadge | null,
+  notifications: INotification[] | null,
 }
 
 export const StoreDispatchContext = createContext(({} as any));
@@ -39,6 +41,7 @@ const initialState: IState = {
   message: null,
   component: null,
   badge: null,
+  notifications: [],
 };
 
 function reducer(state, { payload, type }) {
@@ -56,6 +59,7 @@ function reducer(state, { payload, type }) {
         user: null,
         moderation_state: null,
         badge: null,
+        notifications: [],
       };
     case 'SET_MESSAGE':
       return {
@@ -92,6 +96,11 @@ function reducer(state, { payload, type }) {
         ...state,
         badge: payload,
       };
+    case 'UPDATE_NOTIFICATIONS':
+      return {
+        ...state,
+        notifications: payload,
+      };
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -105,6 +114,7 @@ function StoreProvider({
     isAuthenticated: initialState.isAuthenticated,
     moderation_state: initialState.moderation_state,
     badge: initialState.badge,
+    notifications: initialState.notifications,
   };
   if (typeof window !== 'undefined') {
     const savedlocalState = JSON.parse(localStorage.getItem('brickboardUser'));
@@ -200,6 +210,10 @@ function StoreProvider({
       dispatch({ type: 'UPDATE_BADGE', payload: newBadge });
     };
 
+    const updateNotifications = (notificationList: INotification[]) => {
+      dispatch({ type: 'UPDATE_NOTIFICATIONS', payload: notificationList });
+    };
+
     const setMessage = (message: IMessage) => {
       dispatch({ type: 'SET_MESSAGE', payload: message });
       setTimeout(() => {
@@ -237,6 +251,7 @@ function StoreProvider({
         isAuthenticated: state.isAuthenticated,
         moderation_state: state.moderation_state,
         badge: state.badge,
+        notifications: state.notifications,
       };
       localStorage.setItem('brickboardUser', JSON.stringify(savedstate));
     }, [performLogin, performLogout, updateUserAvatar]);
@@ -257,6 +272,7 @@ function StoreProvider({
           updateUserAvatar,
           updateMainBadge,
           sessionCheckLogout,
+          updateNotifications,
         }}
       >
         <StoreStateContext.Provider value={state}>

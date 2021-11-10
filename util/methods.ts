@@ -60,7 +60,7 @@ export const deleteMethod = async (
   url: string,
   options?: any,
 ) => {
-  await fetch(url, {
+  const res = await fetch(url, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -69,6 +69,7 @@ export const deleteMethod = async (
     credentials: 'include',
     ...options,
   });
+  return res.status;
 };
 
 export const patch = async (

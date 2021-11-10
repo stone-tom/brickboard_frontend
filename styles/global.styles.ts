@@ -124,6 +124,33 @@ const GlobalStyles = createGlobalStyle`
   img {
     max-width: 100%;
   }
+
+  .custom-emoji {
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+    display: inline-block !important;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .derp-emoji{
+    background-image: url('/assets/images/derp.png');
+  }
+  .goettlich-emoji{
+    background-image: url('/assets/images/goettlich.png');
+  }
+
+  .emoji-btn{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .derp-emoji-btn{
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
 `;
 
 export default GlobalStyles;

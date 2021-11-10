@@ -26,6 +26,13 @@ import resendCode from './authentication/resend-code';
 import markAllAsReadMessageboard from './topic/mark-all-as-read-messageboard';
 import deletePost from './post/delete-post';
 import deleteTopic from './topic/delete-topic';
+import getBadges from './badges/get-badges';
+import getUsersFromAutoComplete from './user/get-user-from-autocomplete';
+import assignUsersToBadge from './badges/assign-badges';
+import removeUsersFromBadge from './badges/remove-badges';
+import createBadge from './badges/create-badge';
+import deleteBadge from './badges/delete-badges';
+import deleteAllNotifications from './notifications/delete-notifications';
 
 // export const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const backendURL = 'https://dev.brickboard.de';
@@ -59,4 +66,11 @@ export {
   markAllAsReadMessageboard,
   deletePost,
   deleteTopic,
+  getBadges,
+  getUsersFromAutoComplete,
+  assignUsersToBadge,
+  removeUsersFromBadge,
+  createBadge,
+  deleteBadge,
+  deleteAllNotifications,
 };

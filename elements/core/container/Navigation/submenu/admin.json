@@ -16,6 +16,10 @@
     "path": "/events"
   },
   {
+    "text": "Badges",
+    "path": "/badges"
+  },
+  {
     "text": "Film vorstellen",
     "path": "/forum/filmvorstellungen/neues-thema"
   }

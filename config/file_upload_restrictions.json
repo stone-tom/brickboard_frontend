@@ -19,5 +19,15 @@
     "image/jpg",
     ".jpg",
     ".jpeg"
+  ],
+  "max_size_badges": 800000,
+  "allowed_file_types_badges": [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    ".png",
+    ".jpg",
+    ".jpeg"
   ]
+
 }

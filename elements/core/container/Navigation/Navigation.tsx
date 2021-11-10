@@ -17,10 +17,13 @@ import {
 import Logo from '../../components/Logo/Logo';
 import Burger from '../../components/Burger/Burger';
 import Button from '../../components/Button/Button';
+import INotification from '../../../../models/INotification';
+import NotificationDropDown from '../NotificationDropdown/NotificationDropdown';
 
 const Navigation = ({
   user,
-}: { user: IUser }) => {
+  notifications = [],
+}: { user: IUser, notifications: INotification[] }) => {
   const [enlargeLogo, _setEnlargeLogo] = useState(window.pageYOffset === 0);
   const [openBurger, setOpenBurger] = useState(false);
   const enlargeRef = useRef(enlargeLogo);
@@ -81,9 +84,14 @@ const Navigation = ({
           </NavigationItem>
 
           {user ? (
-            <NavigationItem>
-              <Dropdown />
-            </NavigationItem>
+            <>
+              <NavigationItem>
+                <NotificationDropDown notifications={notifications} />
+              </NavigationItem>
+              <NavigationItem>
+                <Dropdown />
+              </NavigationItem>
+            </>
           )
             : (
               <>

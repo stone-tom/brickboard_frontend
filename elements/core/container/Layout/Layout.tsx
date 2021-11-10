@@ -12,16 +12,19 @@ interface LayoutProps {
 }
 
 const Layout = ({ title, children, fullWidth }: LayoutProps) => {
-  const { user } = useStoreState();
+  const { user, notifications } = useStoreState();
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>
+          {notifications.length > 0 ? `(${notifications.length}) ` : ''}
+          {title}
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <Menubar user={user} />
+        <Menubar user={user} notifications={notifications} />
         <ViewWrapper
           fullWidth={fullWidth}
           navMargin
