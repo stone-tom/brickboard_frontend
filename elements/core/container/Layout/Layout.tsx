@@ -20,7 +20,7 @@ const Layout = ({ title, children, fullWidth }: LayoutProps) => {
           {notifications.length > 0 ? `(${notifications.length}) ` : ''}
           {title}
         </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={notifications.length > 0 ? '/favicon_bell.ico' : '/favicon.ico'} />
       </Head>
 
       <main>

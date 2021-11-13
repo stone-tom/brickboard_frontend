@@ -7,7 +7,7 @@ import {
   faInfo,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { differenceInHours } from 'date-fns';
+import { differenceInHours, differenceInMinutes } from 'date-fns';
 import { ThemeContext } from 'styled-components';
 import INotification from '../../../../models/INotification';
 import { deleteAllNotifications } from '../../../../util/api';
@@ -38,6 +38,13 @@ const NotificationDropDown = ({ notifications }: { notifications: INotification[
     let output = '';
     if (difference > 24) {
       output = `vor ${Math.round(difference / 24)} ${Math.round(difference / 24) === 1 ? 'Tag' : 'Tagen'}`;
+    } else if (difference < 1) {
+      const minutes = differenceInMinutes(new Date(created_at), new Date()) * -1;
+      if (minutes === 0) {
+        output = 'gerade eben';
+      } else {
+        output = `vor ${minutes} ${minutes === 1 ? 'Minute' : 'Minuten'}`;
+      }
     } else {
       output = `vor ${difference} Stunden`;
     }

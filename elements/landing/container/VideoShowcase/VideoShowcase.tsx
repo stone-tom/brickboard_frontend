@@ -78,9 +78,14 @@ const VideoShowcase = ({ movieList, authorList, categories }: VideoShowcaseProps
                     videoURL={movie.attributes.video_url}
                     categories={filterCategories(movie)}
                     creator={
-                      findObject(authorList,
-                        movie.relationships.user.data.id)
-                        .attributes.display_name
+                      movie.relationships.user.data
+                        ? (
+                          findObject(authorList,
+                            movie.relationships.user.data.id)
+                            .attributes.display_name
+                        ) : (
+                          'Gelöschter User'
+                        )
                     }
                     created_at={movie.attributes.created_at}
                   />

@@ -19,6 +19,7 @@ import Burger from '../../components/Burger/Burger';
 import Button from '../../components/Button/Button';
 import INotification from '../../../../models/INotification';
 import NotificationDropDown from '../NotificationDropdown/NotificationDropdown';
+import { FlexRight } from '../../../../styles/global.styles';
 
 const Navigation = ({
   user,
@@ -82,32 +83,30 @@ const Navigation = ({
               </Button>
             </Link>
           </NavigationItem>
-
-          {user ? (
+        </NavigationList>
+        {user ? (
+          <FlexRight>
+            <NavigationItem>
+              <NotificationDropDown notifications={notifications} />
+            </NavigationItem>
+            <NavigationItem>
+              <Dropdown />
+            </NavigationItem>
+          </FlexRight>
+        )
+          : (
             <>
               <NavigationItem>
-                <NotificationDropDown notifications={notifications} />
+                <Link href="/login" passHref>
+                  <Button reset>Login</Button>
+                </Link>
               </NavigationItem>
+              <Seperator />
               <NavigationItem>
-                <Dropdown />
+                <Link href="/registrieren"><Button reset>Registrieren</Button></Link>
               </NavigationItem>
             </>
-          )
-            : (
-              <>
-                <NavigationItem>
-                  <Link href="/login" passHref>
-                    <Button reset>Login</Button>
-                  </Link>
-                </NavigationItem>
-                <Seperator />
-                <NavigationItem>
-                  <Link href="/registrieren"><Button reset>Registrieren</Button></Link>
-                </NavigationItem>
-              </>
-            )}
-
-        </NavigationList>
+          )}
         <Burger onClick={() => setOpenBurger(!openBurger)} open={openBurger} />
       </NavigationWrapper>
     </NavigationBar>

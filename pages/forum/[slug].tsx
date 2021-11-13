@@ -28,6 +28,7 @@ import Hint from '../../elements/core/components/Hint/Hint';
 import Pagination from '../../elements/core/container/Pagination/Pagination';
 import { MessageType } from '../../models/IMessage';
 import getCategories from '../../util/api/topic/get-categories';
+import nullUser from '../../models/NullUser.json';
 
 // Welche Pfade prerendered werden können
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -155,8 +156,10 @@ function Subforum({
       <ForumHeading title={`${messageboard.attributes.name}`} />
       {topicViews.map((topicView) => {
         const topic: ITopic = findObject(topicList, topicView.relationships.topic.data.id);
-        const author: IUser = findObject(userList, topic.relationships.user.data.id);
-        const lastCommentor: IUser = findObject(userList, topic.relationships.last_user.data.id);
+        const author: IUser = topic.relationships.user.data
+          ? findObject(userList, topic.relationships.user.data.id) : nullUser;
+        const lastCommentor: IUser = topic.relationships.last_user.data
+          ? findObject(userList, topic.relationships.last_user.data.id) : nullUser;
         let readstate = null;
 
         if (topicView.relationships.read_state !== undefined) {

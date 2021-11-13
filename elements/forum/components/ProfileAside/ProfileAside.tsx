@@ -36,7 +36,7 @@ const ProfileAsideComponent = ({
         />
       </ProfileImageWrapper>
     </ProfileCondensedInfo>
-    <Link href={`/profil/${author.id}`} passHref>
+    <Link href={author.id ? `/profil/${author.id}` : '/404'} passHref>
       <ProfileAsideHeading>
         {author.attributes.display_name}
       </ProfileAsideHeading>

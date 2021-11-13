@@ -101,6 +101,11 @@ function reducer(state, { payload, type }) {
         ...state,
         notifications: payload,
       };
+    case 'UPDATE_MODERATION_STATE':
+      return {
+        ...state,
+        moderation_state: payload,
+      };
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -214,6 +219,10 @@ function StoreProvider({
       dispatch({ type: 'UPDATE_NOTIFICATIONS', payload: notificationList });
     };
 
+    const updateModerationState = (moderation_state: 'blocked' | 'approved' | 'pending_moderation') => {
+      dispatch({ type: 'UPDATE_MODERATION_STATE', payload: moderation_state });
+    };
+
     const setMessage = (message: IMessage) => {
       dispatch({ type: 'SET_MESSAGE', payload: message });
       setTimeout(() => {
@@ -254,7 +263,7 @@ function StoreProvider({
         notifications: state.notifications,
       };
       localStorage.setItem('brickboardUser', JSON.stringify(savedstate));
-    }, [performLogin, performLogout, updateUserAvatar]);
+    }, [performLogin, performLogout, updateUserAvatar, updateModerationState]);
 
     return (
       <StoreDispatchContext.Provider
@@ -273,6 +282,7 @@ function StoreProvider({
           updateMainBadge,
           sessionCheckLogout,
           updateNotifications,
+          updateModerationState,
         }}
       >
         <StoreStateContext.Provider value={state}>

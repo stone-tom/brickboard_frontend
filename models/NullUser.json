@@ -1,0 +1,24 @@
+{
+  "id": 0,
+  "relationships": {
+    "thredded_user_detail": {
+      "data": []
+    },
+    "thredded_topics": {
+      "data": []
+    },
+    "thredded_badges": {
+      "data": []
+    },
+    "thredded_main_badge": {
+      "data": null
+    }
+  },
+  "attributes": {
+    "admin": false,
+    "display_name": "Gelöschter User",
+    "created_at": "2004-03-10T12:00:00.670+02:00",
+    "updated_at": "2004-03-17T12:00:00.670+02:00",
+    "avatar": null
+  }
+}

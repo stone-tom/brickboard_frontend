@@ -18,6 +18,7 @@ import {
   FlexRight,
   FlexLeft,
   ForumFlexBetween,
+  FlexCenter,
 } from '../../../styles/global.styles';
 import Post from '../../../elements/forum/container/Post/Post';
 import Layout from '../../../elements/core/container/Layout/Layout';
@@ -50,6 +51,8 @@ import getCategories from '../../../util/api/topic/get-categories';
 import Pagination from '../../../elements/core/container/Pagination/Pagination';
 import TopicMovie from '../../../elements/forum/container/TopicMovie/TopicMovie';
 import { IUpdateTopic } from '../../../elements/forum/container/MovieForm/MovieForm';
+import LoaderComponent from '../../../elements/core/components/Loader/Loader';
+import nullUser from '../../../models/NullUser.json';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { content } = await getMessageBoardGroups();
@@ -110,7 +113,10 @@ function Subforum({
         title="Laden... - Brickboard 2.0"
       >
         <ViewWrapper>
-          <h1>Seite lädt...</h1>
+          <FlexCenter>
+            <h1>Seite lädt...</h1>
+          </FlexCenter>
+          <LoaderComponent isLoading />
         </ViewWrapper>
       </Layout>
     );
@@ -152,7 +158,9 @@ function Subforum({
       });
     }
     if (content) {
-      if (!findObject(userList, content.data.relationships.user.data.id)) {
+      if (content.data.relationships.user.data
+        && !findObject(userList, content.data.relationships.user.data.id)
+      ) {
         mutate({
           ...data,
           included: [
@@ -510,7 +518,8 @@ function Subforum({
             createdAt={topic.attributes.movie_created_at || topic.attributes.created_at}
             categories={filter(data, 'category')}
             allCategories={allCategories.data}
-            author={findObject(userList, topic.relationships.user.data.id)}
+            author={topic.relationships.user.data
+              ? findObject(userList, topic.relationships.user.data.id) : nullUser}
             title={topic.attributes.title}
             onUpdate={(topicBody) => handleTopicUpdate(topic.id, topicBody)}
             isEditing={isEditing}
@@ -529,7 +538,8 @@ function Subforum({
               first={index === 0}
               allBadges={badges}
               messageBoardSlug={slug}
-              author={findObject(userList, post.relationships.user.data.id)}
+              author={topic.relationships.user.data
+                ? findObject(userList, post.relationships.user.data.id) : nullUser}
               key={post.id}
               onPostDeleted={(postId: number) => removePost(postId)}
             />

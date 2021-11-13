@@ -5,8 +5,8 @@ import { backendURL } from '../../../../util/api';
 import { sessionget } from '../../../../util/methods';
 
 const SessionCheck = () => {
-  const { sessionCheckLogout, updateNotifications } = useStoreDispatch();
-  const { isAuthenticated, notifications } = useStoreState();
+  const { sessionCheckLogout, updateNotifications, updateModerationState } = useStoreDispatch();
+  const { isAuthenticated, notifications, moderation_state } = useStoreState();
 
   if (isAuthenticated) {
     const { data } = useSWR(isAuthenticated ? `${backendURL}/sessions` : null, sessionget, {
@@ -21,6 +21,17 @@ const SessionCheck = () => {
     if (data && data.data) {
       if (data.data.length !== notifications.length) {
         updateNotifications(data.data.reverse());
+      }
+      if (moderation_state !== 'approved') {
+        let isUnlocked = false;
+        for (const notification of notifications) {
+          if (notification.attributes.name === 'Dein Account wurde soeben bestätigt!') {
+            isUnlocked = true;
+          }
+        }
+        if (isUnlocked) {
+          updateModerationState('approved');
+        }
       }
       return (
         <></>
