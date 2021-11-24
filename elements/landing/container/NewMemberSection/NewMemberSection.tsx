@@ -5,19 +5,17 @@ import React from 'react';
 import IBadge from '../../../../models/IBadge';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
-import { FlexLeft } from '../../../../styles/global.styles';
 import { backendURL } from '../../../../util/api';
-import { Button } from '../../../core/components/Button/Button.styles';
-import { ProfileAsideHeading } from '../../../forum/components/ProfileAside/ProfileAside.style';
 import Badge from '../../../profile/components/Badge/Badge';
 import {
   MemberFact,
+  MemberName,
+  MemberShipDate,
   NewestMemberContent,
   NewMemberBody,
   NewMemberContentContainer,
   NewMemberHeading,
   NewMemberInfos,
-  NewMemberLeftHalf,
   NewMemberProfile,
   NewMemberWrapper,
 } from './NewMemberSection.styles';
@@ -28,69 +26,59 @@ interface NewMemberProps {
   badge: IBadge,
 }
 
-const NewMemberSection = ({ member, memberdetails, badge }: NewMemberProps) => (
+const NewMemberSectionWide = ({ member, memberdetails, badge }: NewMemberProps) => (
   <NewMemberWrapper>
     <NewMemberContentContainer>
-      <NewMemberLeftHalf />
-      <NewestMemberContent>
-        <FlexLeft>
+      <Link href={`/profil/${member.id}`} passHref>
+        <NewestMemberContent>
           <NewMemberHeading>Neuestes Mitglied</NewMemberHeading>
-        </FlexLeft>
-        <NewMemberBody>
-          <NewMemberProfile>
-
-            <Image
-              src={member.attributes.avatar ? `${backendURL}${member.attributes.avatar}` : '/assets/images/default_profile.svg'}
-              width="200px"
-              height="200px"
-            />
-
-            <Link href={`/profil/${member.id}`} passHref>
-              <ProfileAsideHeading>
-                {member.attributes.display_name}
-              </ProfileAsideHeading>
-            </Link>
-          </NewMemberProfile>
-          <NewMemberInfos>
-            <MemberFact>
+          <NewMemberBody>
+            <NewMemberProfile>
+              <Image
+                src={member.attributes.avatar ? `${backendURL}${member.attributes.avatar}` : '/assets/images/default_profile.svg'}
+                width="200px"
+                height="200px"
+              />
+            </NewMemberProfile>
+            <NewMemberInfos>
+              <div>
+                <MemberName>
+                  {member.attributes.display_name}
+                </MemberName>
+                <MemberShipDate>
+                  Mitglied seit:&nbsp;
+                  {format(new Date(member.attributes.created_at), 'dd.MM.yyyy')}
+                </MemberShipDate>
+                {memberdetails && (
+                  <>
+                    {memberdetails.attributes.profile_description && (
+                      <MemberFact>
+                        {memberdetails.attributes.profile_description}
+                      </MemberFact>
+                    )}
+                    {memberdetails.attributes.location && (
+                      <MemberFact>
+                        <strong>Aus: </strong>
+                        {memberdetails.attributes.location}
+                      </MemberFact>
+                    )}
+                    {memberdetails.attributes.occupation && (
+                      <MemberFact>
+                        <strong>Beschäftigung: </strong>
+                        {memberdetails.attributes.occupation}
+                      </MemberFact>
+                    )}
+                  </>
+                )}
+              </div>
               <Badge small badge={badge} />
-            </MemberFact>
-            <MemberFact>
-              <strong>Mitglied seit: </strong>
-              {format(new Date(member.attributes.created_at), 'dd.MM.yyyy')}
-            </MemberFact>
-            {memberdetails && (
-              <>
-                {memberdetails.attributes.profile_description && (
-                  <MemberFact>
-                    {memberdetails.attributes.profile_description}
-                  </MemberFact>
-                )}
-                {memberdetails.attributes.location && (
-                  <MemberFact>
-                    <strong>Aus: </strong>
-                    {memberdetails.attributes.location}
-                  </MemberFact>
-                )}
-                {memberdetails.attributes.occupation && (
-                  <MemberFact>
-                    <strong>Beschäftigung: </strong>
-                    {memberdetails.attributes.occupation}
-                  </MemberFact>
-                )}
-              </>
-            )}
-            <Link href={`/profil/${member.id}`} passHref>
-              <Button small>
-                Zum Profil
-              </Button>
-            </Link>
-          </NewMemberInfos>
-        </NewMemberBody>
-      </NewestMemberContent>
+            </NewMemberInfos>
+          </NewMemberBody>
+        </NewestMemberContent>
+      </Link>
     </NewMemberContentContainer>
 
   </NewMemberWrapper>
 );
 
-export default NewMemberSection;
+export default NewMemberSectionWide;

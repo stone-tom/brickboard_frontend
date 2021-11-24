@@ -31,6 +31,8 @@ import {
   getTopic,
   incrementViewCount,
   markTopicAsRead,
+  removeLike,
+  sendLike,
   updateTopic,
 } from '../../../util/api';
 import { EditorContainer } from '../../../elements/core/container/Editor/Editor.styles';
@@ -419,6 +421,15 @@ function Subforum({
     };
     mutate(updateData, false);
   };
+
+  const performLike = async (topicId) => {
+    const { error } = await sendLike(topicId);
+    if (error && error[0] === 'ist bereits vergeben') {
+      await removeLike(topicId);
+    }
+    mutate(data, true);
+  };
+
   if (topic.attributes.moderation_state === 'blocked' && !user.attributes.admin) {
     return (
       <Layout title="Blockiertes Thema - Brickboard 2.0">
@@ -525,6 +536,8 @@ function Subforum({
             isEditing={isEditing}
             setIsEditing={(value) => setIsEditing(value)}
             content={posts[0].attributes.content}
+            likes={topic.attributes.likes_count}
+            onPerformLike={() => performLike(topic.id)}
           />
         )}
 

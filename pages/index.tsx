@@ -2,30 +2,45 @@ import React from 'react';
 import { GetStaticProps } from 'next';
 import styled from 'styled-components';
 import Layout from '../elements/core/container/Layout/Layout';
-import { Greeting, ViewWrapper } from '../styles/global.styles';
+import { ViewWrapper, ViewWrapperGradient } from '../styles/global.styles';
 import NewsSection from '../elements/landing/container/NewsSection/NewsSection';
 import EventCalendar from '../elements/landing/container/EventCalendar/EventCalendar';
 import { getLandingPage } from '../util/api';
-import StatisticSection from '../elements/landing/container/StatisticSection/StatisticSection';
 import filter from '../util/filter';
-import NewMemberSection from '../elements/landing/container/NewMemberSection/NewMemberSection';
-import VideoShowcase from '../elements/landing/container/VideoShowcase/VideoShowcase';
-import CommunitySection from '../elements/landing/container/CommunitySection/CommunitySection';
 import findObject from '../util/finder';
+import ExplorationSection from '../elements/landing/container/ExplorationSection/ExplorationSection';
+import TightStatisticSection from '../elements/landing/container/TightStatisticSection/TightStatisticSection';
+import NewestContentSection from '../elements/landing/container/NewestContentSection/NewestContentSection';
 
 const DefinitionWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 3rem 15px 3rem 15px;
+  margin: 0 auto;
+  background: ${(props) => props.theme.gray};
+  max-width: ${(props) => props.theme.max_container_width};
 `;
 
 const DefinitionBlock = styled.div`
-  width: 40%;
+  width: 48%;
   display: block;
+  font-size: 1.2rem;
   @media ${(props) => props.theme.breakpoints.sm}{
     width: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+`;
+
+const MiddleLine = styled.div`
+  display: block;
+  width: 2px;
+  background: ${(props) => props.theme.grayfont};
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    width: 100%;
+    height: 2px;
   }
 `;
 
@@ -36,7 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       content,
     },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 
@@ -60,15 +75,13 @@ function Home({ content }: LandingPageProps) {
   const movieCategories = filter(content.random_movies, 'category');
   const randomUsers = content.random_users.data;
   const allBadges = filter(content.random_users, 'badge');
-  const randomUsersDetails = filter(content.random_users, 'thredded_user_show_detail');
   return (
     <>
       <Layout title="Startseite - Willkommen am Brickboard 2.0" fullWidth>
-        <ViewWrapper dark fullWidth small>
+        <ViewWrapper fullWidth small>
           <NewsSection newsList={newsList} authors={newsAuthors} />
         </ViewWrapper>
-        <ViewWrapper small>
-
+        <ViewWrapper dark fullWidth small>
           <DefinitionWrapper>
             <DefinitionBlock>
               <strong>Brick|film</strong>
@@ -79,6 +92,7 @@ function Home({ content }: LandingPageProps) {
                 der überwiegend mit Lego® und anderem Klicksteinmaterial gedreht wurde..
               </em>
             </DefinitionBlock>
+            <MiddleLine />
             <DefinitionBlock>
               <strong>Brick|board</strong>
               [&#39;brɪkbɔːd], das; -s, - &lt;engl. &raquo;Klötzchenbrett&laquo;&gt;:
@@ -90,32 +104,42 @@ function Home({ content }: LandingPageProps) {
 
             </DefinitionBlock>
           </DefinitionWrapper>
-
-          <Greeting>Willkommen auf der Baustelle des Brickboard`s (2.0).</Greeting>
-
-          <EventCalendar eventList={eventList} />
         </ViewWrapper>
-        {content.latest_user && (
-          <NewMemberSection
-            member={content.latest_user.data}
-            memberdetails={content.latest_user.included[0]}
-            badge={
-              content.latest_user.data.relationships.thredded_main_badge.data
-                ? findObject(allBadges,
-                  content.latest_user.data.relationships.thredded_main_badge.data.id)
-                : null
-            }
-          />
-        )}
         <ViewWrapper small>
-          <VideoShowcase
-            movieList={movieList}
-            authorList={movieAuthors}
-            categories={movieCategories}
+          <EventCalendar eventList={eventList.slice(0, 4)} />
+        </ViewWrapper>
+        <ViewWrapper small>
+          <NewestContentSection
+            latestTopic={content.latest_topic.data}
+            latestUser={content.latest_user.data}
+            latestWriter={
+              findObject(
+                content.latest_topic.included,
+                content.latest_topic.data.relationships.user.data.id,
+              )
+            }
+            latestMessageboard={
+              findObject(
+                content.latest_topic.included,
+                content.latest_topic.data.relationships.messageboard.data.id,
+              )
+            }
+            badge={content.latest_user.data.relationships.thredded_main_badge.data
+              ? findObject(allBadges,
+                content.latest_user.data.relationships.thredded_main_badge.data.id)
+              : null}
           />
         </ViewWrapper>
-        <CommunitySection badges={allBadges} users={randomUsers} userDetails={randomUsersDetails} />
-        <StatisticSection
+        <ViewWrapperGradient>
+          <ExplorationSection
+            badges={allBadges}
+            movieList={movieList}
+            userList={randomUsers}
+            categories={movieCategories}
+            authorList={movieAuthors}
+          />
+        </ViewWrapperGradient>
+        <TightStatisticSection
           movie_count={content.movie_count}
           topic_count={content.topic_count}
           user_count={content.user_count}

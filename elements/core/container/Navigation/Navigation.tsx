@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import { faClipboardList, faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardList, faVideo } from '@fortawesome/free-solid-svg-icons';
 import IUser from '../../../../models/IUser';
 import Dropdown from '../Dropdown/Dropdown';
 import {
@@ -9,17 +9,18 @@ import {
   NavigationList,
   NavigationWrapper,
   NavigationItem,
-  Seperator,
   NavigationBar,
   MenuImageContainer,
   FontImageWrapper,
+  NavigationSvgWrapper,
 } from './Navigation.styles';
 import Logo from '../../components/Logo/Logo';
 import Burger from '../../components/Burger/Burger';
-import Button from '../../components/Button/Button';
 import INotification from '../../../../models/INotification';
 import NotificationDropDown from '../NotificationDropdown/NotificationDropdown';
 import { FlexRight } from '../../../../styles/global.styles';
+import IconComponent from '../../components/Icon/Icon';
+import { MenuLink } from '../../components/MenuLink/MenuLink.styles';
 
 const Navigation = ({
   user,
@@ -47,7 +48,6 @@ const Navigation = ({
   }, []);
 
   return (
-
     <NavigationBar>
       <NavigationWrapper>
         <Link href="/">
@@ -64,23 +64,28 @@ const Navigation = ({
         <NavigationList open={openBurger}>
           <NavigationItem>
             <Link href="/forum" passHref>
-              <Button reset icon={faClipboardList} noHover>
+              <MenuLink icon>
+                <IconComponent icon={faClipboardList} />
                 Forum
-              </Button>
+              </MenuLink>
             </Link>
           </NavigationItem>
           <NavigationItem>
             <Link href="/forum/filmvorstellungen" passHref>
-              <Button reset icon={faVideo} noHover>
+              <MenuLink icon>
+                <IconComponent icon={faVideo} />
                 Filme
-              </Button>
+              </MenuLink>
             </Link>
           </NavigationItem>
           <NavigationItem>
             <Link href="/benutzer" passHref>
-              <Button reset icon={faUserFriends} noHover>
+              <MenuLink icon>
+                <NavigationSvgWrapper>
+                  <Image width={25} height={20} src="/assets/images/lego_members_zoomed.svg" aria-hidden />
+                </NavigationSvgWrapper>
                 Mitglieder
-              </Button>
+              </MenuLink>
             </Link>
           </NavigationItem>
         </NavigationList>
@@ -95,17 +100,22 @@ const Navigation = ({
           </FlexRight>
         )
           : (
-            <>
+            <FlexRight>
               <NavigationItem>
                 <Link href="/login" passHref>
-                  <Button reset>Login</Button>
+                  <MenuLink centerNavigation>
+                    Login
+                  </MenuLink>
                 </Link>
               </NavigationItem>
-              <Seperator />
               <NavigationItem>
-                <Link href="/registrieren"><Button reset>Registrieren</Button></Link>
+                <Link href="/registrieren" passHref>
+                  <MenuLink red marginRight centerNavigation>
+                    Registrieren
+                  </MenuLink>
+                </Link>
               </NavigationItem>
-            </>
+            </FlexRight>
           )}
         <Burger onClick={() => setOpenBurger(!openBurger)} open={openBurger} />
       </NavigationWrapper>

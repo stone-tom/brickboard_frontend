@@ -16,10 +16,12 @@ import {
   Values,
   Element,
   EditButton,
+  FlexBottom,
 } from './TopicMovie.styles';
 import { useStoreState } from '../../../../context/custom_store';
 import MovieForm, { IUpdateTopic } from '../MovieForm/MovieForm';
 import Hint from '../../../core/components/Hint/Hint';
+import Like from '../../components/Like/Like';
 
 interface TopicMovieProps {
   categories?: ICategory[],
@@ -36,6 +38,8 @@ interface TopicMovieProps {
   isEditing?: boolean,
   setIsEditing?: (status: boolean) => void,
   content?: string,
+  likes: number,
+  onPerformLike?: () => void,
 }
 
 const TopicMovie = ({
@@ -50,8 +54,16 @@ const TopicMovie = ({
   isEditing,
   setIsEditing,
   content,
+  likes,
+  onPerformLike,
 }: TopicMovieProps) => {
   const { isAuthenticated, user } = useStoreState();
+  const LikeMovie = () => {
+    if (isAuthenticated) {
+      onPerformLike();
+    }
+  };
+
   return (
     <>
       {isEditing ? (
@@ -137,6 +149,12 @@ const TopicMovie = ({
                     />
                   )}
                 </VideoWrapper>
+                {!isEditing && likes >= 0 && (
+                  <FlexBottom>
+                    <Like like_count={likes} onClick={() => LikeMovie()} />
+                  </FlexBottom>
+                )}
+
               </>
             )}
           </Loader>

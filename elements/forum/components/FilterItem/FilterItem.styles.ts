@@ -17,6 +17,11 @@ export const FilterCard = styled.div<{
   
   &:hover {
     background: ${(props) => props.theme.gray};
+    img {
+      transition: transform .3s;
+      transform: scale(1.1);
+      transform: rotate(10deg);
+    }
   }
 
   ${(props) => props.active && css`

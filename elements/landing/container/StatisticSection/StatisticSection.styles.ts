@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
-export const StatisticsWrapper = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
+export const StatisticContainer = styled.section`
   background-image: url('/assets/images/lego_pattern.jpg');
   background-repeat: repeat;
   background-size: contain;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StatisticsWrapper = styled.div`
+  border-radius: 10px;
+  background: ${(props) => props.theme.white};
+  box-shadow: ${(props) => props.theme.boxShadow};
 `;
 
 export const StatisticsContent = styled.div`
@@ -19,7 +24,7 @@ export const StatisticsContent = styled.div`
 
 export const StatisticsHeader = styled.header`
   display: flex;
-  width: 100%;
+  flex-basis: 100%;
   justify-content: center;
 `;
 
@@ -27,26 +32,50 @@ export const StatisticsHeading = styled.h2`
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  position: relative;
-  border-bottom: 5px solid ${(props) => props.theme.brickred};
+  flex-basis: 100%;
 `;
 
-export const StatsItem = styled.div`
+export const StatsList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StatsItem = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+
+
+
+`;
+
+export const MiddleStatsItem = styled(StatsItem)`
+  border-right: 1px solid ${(props) => props.theme.gray};
+  border-left: 1px solid ${(props) => props.theme.gray};
 `;
 
 export const Statsnumber = styled.div`
   font-weight: bold;
   font-size: 4rem;
   margin-top: 2rem;
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    font-size: 2rem;
+  }
 `;
 
 export const StatsDescription = styled.p`
   color: ${(props) => props.theme.brickred};
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  span {
+    padding-left: 10px;
+    letter-spacing: 1.5px;
+  }
 `;

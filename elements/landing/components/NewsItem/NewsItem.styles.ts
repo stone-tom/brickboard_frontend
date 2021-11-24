@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const NewsItemWrapper = styled.li`
   position: relative;
   width: 100%;
+  overflow: hidden;
   height: 30%;
   box-shadow: 0 0 10px ${(props) => props.theme.darkgray};
 

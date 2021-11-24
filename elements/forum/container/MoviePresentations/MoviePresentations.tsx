@@ -1,6 +1,8 @@
+import { differenceInHours } from 'date-fns';
 import React from 'react';
 import { useStoreState } from '../../../../context/custom_store';
 import ICategory from '../../../../models/ICategory';
+import IMessageboard from '../../../../models/IMessageboard';
 import IReadState from '../../../../models/IReadState';
 import ITopic from '../../../../models/ITopic';
 import ITopicView from '../../../../models/ITopicView';
@@ -15,6 +17,7 @@ import { MoviePresentationWrapper, Empty } from './MoviePresentations.styles';
 interface MoviePresentationProps {
   movies: ITopic[],
   users: IUser[],
+  messageboard: IMessageboard,
   categories: ICategory[],
   filterLoading: boolean,
   readStates?: IReadState[],
@@ -32,14 +35,22 @@ const MoviePresentations = ({
   readStates,
   displayReadstates = false,
   topicViews,
+  messageboard,
 }: MoviePresentationProps) => {
   const { isAuthenticated, user } = useStoreState();
+  const determineHot = (created_at, likes) => {
+    const diff = differenceInHours(new Date(), new Date(created_at));
+    if (diff < 72 && likes > 0) return true;
+    return false;
+  };
+
   return (
     <Loader isLoading={!movies}>
       {categories && (
         <FilterBar
+          title={messageboard.attributes.name}
           onChange={(selectedItems) => onCategorySelect(selectedItems)}
-          options={categories}
+          options={categories.filter((cat) => cat.attributes.is_active)}
         />
       )}
       <MoviePresentationWrapper>
@@ -74,6 +85,7 @@ const MoviePresentations = ({
                     created_at={movie.attributes.created_at}
                     categories={category}
                     unread={unread}
+                    hot={determineHot(movie.attributes.created_at, movie.attributes.likes_count)}
                   />
                 </Wrapper>
               );

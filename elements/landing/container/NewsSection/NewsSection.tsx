@@ -8,9 +8,9 @@ import {
   NewsSectionWrapper,
   ShowCase,
 } from './NewsSection.styles';
-import Button from '../../../core/components/Button/Button';
 import findObject from '../../../../util/finder';
 import { ViewWrapper } from '../../../../styles/global.styles';
+import { MenuLink } from '../../../core/components/MenuLink/MenuLink.styles';
 
 interface NewsSectionProps {
   newsList: INewsItem[];
@@ -52,9 +52,9 @@ const NewsSection = ({ newsList, authors }: NewsSectionProps) => {
         ))}
         <AllNewsItem>
           <Link href="./news" passHref>
-            <Button reset>
+            <MenuLink>
               Alle News anzeigen
-            </Button>
+            </MenuLink>
           </Link>
         </AllNewsItem>
       </NewsListing>

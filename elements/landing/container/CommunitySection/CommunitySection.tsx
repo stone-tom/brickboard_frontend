@@ -3,13 +3,13 @@ import IBadge from '../../../../models/IBadge';
 import IUser from '../../../../models/IUser';
 import IUserDetail from '../../../../models/IUserDetail';
 import findObject from '../../../../util/finder';
-import CallToActionBox from '../../components/CallToActionBox/CallToActionBox';
 import UserShowCase from '../../components/UserShowCase/UserShowCase';
-import { EventCalendarHeading } from '../EventCalendar/EventCalendar.styles';
+import { VideoShowCaseHeading } from '../VideoShowcase/VideoShowcase.styles';
 import {
   CommunityHeadingWrapper,
   CommunitySectionContainer,
   CommunitySectionWrapper,
+  SubText,
   UserShowCaseBody,
 } from './CommunitySection.styles';
 
@@ -30,12 +30,15 @@ const CommunitySection = ({ users, userDetails, badges }: CommunitySectionProps)
   return (
     <CommunitySectionWrapper>
       <CommunitySectionContainer>
-
         <UserShowCaseBody>
           <CommunityHeadingWrapper>
-            <EventCalendarHeading>
+            <VideoShowCaseHeading>
               Kennst du schon?
-            </EventCalendarHeading>
+            </VideoShowCaseHeading>
+            <SubText>
+              {`Hier sind immer verschiedene Mitglieder unserer Community gelistet. 
+              Kennst du sie schon alle? Schau doch am besten auf ihren Profilen vorbei!`}
+            </SubText>
           </CommunityHeadingWrapper>
           {users.length > 0 && (
             <>
@@ -51,7 +54,6 @@ const CommunitySection = ({ users, userDetails, badges }: CommunitySectionProps)
             </>
           )}
         </UserShowCaseBody>
-        <CallToActionBox />
       </CommunitySectionContainer>
     </CommunitySectionWrapper>
   );

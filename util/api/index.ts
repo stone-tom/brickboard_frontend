@@ -33,6 +33,10 @@ import removeUsersFromBadge from './badges/remove-badges';
 import createBadge from './badges/create-badge';
 import deleteBadge from './badges/delete-badges';
 import deleteAllNotifications from './notifications/delete-notifications';
+import sendLike from './likes/send-like';
+import removeLike from './likes/remove-like';
+import activateCategory from './categories/activate-category';
+import createCategory from './categories/create-category';
 
 // export const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const backendURL = 'https://dev.brickboard.de';
@@ -73,4 +77,8 @@ export {
   createBadge,
   deleteBadge,
   deleteAllNotifications,
+  sendLike,
+  removeLike,
+  activateCategory,
+  createCategory,
 };

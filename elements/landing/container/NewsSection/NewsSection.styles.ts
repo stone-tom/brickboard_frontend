@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NewsSectionWrapper = styled.section`
   display: flex;
   min-height: 80vh;
-  max-width: 1920;
+  max-width: ${(props) => props.theme.max_container_width};
   margin: 0 auto;
 
   @media (max-width: 880px){
@@ -27,12 +27,17 @@ export const NewsListing = styled.ul`
   flex-direction: column;
   justify-content: space-between;
   padding: 0.5rem;
-  background-color: ${(props) => props.theme.gray};
+  background-color: ${(props) => props.theme.white};
 
   @media (max-width: 880px){
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+  }
+
+  
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding-bottom: 0;
   }
 
 `;
@@ -45,6 +50,12 @@ export const AllNewsItem = styled.li`
     width: 100%;
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
 `;
