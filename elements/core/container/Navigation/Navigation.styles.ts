@@ -27,6 +27,7 @@ export const FontImageWrapper = styled.div<{
   enlargeLogo?: boolean,
 }>`
   margin-left: 95px;
+  margin-right: 50px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   position: relative;
@@ -37,6 +38,7 @@ export const FontImageWrapper = styled.div<{
 
     ${(props) => !props.enlargeLogo && css`
       margin-left: 95px;
+      margin-right: 100px;
     `}
 
   }
@@ -88,19 +90,13 @@ export const NavigationItem = styled.li`
   align-items: center;
   margin: 0;
   position: relative;
-  padding: 8px 20px;
 
   &:hover {
     background: ${(props) => props.theme.lightgray};
   }
   @media (max-width: ${(props) => props.theme.burger_break}){
     font-size: 1.2rem;
-    padding: 1rem;
     justify-content: center;
-
-    button{
-      font-size: 1.2rem;
-    }
   }
 `;
 
@@ -120,4 +116,10 @@ export const UnauthorizedWrapper = styled.div`
   align-items: center;
   margin-left: 30px;
   margin-right: 15px;
+`;
+
+export const NavigationSvgWrapper = styled.div`
+  margin-bottom: 2px;
+  margin-right: 8px;
+  min-width: 20px;
 `;

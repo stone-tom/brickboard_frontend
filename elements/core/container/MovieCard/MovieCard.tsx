@@ -10,9 +10,11 @@ import {
   CreatorInformation,
   CategoryWrapper,
   LinkButton,
+  HotMark,
 } from './MovieCard.styles';
 import Tag from '../../components/Tag/Tag';
 import ICategory from '../../../../models/ICategory';
+import Hint from '../../components/Hint/Hint';
 
 export const getYouTubeId = (url: string) => {
   const result = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
@@ -28,6 +30,7 @@ interface MovieCardProps {
   id: string,
   unread?: boolean,
   disabled?: boolean,
+  hot?: boolean,
 }
 
 const MovieCard = ({
@@ -39,6 +42,7 @@ const MovieCard = ({
   id,
   unread,
   disabled,
+  hot = false,
 }: MovieCardProps) => {
   const router = useRouter();
   return (
@@ -77,6 +81,7 @@ const MovieCard = ({
             ))}
           </CategoryWrapper>
         </CreatorInformation>
+        {hot && <Hint hint="Angesagt"><HotMark /></Hint>}
       </Card>
     </LinkButton>
   );

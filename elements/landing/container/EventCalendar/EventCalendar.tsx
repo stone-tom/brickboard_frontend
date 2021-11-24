@@ -1,83 +1,50 @@
 import React from 'react';
 import Link from 'next/link';
-import Slider from 'react-slick';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 import IEvent from '../../../../models/IEvent';
 import EventItem from '../../components/EventItem/EventItem';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
 import {
+  CalendarButtonWrapper,
+  CalendarImageWrapper,
+  CalendarSection,
   EventCalendarHeading,
   EventCalendarWrapper,
-  SliderWrapper,
+  EventList,
 } from './EventCalendar.styles';
-import Button from '../../../core/components/Button/Button';
-import { FlexRight } from '../../../../styles/global.styles';
+import { MenuLink } from '../../../core/components/MenuLink/MenuLink.styles';
 
 interface EventCalendarProps {
   eventList: any;
 }
 
-const EventCalendar = ({ eventList }: EventCalendarProps) => {
-  const settings = {
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    arrows: false,
-    dots: false,
-    speed: 1000,
-    responsive: [
-      {
-        breakpoint: 950,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          rows: 2,
-        },
-      },
-    ],
-  };
-
-  return (
-    <EventCalendarWrapper>
-      <EventCalendarHeading>
-        Eventkalender
-      </EventCalendarHeading>
-      {eventList.length > 0 ? (
-        <>
-          <SliderWrapper>
-            <Slider {...settings}>
+const EventCalendar = ({ eventList }: EventCalendarProps) => (
+  <EventCalendarWrapper>
+    <EventCalendarHeading>
+      Kommende Brickfilm-Events
+    </EventCalendarHeading>
+    <CalendarSection>
+      <EventList>
+        {eventList.length > 0 ? (
+          <>
+            {eventList.map((eventItem: IEvent) => (
               <EventItem
-                infoItem
-                icon={faCalendar}
-                title="Kommende Events"
-                short_description="Hier sind alle kommenden Events aus der Brickfilmwelt aufgelistet"
+                eventItem={eventItem}
+                key={`event_${eventItem.id}`}
               />
-              {eventList.map((eventItem: IEvent) => (
-                <EventItem
-                  eventItem={eventItem}
-                  key={`event_${eventItem.id}`}
-                />
-              ))}
-            </Slider>
-          </SliderWrapper>
-          <FlexRight>
-            <Link href="./events"><Button>Alle Events anzeigen</Button></Link>
-          </FlexRight>
-        </>
-      ) : (
-        <p>Noch sind keine Events vorhanden</p>
-      )}
-
-    </EventCalendarWrapper>
-  );
-};
+            ))}
+          </>
+        ) : (
+          <li>Keine Events vorhanden</li>
+        )}
+      </EventList>
+      <CalendarButtonWrapper>
+        <Link href="./events" passHref><MenuLink>Alle Events anzeigen</MenuLink></Link>
+      </CalendarButtonWrapper>
+    </CalendarSection>
+    <CalendarImageWrapper>
+      <Image src="/assets/images/brickboard-promo-edgeless.jpg" alt="Peter beim Brickfilmen" layout="fill" objectFit="contain" />
+    </CalendarImageWrapper>
+  </EventCalendarWrapper>
+);
 
 export default EventCalendar;

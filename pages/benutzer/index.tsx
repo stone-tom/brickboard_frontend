@@ -16,6 +16,7 @@ const UserCardWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   margin: 20px 0;
 `;
 

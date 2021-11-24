@@ -205,6 +205,7 @@ const MovieForm = ({
           author={user}
           createdAt={createdAt || new Date().toDateString()}
           previewCategories={selectedCategories || []}
+          likes={-1}
         />
         <Post
           preview

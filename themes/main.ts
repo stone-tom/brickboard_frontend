@@ -10,7 +10,7 @@ export default {
   white: '#ffffff',
   black: 'black',
   warning: '#fff3cd',
-  boxShadow: '0px 3px 10px 0px rgba(0,0,0,0.15)',
+  boxShadow: '0px 3px 10px 0px rgba(0,0,0,0.3)',
   message: [ // is array so a typescript enum can be used to determine the color
     '#FC3838', // error
     '#4BBA31', // success

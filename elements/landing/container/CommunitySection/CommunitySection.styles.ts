@@ -1,17 +1,15 @@
 import styled from 'styled-components';
 
 export const CommunitySectionWrapper = styled.section`
-  background: linear-gradient(
-    to right,
-    ${(props) => props.theme.gray} 0%,
-    ${(props) => props.theme.gray} 50%,
-    ${(props) => props.theme.lightgray} 50%,
-    ${(props) => props.theme.lightgray} 100%
+    background: linear-gradient(
+    to bottom,
+    ${(props) => props.theme.lightgray} 0%,
+    ${(props) => props.theme.lightgray} 70%,
+    ${(props) => props.theme.gray} 70%,
+    ${(props) => props.theme.gray} 100%
   );
-
-  @media (max-width: 750px){
-    background: ${(props) => props.theme.gray};
-  }
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 `;
 
 export const CommunityHeadingWrapper = styled.div`
@@ -33,12 +31,8 @@ export const UserShowCaseBody = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
   padding-right: 15px;
-  width: 75%;
-  background-color: ${(props) => props.theme.gray};
-
+  width: 100%;
   @media (max-width: 750px){
     width: 100%;
     justify-content: center;
@@ -46,4 +40,11 @@ export const UserShowCaseBody = styled.div`
   @media (max-width: 500px){
     justify-content: center;
   }
+`;
+
+export const SubText = styled.p`
+
+  color: ${(props) => props.theme.grayfont};
+  margin-bottom: 5rem;
+
 `;

@@ -48,12 +48,10 @@
     "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.15",
     "react-visibility-sensor": "^5.1.1",
-    "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.0",
     "suneditor-react": "^2.14.10",
     "svg-react-loader": "^0.4.6",
     "swr": "^0.4.1",
-    "use-persisted-state": "^0.3.3",
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {

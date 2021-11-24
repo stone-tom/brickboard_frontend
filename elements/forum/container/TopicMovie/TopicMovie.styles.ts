@@ -49,3 +49,9 @@ export const EditButton = styled(ButtonComponent)`
   right: 0;
   top: 0;
 `;
+
+export const FlexBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;

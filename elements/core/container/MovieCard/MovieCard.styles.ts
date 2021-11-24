@@ -75,3 +75,16 @@ export const LinkButton = styled(ButtonComponent)`
   z-index: 100;
   background: red;
 `;
+
+export const HotMark = styled.div`
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 60px;
+  right: -25px;
+  bottom: -20px;
+  background-image: url('/upnoppen.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 10;
+`;

@@ -11,7 +11,7 @@ export const FooterWrapper = styled.div`
   justify-content: space-between;
   max-width: ${(props) => props.theme.max_container_width};
   margin: 0 auto;
-  padding: 20px 15px;
+  padding: 50px 15px;
 
   @media ${(props) => props.theme.breakpoints.sm}{
    >div{
@@ -60,7 +60,50 @@ export const FooterListItem = styled.li`
 
 export const FooterIconsWrapper = styled.ul`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   margin: 10px 0;
+
+  a{
+    display: block;
+    margin-right: 20px;
+  }
+`;
+
+export const FooterImageWrapper = styled.div`
+  margin-bottom: 1rem;
+`;
+
+export const FooterCopyRightBar = styled.p`
+  text-align: center;
+  background-color: #222;
+  padding: 1rem;
+`;
+
+export const FooterListHeading = styled.p`
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 1rem;
+`;
+
+export const FooterList = styled.ul`
+  li{
+    margin-bottom: 1rem;
+  }
+`;
+
+export const FooterLink = styled.a`
+  transition: all 0.3s;
+  padding-bottom: 3px;
+  &:hover{
+    border-bottom: 1px solid ${(props) => props.theme.white};
+  }
+`;
+
+export const FooterInformation = styled.div`
+
+  @media ${(props) => props.theme.breakpoints.md} {
+    width: 100%;
+    margin-bottom: 50px;
+  }
 `;

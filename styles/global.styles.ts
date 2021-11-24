@@ -116,6 +116,12 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 500;
   }
 
+  h2{
+    font-size: 1.8rem;
+  }
+
+  h3{ font-size: 1.2rem}
+
   a {
     color: inherit;
     text-decoration: none;
@@ -200,6 +206,20 @@ export const ViewWrapper = styled.div <{
     margin-top: ${props.theme.nav_height};
   `}
 
+`;
+
+export const ViewWrapperGradient = styled.div`
+    background: linear-gradient(
+    to right,
+    ${(props) => props.theme.gray} 0%,
+    ${(props) => props.theme.gray} 20%,
+    ${(props) => props.theme.white} 20%,
+    ${(props) => props.theme.white} 100%
+  );
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    background: ${(props) => props.theme.white};
+  }
 `;
 
 export const Hint = styled.p`

@@ -1,13 +1,29 @@
 import styled, { css } from 'styled-components';
 
 export const EventCalendarWrapper = styled.section`
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
 `;
 
 export const EventCalendarHeading = styled.h2`
-  width: 23rem;
-  border-bottom: 5px solid ${(props) => props.theme.brickred};
+  padding: 2rem 15px 1rem 15px;
+  position: relative;
+  margin-top: 1rem;
+
+  &::before{
+    content: '';
+    width: 50px;
+    height: 5px;
+    background: ${(props) => props.theme.grayfont};
+    position: absolute;
+    top: 0;
+    left: 1rem;
+  }
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    order: 1;
+  }
 
   @media ${(props) => props.theme.breakpoints.sm}{
     width: auto;
@@ -19,8 +35,6 @@ export const EventList = styled.ul<{
 }>`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
 
   ${(props) => props.space && css`
     margin-bottom: 8rem;
@@ -31,4 +45,31 @@ export const EventList = styled.ul<{
 export const SliderWrapper = styled.div`
   margin-top: 2rem;
   margin-bottom: 2rem;
+`;
+
+export const CalendarSection = styled.div`
+  width: 75%;
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    width: 100%;
+    order: 3;
+  }
+`;
+
+export const CalendarImageWrapper = styled.div`
+  position: relative;
+  width: 25%;
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    height: 200px;
+    width: 100%;
+    order: 2;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+`;
+
+export const CalendarButtonWrapper = styled.div`
+  margin-top: 1rem;
+  display: inline-block;
 `;

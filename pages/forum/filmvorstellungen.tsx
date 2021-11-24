@@ -8,7 +8,6 @@ import { FlexRight, MarginBottom, ViewWrapper } from '../../styles/global.styles
 import { useStoreDispatch, useStoreState } from '../../context/custom_store';
 import Layout from '../../elements/core/container/Layout/Layout';
 import Breadcrumbsbar from '../../elements/core/components/Breadcrumbs/Breadcrumbs';
-import ForumHeading from '../../elements/forum/components/ForumHeading/ForumHeading';
 import {
   backendURL,
   getTopicViews,
@@ -151,8 +150,8 @@ function Filmvorstellungen({
             </Button>
           </MarginBottom>
         )}
-        <ForumHeading title={`${messageboard.attributes.name}`} />
         <MoviePresentations
+          messageboard={messageboard}
           filterLoading={filterLoading}
           movies={currentMovies}
           users={userList}

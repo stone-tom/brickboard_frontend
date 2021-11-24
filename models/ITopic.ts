@@ -19,6 +19,7 @@ export interface ITopicAttributes {
   video_url?: string,
   movie_categories?: any,
   view_count: number,
+  likes_count?: number,
   created_at: string,
   updated_at: string,
   movie_created_at?: string,

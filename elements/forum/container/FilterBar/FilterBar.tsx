@@ -1,6 +1,9 @@
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import ICategory from '../../../../models/ICategory';
+import ButtonComponent from '../../../core/components/Button/Button';
 import FilterItem from '../../components/FilterItem/FilterItem';
+import { MoviePresentationsHeading } from '../MoviePresentations/MoviePresentations.styles';
 import {
   FilterButtons,
 } from './FilterBar.styles';
@@ -8,11 +11,13 @@ import {
 interface FilterBarProps {
   options: ICategory[],
   onChange: (selected: number[]) => void,
+  title: string
 }
 
 const FilterBar = ({
   options,
   onChange,
+  title,
 }: FilterBarProps) => {
   const [selected, setSelected] = useState<number[]>([]);
 
@@ -30,6 +35,19 @@ const FilterBar = ({
 
   return (
     <FilterButtons>
+      <MoviePresentationsHeading>
+        <h1>{title}</h1>
+        <ButtonComponent
+          reset
+          icon={faTrash}
+          onClick={() => {
+            setSelected([]);
+            onChange([]);
+          }}
+        >
+          Filter entfernen
+        </ButtonComponent>
+      </MoviePresentationsHeading>
       {options.map((option) => (
         <FilterItem
           key={`option_${option.id}`}
@@ -39,15 +57,6 @@ const FilterBar = ({
           onClick={() => handleSelect(option.id)}
         />
       ))}
-      <FilterItem
-        key="reset_button"
-        name="Filter löschen"
-        icon="/assets/icons/remove_filter.svg"
-        onClick={() => {
-          setSelected([]);
-          onChange([]);
-        }}
-      />
     </FilterButtons>
   );
 };
