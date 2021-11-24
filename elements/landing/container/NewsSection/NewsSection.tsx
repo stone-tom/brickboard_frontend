@@ -41,7 +41,7 @@ const NewsSection = ({ newsList, authors }: NewsSectionProps) => {
 
       </ShowCase>
       <NewsListing>
-        {newsList.map((news: INewsItem, index, {length}) => (
+        {newsList.map((news: INewsItem, index, { length }) => (
           <NewsItem
             bordered={news.id === activeNews.id}
             key={`news_${news.id}`}
