@@ -47,6 +47,11 @@ export const ExternalLink = styled.a<{
     }
   `}
 
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
   &:hover {
     background: ${(props) => props.theme.brickredDark};
     transition: .3s;

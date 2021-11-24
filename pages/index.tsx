@@ -20,6 +20,11 @@ const DefinitionWrapper = styled.div`
   margin: 0 auto;
   background: ${(props) => props.theme.gray};
   max-width: ${(props) => props.theme.max_container_width};
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 `;
 
 const DefinitionBlock = styled.div`

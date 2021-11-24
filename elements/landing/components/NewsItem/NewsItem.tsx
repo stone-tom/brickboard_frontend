@@ -15,14 +15,15 @@ import {
   NewsItemWrapper,
 } from './NewsItem.styles';
 import ExternalLink from '../../../core/components/ExternalLink/ExternalLink';
-import Button from '../../../core/components/Button/Button';
 import { backendURL } from '../../../../util/api';
+import { MenuLink } from '../../../core/components/MenuLink/MenuLink.styles';
 
 interface NewsItemProps {
   newsitem: INewsItem;
   author: IUser;
   active?: boolean;
   bordered?: boolean;
+  lastItem?: boolean;
   onClick?: () => void;
 }
 
@@ -31,6 +32,7 @@ const NewsItem = ({
   author,
   active = false,
   bordered = false,
+  lastItem,
   onClick,
 } : NewsItemProps) => {
   if (active) {
@@ -46,13 +48,13 @@ const NewsItem = ({
         <NewsItemButtonFloat>
           {newsitem.attributes.url && !newsitem.attributes.topic_url && (
           <ExternalLink href={newsitem.attributes.url}>Zur Seite</ExternalLink>)}
-          {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`}><Button>Zum Beitrag</Button></Link>}
+          {newsitem.attributes.topic_url && <Link href={`.${newsitem.attributes.topic_url}`}><MenuLink centerNavigation red>Zum Beitrag</MenuLink></Link>}
         </NewsItemButtonFloat>
       </BigNewsItemWrapper>
     );
   }
   return (
-    <NewsItemWrapper onClick={() => onClick()}>
+    <NewsItemWrapper lastItem={lastItem} onClick={() => onClick()}>
       <NewsItemBorder active={bordered} />
       <NewsItemHeading>{newsitem.attributes.title}</NewsItemHeading>
       <Image src={newsitem.attributes.news_banner ? `${backendURL}${newsitem.attributes.news_banner}` : '/assets/images/default_news_image.jpg'} alt={newsitem.attributes.title} objectFit="cover" layout="fill" />

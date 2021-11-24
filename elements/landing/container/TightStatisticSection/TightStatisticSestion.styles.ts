@@ -15,7 +15,11 @@ export const StatisticContainer = styled.section`
 `;
 
 export const StatisticsWrapper = styled.div`
-
+    @media ${(props) => props.theme.breakpoints.sm}{
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 `;
 
 export const StatisticsContent = styled.div`

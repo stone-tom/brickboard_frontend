@@ -18,6 +18,7 @@ export const EventItemWrapper = styled.li<{
   @media ${(props) => props.theme.breakpoints.sm}{
     grid-template-columns: 20% 80%;
     width: 100%;
+    margin: 1rem 0;
   }
 
 `;

@@ -18,6 +18,9 @@ export const ExplorationTextContainer = styled.div`
   @media (max-width: ${(props) => props.theme.burger_break}){
     width: 100%;
   }
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding-bottom: 2rem;
+  }
 `;
 
 export const ExplorationContent = styled.div`
@@ -142,6 +145,11 @@ export const ExplorationHeading = styled.h2`
 
   @media ${(props) => props.theme.breakpoints.sm}{
     width: auto;
+    padding: 2rem 0 1rem 0;
+    margin-top: 2rem;
+    &::before{
+    left: 0;
+  }
   }
 `;
 

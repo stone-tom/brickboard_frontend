@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const NewsItemWrapper = styled.li`
+export const NewsItemWrapper = styled.li<{
+  lastItem? : boolean,
+}>`
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -17,6 +19,13 @@ export const NewsItemWrapper = styled.li`
     margin-bottom: 0.5rem;
     font-size: 0.8rem;
   }
+
+  ${(props) => props.lastItem && css`
+    @media ${props.theme.breakpoints.sm}{
+      display: none;
+    }
+  `}
+
 `;
 export const BigNewsItemWrapper = styled.div`
   position: relative;
@@ -70,10 +79,9 @@ export const NewsItemButtonFloat = styled.div`
   padding: 1rem;
 
   @media ${(props) => props.theme.breakpoints.sm}{
-    top: 0;
-    left: 0;
-    right: unset;
-    bottom: unset;
+    bottom: 0;
+    padding: 0 15px 15px 0;
+    font-size: 0.8rem;
   }
 `;
 
