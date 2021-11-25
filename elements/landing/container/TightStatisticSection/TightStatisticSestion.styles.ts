@@ -12,6 +12,10 @@ export const StatisticContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding-top: 2rem;
+  }
 `;
 
 export const StatisticsWrapper = styled.div`

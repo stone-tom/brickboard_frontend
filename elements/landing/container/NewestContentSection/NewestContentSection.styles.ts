@@ -37,6 +37,7 @@ export const NewestHeading = styled.h2`
   @media ${(props) => props.theme.breakpoints.sm}{
     width: auto;
     padding: 2rem 0 2rem 0;
+    margin-top: 0;
     &::before{
     left: 0;
   }
@@ -56,8 +57,7 @@ export const NewestContentText = styled.div`
   border-radius: 5px;
   padding: 15px;
   @media ${(props) => props.theme.breakpoints.sm}{
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
   }
 `;
 

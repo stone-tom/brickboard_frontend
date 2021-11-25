@@ -15,7 +15,7 @@ export const FooterWrapper = styled.div`
 
   @media ${(props) => props.theme.breakpoints.sm}{
    >div{
-     width: 100%;
+     width: 50%;
      padding-bottom: 2rem; 
    }
   }

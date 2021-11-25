@@ -104,7 +104,7 @@ const ExplorationSection = ({
               src={data[1].attributes.video_url ? `https://img.youtube.com/vi/${getYouTubeId(data[1].attributes.video_url)}/0.jpg` : '/assets/images/default_thumbnail.png'}
             />
             <ExplorationVideoInfos>
-              <div>
+              <ExplorationVideoContent>
                 <h3>{data[1].attributes.title}</h3>
                 <p>
                   Von:&nbsp;
@@ -119,7 +119,7 @@ const ExplorationSection = ({
                     />
                   ))}
                 </CategoryWrapper>
-              </div>
+              </ExplorationVideoContent>
               <ExplorationVideoPlay>
                 <Icon icon={faPlayCircle} width={50} height={50} />
               </ExplorationVideoPlay>
@@ -134,7 +134,7 @@ const ExplorationSection = ({
               src={data[2].attributes.video_url ? `https://img.youtube.com/vi/${getYouTubeId(data[2].attributes.video_url)}/0.jpg` : '/assets/images/default_thumbnail.png'}
             />
             <ExplorationVideoInfos>
-              <div>
+              <ExplorationVideoContent>
                 <h3>{data[2].attributes.title}</h3>
                 <p>
                   Von:&nbsp;
@@ -149,7 +149,7 @@ const ExplorationSection = ({
                     />
                   ))}
                 </CategoryWrapper>
-              </div>
+              </ExplorationVideoContent>
               <ExplorationVideoPlay>
                 <Icon icon={faPlayCircle} width={50} height={50} />
               </ExplorationVideoPlay>

@@ -51,6 +51,11 @@ export const ExplorationText = styled.p`
   padding-left: 15px;
   padding-right: 5rem;
   font-size: 1rem;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
 export const ExplorationAvatar = styled.a`
@@ -98,6 +103,12 @@ export const ExplorationAvatarInfos = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  @media ${(props) => props.theme.breakpoints.sm}{
+    background: rgba(51,51,51,0.6);
+    transform: translateY(0);
+
+  }
 `;
 
 export const ExplorationVideo = styled.a`
@@ -113,6 +124,10 @@ export const ExplorationVideo = styled.a`
   @media ${(props) => props.theme.breakpoints.sm}{
     height: 200px;
     width: 100%;
+    >div{
+    background: rgba(51,51,51,0.6);
+    transform: translateY(0);
+    }
   }
 `;
 
