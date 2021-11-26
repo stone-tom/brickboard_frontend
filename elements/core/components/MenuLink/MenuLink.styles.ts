@@ -10,6 +10,7 @@ export const MenuLink = styled.a<{
   red?: boolean,
   marginRight?: boolean,
   centerNavigation?: boolean,
+  burgerContent?: boolean,
 }>`
   display: flex;
   justify-content: center;
@@ -56,7 +57,7 @@ export const MenuLink = styled.a<{
 
   ${(props) => !props.noHover && css`
     &:hover {
-      background: ${props.theme.gray};
+      background: ${props.theme.lightgray};
       transition: .3s;
       ${props.gray && css`
         background: ${props.theme.gray};
@@ -87,8 +88,32 @@ export const MenuLink = styled.a<{
 
   ${(props) => props.centerNavigation && css`
     @media (max-width: ${props.theme.burger_break}){
-      padding: 0.3rem 0.5rem;
+      padding: 0.5rem;
       font-size: 0.8rem;
+    }
+  `}
+
+  ${(props) => props.burgerContent && css`
+    @media (max-width: ${props.theme.burger_break}){
+      width: 100%;
+      padding: 0;
+      height: 100%;
+      justify-content: flex-start;
+      margin: 7px 0;
+      font-size: 1.3rem;
+
+      svg {
+      margin-right: 15px;
+      width: 20px !important;
+      }
+
+      &:focus {
+        background: ${props.theme.lightgray};
+      }
+
+      &:active {
+        background: ${props.theme.lightgray};
+      }
     }
   `}
 `;

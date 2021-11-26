@@ -1,6 +1,7 @@
 [
   {
     "text": "Film vorstellen",
-    "path": "/forum/filmvorstellungen/neues-thema"
+    "path": "/forum/filmvorstellungen/neues-thema",
+    "icon": "/assets/images/camera_icon.svg"
   }
 ]

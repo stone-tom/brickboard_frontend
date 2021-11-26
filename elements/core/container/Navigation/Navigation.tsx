@@ -21,6 +21,7 @@ import NotificationDropDown from '../NotificationDropdown/NotificationDropdown';
 import { FlexRight } from '../../../../styles/global.styles';
 import IconComponent from '../../components/Icon/Icon';
 import { MenuLink } from '../../components/MenuLink/MenuLink.styles';
+import UserMenu from '../UserMenu/UserMenu';
 
 const Navigation = ({
   user,
@@ -62,25 +63,28 @@ const Navigation = ({
         </Link>
 
         <NavigationList open={openBurger}>
-          <NavigationItem>
+          {user && (
+            <UserMenu onLogout={() => setOpenBurger(false)} />
+          )}
+          <NavigationItem burgerItem={user !== null}>
             <Link href="/forum" passHref>
-              <MenuLink icon>
+              <MenuLink icon burgerContent>
                 <IconComponent icon={faClipboardList} />
                 Forum
               </MenuLink>
             </Link>
           </NavigationItem>
-          <NavigationItem>
+          <NavigationItem burgerItem={user !== null}>
             <Link href="/forum/filmvorstellungen" passHref>
-              <MenuLink icon>
+              <MenuLink icon burgerContent>
                 <IconComponent icon={faVideo} />
                 Filme
               </MenuLink>
             </Link>
           </NavigationItem>
-          <NavigationItem>
+          <NavigationItem burgerItem={user !== null}>
             <Link href="/benutzer" passHref>
-              <MenuLink icon>
+              <MenuLink icon burgerContent>
                 <NavigationSvgWrapper>
                   <Image width={25} height={20} src="/assets/images/lego_members_zoomed.svg" aria-hidden />
                 </NavigationSvgWrapper>
@@ -91,12 +95,8 @@ const Navigation = ({
         </NavigationList>
         {user ? (
           <FlexRight>
-            <NavigationItem>
-              <NotificationDropDown notifications={notifications} />
-            </NavigationItem>
-            <NavigationItem>
-              <Dropdown />
-            </NavigationItem>
+            <NotificationDropDown notifications={notifications} />
+            <Dropdown />
           </FlexRight>
         )
           : (

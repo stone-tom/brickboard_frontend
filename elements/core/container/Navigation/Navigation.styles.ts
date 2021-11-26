@@ -85,7 +85,9 @@ export const NavigationList = styled.ul<{
   }
 `;
 
-export const NavigationItem = styled.li`
+export const NavigationItem = styled.li<{
+  burgerItem?: boolean
+  }>`
   display: flex;
   align-items: center;
   margin: 0;
@@ -94,10 +96,15 @@ export const NavigationItem = styled.li`
   &:hover {
     background: ${(props) => props.theme.lightgray};
   }
-  @media (max-width: ${(props) => props.theme.burger_break}){
-    font-size: 1.2rem;
-    justify-content: center;
-  }
+
+  ${(props) => props.burgerItem && css`
+    @media (max-width: ${props.theme.burger_break}){
+      font-size: 1.2rem;
+      width: 250px;
+      justify-content: flex-start;
+    }
+
+  `}
 `;
 
 export const Seperator = styled.div`
@@ -122,4 +129,12 @@ export const NavigationSvgWrapper = styled.div`
   margin-bottom: 2px;
   margin-right: 8px;
   min-width: 20px;
+`;
+
+export const BurgerDropdown = styled.div`
+  display: none;
+
+  @media (max-width: ${(props) => props.theme.burger_break}){
+    display: block;
+  }
 `;

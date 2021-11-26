@@ -1,26 +1,32 @@
 [
   {
     "text": "Moderation: Benutzer",
-    "path": "/moderation/user-moderation"
+    "path": "/moderation/user-moderation",
+    "icon": null
   },
   {
     "text": "Moderation: Posts",
-    "path": "/moderation/post-moderation"
+    "path": "/moderation/post-moderation",
+    "icon": null
   },
   {
     "text": "News",
-    "path": "/news"
+    "path": "/news",
+    "icon": null
   },
   {
     "text": "Events",
-    "path": "/events"
+    "path": "/events",
+    "icon": null
   },
   {
     "text": "Badges",
-    "path": "/badges"
+    "path": "/badges",
+    "icon": null
   },
   {
     "text": "Film vorstellen",
-    "path": "/forum/filmvorstellungen/neues-thema"
+    "path": "/forum/filmvorstellungen/neues-thema",
+    "icon": "/assets/images/camera_icon.svg"
   }
 ]

@@ -5,16 +5,22 @@ export const DropdownWrapper = styled.div`
   position: relative;
 
   @media(max-width: ${(props) => props.theme.burger_break}){
-    width: 100%;
+    display: none;
   }
 `;
 
-export const UserWrapper = styled.div`
+export const UserWrapper = styled.button`
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding: 0 25px;
   cursor: pointer;
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  padding-right: 15px;
 
   @media(max-width: ${(props) => props.theme.burger_break}){
     justify-content: center;
@@ -26,6 +32,7 @@ export const Avatar = styled.div``;
 
 export const Name = styled.p`
   margin: 0 10px;
+  font-size: 16px;
 `;
 
 export const DropItem = styled.a`
@@ -34,6 +41,8 @@ export const DropItem = styled.a`
   width: 100%;
   cursor: pointer;
   background: ${(props) => props.theme.white};
+  display: flex;
+  align-items: center;
   
   &:hover {
     background: ${(props) => props.theme.lightgray}
@@ -43,7 +52,10 @@ export const DropItem = styled.a`
     background-color: ${(props) => props.theme.gray};
     text-align: center;
   }
+`;
 
+export const DropItemIcon = styled.div`
+  margin-right: 15px;
 `;
 
 export const Dropdown = styled.div`
@@ -69,7 +81,7 @@ export const Wrapper = styled.div<{
   adminNav?: boolean,
 }>`
   position: absolute;
-  top: 0;
+  top: 3rem;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -99,6 +111,10 @@ export const Transparent = styled.div`
   opacity: 0.1;
   background-color: transparent;
   height: 50px;
+  width: 70%;
+  position: absolute;
+  right: 0;
+  top: -3rem;
   cursor: pointer;
 
   @media(max-width: ${(props) => props.theme.burger_break}){

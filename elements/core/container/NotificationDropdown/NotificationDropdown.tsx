@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   faAward,
   faBell,
@@ -8,7 +8,6 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { differenceInHours, differenceInMinutes } from 'date-fns';
-import { ThemeContext } from 'styled-components';
 import INotification from '../../../../models/INotification';
 import { deleteAllNotifications } from '../../../../util/api';
 import ButtonComponent from '../../components/Button/Button';
@@ -30,7 +29,6 @@ import { MessageType } from '../../../../models/IMessage';
 
 const NotificationDropDown = ({ notifications }: { notifications: INotification[] }) => {
   const [open, setOpen] = useState(false);
-  const theme = useContext(ThemeContext);
   const { setMessage } = useStoreState();
   const { updateNotifications } = useStoreDispatch();
   const timeOutput = (created_at) => {
@@ -74,9 +72,9 @@ const NotificationDropDown = ({ notifications }: { notifications: INotification[
 
   return (
     <NotificationDropdownTrigger
-      onMouseOver={window.innerWidth > theme.burger_break_number ? () => setOpen(true) : null}
+      onClick={() => setOpen(!open)}
     >
-      <NotificationCountWrapper>
+      <NotificationCountWrapper ringing={notifications.length > 0}>
         {notifications.length > 0 ? (
           <NotificationCountNumber>
             {notifications.length > 99 ? '+99' : notifications.length}
