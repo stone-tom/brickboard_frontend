@@ -2,6 +2,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import {
+  faAward,
+  faCalendarPlus,
+  faInfoCircle,
+  faMailBulk,
+  faNewspaper,
+  faSignOutAlt,
+  faUsersCog,
+} from '@fortawesome/free-solid-svg-icons';
 import { ThemeContext } from 'styled-components';
 import { useStoreDispatch, useStoreState } from '../../../../context/custom_store';
 import { MessageType } from '../../../../models/IMessage';
@@ -16,9 +25,11 @@ import {
   Transparent,
   Wrapper,
   NavLink,
+  DropItemIcon,
 } from './Dropdown.styles';
 import userNav from '../Navigation/submenu/user.json';
 import adminNav from '../Navigation/submenu/admin.json';
+import IconComponent from '../../components/Icon/Icon';
 
 const SubMenu = () => {
   const [open, setOpen] = useState(false);
@@ -35,6 +46,23 @@ const SubMenu = () => {
       content: 'Erfolgreich abgemeldet!',
       type: MessageType.success,
     });
+  };
+
+  const determineIcon = (text) => {
+    switch (text) {
+      case 'Events':
+        return faCalendarPlus;
+      case 'News':
+        return faNewspaper;
+      case 'Badges':
+        return faAward;
+      case 'Moderation: Benutzer':
+        return faUsersCog;
+      case 'Moderation: Posts':
+        return faMailBulk;
+      default:
+        return faInfoCircle;
+    }
   };
 
   return (
@@ -55,7 +83,7 @@ const SubMenu = () => {
         <Wrapper
           onMouseLeave={() => setTimeout(() => {
             setOpen(false);
-          }, 250)}
+          }, 150)}
           adminNav={user.attributes.admin}
           open={open}
         >
@@ -66,14 +94,37 @@ const SubMenu = () => {
               <DropItem
                 onClick={() => setOpen(false)}
               >
-                Profil
+                <DropItemIcon>
+                  <Image
+                    src="/assets/images/profile_icon.svg"
+                    width={20}
+                    height={20}
+                    alt="Profil Icon"
+                  />
+                </DropItemIcon>
+                <span>
+                  Profil
+                </span>
               </DropItem>
             </NavLink>
 
             {navigation.map((item) => (
-
               <Link key={`dp_${item.path}`} href={item.path} passHref>
                 <DropItem>
+                  {item.icon ? (
+                    <DropItemIcon>
+                      <Image
+                        src={item.icon}
+                        width={20}
+                        height={20}
+                        alt="Icon"
+                      />
+                    </DropItemIcon>
+                  ) : (
+                    <DropItemIcon>
+                      <IconComponent icon={determineIcon(item.text)} />
+                    </DropItemIcon>
+                  )}
                   {item.text}
                 </DropItem>
               </Link>
@@ -83,6 +134,9 @@ const SubMenu = () => {
             <DropItem
               onClick={() => handleLogout()}
             >
+              <DropItemIcon>
+                <IconComponent icon={faSignOutAlt} />
+              </DropItemIcon>
               Logout
             </DropItem>
 

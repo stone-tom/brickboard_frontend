@@ -49,6 +49,9 @@ export const NewsInfos = styled.div`
 
 export const BigNewsItemHeading = styled.h2`
   margin-bottom: 0.5rem;
+  @media ${(props) => props.theme.breakpoints.sm}{
+    margin-bottom: 0.8rem;
+  }
 `;
 
 export const BigNewsItemDescription = styled.p`
