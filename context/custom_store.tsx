@@ -217,6 +217,14 @@ function StoreProvider({
 
     const updateNotifications = (notificationList: INotification[]) => {
       dispatch({ type: 'UPDATE_NOTIFICATIONS', payload: notificationList });
+      // const savedstate = {
+      //   user: state.user,
+      //   isAuthenticated: state.isAuthenticated,
+      //   moderation_state: state.moderation_state,
+      //   badge: state.badge,
+      //   notifications: notificationList,
+      // };
+      // localStorage.setItem('brickboardUser', JSON.stringify(savedstate));
     };
 
     const updateModerationState = (moderation_state: 'blocked' | 'approved' | 'pending_moderation') => {
